@@ -1,26 +1,62 @@
-name: unpack-vayquo
+name: build-vayquo-v24-direct
 on:
   push:
     branches:
       - agent/vayquo-v2-4-direct
 jobs:
-  unpack:
+  build:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Unpack current app payload
+      - name: Build exact tested V2.4 payload
         shell: bash
         run: |
-          cat assets/data-*.txt | tr -d '\n\r ' | base64 --decode | gzip --decompress --stdout > source.html
-          echo "bytes=$(wc -c < source.html)"
-          grep -oE 'function [A-Za-z0-9_]+' source.html | head -80 || true
-          grep -oE 'data-view="[^"]+"' source.html | sort -u || true
-      - name: Upload unpacked source
-        uses: actions/upload-artifact@v4
-        with:
-          name: vayquo-source
-          path: source.html
-          if-no-files-found: error
-          retention-days: 1
+          cat assets/data-*.txt | tr -d '\n\r ' | base64 --decode | gzip --decompress --stdout > source-v23.html
+          python - <<'PY'
+          from pathlib import Path
+          import base64, gzip, hashlib
+
+          src=Path('source-v23.html').read_text()
+          block=gzip.decompress(base64.b64decode(Path('tools/v24_block.gz.b64').read_text().strip())).decode()
+          assert hashlib.sha256(block.encode()).hexdigest() == 'c059f83dd31cfe2e7f9cf537843ee2733d14d324637f3ca1f43fef59b281bfbe'
+
+          start=src.rfind('<style id="v23-action-ux">')
+          end=src.rfind('</body>')
+          assert start > 0 and end > start
+          src=src[:start]+block+'\n'+src[end:]
+
+          old="function save(){state.updated=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state))}"
+          new="function save(){state.updated=new Date().toISOString();try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}"
+          assert old in src
+          src=src.replace(old,new,1)
+
+          raw=src.encode()
+          digest=hashlib.sha256(raw).hexdigest()
+          print('source_sha256='+digest)
+          assert digest == '2b4bbe24643acc2868bf8e8cb8c0a861e2056982e2268aa03d317295bb5e767f'
+
+          encoded=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
+          parts=[encoded[i:i+14000] for i in range(0,len(encoded),14000)]
+          assert len(parts)==7
+          out=Path('assets')
+          for i,part in enumerate(parts,1):
+              (out/f'data-{i:02d}.txt').write_text(part)
+          joined=''.join((out/f'data-{i:02d}.txt').read_text() for i in range(1,8))
+          assert gzip.decompress(base64.b64decode(joined)) == raw
+          print('payload_parts=', [len(x) for x in parts])
+          PY
+      - name: Commit payload to isolated branch
+        shell: bash
+        run: |
+          git config user.name "dennis-glaser-coder"
+          git config user.email "dennis-glaser@gmx.de"
+          git add assets/data-*.txt
+          if git diff --cached --quiet; then
+            echo "No payload changes"
+          else
+            git commit -m "Build VAYQUO V2.4 direct payload [skip ci]"
+            git push origin HEAD:agent/vayquo-v2-4-direct
+          fi
