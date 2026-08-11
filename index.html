@@ -37,8 +37,9 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const step35Assets='<link rel="stylesheet" href="v24-step35.css?v=2436"><script src="v24-step35.js?v=2436"><\/script>';
   const step35MmAssets='<script src="v24-step35-mm.js?v=2440"><\/script>';
   const step35PaybackAssets='<script src="v24-step35-payback.js?v=2439"><\/script>';
+  const step35PersistAssets='<script src="v24-step35-persist.js?v=2441"><\/script>';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+'</head>'):html+navFix;
-  patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',step2Assets+step3Assets+step35Assets+step35MmAssets+step35PaybackAssets+'</body>'):patchedHtml+step2Assets+step3Assets+step35Assets+step35MmAssets+step35PaybackAssets;
+  patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',step2Assets+step3Assets+step35Assets+step35MmAssets+step35PaybackAssets+step35PersistAssets+'</body>'):patchedHtml+step2Assets+step3Assets+step35Assets+step35MmAssets+step35PaybackAssets+step35PersistAssets;
   const remaining=Math.max(0,1450-(Date.now()-introStarted));
   if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
   document.getElementById('loading')?.classList.add('leaving');
