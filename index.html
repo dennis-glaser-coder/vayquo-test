@@ -9,33 +9,18 @@
 <meta name="apple-mobile-web-app-title" content="VAYQUO">
 <meta name="description" content="VAYQUO – hol mehr aus Punkten, Meilen und Kartenvorteilen heraus.">
 <title>VAYQUO</title>
-<style>
-html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}.loading{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;box-sizing:border-box}.loading b{display:block;font-size:17px;letter-spacing:.22em}.loading small{display:block;margin-top:11px;color:#9ba9a8;font-size:12px;line-height:1.5}
-</style>
+<style>html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}.loading{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;box-sizing:border-box}.loading b{display:block;font-size:17px;letter-spacing:.22em}.loading small{display:block;margin-top:11px;color:#9ba9a8;font-size:12px;line-height:1.5}</style>
 </head>
 <body>
 <div class="loading" id="loading"><div><b>VAYQUO</b><small>App wird geladen …</small></div></div>
 <script>
 (async()=>{
-  try{
-    if(typeof DecompressionStream==='undefined') throw new Error('Browser unterstützt Dekomprimierung nicht');
-    const files=['assets/data-01.txt','assets/data-02.txt','assets/data-03.txt','assets/data-04.txt','assets/data-05.txt','assets/data-06.txt'];
-    const parts=await Promise.all(files.map(async file=>{
-      const response=await fetch(file,{cache:'no-store'});
-      if(!response.ok) throw new Error('Fehlende App-Datei: '+file);
-      return (await response.text()).trim();
-    }));
-    const binary=atob(parts.join(''));
-    const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));
-    const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const html=await new Response(stream).text();
-    document.open();
-    document.write(html);
-    document.close();
-  }catch(error){
-    console.error(error);
-    document.getElementById('loading').innerHTML='<div><b>VAYQUO</b><small>Die App konnte nicht geladen werden.<br>Bitte die Seite neu laden oder einen aktuellen Browser verwenden.</small></div>';
-  }
+ try{
+  if(typeof DecompressionStream==='undefined') throw new Error('Browser unterstützt Dekomprimierung nicht');
+  const files=["assets/data-01.txt", "assets/data-02.txt", "assets/data-03.txt", "assets/data-04.txt", "assets/data-05.txt", "assets/data-06.txt", "assets/data-07.txt"];
+  const parts=await Promise.all(files.map(async file=>{const response=await fetch(file,{cache:'no-store'});if(!response.ok)throw new Error('Fehlende App-Datei: '+file);return (await response.text()).trim();}));
+  const binary=atob(parts.join(''));const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));const html=await new Response(stream).text();document.open();document.write(html);document.close();
+ }catch(error){console.error(error);document.getElementById('loading').innerHTML='<div><b>VAYQUO</b><small>Die App konnte nicht geladen werden.<br>Bitte die Seite neu laden oder einen aktuellen Browser verwenden.</small></div>';}
 })();
 </script>
 </body>
