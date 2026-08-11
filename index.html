@@ -24,7 +24,9 @@
   const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
   const html=await new Response(stream).text();
   const navFix='<style id="v23-nav-fix">@media(max-width:679px){.bottom{bottom:max(4px,calc(var(--safe-bottom) - 8px))!important;height:60px!important;width:min(calc(100% - 18px),442px)!important;padding:5px!important;border-radius:19px!important;box-shadow:0 10px 26px rgba(18,18,18,.09)!important}.nav{font-size:9px!important;gap:3px!important;border-radius:14px!important}.nav svg{width:20px!important;height:20px!important}main{padding-bottom:calc(122px + var(--safe-bottom))!important}.toast{bottom:calc(76px + var(--safe-bottom))!important}}</style>';
-  const patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+'</head>'):html+navFix;
+  const v24Assets='<link rel="stylesheet" href="v24.css?v=2410"><script src="v24.js?v=2410"><\/script>';
+  let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+'</head>'):html+navFix;
+  patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',v24Assets+'</body>'):patchedHtml+v24Assets;
   document.open();document.write(patchedHtml);document.close();
  }catch(error){console.error(error);document.getElementById('loading').innerHTML='<div><b>VAYQUO</b><small>Die App konnte nicht geladen werden.<br>Bitte die Seite neu laden oder einen aktuellen Browser verwenden.</small></div>';}
 })();
