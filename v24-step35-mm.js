@@ -34,21 +34,19 @@ function recommendationHtml(){
 
 function openCheck(){
   if(typeof openModal!=='function')return;
-  openModal('Passt eine Ergänzung zu deinem Status?',`<div class="v24s35-reco-modal">
-    <div class="v24s35-reco-modal-kicker">DEIN STATUS BLEIBT DIE BASIS</div>
-    <h3>Lounge & Priority hast du bereits.</h3>
-    <p>Eine zusätzliche Karte wäre nur interessant, wenn du daneben weitere Reisevorteile regelmäßig nutzen würdest.</p>
+  openModal('Passt diese Ergänzung zu dir?',`<div class="v24s35-reco-modal">
+    <div class="v24s35-reco-modal-kicker">MEHR AUS DEINEM MILES & MORE</div>
+    <h3>Dein Status deckt Lounge & Priority bereits ab.</h3>
+    <p>Wenn du daneben weitere Reisevorteile regelmäßig nutzt, kann eine zusätzliche Karte dein bestehendes Miles-&-More-Setup sinnvoll ergänzen.</p>
     <div class="v24s35-reco-check">
-      <span>✓ zusätzliche Reisevorteile</span>
-      <span>✓ Restaurant- und Mobilitätsvorteile</span>
-      <span>✓ kein Ersatz für deinen Miles-&-More-Status</span>
+      <span>✓ dein Miles-&-More-Status bleibt die Basis</span>
+      <span>✓ zusätzliche Reise- und Restaurantvorteile</span>
+      <span>✓ Mobilitätsvorteile für unterwegs</span>
     </div>
-    <div class="v24s35-reco-disclosure">American Express Platinum ist nur eine mögliche Ergänzung für diese zusätzlichen Bereiche. VAYQUO zeigt hier keinen Kartenvergleich und der aktuelle Testlink enthält noch kein Affiliate-Tracking.</div>
-    <button class="btn" id="v24s35-mm-out">Amex Platinum ansehen ↗</button>
-    <button class="btn soft" id="v24s35-mm-close">Nicht jetzt</button>
+    <div class="v24s35-reco-disclosure">Wenn du diese zusätzlichen Vorteile regelmäßig nutzt, kann eine Ergänzung interessant sein. Die Platinum Card ist eine Möglichkeit dafür; Details und Bedingungen findest du bei American Express.</div>
+    <button class="btn" id="v24s35-mm-out">Vorteile der Amex Platinum ansehen ↗</button>
   </div>`);
   q('#v24s35-mm-out')?.addEventListener('click',()=>{try{window.open(PLATINUM_URL,'_blank','noopener,noreferrer');}catch{location.href=PLATINUM_URL;}});
-  q('#v24s35-mm-close')?.addEventListener('click',()=>typeof closeModal==='function'&&closeModal());
 }
 
 function enhance(){
