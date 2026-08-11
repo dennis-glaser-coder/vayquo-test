@@ -38,6 +38,8 @@ function hydrateCardSelect(){
   }catch{}
 }
 
+// Sobald eine echte Karte vorhanden ist, separat merken. So darf ein reiner
+// Programmfilter die Kartenidentität nie wieder löschen.
 persistCurrent();
 
 document.addEventListener('change',ev=>{
@@ -47,9 +49,15 @@ document.addEventListener('change',ev=>{
 document.addEventListener('click',ev=>{
   const saveBtn=ev.target.closest?.('#v24s35-save');
   if(!saveBtn)return;
+
+  // Vor dem bestehenden Step-3.5-Save sichern, solange die alte Karte noch da ist.
   persistCurrent();
   const select=q('#v24s35-card');
   if(select)remember(select.value);
+
+  // Der alte Handler kann state.card auf "none" setzen, wenn Amex ausgeblendet wird.
+  // Danach legen wir die gemerkte Karte wieder unsichtbar in state ab. Die Anzeige
+  // richtet sich weiterhin ausschließlich nach state.programs.mr.
   setTimeout(()=>{
     const restored=restoreHiddenCard();
     hydrateCardSelect();
