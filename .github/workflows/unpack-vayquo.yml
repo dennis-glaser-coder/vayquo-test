@@ -1,0 +1,26 @@
+name: unpack-vayquo
+on:
+  push:
+    branches:
+      - agent/vayquo-v2-4-direct
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack current app payload
+        shell: bash
+        run: |
+          cat assets/data-*.txt | tr -d '\n\r ' | base64 --decode | gzip --decompress --stdout > source.html
+          echo "bytes=$(wc -c < source.html)"
+          grep -oE 'function [A-Za-z0-9_]+' source.html | head -80 || true
+          grep -oE 'data-view="[^"]+"' source.html | sort -u || true
+      - name: Upload unpacked source
+        uses: actions/upload-artifact@v4
+        with:
+          name: vayquo-source
+          path: source.html
+          if-no-files-found: error
+          retention-days: 1
