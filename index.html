@@ -9,12 +9,20 @@
 <meta name="apple-mobile-web-app-title" content="VAYQUO">
 <meta name="description" content="VAYQUO – hol mehr aus Punkten, Meilen und Kartenvorteilen heraus.">
 <title>VAYQUO</title>
-<style>html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}.loading{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;box-sizing:border-box}.loading b{display:block;font-size:17px;letter-spacing:.22em}.loading small{display:block;margin-top:11px;color:#9ba9a8;font-size:12px;line-height:1.5}</style>
+<style>
+html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+.loading{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;box-sizing:border-box;opacity:1;transform:scale(1);transition:opacity .24s ease,transform .24s ease}
+.loading.leaving{opacity:0;transform:scale(.985)}
+.loading b{display:block;font-size:18px;letter-spacing:.24em}
+.loading .claim{display:block;margin-top:18px;color:#f8f4ed;font-size:19px;line-height:1.35;font-weight:650;letter-spacing:-.02em}
+.loading small{display:block;margin-top:12px;color:#9ba9a8;font-size:11px;line-height:1.5}
+</style>
 </head>
 <body>
-<div class="loading" id="loading"><div><b>VAYQUO</b><small>App wird geladen …</small></div></div>
+<div class="loading" id="loading"><div><b>VAYQUO</b><span class="claim">Nicht einfach Punkte haben.<br>Das Maximum daraus machen.</span><small>Punkte · Meilen · Vorteile</small></div></div>
 <script>
 (async()=>{
+ const introStarted=Date.now();
  try{
   if(typeof DecompressionStream==='undefined') throw new Error('Browser unterstützt Dekomprimierung nicht');
   const files=["assets/data-01.txt", "assets/data-02.txt", "assets/data-03.txt", "assets/data-04.txt", "assets/data-05.txt", "assets/data-06.txt", "assets/data-07.txt"];
@@ -27,6 +35,10 @@
   const step2Assets='<link rel="stylesheet" href="v24-step2.css?v=2403"><script src="v24-step2.js?v=2403"><\/script>';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+'</head>'):html+navFix;
   patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',step2Assets+'</body>'):patchedHtml+step2Assets;
+  const remaining=Math.max(0,1450-(Date.now()-introStarted));
+  if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
+  document.getElementById('loading')?.classList.add('leaving');
+  await new Promise(resolve=>setTimeout(resolve,240));
   document.open();document.write(patchedHtml);document.close();
  }catch(error){console.error(error);document.getElementById('loading').innerHTML='<div><b>VAYQUO</b><small>Die App konnte nicht geladen werden.<br>Bitte die Seite neu laden oder einen aktuellen Browser verwenden.</small></div>';}
 })();
