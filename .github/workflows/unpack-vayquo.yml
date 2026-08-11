@@ -1,0 +1,62 @@
+name: Unpack VAYQUO source
+
+on:
+  push:
+    branches:
+      - agent/vayquo-v2-4-rebuild
+    paths:
+      - '.github/workflows/unpack-vayquo.yml'
+      - 'assets/data-*.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout rebuild branch
+        uses: actions/checkout@v4
+
+      - name: Reconstruct original VAYQUO app
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p unpacked
+          cat assets/data-*.txt | tr -d '\r\n ' | base64 --decode | gzip --decompress --stdout > unpacked/app.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('unpacked/app.html')
+          html = p.read_text(encoding='utf-8')
+          if '<html' not in html.lower() or '<script' not in html.lower():
+              raise SystemExit('Decoded payload does not look like the VAYQUO app')
+
+          views = sorted(set(re.findall(r"data-view=[\"']([^\"']+)", html)))
+          ids = sorted(set(re.findall(r"id=[\"']([^\"']+)", html)))
+          markers = {
+              'Start': any(x in html for x in ['Start','Heute']),
+              'Prüfen': any(x in html for x in ['Prüfen','Optimieren']),
+              'Punkte': 'Punkte' in html,
+              'Vorteile': 'Vorteile' in html,
+              'SIXT': 'SIXT' in html or 'Sixt' in html,
+              'Lounges': 'Lounge' in html,
+              'Restaurants': 'Restaurant' in html,
+          }
+          Path('unpacked/source-check.txt').write_text(
+              'Decoded VAYQUO source OK\n'
+              + 'Views: ' + ', '.join(views) + '\n'
+              + 'IDs: ' + ', '.join(ids[:80]) + '\n'
+              + '\nMarkers:\n'
+              + '\n'.join(f'{k}: {v}' for k,v in markers.items())
+              + '\n', encoding='utf-8')
+          PY
+
+      - name: Upload unpacked source
+        uses: actions/upload-artifact@v4
+        with:
+          name: vayquo-unpacked-source
+          path: unpacked/
+          if-no-files-found: error
+          retention-days: 7
