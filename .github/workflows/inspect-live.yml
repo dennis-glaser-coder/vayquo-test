@@ -1,0 +1,25 @@
+name: inspect-current-live
+on:
+  push:
+    branches:
+      - agent/inspect-current-main
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack and hash current app
+        shell: bash
+        run: |
+          cat assets/data-*.txt | tr -d '\n\r ' | base64 --decode | gzip --decompress --stdout > source-live.html
+          sha256sum source-live.html
+          wc -c source-live.html
+          grep -o 'V2.4 Test' source-live.html | head -1 || true
+          grep -o 'v24-direct-logic' source-live.html | head -1 || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: current-live-source
+          path: source-live.html
+          retention-days: 1
