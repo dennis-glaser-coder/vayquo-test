@@ -1,0 +1,51 @@
+    amexOffers:'https://www.americanexpress.com/de/vorteile/amex-offers/info.html',
+    paybackCoupons:'https://www.payback.de/coupons',
+    milesOffers:'https://www.miles-and-more.com/de/de/earn.html',
+    restaurant:'https://www.amex.de/platinum-restaurantguthaben',
+    restaurantTerms:'https://www.americanexpress.com/de-de/vorteile/platinum-card/angebotsbedingungen/',
+    lounges:'https://www.americanexpress.com/de-de/travel/lounges/the-platinum-card/',
+    priorityPass:'https://www.prioritypass.com/de/lounges',
+    sixtRide:'https://www.sixt.de/ride/'
+  };
+  if(Array.isArray(SOURCES)){
+    const extraSources=[
+      {label:'American Express – Global Lounge Collection',url:V24_URLS.lounges},
+      {label:'American Express – Platinum Restaurantguthaben',url:V24_URLS.restaurant},
+      {label:'American Express – Amex Offers',url:V24_URLS.amexOffers},
+      {label:'Miles & More – aktuelle Sammelangebote',url:V24_URLS.milesOffers},
+      {label:'SIXT – ride',url:V24_URLS.sixtRide}
+    ];
+    extraSources.forEach(x=>{if(!SOURCES.some(s=>s.label===x.label))SOURCES.push(x)});
+  }
+  function v24OpenPartner(key,url){
+    try{const history=JSON.parse(localStorage.getItem('vayquo-partner-clicks')||'[]');history.push({key,url,at:new Date().toISOString()});localStorage.setItem('vayquo-partner-clicks',JSON.stringify(history.slice(-40)))}catch(e){}
+    window.open(url,'_blank','noopener,noreferrer');
+  }
+  function v24ActivePrograms(){
+    const a=[];
+    if(state.programs.mr||state.card!=='none')a.push({id:'amex',label:'Amex',meta:state.programs.mr?`${num(state.balances.mr)} MR`:cardName(state.card)});
+    if(state.programs.pb)a.push({id:'pb',label:'PAYBACK',meta:`${num(state.balances.pb)} P`});
+    if(state.programs.mm)a.push({id:'mm',label:'Miles & More',meta:`${num(state.balances.mm)} M`});
+    return a;
+  }
+  function v24Focus(){const a=v24ActivePrograms();if(!a.some(x=>x.id===state.v24Focus))state.v24Focus=a[0]?.id||'amex';return state.v24Focus}
+  function v24Hero(f){
+    if(f==='pb')return{k:'PAYBACK',title:'Geld oder Meilen?',copy:'VAYQUO zeigt dir, wann der sichere Geldwert stärker ist – und wann Miles & More mehr bringen kann.',stat:money(paybackCash()),meta:`${num(state.balances.pb)} PAYBACK Punkte`,go:()=>go('optimize','payback')};
+    if(f==='mm')return{k:'MILES & MORE',title:'Meilen gezielt einsetzen.',copy:'Prüfe einen konkreten Flug, statt den Wert deiner Meilen nur zu schätzen.',stat:num(state.balances.mm),meta:'Meilen vorhanden',go:()=>go('optimize','flight')};
+    return{k:'MEMBERSHIP REWARDS',title:'Nicht einfach Punkte haben. Das Maximum daraus machen.',copy:'VAYQUO prüft für dich Transfer, Flug und Barzahlung – bevor du Punkte festlegst.',stat:state.programs.mr?num(state.balances.mr):'Amex',meta:state.programs.mr?'Membership Rewards':'Kartenvorteile',go:()=>go('optimize','flight')};
+  }
+  function v24ProgramBox(){const f=v24Focus(),a=v24ActivePrograms();return `<div class="v24-program-box"><div class="v24-program-head"><strong>Deine Programme</strong><button class="v24-program-edit" id="v24ManagePrograms">Ändern</button></div><div class="v24-program-row">${a.map(x=>`<button class="v24-program ${f===x.id?'active':''}" data-v24-program="${x.id}"><b>${esc(x.label)}</b><span>${esc(x.meta)}</span></button>`).join('')}</div></div>`}
+
+  renderToday=function(){
+    const f=v24Focus(),h=v24Hero(f),d=new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'short'}).format(new Date());
+    app.innerHTML=`<section class="screen v24-home"><div class="v24-homebar"><strong>Start</strong><span>${d}</span></div><div class="v24-hero"><div class="v24-kicker">${h.k}</div><h1>${esc(h.title)}</h1><p>${esc(h.copy)}</p><div class="v24-hero-stat"><b>${esc(h.stat)}</b><span>${esc(h.meta)}</span></div><div class="v24-hero-actions"><button class="v24-hero-main" id="v24HeroGo">Jetzt prüfen</button><button class="v24-why" id="v24Why">Warum VAYQUO?</button></div></div>${v24ProgramBox()}<div class="v24-actions-title">Was möchtest du tun?</div><div class="v24-actions"><button class="v24-action" id="v24Flight"><span class="ico">${ic('plane')}</span><strong>Flug prüfen</strong></button><button class="v24-action" id="v24Benefits"><span class="ico">${ic('card')}</span><strong>Vorteile</strong></button><button class="v24-action" id="v24Collect"><span class="ico">${ic('spark')}</span><strong>Mehr sammeln</strong></button></div></section>`;
+    document.getElementById('v24HeroGo').onclick=h.go;
+    document.getElementById('v24Why').onclick=()=>openModal('Was macht VAYQUO?',`<div class="v24-modal-lead"><strong>Du sagst, was du vorhast.</strong><br>VAYQUO ordnet deine Punkte, Meilen und Kartenvorteile ein und zeigt dir den sinnvollsten nächsten Schritt.</div>`);
+    document.getElementById('v24ManagePrograms').onclick=()=>window.openV20ProgramManager();
+    document.querySelectorAll('[data-v24-program]').forEach(b=>b.onclick=()=>{state.v24Focus=b.dataset.v24Program;save();render()});
+    document.getElementById('v24Flight').onclick=()=>go('optimize','flight');
+    document.getElementById('v24Benefits').onclick=()=>go('card');
+    document.getElementById('v24Collect').onclick=v24OpenCollect;
+  };
+
+  function v24OpenCollect(){
