@@ -4,179 +4,150 @@
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const norm=s=>(s||'').replace(/\s+/g,' ').trim().toLowerCase();
-const txt=e=>norm(e&&e.textContent);
+const AIRPORT_DATA_URL='https://raw.githubusercontent.com/datasets/airport-codes/main/data/airport-codes.csv';
 
-const AIRPORTS=[
-  ['FRA','Frankfurt am Main'],['MUC','München'],['DUS','Düsseldorf'],['BER','Berlin Brandenburg'],['HAM','Hamburg'],['CGN','Köln/Bonn'],['STR','Stuttgart'],['HAJ','Hannover'],['NUE','Nürnberg'],['LEJ','Leipzig/Halle'],['DTM','Dortmund'],['FMO','Münster/Osnabrück'],['PAD','Paderborn/Lippstadt'],
-  ['PMI','Palma de Mallorca'],['BCN','Barcelona'],['MAD','Madrid'],['LIS','Lissabon'],['CDG','Paris Charles de Gaulle'],['ORY','Paris Orly'],['AMS','Amsterdam'],['LHR','London Heathrow'],['LGW','London Gatwick'],['VIE','Wien'],['ZRH','Zürich'],['FCO','Rom Fiumicino'],['MXP','Mailand Malpensa'],['ATH','Athen'],['AYT','Antalya'],['HER','Heraklion'],['RHO','Rhodos'],
-  ['DXB','Dubai'],['DOH','Doha'],['AUH','Abu Dhabi'],['JFK','New York JFK'],['EWR','Newark'],['MIA','Miami'],['LAX','Los Angeles'],['SFO','San Francisco'],['BKK','Bangkok'],['SIN','Singapur']
-];
+const FALLBACK_AIRPORTS=[
+ ['DUS','Düsseldorf Airport','Düsseldorf','DE'],['FRA','Frankfurt Airport','Frankfurt am Main','DE'],['MUC','Munich Airport','München','DE'],['BER','Berlin Brandenburg Airport','Berlin','DE'],['HAM','Hamburg Airport','Hamburg','DE'],['CGN','Cologne Bonn Airport','Köln/Bonn','DE'],['STR','Stuttgart Airport','Stuttgart','DE'],['HAJ','Hannover Airport','Hannover','DE'],['NUE','Nürnberg Airport','Nürnberg','DE'],['DTM','Dortmund Airport','Dortmund','DE'],['FMO','Münster Osnabrück Airport','Münster/Osnabrück','DE'],['PAD','Paderborn Lippstadt Airport','Paderborn/Lippstadt','DE'],
+ ['PMI','Palma de Mallorca Airport','Palma de Mallorca','ES'],['BCN','Barcelona El Prat Airport','Barcelona','ES'],['MAD','Adolfo Suárez Madrid–Barajas Airport','Madrid','ES'],['LIS','Humberto Delgado Airport','Lissabon','PT'],['CDG','Charles de Gaulle Airport','Paris','FR'],['ORY','Paris Orly Airport','Paris','FR'],['AMS','Amsterdam Airport Schiphol','Amsterdam','NL'],['LHR','London Heathrow Airport','London','GB'],['LGW','London Gatwick Airport','London','GB'],['VIE','Vienna International Airport','Wien','AT'],['ZRH','Zürich Airport','Zürich','CH'],['FCO','Rome Fiumicino Airport','Rom','IT'],['MXP','Milan Malpensa Airport','Mailand','IT'],
+ ['DXB','Dubai International Airport','Dubai','AE'],['DOH','Hamad International Airport','Doha','QA'],['AUH','Zayed International Airport','Abu Dhabi','AE'],['JFK','John F. Kennedy International Airport','New York','US'],['EWR','Newark Liberty International Airport','Newark / New York','US'],['MIA','Miami International Airport','Miami','US'],['LAX','Los Angeles International Airport','Los Angeles','US'],['SFO','San Francisco International Airport','San Francisco','US'],['BKK','Suvarnabhumi Airport','Bangkok','TH'],['SIN','Singapore Changi Airport','Singapur','SG']
+].map(([code,name,city,country])=>({code,name,city,country}));
 
-const helpMap=[
-  ['abflughafen','Abflughafen','Wähle, wo deine Reise startet. Du kannst nach Stadt oder IATA-Code suchen, zum Beispiel Düsseldorf oder DUS.'],
-  ['zielflughafen','Zielflughafen','Wähle dein Reiseziel. Die Strecke dient als Grundlage, damit VAYQUO später passende Bar- und Prämienflüge vergleichen kann.'],
-  ['barpreis des gleichen fluges','Barpreis','Der normale Preis desselben Fluges. VAYQUO braucht ihn für den Vergleich mit dem Einsatz deiner Punkte oder Meilen.'],
-  ['prämienpreis im programm','Prämienpreis','So viele Punkte oder Meilen verlangt das jeweilige Programm für diesen Flug. Mit Live-Daten soll VAYQUO diesen Wert später automatisch übernehmen.'],
-  ['steuern & gebühren','Steuern & Gebühren','Der Geldbetrag, der bei einer Prämienbuchung zusätzlich zu Punkten oder Meilen anfällt. Er fließt in den echten Gegenwert ein.'],
-  ['im programm schon vorhanden','Bereits vorhandene Punkte','Punkte oder Meilen, die du im Zielprogramm bereits hast. VAYQUO berücksichtigt sie, bevor ein Transfer empfohlen wird.'],
-  ['dein mindestwert','Dein Mindestwert','Deine persönliche Untergrenze pro Punkt. VAYQUO kann dich damit vor einem schlechten Einsatz warnen.']
-];
+const HELP={
+ fFrom:['Abflughafen','Wähle deinen Startflughafen aus der weltweiten Liste. Du kannst nach Stadt, Flughafenname oder dem 3-stelligen IATA-Code suchen.'],
+ fTo:['Zielflughafen','Wähle dein Reiseziel aus der weltweiten Liste. VAYQUO nutzt die Strecke für den späteren Barpreis- und Punktevergleich.'],
+ fDate:['Reisedatum','Das Datum ist optional. Mit Live-Flugdaten kann VAYQUO dadurch später genau den passenden Flug und dessen Preise vergleichen.'],
+ fCabin:['Reiseklasse','Economy, Premium Economy, Business und First können sehr unterschiedliche Punktewerte haben. Deshalb wird die gewünschte Kabine separat berücksichtigt.'],
+ fProgram:['Programm','Hier wählst du das Vielflieger- oder Transferprogramm, über das der konkrete Prämienflug bewertet werden soll.'],
+ fCash:['Barpreis','Das ist der normale Geldpreis genau desselben Fluges. Nur so lässt sich fair berechnen, welchen Gegenwert deine Punkte oder Meilen wirklich liefern.'],
+ fAward:['Prämienpreis','So viele Punkte oder Meilen verlangt das gewählte Programm für genau diesen Flug.'],
+ fFees:['Steuern & Gebühren','Diese Zuzahlung fällt bei vielen Prämienflügen zusätzlich zu den Punkten oder Meilen an und wird beim Gegenwert mitgerechnet.'],
+ fHave:['Bereits vorhandene Punkte','Das sind Punkte oder Meilen, die du im Zielprogramm bereits besitzt. VAYQUO berücksichtigt sie, bevor ein Transfer empfohlen wird.'],
+ fMin:['Dein Mindestwert','Deine persönliche Untergrenze für den Wert eines Membership-Rewards-Punktes. Liegt ein Flug darunter, ist Barzahlung möglicherweise sinnvoller.']
+};
 
-function ownTextElements(){
-  return qa('button,a,label,h1,h2,h3,h4,p,span,div,small,strong').filter(e=>e.children.length<4);
-}
-function findText(needle){
-  const n=norm(needle);
-  return ownTextElements().find(e=>txt(e).includes(n));
-}
-function findLabelInput(needle){
-  const n=norm(needle);
-  for(const el of qa('label,.field,.form-row,.form-group,[class*="field-"],[class$="-field"]')){
-    if(!txt(el).includes(n)) continue;
-    if(el.tagName==='LABEL'&&el.htmlFor){
-      const linked=document.getElementById(el.htmlFor);
-      if(linked?.matches('input,select')) return linked;
-    }
-    const input=q('input,select',el);
-    if(input) return input;
-  }
-  const t=findText(needle);
-  let p=t;
-  for(let depth=0;p&&depth<5;depth++,p=p.parentElement){
-    if(!txt(p).includes(n)) continue;
-    const input=q('input,select',p);
-    if(input) return input;
-  }
-  return null;
-}
+let airports=null;
+let loadingAirports=null;
+let activeAirportInput=null;
+let resultLimit=80;
 
-function ensureSheet(){
-  if(q('#v24s2-sheet')) return;
-  document.body.insertAdjacentHTML('beforeend','<div id="v24s2-backdrop" class="v24s2-backdrop"></div><section id="v24s2-sheet" class="v24s2-sheet" role="dialog" aria-modal="true" aria-label="Info"><div class="v24s2-grab"></div><div id="v24s2-sheet-content"></div></section>');
-  q('#v24s2-backdrop').addEventListener('click',closeSheet);
+function parseCSVLine(line){
+ const out=[];let cur='',quoted=false;
+ for(let i=0;i<line.length;i++){
+  const ch=line[i];
+  if(ch==='"'){
+   if(quoted&&line[i+1]==='"'){cur+='"';i++;}
+   else quoted=!quoted;
+  }else if(ch===','&&!quoted){out.push(cur);cur='';}
+  else cur+=ch;
+ }
+ out.push(cur);return out;
 }
-function openHelp(title,body){
-  ensureSheet();
-  q('#v24s2-sheet-content').innerHTML=`<div class="v24s2-sheet-head"><div><div class="v24s2-sheet-kicker">Kurz erklärt</div><h3>${title}</h3></div><button type="button" class="v24s2-close" aria-label="Schließen">×</button></div><p>${body}</p>`;
-  q('.v24s2-close').addEventListener('click',closeSheet);
-  q('#v24s2-backdrop').classList.add('is-open');
-  q('#v24s2-sheet').classList.add('is-open');
-}
-function closeSheet(){
-  q('#v24s2-backdrop')?.classList.remove('is-open');
-  q('#v24s2-sheet')?.classList.remove('is-open');
-}
-function helpButton(title,body){
-  const b=document.createElement('button');
-  b.type='button';
-  b.className='v24s2-help';
-  b.textContent='i';
-  b.setAttribute('aria-label',`${title} erklären`);
-  b.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();openHelp(title,body);});
-  return b;
+async function loadAirports(){
+ if(airports) return airports;
+ if(loadingAirports) return loadingAirports;
+ loadingAirports=(async()=>{
+  try{
+   const res=await fetch(AIRPORT_DATA_URL,{cache:'force-cache'});
+   if(!res.ok) throw new Error('airport list '+res.status);
+   const lines=(await res.text()).split(/\r?\n/).filter(Boolean);
+   const header=parseCSVLine(lines.shift());
+   const idx=Object.fromEntries(header.map((h,i)=>[h,i]));
+   const seen=new Set();const rows=[];
+   for(const line of lines){
+    const c=parseCSVLine(line);
+    const code=(c[idx.iata_code]||'').trim().toUpperCase();
+    const type=(c[idx.type]||'').trim();
+    if(!/^[A-Z]{3}$/.test(code)||type==='closed'||seen.has(code)) continue;
+    seen.add(code);
+    rows.push({code,name:(c[idx.name]||'').trim(),city:(c[idx.municipality]||'').trim(),country:(c[idx.iso_country]||'').trim()});
+   }
+   rows.sort((a,b)=>a.code.localeCompare(b.code));
+   airports=rows.length>1000?rows:FALLBACK_AIRPORTS;
+  }catch(err){console.warn('VAYQUO airport list fallback',err);airports=FALLBACK_AIRPORTS;}
+  return airports;
+ })();
+ return loadingAirports;
 }
 
-function addHelpButtons(){
-  for(const [needle,title,body] of helpMap){
-    const el=findText(needle);
-    if(!el||el.dataset.v24s2Help) continue;
-    el.appendChild(helpButton(title,body));
-    el.dataset.v24s2Help='1';
-  }
+function ensureInfoSheet(){
+ if(q('#v24s2-info-backdrop')) return;
+ document.body.insertAdjacentHTML('beforeend','<div id="v24s2-info-backdrop" class="v24s2-backdrop"></div><section id="v24s2-info-sheet" class="v24s2-info-sheet" role="dialog" aria-modal="true"><div class="v24s2-grab"></div><div id="v24s2-info-content"></div></section>');
+ q('#v24s2-info-backdrop').addEventListener('click',closeInfo);
+}
+function openInfo(title,body){
+ ensureInfoSheet();
+ q('#v24s2-info-content').innerHTML=`<div class="v24s2-sheet-head"><div><div class="v24s2-kicker">Kurz erklärt</div><h3>${title}</h3></div><button type="button" class="v24s2-close" aria-label="Schließen">×</button></div><p>${body}</p>`;
+ q('#v24s2-info-content .v24s2-close').addEventListener('click',closeInfo);
+ q('#v24s2-info-backdrop').classList.add('is-open');q('#v24s2-info-sheet').classList.add('is-open');
+}
+function closeInfo(){q('#v24s2-info-backdrop')?.classList.remove('is-open');q('#v24s2-info-sheet')?.classList.remove('is-open');}
+function makeInfoButton(title,body){
+ const b=document.createElement('button');b.type='button';b.className='v24s2-info';b.textContent='i';b.setAttribute('aria-label',`${title} erklären`);
+ b.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();openInfo(title,body);});return b;
+}
+function addInfoButtons(){
+ for(const [id,[title,body]] of Object.entries(HELP)){
+  const control=q('#'+id);const field=control?.closest('.field');const label=q('label',field);
+  if(!control||!field||!label||field.dataset.v24s2Info) continue;
+  label.appendChild(makeInfoButton(title,body));field.dataset.v24s2Info='1';
+ }
 }
 
-function airportValue(code,name){return `${code} — ${name}`;}
-function airportCode(value){
-  const m=String(value||'').toUpperCase().match(/\b([A-Z]{3})\b/);
-  return m?m[1]:'';
+function ensureAirportSheet(){
+ if(q('#v24s2-airport-backdrop')) return;
+ document.body.insertAdjacentHTML('beforeend',`<div id="v24s2-airport-backdrop" class="v24s2-backdrop"></div><section id="v24s2-airport-sheet" class="v24s2-airport-sheet" role="dialog" aria-modal="true" aria-label="Flughafen auswählen"><div class="v24s2-grab"></div><div class="v24s2-sheet-head"><div><div class="v24s2-kicker">Weltweite Liste</div><h3>Flughafen auswählen</h3><small id="v24s2-airport-count">Flughäfen werden geladen …</small></div><button type="button" class="v24s2-close" aria-label="Schließen">×</button></div><div class="v24s2-search-wrap"><span>⌕</span><input id="v24s2-airport-search" type="search" autocomplete="off" placeholder="Stadt, Flughafen oder IATA-Code"></div><button type="button" id="v24s2-airport-clear" class="v24s2-clear">Keine Angabe / Auswahl löschen</button><div id="v24s2-airport-results" class="v24s2-airport-results"></div></section>`);
+ q('#v24s2-airport-backdrop').addEventListener('click',closeAirportPicker);
+ q('#v24s2-airport-sheet .v24s2-close').addEventListener('click',closeAirportPicker);
+ q('#v24s2-airport-search').addEventListener('input',()=>{resultLimit=80;renderAirportResults();});
+ q('#v24s2-airport-clear').addEventListener('click',()=>selectAirport(''));
 }
-function airportName(code){return AIRPORTS.find(([c])=>c===code)?.[1]||'';}
-function saveRoute(from,to){
-  try{localStorage.setItem('vayquo:flightRoute',JSON.stringify({from,to}));}catch{}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function airportHaystack(a){return norm(`${a.code} ${a.name} ${a.city} ${a.country}`);}
+function currentMatches(){
+ const query=norm(q('#v24s2-airport-search')?.value||'');
+ const source=airports||FALLBACK_AIRPORTS;
+ let matches=query?source.filter(a=>airportHaystack(a).includes(query)):source.slice();
+ if(query.length===3){const exact=query.toUpperCase();matches.sort((a,b)=>(a.code===exact?-1:0)-(b.code===exact?-1:0));}
+ return matches;
 }
-function loadRoute(){
-  try{return JSON.parse(localStorage.getItem('vayquo:flightRoute')||'{}')||{};}catch{return {};}
+function renderAirportResults(){
+ const results=q('#v24s2-airport-results');if(!results) return;
+ const matches=currentMatches();const shown=matches.slice(0,resultLimit);
+ results.innerHTML=shown.map(a=>`<button type="button" class="v24s2-airport-row" data-code="${a.code}"><span class="v24s2-code">${a.code}</span><span class="v24s2-airport-copy"><b>${escapeHtml(a.city||a.name||a.code)}</b><small>${escapeHtml(a.name)}${a.country?` · ${escapeHtml(a.country)}`:''}</small></span><span class="v24s2-chevron">›</span></button>`).join('') || '<div class="v24s2-empty">Kein Flughafen gefunden. Suche z. B. nach „Düsseldorf“, „Mallorca“ oder „JFK“.</div>';
+ if(matches.length>shown.length) results.insertAdjacentHTML('beforeend',`<button type="button" id="v24s2-more" class="v24s2-more">Weitere ${Math.min(80,matches.length-shown.length)} anzeigen</button>`);
+ qa('.v24s2-airport-row',results).forEach(row=>row.addEventListener('click',()=>selectAirport(row.dataset.code)));
+ q('#v24s2-more',results)?.addEventListener('click',()=>{resultLimit+=80;renderAirportResults();});
 }
-function setRouteSummary(shell){
-  const from=q('#v24s2-from',shell)?.value||'';
-  const to=q('#v24s2-to',shell)?.value||'';
-  const fromCode=airportCode(from),toCode=airportCode(to);
-  const summary=q('#v24s2-route-summary',shell);
-  if(!summary) return;
-  if(fromCode&&toCode){
-    summary.textContent=`${fromCode} → ${toCode}`;
-    summary.classList.add('is-ready');
-  }else{
-    summary.textContent='Strecke auswählen';
-    summary.classList.remove('is-ready');
-  }
-  saveRoute(from,to);
+async function openAirportPicker(input){
+ activeAirportInput=input;ensureAirportSheet();resultLimit=80;
+ q('#v24s2-airport-backdrop').classList.add('is-open');q('#v24s2-airport-sheet').classList.add('is-open');
+ const search=q('#v24s2-airport-search');search.value='';renderAirportResults();setTimeout(()=>search.focus(),120);
+ const list=await loadAirports();
+ q('#v24s2-airport-count').textContent=`${new Intl.NumberFormat('de-DE').format(list.length)} Flughäfen mit IATA-Code · komplett durchsuchbar`;
+ renderAirportResults();
 }
-
-function addAirportPicker(){
-  const cash=findLabelInput('barpreis des gleichen fluges');
-  if(!cash||q('#v24s2-airports')) return;
-
-  const inputBlock=cash.closest('.field,.input,.form-row,.form-group')||cash.parentElement?.parentElement||cash.parentElement;
-  if(!inputBlock?.parentNode) return;
-
-  const saved=loadRoute();
-  const shell=document.createElement('section');
-  shell.id='v24s2-airports';
-  shell.className='v24s2-airports';
-  const options=AIRPORTS.map(([code,name])=>`<option value="${airportValue(code,name)}"></option>`).join('');
-  shell.innerHTML=`
-    <div class="v24s2-airport-head">
-      <div>
-        <div class="v24s2-kicker">Dein Punkteflug</div>
-        <strong id="v24s2-route-summary">Strecke auswählen</strong>
-      </div>
-      <button type="button" class="v24s2-help v24s2-route-help" aria-label="Flughafenauswahl erklären">i</button>
-    </div>
-    <div class="v24s2-airport-grid">
-      <label class="v24s2-field"><span>Abflughafen</span><input id="v24s2-from" list="v24s2-airport-list" autocomplete="off" placeholder="z. B. DUS oder Düsseldorf"></label>
-      <button type="button" id="v24s2-swap" class="v24s2-swap" aria-label="Abflug und Ziel tauschen">⇄</button>
-      <label class="v24s2-field"><span>Zielflughafen</span><input id="v24s2-to" list="v24s2-airport-list" autocomplete="off" placeholder="z. B. PMI oder Palma"></label>
-    </div>
-    <datalist id="v24s2-airport-list">${options}</datalist>
-    <div class="v24s2-airport-note">Stadt oder 3-stelligen Flughafencode eingeben – passende Flughäfen erscheinen direkt.</div>`;
-
-  inputBlock.parentNode.insertBefore(shell,inputBlock);
-  const from=q('#v24s2-from',shell),to=q('#v24s2-to',shell);
-  from.value=saved.from||'';
-  to.value=saved.to||'';
-  setRouteSummary(shell);
-
-  const routeHelp=q('.v24s2-route-help',shell);
-  routeHelp.addEventListener('click',()=>openHelp('Flughafenauswahl','Wähle Start und Ziel über Stadt oder IATA-Code. Die Auswahl verändert noch keine Preise – sie bereitet die Strecke für die spätere Live-Flugsuche und den Punktevergleich vor.'));
-
-  for(const input of [from,to]){
-    input.addEventListener('input',()=>setRouteSummary(shell));
-    input.addEventListener('change',()=>{
-      const code=airportCode(input.value);
-      const name=airportName(code);
-      if(code&&name) input.value=airportValue(code,name);
-      setRouteSummary(shell);
-    });
-  }
-  q('#v24s2-swap',shell).addEventListener('click',()=>{
-    const current=from.value;from.value=to.value;to.value=current;setRouteSummary(shell);
-  });
+function closeAirportPicker(){q('#v24s2-airport-backdrop')?.classList.remove('is-open');q('#v24s2-airport-sheet')?.classList.remove('is-open');activeAirportInput=null;}
+function selectAirport(code){
+ if(!activeAirportInput) return;
+ const descriptor=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');
+ if(descriptor?.set) descriptor.set.call(activeAirportInput,code); else activeAirportInput.value=code;
+ activeAirportInput.dispatchEvent(new Event('input',{bubbles:true}));activeAirportInput.dispatchEvent(new Event('change',{bubbles:true}));
+ closeAirportPicker();
 }
-
-function init(){
-  addAirportPicker();
-  addHelpButtons();
+function enhanceAirportInput(id,title){
+ const input=q('#'+id);if(!input||input.dataset.v24s2Airport) return;
+ input.dataset.v24s2Airport='1';input.readOnly=true;input.setAttribute('inputmode','none');input.setAttribute('autocomplete','off');input.setAttribute('aria-haspopup','dialog');input.classList.add('v24s2-airport-input');
+ input.setAttribute('aria-label',`${title} aus Liste auswählen`);
+ input.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();openAirportPicker(input);});
+}
+function enhanceFlight(){
+ q('#v24s2-airports')?.remove();
+ if(!q('#fCash')||!q('#fFrom')||!q('#fTo')) return;
+ enhanceAirportInput('fFrom','Abflughafen');enhanceAirportInput('fTo','Zielflughafen');addInfoButtons();
 }
 
 let scheduled=false;
-const schedule=()=>{
-  if(scheduled) return;
-  scheduled=true;
-  requestAnimationFrame(()=>{scheduled=false;init();});
-};
-
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',schedule,{once:true});
-else schedule();
+function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;enhanceFlight();});}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 })();
