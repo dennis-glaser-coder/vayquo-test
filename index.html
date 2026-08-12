@@ -24,7 +24,7 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
 (async()=>{
  const introStarted=Date.now();
  try{
-  if(typeof DecompressionStream==='undefined') throw new Error('Browser unterstützt Dekomprimierung nicht');
+  if(typeof DecompressionStream==='undefined')throw new Error('Browser unterstützt Dekomprimierung nicht');
   const files=["assets/data-01.txt", "assets/data-02.txt", "assets/data-03.txt", "assets/data-04.txt", "assets/data-05.txt", "assets/data-06.txt", "assets/data-07.txt"];
   const parts=await Promise.all(files.map(async file=>{const response=await fetch(file,{cache:'no-store'});if(!response.ok)throw new Error('Fehlende App-Datei: '+file);return (await response.text()).trim();}));
   const binary=atob(parts.join(''));
@@ -37,6 +37,7 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const flightSearchControlsAssets='<script src="v24-flight-search-controls.js?v=2402"><\/script>';
   const flightLiveAssets='<script src="v24-flight-live.js?v=2406"><\/script>';
   const flightOptimizerAssets='<script src="v24-flight-optimizer.js?v=2402"><\/script>';
+  const flightFeasibilityAssets='<script src="v24-flight-feasibility.js?v=2401"><\/script>';
   const step3Assets='<link rel="stylesheet" href="v24-step3.css?v=2402"><script src="v24-step3.js?v=2405"><\/script>';
   const mrSeparationAssets='<script src="v24-mr-separation.js?v=2401"><\/script>';
   const step35Assets='<link rel="stylesheet" href="v24-step35.css?v=2445"><script src="v24-step35.js?v=2446"><\/script>';
@@ -51,9 +52,9 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const travelCreditAssets='<script src="v24-travel-credit.js?v=2401"><\/script>';
   const benefitActionsAssets='<script src="v24-benefit-actions.js?v=2401"><\/script>';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+'</head>'):html+navFix;
-  patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',step2Assets+checkClarityAssets+flightSearchControlsAssets+flightLiveAssets+flightOptimizerAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+startFilterAssets+heroPersonalAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+'</body>'):patchedHtml+step2Assets+checkClarityAssets+flightSearchControlsAssets+flightLiveAssets+flightOptimizerAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+startFilterAssets+heroPersonalAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets;
+  patchedHtml=patchedHtml.includes('</body>')?html.replace('</body>',step2Assets+checkClarityAssets+flightSearchControlsAssets+flightLiveAssets+flightOptimizerAssets+flightFeasibilityAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+startFilterAssets+heroPersonalAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+'</body>'):patchedHtml+step2Assets+checkClarityAssets+flightSearchControlsAssets+flightLiveAssets+flightOptimizerAssets+flightFeasibilityAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+startFilterAssets+heroPersonalAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets;
   const remaining=Math.max(0,1450-(Date.now()-introStarted));
-  if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
+  if(remaining)await new Promise(resolve=>setTimeout(resolve,remaining));
   document.getElementById('loading')?.classList.add('leaving');
   await new Promise(resolve=>setTimeout(resolve,240));
   document.open();document.write(patchedHtml);document.close();
