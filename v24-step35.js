@@ -64,7 +64,7 @@ function openManager(){
   const next={};checks.forEach(i=>next[i.dataset.v24s35Prog]=i.checked);
   if(!Object.values(next).some(Boolean)){typeof toast==='function'&&toast('Wähle mindestens ein Programm');return;}
   state.programs={...state.programs,...next};
-  state.card=next.mr?(q('#v24s35-card')?.value||state.card||'none'):'none';
+  if(next.mr)state.card=q('#v24s35-card')?.value||state.card||'none';
   if(next.mm)state.mmStatus=q('#v24s35-mm')?.value||state.mmStatus||'none';
   typeof save==='function'&&save();
   typeof closeModal==='function'&&closeModal();
