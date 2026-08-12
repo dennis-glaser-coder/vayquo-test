@@ -114,9 +114,19 @@ function recommendationHtml(){const r=recommendation();if(!r)return '';return `<
 function openReco(kind){
  if(kind==='complete-amex'||kind==='mm-status'){openManager();return;}
  if(kind!=='payback-amex'||typeof openModal!=='function')return;
- openModal('Passt diese Ergänzung zu dir?',`<div class="v24s35-reco-modal"><div class="v24s35-reco-modal-kicker">OPTIONALE ERGÄNZUNG</div><h3>Du nutzt PAYBACK bereits.</h3><p>Die PAYBACK American Express Karte wäre eine Möglichkeit, auch bei normalen Kartenzahlungen PAYBACK Punkte zu sammeln.</p><div class="v24s35-reco-check"><span>✓ passt zu deinem vorhandenen PAYBACK-Setup</span><span>✓ bleibt klar von deinen vorhandenen Vorteilen getrennt</span><span>✓ kein Kartenvergleich</span></div><div class="v24s35-reco-disclosure">Der aktuelle Testlink führt direkt zu American Express und enthält noch kein Affiliate-Tracking.</div><button class="btn" id="v24s35-out">Offizielle Karte ansehen ↗</button><button class="btn soft" id="v24s35-close">Nicht jetzt</button></div>`);
+ openModal('Passt diese Ergänzung zu dir?',`<div class="v24s35-reco-modal">
+  <div class="v24s35-reco-modal-kicker">MEHR AUS DEINEM PAYBACK</div>
+  <h3>Mehr Punkte aus deinen normalen Ausgaben holen.</h3>
+  <p>Du nutzt PAYBACK bereits. Mit der PAYBACK American Express Karte kannst du zusätzlich PAYBACK Punkte sammeln, wenn du mit der Karte bezahlst.</p>
+  <div class="v24s35-reco-check">
+   <span>✓ dein bestehendes PAYBACK Konto bleibt die Basis</span>
+   <span>✓ zusätzliche PAYBACK Punkte bei Kartenzahlungen</span>
+   <span>✓ dauerhaft keine Jahresgebühr</span>
+  </div>
+  <div class="v24s35-reco-disclosure">So ergänzt die Karte dein vorhandenes PAYBACK Setup, ohne dass du ein neues Punkteprogramm brauchst. Für Punktegutschriften und Kartennutzung gelten die Bedingungen von American Express.</div>
+  <button class="btn" id="v24s35-out">Vorteile der PAYBACK Amex ansehen ↗</button>
+ </div>`);
  q('#v24s35-out')?.addEventListener('click',()=>openExternal(LINKS.paybackAmex));
- q('#v24s35-close')?.addEventListener('click',()=>typeof closeModal==='function'&&closeModal());
 }
 
 function bindCommon(root=document){
