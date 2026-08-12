@@ -72,7 +72,7 @@ function mountBox(){
 }
 function syncVisibility(){
  const box=q('#vayquo-flight-optimizer');if(!box)return;
- box.hidden=q('#vayquo-flight-search-controls')?.hidden===true;
+ const hide=q('#vayquo-flight-search-controls')?.hidden===true;if(box.hidden!==hide)box.hidden=hide;
 }
 function renderLoading(){
  const box=mountBox();if(!box)return;
@@ -131,6 +131,7 @@ function bestMrPath(target,amount,rules){
 function formatPath(path,rules){return path.map(id=>id==='mr_de'?'MR':id==='payback_de'?'PAYBACK':id==='miles_and_more'?'Miles & More':programLabel(id,rules)).join(' → ');}
 function statusInfo(type,missing=0,unit='Punkte'){
  if(type==='ok')return {cls:'ok',text:'Mit deinem Stand möglich'};
+ if(type==='action')return {cls:'warn',text:'Punkte reichen · Zielkonto nötig'};
  if(type==='unknown')return {cls:'warn',text:'Punktestand fehlt'};
  if(type==='inactive')return {cls:'warn',text:'Programm nicht aktiv'};
  if(type==='unsupported')return {cls:'warn',text:'Kein freigegebener Weg'};
@@ -163,7 +164,7 @@ function evaluateOffer(offer,rules,snap){
  if(!snap.mr.active)return {...base,status:statusInfo('inactive'),path:formatPath(mr.best.path,rules),detail:'Membership Rewards ist in VAYQUO nicht aktiv.'};
  if(!snap.mr.known)return {...base,status:statusInfo('unknown'),path:formatPath(mr.best.path,rules),detail:`Für diesen Weg wären im Test ${fmt(required)} MR nötig. Dein MR-Stand ist noch nicht hinterlegt.`};
  const detail=saving?`VAYQUO erkennt den günstigeren Transferweg: ${fmt(saving)} MR weniger als über den direkten Transfer.`:`Benötigt im Test: ${fmt(required)} Membership-Rewards-Punkte. Zielkonto muss vorhanden und mit Amex verknüpft sein.`;
- if(snap.mr.balance>=required)return {...base,status:statusInfo('ok'),path:`${fmt(required)} MR · ${formatPath(mr.best.path,rules)}`,detail};
+ if(snap.mr.balance>=required)return {...base,status:statusInfo('action'),path:`${fmt(required)} MR · ${formatPath(mr.best.path,rules)}`,detail};
  return {...base,status:statusInfo('insufficient',required-snap.mr.balance,'MR'),path:`${fmt(required)} MR · ${formatPath(mr.best.path,rules)}`,detail};
 }
 function balanceHtml(snap){
@@ -178,7 +179,7 @@ function optionHtml(x){
  return `<div class="vqo-option"><div class="vqo-option-top"><div class="vqo-program">${esc(x.program)}</div><div class="vqo-award">${fmt(x.amount)} ${esc(unitLabel(x.target))}<br><span style="font-size:10px;font-weight:650;color:var(--muted,#879391)">+ ${esc(money(x.copay?.amount,x.copay?.currency||'EUR'))}</span></div></div><div class="vqo-path">${esc(x.path)}<br>${esc(x.detail)}</div><span class="vqo-state ${esc(state.cls)}">${esc(state.text)}</span></div>`;
 }
 async function optimize(detail){
- const seq=++requestSeq;lastDetail=detail;
+ const seq=++requestSeq,last=detail;lastDetail=last;
  renderLoading();
  try{
   const [rules,res]=await Promise.all([
@@ -200,7 +201,7 @@ async function optimize(detail){
   syncVisibility();
   window.VAYQUO_FLIGHT_OPTIMIZER={mode:'test',query:detail.query,cashOffers,awardOffers:payload.offers||[],evaluated};
   try{window.dispatchEvent(new CustomEvent('vayquo:flight-optimizer',{detail:window.VAYQUO_FLIGHT_OPTIMIZER}));}catch{}
- }catch{
+ }catch(e){
   if(seq===requestSeq)renderError();
  }
 }
