@@ -126,6 +126,7 @@ function enhanceAirportInput(id,title){
 }
 function enhanceFlight(){
  q('#v24s2-airports')?.remove();
+ enhanceAirportInput('v24-lounge-airport','Flughafen');
  if(!q('#fCash')||!q('#fFrom')||!q('#fTo'))return;
  enhanceAirportInput('fFrom','Abflughafen');enhanceAirportInput('fTo','Zielflughafen');addInfoButtons();
 }
