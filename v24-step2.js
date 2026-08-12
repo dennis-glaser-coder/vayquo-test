@@ -4,7 +4,8 @@
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const norm=s=>(s||'').replace(/\s+/g,' ').trim().toLowerCase();
-const AIRPORT_DATA_URL='https://raw.githubusercontent.com/datasets/airport-codes/main/data/airport-codes.csv';
+const LOCAL_AIRPORT_DATA_URL='v24-airports.csv?v=2401';
+const REMOTE_AIRPORT_DATA_URL='https://raw.githubusercontent.com/datasets/airport-codes/main/data/airport-codes.csv';
 const AIRPORT_CACHE_KEY='vayquo:airports:v1';
 
 const FALLBACK_AIRPORTS=[
@@ -25,6 +26,7 @@ const HELP={
 
 let airports=null;
 let loadingAirports=null;
+let backgroundAirportRefresh=null;
 let activeAirportInput=null;
 let resultLimit=80;
 let airportSource='fallback';
@@ -41,6 +43,29 @@ function parseCSVLine(line){
  }
  out.push(cur);return out;
 }
+function parseAirportCSV(text){
+ const lines=String(text||'').split(/\r?\n/).filter(Boolean);
+ if(!lines.length)return [];
+ const header=parseCSVLine(lines.shift()).map(h=>h.replace(/^\uFEFF/,'').trim());
+ const idx=Object.fromEntries(header.map((h,i)=>[h,i]));
+ const seen=new Set();const rows=[];
+ for(const line of lines){
+  const c=parseCSVLine(line);
+  const code=(c[idx.iata_code]||'').trim().toUpperCase();
+  const type=(c[idx.type]||'').trim();
+  if(!/^[A-Z]{3}$/.test(code)||type==='closed'||seen.has(code))continue;
+  seen.add(code);
+  rows.push({code,name:(c[idx.name]||'').trim(),city:(c[idx.municipality]||'').trim(),country:(c[idx.iso_country]||'').trim()});
+ }
+ return rows;
+}
+function mergeAirports(...lists){
+ const byCode=new Map();
+ for(const list of lists){
+  for(const airport of list||[]){if(airport?.code)byCode.set(airport.code,airport);}
+ }
+ return Array.from(byCode.values()).sort((a,b)=>a.code.localeCompare(b.code));
+}
 
 function readAirportCache(){
  try{
@@ -53,32 +78,43 @@ function readAirportCache(){
 function writeAirportCache(rows){
  try{localStorage.setItem(AIRPORT_CACHE_KEY,JSON.stringify(rows));}catch{}
 }
-
+async function loadLocalAirports(){
+ try{
+  const res=await fetch(LOCAL_AIRPORT_DATA_URL,{cache:'force-cache'});
+  if(!res.ok)throw new Error('local airport list '+res.status);
+  const rows=parseAirportCSV(await res.text());
+  return rows.length>=100?mergeAirports(rows,FALLBACK_AIRPORTS):FALLBACK_AIRPORTS;
+ }catch(err){console.warn('VAYQUO local airport list fallback',err);return FALLBACK_AIRPORTS;}
+}
+function airportCountText(list=airports||FALLBACK_AIRPORTS){
+ const suffix=airportSource==='cached'?' · vollständig gespeichert':airportSource==='expanded'?' · vollständig geladen':airportSource==='local'?' · lokal verfügbar':' · Basisliste';
+ return `${new Intl.NumberFormat('de-DE').format(list.length)} Flughäfen mit IATA-Code${suffix}`;
+}
+function updateAirportCount(){
+ const count=q('#v24s2-airport-count');if(count)count.textContent=airportCountText();
+}
+function refreshAirportsInBackground(){
+ if(backgroundAirportRefresh)return backgroundAirportRefresh;
+ backgroundAirportRefresh=(async()=>{
+  try{
+   const res=await fetch(REMOTE_AIRPORT_DATA_URL,{cache:'force-cache'});
+   if(!res.ok)throw new Error('airport list '+res.status);
+   const rows=parseAirportCSV(await res.text());
+   if(rows.length<=1000)return;
+   airports=mergeAirports(rows,FALLBACK_AIRPORTS);airportSource='expanded';writeAirportCache(airports);
+   updateAirportCount();renderAirportResults();
+  }catch(err){console.warn('VAYQUO airport list stays local',err);}
+ })();
+ return backgroundAirportRefresh;
+}
 async function loadAirports(){
  if(airports)return airports;
  if(loadingAirports)return loadingAirports;
  loadingAirports=(async()=>{
   const cached=readAirportCache();
-  if(cached?.length>1000){airports=cached;airportSource='local';return airports;}
-  try{
-   const res=await fetch(AIRPORT_DATA_URL,{cache:'force-cache'});
-   if(!res.ok)throw new Error('airport list '+res.status);
-   const lines=(await res.text()).split(/\r?\n/).filter(Boolean);
-   const header=parseCSVLine(lines.shift());
-   const idx=Object.fromEntries(header.map((h,i)=>[h,i]));
-   const seen=new Set();const rows=[];
-   for(const line of lines){
-    const c=parseCSVLine(line);
-    const code=(c[idx.iata_code]||'').trim().toUpperCase();
-    const type=(c[idx.type]||'').trim();
-    if(!/^[A-Z]{3}$/.test(code)||type==='closed'||seen.has(code))continue;
-    seen.add(code);
-    rows.push({code,name:(c[idx.name]||'').trim(),city:(c[idx.municipality]||'').trim(),country:(c[idx.iso_country]||'').trim()});
-   }
-   rows.sort((a,b)=>a.code.localeCompare(b.code));
-   if(rows.length>1000){airports=rows;airportSource='local';writeAirportCache(rows);}
-   else airports=FALLBACK_AIRPORTS;
-  }catch(err){console.warn('VAYQUO airport list fallback',err);airports=FALLBACK_AIRPORTS;airportSource='fallback';}
+  if(cached?.length>1000){airports=mergeAirports(cached,FALLBACK_AIRPORTS);airportSource='cached';return airports;}
+  airports=await loadLocalAirports();airportSource=airports.length>FALLBACK_AIRPORTS.length?'local':'fallback';
+  refreshAirportsInBackground();
   return airports;
  })();
  return loadingAirports;
@@ -137,10 +173,7 @@ async function openAirportPicker(input){
  activeAirportInput=input;ensureAirportSheet();resultLimit=80;
  q('#v24s2-airport-backdrop').classList.add('is-open');q('#v24s2-airport-sheet').classList.add('is-open');
  const search=q('#v24s2-airport-search');search.value='';renderAirportResults();setTimeout(()=>search.focus(),120);
- const list=await loadAirports();
- const suffix=airportSource==='local'?' · lokal gespeichert':' · Basisliste';
- q('#v24s2-airport-count').textContent=`${new Intl.NumberFormat('de-DE').format(list.length)} Flughäfen mit IATA-Code${suffix}`;
- renderAirportResults();
+ await loadAirports();updateAirportCount();renderAirportResults();
 }
 function closeAirportPicker(){q('#v24s2-airport-backdrop')?.classList.remove('is-open');q('#v24s2-airport-sheet')?.classList.remove('is-open');activeAirportInput=null;}
 function selectAirport(code){
