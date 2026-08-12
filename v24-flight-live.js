@@ -36,7 +36,7 @@ function dateInput(returnTrip=false){
  if(direct)return direct;
  const root=flightBlock();
  const dates=qa('input[type="date"]',root);
- if(returnTrip)return dates[1]||null;
+ if(returnTrip)return dates.find(el=>el.id!=='fDate'&&el.id!=='fDepartureDate'&&el.id!=='flightDate')||dates[1]||null;
  if(dates[0])return dates[0];
  const inputs=qa('input',root);
  return inputs.find(el=>/reisedatum|hinflug|abflugdatum|datum/i.test(text(el.closest('.field')?.querySelector('label'))))||null;
@@ -56,19 +56,22 @@ function cabinClass(){
  return 'ECONOMY';
 }
 
-function adults(){
- const el=q('#fAdults,#flightAdults,#travellers,#passengers');
- const n=Math.trunc(Number(el?.value));
- return Number.isFinite(n)&&n>=1?Math.min(9,n):1;
+function passengerCount(id,min=0){
+ const n=Math.trunc(Number(q('#'+id)?.value));
+ return Number.isFinite(n)?Math.max(min,Math.min(9,n)):min;
 }
+function passengers(){return {adults:passengerCount('fAdults',1),children:passengerCount('fChildren',0),infants:passengerCount('fInfants',0)};}
+function tripType(){return q('#fTripType')?.value==='roundtrip'?'roundtrip':'oneway';}
 
 function buildQuery(){
  const origin=String(q('#fFrom')?.value||'').trim().toUpperCase();
  const destination=String(q('#fTo')?.value||'').trim().toUpperCase();
  const departureDate=normalizeDate(dateInput(false)?.value);
- const returnDate=normalizeDate(dateInput(true)?.value);
- if(!/^[A-Z]{3}$/.test(origin)||!/^[A-Z]{3}$/.test(destination)||origin===destination||!departureDate)return null;
- return {origin,destination,departureDate,returnDate:returnDate||undefined,adults:adults(),cabinClass:cabinClass(),currency:'EUR'};
+ const kind=tripType();
+ const returnDate=kind==='roundtrip'?normalizeDate(dateInput(true)?.value):'';
+ const pax=passengers();
+ if(!/^[A-Z]{3}$/.test(origin)||!/^[A-Z]{3}$/.test(destination)||origin===destination||!departureDate||(kind==='roundtrip'&&!returnDate))return null;
+ return {origin,destination,departureDate,tripType:kind,returnDate:returnDate||undefined,...pax,cabinClass:cabinClass(),currency:'EUR'};
 }
 
 function signature(query){return JSON.stringify(query);}
@@ -125,6 +128,7 @@ function setStatus(message,type='info'){
 
 function setManualVisibility(show){
  MANUAL_IDS.forEach(id=>{const wrap=fieldWrap(id);if(wrap)wrap.hidden=!show;});
+ const controls=q('#vayquo-flight-search-controls');if(controls)controls.hidden=show;
  const results=q('#vayquo-flight-results');
  if(results)results.hidden=show;
 }
@@ -302,10 +306,11 @@ async function search(query){
 }
 
 function focusMissing(){
- const from=q('#fFrom'),to=q('#fTo'),date=dateInput(false);
+ const from=q('#fFrom'),to=q('#fTo'),date=dateInput(false),ret=dateInput(true);
  if(!/^[A-Z]{3}$/.test(String(from?.value||'').trim().toUpperCase()))return from?.click?.();
  if(!/^[A-Z]{3}$/.test(String(to?.value||'').trim().toUpperCase()))return to?.click?.();
- date?.focus?.();
+ if(!normalizeDate(date?.value))return date?.focus?.();
+ if(tripType()==='roundtrip'&&!normalizeDate(ret?.value))return ret?.focus?.();
 }
 
 document.addEventListener('click',ev=>{
@@ -316,7 +321,7 @@ document.addEventListener('click',ev=>{
  ev.stopImmediatePropagation();
  const query=buildQuery();
  if(!query){
-  setStatus('Bitte Abflughafen, Zielflughafen und Reisedatum auswählen.','error');
+  setStatus(tripType()==='roundtrip'?'Bitte Abflughafen, Zielflughafen, Hin- und Rückflugdatum auswählen.':'Bitte Abflughafen, Zielflughafen und Reisedatum auswählen.','error');
   focusMissing();
   return;
  }
