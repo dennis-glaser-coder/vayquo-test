@@ -5,7 +5,6 @@ const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const AMEX_RESTAURANTS='https://www.amex.de/platinum-restaurantguthaben';
 const AMEX_LOGIN='https://www.americanexpress.com/de-de/account/login';
-const BENEFIT_CARD_SELECTOR='.v23-benefit-wrap,.v19-benefit,.benefit,.benefit-card,.card,[class*="benefit"]';
 
 function openExternal(url){
   try{window.open(url,'_blank','noopener,noreferrer');}
@@ -52,55 +51,35 @@ function closeSheet(){
   q('#v24-sheet')?.classList.remove('is-open');
 }
 
-function restaurantOverviewCards(){
-  const found=[];
-  for(const el of qa('h1,h2,h3,h4,strong,b,span,small,p,div')){
+function findRestaurantTrigger(){
+  const nodes=qa('button,a,[role="button"],span,small,p,div');
+  for(const el of nodes){
     if(el.closest('#v24-sheet,#v24s3-sheet,[role="dialog"]'))continue;
     const text=(el.textContent||'').replace(/\s+/g,' ').trim();
-    if(text.length>80||!/^restaurantguthaben(?:\b|\s|$)/i.test(text))continue;
-    const card=el.closest(BENEFIT_CARD_SELECTOR);
-    if(card&&!found.includes(card))found.push(card);
+    if(!/^Teilnehmende Restaurants (?:finden|öffnen)\s*→?$/i.test(text))continue;
+    return el.closest('button,a,[role="button"],[onclick]')||el;
   }
-  return found;
-}
-
-function existingRestaurantTrigger(card){
-  const direct=qa('button,a,[role="button"],[onclick]',card)
-    .map(el=>({el,text:(el.textContent||'').replace(/\s+/g,' ').trim()}))
-    .filter(x=>/restaurants?\b|bedingungen|nutzen|öffnen|prüfen/i.test(x.text))
-    .sort((a,b)=>a.text.length-b.text.length);
-  if(direct[0])return direct[0].el;
-
-  const textTarget=qa('span,small,p,div',card)
-    .map(el=>({el,text:(el.textContent||'').replace(/\s+/g,' ').trim()}))
-    .filter(x=>x.text.length>0&&x.text.length<90&&/restaurants?\b|bedingungen|nutzen|öffnen|prüfen/i.test(x.text))
-    .sort((a,b)=>a.text.length-b.text.length)[0];
-  return textTarget?.el||null;
+  return null;
 }
 
 function bindRestaurantOverview(){
-  for(const card of restaurantOverviewCards()){
-    if(card.dataset.v24RestaurantCard==='1')continue;
-    const trigger=existingRestaurantTrigger(card);
-    if(!trigger)continue;
-    card.dataset.v24RestaurantCard='1';
-    card.setAttribute('role','button');
-    card.setAttribute('tabindex','0');
-    card.style.cursor='pointer';
+  const trigger=findRestaurantTrigger();
+  if(!trigger)return;
+  const wrap=trigger.closest('.v23-benefit-wrap')||trigger;
+  if(wrap.dataset.v24RestaurantCard==='1')return;
+  wrap.dataset.v24RestaurantCard='1';
+  wrap.classList.add('v24-restaurant-wrap');
+  wrap.style.cursor='pointer';
 
-    const activate=ev=>{
-      if(ev.target?.closest?.('button,a,input,select,textarea,[role="button"]'))return;
-      ev.preventDefault();
-      ev.stopPropagation();
-      trigger.click();
-    };
-    card.addEventListener('click',activate);
-    card.addEventListener('keydown',ev=>{
-      if((ev.key!=='Enter'&&ev.key!==' ')||ev.target!==card)return;
-      ev.preventDefault();
-      trigger.click();
-    });
-  }
+  const handler=ev=>{
+    if(ev.target.closest?.('#v24-sheet,#v24s3-sheet'))return;
+    if(ev.target===trigger||trigger.contains?.(ev.target))return;
+    if(ev.target.closest?.('button,a,input,select,textarea,[role="button"]'))return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    trigger.click();
+  };
+  wrap.addEventListener('click',handler,true);
 }
 
 function enhanceRestaurant(){
