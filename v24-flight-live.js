@@ -10,20 +10,14 @@ let lastSignature='';
 let inFlight=null;
 let seq=0;
 
-function commonRoot(){
- const from=q('#fFrom'),to=q('#fTo');
- if(!from||!to)return q('#app')||document;
- let node=from.parentElement;
- for(let i=0;i<8&&node;i++,node=node.parentElement){if(node.contains(to))return node;}
- return q('#app')||document;
-}
+function flightRoot(){return q('#app')||document;}
 
 function dateInput(returnTrip=false){
  const direct=returnTrip
   ?q('#fReturnDate,#fReturn,#flightReturnDate')
   :q('#fDate,#fDepartureDate,#flightDate');
  if(direct)return direct;
- const root=commonRoot();
+ const root=flightRoot();
  const dates=Array.from(root.querySelectorAll('input[type="date"]'));
  if(returnTrip)return dates[1]||null;
  if(dates[0])return dates[0];
@@ -105,7 +99,8 @@ async function search(query){
 
 function relevantAction(btn){
  if(!btn||btn.closest('#bottom,.bottom,.v24s2-info-sheet,.v24s2-airport-sheet'))return false;
- const root=commonRoot();
+ if(!q('#fFrom')||!q('#fTo'))return false;
+ const root=flightRoot();
  if(root!==document&&!root.contains(btn))return false;
  return /weiter|flug|prüfen|vergleichen|auswählen|suchen/i.test(text(btn));
 }
