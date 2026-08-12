@@ -8,10 +8,11 @@ const CTA_COPY='Beste Nutzung finden';
 const META_KEY='vayquo:balanceMeta';
 
 const PROGRAMS={
-  mr:{label:'Membership Rewards',unit:'Punkte',mono:'MR'},
-  pb:{label:'PAYBACK',unit:'Punkte',mono:'PB'},
-  mm:{label:'Miles & More',unit:'Meilen',mono:'M&M'}
+  mr:{label:'Membership Rewards',unit:'Punkte',mono:'MR',kicker:'MEMBERSHIP REWARDS'},
+  pb:{label:'PAYBACK',unit:'Punkte',mono:'PB',kicker:'PAYBACK'},
+  mm:{label:'Miles & More',unit:'Meilen',mono:'M&M',kicker:'MILES & MORE'}
 };
+const KNOWN_KICKERS=new Set(['MEMBERSHIP REWARDS','AMERICAN EXPRESS','PAYBACK','MILES & MORE','DEIN VAYQUO SETUP','VAYQUO']);
 
 function text(el){return (el?.textContent||'').replace(/\s+/g,' ').trim();}
 function fmt(n){return new Intl.NumberFormat('de-DE',{maximumFractionDigits:0}).format(Math.max(0,Math.round(Number(n)||0)));}
@@ -29,16 +30,23 @@ function startActive(){
 }
 
 function findHero(){
-  const title=qa('#app *').find(el=>el.children.length===0&&text(el)===BRAND_TITLE);
-  if(!title)return null;
-  let node=title.parentElement;
-  const app=q('#app');
-  for(let i=0;i<7&&node&&node!==app;i++,node=node.parentElement){
+  const app=q('#app');if(!app)return null;
+  const why=qa('button,a,[role="button"]',app).find(el=>/^Warum\?$/i.test(text(el)));
+  if(!why)return null;
+  let node=why.parentElement;
+  for(let i=0;i<8&&node&&node!==app;i++,node=node.parentElement){
     const controls=qa('button,a,[role="button"]',node);
-    const hasWhy=controls.some(el=>/^Warum\?$/i.test(text(el)));
-    if(hasWhy&&controls.length>=2)return node;
+    const heading=q('h1,h2,h3',node);
+    if(heading&&controls.length>=2)return node;
   }
   return null;
+}
+
+function heroKicker(){
+  const active=activePrograms();
+  if(active.length===1)return PROGRAMS[active[0]].kicker;
+  if(active.length>1)return 'DEIN VAYQUO SETUP';
+  return 'VAYQUO';
 }
 
 function singleHeroCopy(id){
@@ -49,7 +57,7 @@ function singleHeroCopy(id){
 
 function heroCopy(){
   const active=activePrograms();
-  if(!active.length)return null;
+  if(!active.length)return 'Wähle deine Programme aus, damit VAYQUO dein Setup auswerten kann.';
   if(active.length===1)return singleHeroCopy(active[0]);
 
   const missing=active.filter(id=>!known(id));
@@ -58,14 +66,29 @@ function heroCopy(){
   return `${active.length} Programme sind hinterlegt. VAYQUO führt deine Punkte, Meilen und Vorteile in einer Auswertung zusammen.`;
 }
 
-function findBody(hero){
-  const candidates=qa('*',hero).filter(el=>{
-    if(el.children.length!==0)return false;
-    if(el.closest('button,a,[role="button"]'))return false;
+function findTitle(hero){
+  return qa('h1,h2,h3',hero).find(el=>!el.closest('button,a,[role="button"]'))||null;
+}
+
+function findKicker(hero,title){
+  const exact=qa('*',hero).find(el=>el.children.length===0&&el!==title&&KNOWN_KICKERS.has(text(el)));
+  if(exact)return exact;
+  return qa('*',hero).find(el=>{
+    if(el.children.length!==0||el===title||el.closest('button,a,[role="button"]'))return false;
     const t=text(el);
-    if(!t||t===BRAND_TITLE||/^Warum\?$/i.test(t))return false;
-    if(t.length<20||t.length>320)return false;
-    return true;
+    return t.length>1&&t.length<=28&&t===t.toUpperCase()&&/[A-ZÄÖÜ]/.test(t);
+  })||null;
+}
+
+function findBody(hero,title,kicker){
+  const paragraphs=qa('p',hero).filter(el=>el!==title&&el!==kicker&&!el.closest('button,a,[role="button"]')&&text(el).length>=20&&text(el).length<=320);
+  if(paragraphs.length)return paragraphs.sort((a,b)=>text(b).length-text(a).length)[0];
+  const candidates=qa('*',hero).filter(el=>{
+    if(el.children.length!==0||el===title||el===kicker)return false;
+    if(el.matches('h1,h2,h3,h4,h5,h6')||el.closest('button,a,[role="button"]'))return false;
+    const t=text(el);
+    if(!t||/^Warum\?$/i.test(t)||KNOWN_KICKERS.has(t))return false;
+    return t.length>=20&&t.length<=320;
   });
   return candidates.sort((a,b)=>text(b).length-text(a).length)[0]||null;
 }
@@ -247,16 +270,23 @@ function render(){
   q('#v24na-card')?.remove();
   if(!startActive())return;
   const hero=findHero();if(!hero)return;
-  const bodyCopy=heroCopy();if(!bodyCopy)return;
-  const body=findBody(hero);
+  const title=findTitle(hero);
+  const kicker=findKicker(hero,title);
+  const body=findBody(hero,title,kicker);
   const primary=findPrimary(hero);
+
+  if(kicker&&text(kicker)!==heroKicker())kicker.textContent=heroKicker();
+  if(title&&text(title)!==BRAND_TITLE)title.textContent=BRAND_TITLE;
+  const bodyCopy=heroCopy();
   if(body&&text(body)!==bodyCopy)body.textContent=bodyCopy;
+
   if(primary){
     const leaf=qa('*',primary).find(el=>el.children.length===0&&text(el)&&!/^→$/.test(text(el)));
     if(leaf&&text(leaf)!==CTA_COPY)leaf.textContent=CTA_COPY;
     else if(!leaf&&text(primary)!==CTA_COPY)primary.textContent=CTA_COPY;
     bindPrimary(primary);
   }
+  hero.dataset.v24heroState=activePrograms().join(',')||'empty';
 }
 
 let scheduled=false;
@@ -266,5 +296,6 @@ function schedule(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 document.addEventListener('click',()=>setTimeout(schedule,0));
+document.addEventListener('change',()=>setTimeout(schedule,0));
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 })();
