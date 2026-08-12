@@ -12,6 +12,7 @@ function programs(){
   try{return state?.programs||{};}catch{return {};}
 }
 function ownsPaybackAmex(){return PAYBACK_AMEX.has(card());}
+function setText(el,value){if(el&&el.textContent!==value)el.textContent=value;}
 
 function migrateLegacy(){
   try{
@@ -24,20 +25,20 @@ function migrateLegacy(){
 
 function patchStartChip(){
   const chip=q('[data-v24sp-program="mr"]');
-  if(chip&&chip.textContent.trim()!=='Membership Rewards')chip.textContent='Membership Rewards';
+  setText(chip,'Membership Rewards');
 }
 
 function patchBenefitsSetup(){
   qa('.v24s35-chip').forEach(chip=>{
+    if(chip.dataset.v24MrSeparated==='1')return;
     const b=q('b',chip);
     if(!b)return;
     const t=(chip.textContent||'').replace(/\s+/g,' ').trim();
-    if(programs().mr&&(b.textContent.trim()==='AX'||/Membership Rewards|Platinum Card|Gold Card|Blue Card|American Express Card|BMW/i.test(t))){
-      b.textContent='MR';
-      const nodes=Array.from(chip.childNodes).filter(n=>n.nodeType===Node.TEXT_NODE);
-      nodes.forEach(n=>n.remove());
-      chip.appendChild(document.createTextNode('Membership Rewards'));
-    }
+    if(!programs().mr||!(b.textContent.trim()==='AX'||/Membership Rewards|Platinum Card|Gold Card|Blue Card|American Express Card|BMW/i.test(t)))return;
+    setText(b,'MR');
+    Array.from(chip.childNodes).filter(n=>n.nodeType===Node.TEXT_NODE).forEach(n=>n.remove());
+    chip.appendChild(document.createTextNode('Membership Rewards'));
+    chip.dataset.v24MrSeparated='1';
   });
 }
 
@@ -46,17 +47,16 @@ function patchManager(){
   if(!mrCheck)return;
   const item=mrCheck.closest('label');
   if(item){
-    const mono=q('.mi',item);if(mono)mono.textContent='MR';
-    const strong=q('strong',item);if(strong)strong.textContent='Membership Rewards';
+    setText(q('.mi',item),'MR');
+    setText(q('strong',item),'Membership Rewards');
     const copy=qa('span',item).find(el=>el.children.length===0&&/Punkte und Kartenvorteile/i.test(el.textContent||''));
-    if(copy)copy.textContent='Punkte, Transfers und deine Amex-Karte';
+    setText(copy,'Punkte, Transfers und deine Amex-Karte');
   }
   const select=q('#v24s35-card');
   if(select){
     ['payback','dmpayback'].forEach(value=>q(`option[value="${value}"]`,select)?.remove());
     const field=select.closest('.field');
-    const label=q('label',field);
-    if(label)label.textContent='Welche American Express Karte nutzt du mit Membership Rewards?';
+    setText(q('label',field),'Welche American Express Karte nutzt du mit Membership Rewards?');
   }
 }
 
