@@ -5,6 +5,7 @@ const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const AMEX_RESTAURANTS='https://www.amex.de/platinum-restaurantguthaben';
 const AMEX_LOGIN='https://www.americanexpress.com/de-de/account/login';
+const BENEFIT_CARD_SELECTOR='.v23-benefit-wrap,.v19-benefit,.benefit,.benefit-card,.card,[class*="benefit"]';
 
 function openExternal(url){
   try{window.open(url,'_blank','noopener,noreferrer');}
@@ -52,10 +53,15 @@ function closeSheet(){
 }
 
 function restaurantOverviewCards(){
-  return qa('.v23-benefit-wrap,.v19-benefit,.benefit,.benefit-card,.card,[class*="benefit"]')
-    .filter(el=>!el.closest('#v24-sheet,#v24s3-sheet,[role="dialog"]'))
-    .filter(el=>/restaurantguthaben/i.test((el.textContent||'').replace(/\s+/g,' ')))
-    .filter(el=>!el.parentElement?.closest('.v23-benefit-wrap,.v19-benefit,.benefit,.benefit-card,.card,[class*="benefit"]')?.textContent?.match(/restaurantguthaben/i));
+  const found=[];
+  for(const el of qa('h1,h2,h3,h4,strong,b,span,small,p,div')){
+    if(el.closest('#v24-sheet,#v24s3-sheet,[role="dialog"]'))continue;
+    const text=(el.textContent||'').replace(/\s+/g,' ').trim();
+    if(text.length>80||!/^restaurantguthaben(?:\b|\s|$)/i.test(text))continue;
+    const card=el.closest(BENEFIT_CARD_SELECTOR);
+    if(card&&!found.includes(card))found.push(card);
+  }
+  return found;
 }
 
 function existingRestaurantTrigger(card){
@@ -90,8 +96,7 @@ function bindRestaurantOverview(){
     };
     card.addEventListener('click',activate);
     card.addEventListener('keydown',ev=>{
-      if(ev.key!=='Enter'&&ev.key!==' ')return;
-      if(ev.target!==card)return;
+      if((ev.key!=='Enter'&&ev.key!==' ')||ev.target!==card)return;
       ev.preventDefault();
       trigger.click();
     });
