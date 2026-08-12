@@ -12,6 +12,11 @@ function openAmexAirport(code){
  catch{location.href=url;}
 }
 
+function hasPlatinumAccess(){
+ try{return !!state?.programs?.mr&&state?.card==='platinum';}
+ catch{return false;}
+}
+
 function findVisibleLoungeDialog(){
  const titles=qa('h1,h2,h3,h4,strong,b,span,div').filter(el=>clean(el.textContent)==='Lounge für deinen Flug prüfen');
  for(const title of titles){
@@ -65,6 +70,22 @@ function triggerAirportPickerEnhancement(dialog,input){
  setTimeout(()=>restoreAirportIds(dialog,input),120);
 }
 
+function renderPlatinumAccess(dialog,input){
+ const existing=q('[data-v24-lounge-platinum]',dialog);
+ if(!hasPlatinumAccess()){
+  existing?.remove();
+  return;
+ }
+ if(existing)return;
+ const field=input.closest('label,.field,.form-row,.form-group')||input.parentElement;
+ if(!field)return;
+ const box=document.createElement('div');
+ box.dataset.v24LoungePlatinum='1';
+ box.style.cssText='margin:0 0 14px;padding:13px 14px;border:1px solid rgba(154,125,80,.28);border-radius:14px;background:rgba(154,125,80,.08);display:flex;flex-direction:column;gap:4px;';
+ box.innerHTML='<strong style="font-size:13px;line-height:1.35;color:#2f3935;">✓ Lounge-Zugang über deine Platinum Card</strong><span style="font-size:11px;line-height:1.45;color:#727d79;">Teilnehmende Lounge und Zugangsbedingungen für deinen Flughafen prüfen.</span>';
+ field.insertAdjacentElement('beforebegin',box);
+}
+
 function replaceCopy(dialog){
  const candidates=qa('p,div,span,small',dialog);
  const note=candidates.find(el=>/Öffnungszeiten, Zugang und teilnehmende Lounges können sich ändern/i.test(clean(el.textContent)));
@@ -105,6 +126,7 @@ function enhanceVisibleLounge(){
  const dialog=findVisibleLoungeDialog();if(!dialog)return;
  const input=findAirportInput(dialog);if(!input)return;
  triggerAirportPickerEnhancement(dialog,input);
+ renderPlatinumAccess(dialog,input);
  replaceCopy(dialog);
  removePriorityPass(dialog);
  wirePrimary(dialog,input);
