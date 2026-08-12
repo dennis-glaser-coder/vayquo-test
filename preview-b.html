@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#151617">
+<title>VAYQUO · Variante B</title>
+<style>html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}.preview-loading{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px;box-sizing:border-box}.preview-loading b{display:block;letter-spacing:.2em}.preview-loading small{display:block;margin-top:10px;color:#9ba9a8}</style>
+</head>
+<body>
+<div class="preview-loading"><div><b>VAYQUO</b><small>Variante B wird geladen …</small></div></div>
+<script>
+(async()=>{
+ try{
+  let src=await fetch('index.html?v=ab-b',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('INDEX');return r.text();});
+  const marker="const premiumAssets='<link rel=\"stylesheet\" href=\"v24-premium-system.css?v=2402\"><script src=\"v24-premium-system.js?v=2402\"><\\/script>';";
+  const extra="\n  const benchmarkAssets='<link rel=\"stylesheet\" href=\"v24-benchmark-b.css?v=2401\"><script src=\"v24-benchmark-b.js?v=2401\"><\\/script>';";
+  if(!src.includes(marker)||!src.includes('premiumAssets+navStabilityAssets'))throw new Error('MARKER');
+  src=src.replace(marker,marker+extra).replaceAll('premiumAssets+navStabilityAssets','premiumAssets+benchmarkAssets+navStabilityAssets');
+  document.open();document.write(src);document.close();
+ }catch(e){
+  console.error(e);
+  document.body.innerHTML='<div class="preview-loading"><div><b>VAYQUO</b><small>Die B-Vorschau konnte nicht geladen werden.</small></div></div>';
+ }
+})();
+</script>
+</body>
+</html>
