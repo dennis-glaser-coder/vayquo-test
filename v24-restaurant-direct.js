@@ -5,6 +5,8 @@ const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const AMEX_RESTAURANTS='https://www.amex.de/platinum-restaurantguthaben';
 const AMEX_LOGIN='https://www.americanexpress.com/de-de/account/login';
+const OLD_RESTAURANT_COPY='Die teilnehmenden Restaurants können sich ändern. Deshalb führt VAYQUO dich zur offiziellen aktuellen Restaurantliste statt eine veraltete Kopie zu speichern.';
+const NEW_RESTAURANT_COPY='Immer aktuell: VAYQUO öffnet direkt die offizielle Amex-Restaurantliste.';
 
 function openExternal(url){
   try{window.open(url,'_blank','noopener,noreferrer');}
@@ -82,6 +84,13 @@ function bindRestaurantOverview(){
   wrap.addEventListener('click',handler,true);
 }
 
+function polishRestaurantCopy(){
+  for(const el of qa('p,small,span,div')){
+    const text=(el.textContent||'').replace(/\s+/g,' ').trim();
+    if(text===OLD_RESTAURANT_COPY)el.textContent=NEW_RESTAURANT_COPY;
+  }
+}
+
 function enhanceRestaurant(){
   const place=q('#v24-rest-place');
   const oldButton=q('#v24-rest-check');
@@ -123,7 +132,7 @@ function schedule(){
   scheduled=true;
   requestAnimationFrame(()=>{
     scheduled=false;
-    try{bindRestaurantOverview();enhanceRestaurant();}
+    try{bindRestaurantOverview();polishRestaurantCopy();enhanceRestaurant();}
     catch(e){console.warn('VAYQUO restaurant direct',e);}
   });
 }
