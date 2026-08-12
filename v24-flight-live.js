@@ -244,8 +244,8 @@ function patchUi(){
  }else{
   setText(btn,'Flüge suchen');
   setText(fallback,'Angebot selbst vergleichen');
-  if(latestOffers.length)renderOffers(latestOffers);
-  else if(window.VAYQUO_FLIGHT_LIVE?.status!=='loading'&&window.VAYQUO_FLIGHT_LIVE?.status!=='success')setStatus('');
+  if(latestOffers.length&&!q('#vayquo-flight-results'))renderOffers(latestOffers);
+  else if(!latestOffers.length&&window.VAYQUO_FLIGHT_LIVE?.status!=='loading'&&window.VAYQUO_FLIGHT_LIVE?.status!=='success')setStatus('');
  }
 }
 
