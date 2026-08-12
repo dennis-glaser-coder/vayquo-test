@@ -63,7 +63,7 @@ function openSixt(){
       <div><div class="v24s3-kicker">PLATINUM · MOBILITÄT</div><h3>SIXT ride</h3></div>
       <button type="button" class="v24s3-close" aria-label="Schließen">×</button>
     </div>
-    <div class="v24s3-status"><span>Vor der ersten Nutzung</span><strong>SIXT ride bei Amex aktivieren</strong><small>Einmal registrieren und bei SIXT dieselbe E-Mail-Adresse verwenden. VAYQUO kann die Aktivierung nicht automatisch prüfen.</small></div>
+    <div class="v24s3-status"><span>Vor der ersten Nutzung</span><strong>Vorteil bei Amex aktivieren</strong><small>Einmal registrieren und bei SIXT dieselbe E-Mail-Adresse verwenden. VAYQUO kann die Aktivierung nicht automatisch prüfen.</small></div>
     <button type="button" class="v24s3-secondary" id="v24s3-activate">Aktivierung bei Amex prüfen <span>↗</span></button>
     ${status}
     <button type="button" class="v24s3-primary" id="v24s3-open">Fahrt bei SIXT ride suchen <span>↗</span></button>
