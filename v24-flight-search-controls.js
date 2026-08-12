@@ -68,6 +68,7 @@ function ensureStyle(){
  .vayquo-traveller-name{font-size:14px;font-weight:700}.vayquo-traveller-age{margin-top:2px;font-size:11px;color:var(--muted,#879391)}
  .vayquo-stepper{display:flex;align-items:center;gap:9px;white-space:nowrap}.vayquo-stepper button{flex:0 0 36px;width:36px;height:36px;padding:0;border-radius:50%;border:1px solid rgba(120,126,124,.25);background:transparent;color:inherit;font:inherit;font-size:21px;line-height:1}.vayquo-stepper output{min-width:20px;text-align:center;font-size:14px;font-weight:700}
  #vayquo-return-date-wrap{margin-top:12px}
+ #vayquo-flight-results::before{content:'Testdaten · Preise und Verfügbarkeit sind noch nicht live';display:block;box-sizing:border-box;padding:9px 11px;border:1px solid rgba(120,126,124,.14);background:rgba(255,255,255,.35);border-radius:12px;font-size:11px;line-height:1.4;color:var(--muted,#879391)}
  @media(max-width:420px){.vayquo-search-extra-grid{--vayquo-extra-gap:10px}.vayquo-extra-control{padding:0 11px;font-size:14px}.vayquo-traveller-panel{padding:4px 12px}.vayquo-traveller-row{gap:8px}.vayquo-stepper{gap:7px}.vayquo-stepper button{flex-basis:34px;width:34px;height:34px}}
  `;
  document.head.appendChild(style);
