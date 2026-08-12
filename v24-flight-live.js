@@ -75,7 +75,7 @@ function primaryButton(){
  const root=flightBlock();
  const candidates=qa('button,[role="button"]',root).filter(btn=>!btn.closest('#bottom,.bottom,.v24s2-info-sheet,.v24s2-airport-sheet'));
  return candidates.find(btn=>btn.dataset.vayquoLivePrimary==='1')
-  ||candidates.find(btn=>/^(jetzt prüfen|vergleichen|flüge suchen)$/i.test(text(btn)))
+  ||candidates.find(btn=>/^(jetzt prüfen|vergleichen|flüge suchen|diesen flug bewerten)$/i.test(text(btn)))
   ||null;
 }
 
