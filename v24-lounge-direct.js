@@ -62,6 +62,7 @@ function triggerAirportPickerEnhancement(dialog,input){
  const pulse=document.createElement('span');
  pulse.hidden=true;pulse.setAttribute('aria-hidden','true');
  document.body.appendChild(pulse);pulse.remove();
+ setTimeout(()=>restoreAirportIds(dialog,input),120);
 }
 
 function replaceCopy(dialog){
