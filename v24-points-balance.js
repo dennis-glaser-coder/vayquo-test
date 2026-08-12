@@ -52,9 +52,9 @@ function panelHtml(){
  const ids=activePrograms();
  if(!ids.length)return `<section id="v24pb-panel" class="v24pb-panel"><div class="v24pb-head"><div><span>DEINE PUNKTESTÄNDE</span><h2>Noch kein Programm aktiv</h2><p>Aktiviere zuerst ein Programm. Danach kannst du seinen aktuellen Stand hier direkt pflegen.</p></div></div></section>`;
  return `<section id="v24pb-panel" class="v24pb-panel">
-  <div class="v24pb-head"><div><span>DEINE PUNKTESTÄNDE</span><h2>Was VAYQUO gerade kennt</h2><p>Halte deine Stände hier aktuell. VAYQUO nutzt sie für Berechnungen, Transfers und Empfehlungen.</p></div><button type="button" class="v24pb-all" id="v24pb-all">Alle aktualisieren</button></div>
+  <div class="v24pb-head"><div><span>DEINE PUNKTESTÄNDE</span><h2>Deine aktuellen Punktestände</h2><p>Hier siehst und aktualisierst du die Stände, mit denen VAYQUO rechnet.</p></div><button type="button" class="v24pb-all" id="v24pb-all">Alle aktualisieren</button></div>
   <div class="v24pb-list">${ids.map(cardHtml).join('')}</div>
-  <div class="v24pb-note">Noch keine automatische Kontosynchronisation. Ein manuell eingetragener Stand bleibt deshalb klar als VAYQUO-Stand erkennbar.</div>
+  <div class="v24pb-note">Manuell hinterlegt · keine automatische Synchronisierung</div>
  </section>`;
 }
 function mountPoint(){
