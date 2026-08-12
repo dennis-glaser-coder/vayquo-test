@@ -4,6 +4,11 @@
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const PLATINUM_URL='https://www.americanexpress.com/de-de/kreditkarte/platinum-card/';
+const STATUS_COPY={
+  ftl:{summary:'Business Lounge & Business Class Check-in sind bereits Teil deines Status.'},
+  senator:{summary:'Senator Lounge, Priority Boarding & First Class Check-in sind bereits Teil deines Status.'},
+  hon:{summary:'First Class Lounge, First Class Check-in & Transferservice sind bereits Teil deines Status.'}
+};
 
 function benefitsActive(){
   const nav=q('#bottom [data-view="card"]');
@@ -11,22 +16,31 @@ function benefitsActive(){
   return q('#app h1')?.textContent.trim()==='Vorteile';
 }
 
+function statusKey(){
+  try{
+    const key=String(state?.mmStatus||'none');
+    return STATUS_COPY[key]?key:'none';
+  }catch{return 'none';}
+}
+
+function statusCopy(){return STATUS_COPY[statusKey()]||STATUS_COPY.ftl;}
+
 function shouldShow(){
   try{
     const p=state?.programs||{};
-    const status=String(state?.mmStatus||'none');
-    return benefitsActive()&&!!p.mm&&!p.mr&&status!=='none';
+    return benefitsActive()&&!!p.mm&&!p.mr&&statusKey()!=='none';
   }catch{return false;}
 }
 
 function recommendationHtml(){
+  const copy=statusCopy();
   return `<div class="v24s35-section" data-v24s35-mm-reco="1">
     <div class="v24s35-section-head"><h2>Mehr aus deinem Setup</h2><span>optional</span></div>
     <div class="v24s35-reco">
       <div class="v24s35-reco-eyebrow">PASSENDE ERGÄNZUNG · OPTIONAL</div>
-      <h3>Dein Status deckt Lounge & Priority bereits gut ab.</h3>
+      <h3>${copy.summary}</h3>
       <p>Was dein Miles-&-More-Status nicht automatisch ergänzt, sind andere Reisevorteile rund um Reisebudget, Restaurants oder Mobilität.</p>
-      <div class="v24s35-reason">VAYQUO empfiehlt dir deshalb nicht „mehr Lounge“, sondern prüft nur, ob zusätzliche Reisevorteile überhaupt zu dir passen.</div>
+      <div class="v24s35-reason">VAYQUO empfiehlt dir deshalb nicht noch einmal dieselben Statusvorteile, sondern prüft nur, ob zusätzliche Reisevorteile überhaupt zu dir passen.</div>
       <button type="button" class="v24s35-reco-btn" data-v24s35-mm-check>Prüfen, ob eine Ergänzung Sinn macht <span>→</span></button>
     </div>
   </div>`;
@@ -34,9 +48,10 @@ function recommendationHtml(){
 
 function openCheck(){
   if(typeof openModal!=='function')return;
+  const copy=statusCopy();
   openModal('Passt diese Ergänzung zu dir?',`<div class="v24s35-reco-modal">
     <div class="v24s35-reco-modal-kicker">MEHR AUS DEINEM MILES & MORE</div>
-    <h3>Dein Status deckt Lounge & Priority bereits ab.</h3>
+    <h3>${copy.summary}</h3>
     <p>Wenn du daneben weitere Reisevorteile regelmäßig nutzt, kann eine zusätzliche Karte dein bestehendes Miles-&-More-Setup sinnvoll ergänzen.</p>
     <div class="v24s35-reco-check">
       <span>✓ dein Miles-&-More-Status bleibt die Basis</span>
