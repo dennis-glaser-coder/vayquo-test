@@ -3,6 +3,7 @@
 
 const q=(s,r=document)=>r.querySelector(s);
 const OFFICIAL_SIXT_RIDE='https://www.sixt.de/ride/';
+const AMEX_PARTNERPROGRAMS='https://www.americanexpress.de/partnerprogramme';
 
 function safeSixtState(){
   try{
@@ -46,6 +47,11 @@ function openOfficial(){
   catch{location.href=OFFICIAL_SIXT_RIDE;}
 }
 
+function openActivation(){
+  try{window.open(AMEX_PARTNERPROGRAMS,'_blank','noopener,noreferrer');}
+  catch{location.href=AMEX_PARTNERPROGRAMS;}
+}
+
 function openSixt(){
   ensureSheet();
   const s=safeSixtState();
@@ -58,11 +64,14 @@ function openSixt(){
       <button type="button" class="v24s3-close" aria-label="Schließen">×</button>
     </div>
     <p class="v24s3-intro">Fahrt suchen oder deinen hinterlegten Guthaben-Stand aktualisieren – ohne einen zweiten, künstlichen Buchungsprozess in VAYQUO.</p>
+    <div class="v24s3-status"><span>Vor der ersten Nutzung</span><strong>SIXT ride bei Amex aktivieren</strong><small>Einmal registrieren und bei SIXT dieselbe E-Mail-Adresse verwenden. VAYQUO kann die Aktivierung nicht automatisch prüfen.</small></div>
+    <button type="button" class="v24s3-secondary" id="v24s3-activate">Aktivierung bei Amex prüfen <span>↗</span></button>
     ${status}
     <button type="button" class="v24s3-primary" id="v24s3-open">Fahrt bei SIXT ride suchen <span>↗</span></button>
     <button type="button" class="v24s3-secondary" id="v24s3-update">Nutzung aktualisieren</button>
     <p class="v24s3-note">Preise und Verfügbarkeit werden direkt bei SIXT geprüft. VAYQUO zeigt hier bewusst keine erfundenen Live-Daten.</p>`;
   q('.v24s3-close').addEventListener('click',closeSheet);
+  q('#v24s3-activate').addEventListener('click',openActivation);
   q('#v24s3-open').addEventListener('click',openOfficial);
   q('#v24s3-update').addEventListener('click',updateUsage);
   q('#v24s3-backdrop').classList.add('is-open');
