@@ -28,7 +28,7 @@ button,input,select,textarea{font-family:-apple-system,BlinkMacSystemFont,"SF Pr
 button{touch-action:manipulation}
 
 @media(max-width:679px){
- main{padding-left:var(--vqp-page)!important;padding-right:var(--vqp-page)!important;padding-bottom:calc(108px + env(safe-area-inset-bottom))!important}
+ main{padding-left:var(--vqp-page)!important;padding-right:var(--vqp-page)!important;padding-bottom:calc(108px + env(safe-area-inset-bottom))!important;box-sizing:border-box!important}
  #app h1{letter-spacing:-.04em}
  .bottom{left:50%!important;transform:translateX(-50%)!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width:min(calc(100% - 24px),442px)!important;height:62px!important;padding:6px!important;border:1px solid rgba(21,35,32,.08)!important;border-radius:22px!important;background:rgba(255,255,255,.93)!important;backdrop-filter:blur(20px) saturate(1.2)!important;-webkit-backdrop-filter:blur(20px) saturate(1.2)!important;box-shadow:0 14px 40px rgba(15,25,23,.13)!important;box-sizing:border-box!important}
  .nav{min-width:44px!important;min-height:48px!important;border-radius:16px!important;font-size:9px!important;font-weight:700!important;gap:3px!important;transition:background .16s ease,color .16s ease,transform .16s ease!important}
@@ -46,7 +46,6 @@ button{touch-action:manipulation}
 }
 .v24premium-surface{border-radius:var(--vqp-radius-lg)!important}
 
-.v24premium-hero{border-radius:var(--vqp-radius-xl)!important;overflow:hidden}
 .v24premium-start-programs{border-radius:var(--vqp-radius-lg)!important}
 [data-v24sp-row]{gap:8px!important;padding:6px!important}
 [data-v24sp-row] .v24sp-chip{min-height:38px!important;padding:0 13px!important;border-radius:13px!important;font-size:12px!important;letter-spacing:-.01em!important}
@@ -101,9 +100,8 @@ button{touch-action:manipulation}
 @media(max-width:679px){
  .v24premium-search{padding:16px!important;border-radius:24px!important}
  .v24premium-search .vayquo-search-extra-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important}
- .v24premium-search .vayquo-departure-field,
+ .v24premium-search .field.v24premium-date-field:has(input[type="date"]),
  .v24premium-search .field:has(#fCabin),
- .v24premium-search .v24premium-date-field,
  .v24premium-search .v24premium-cabin-field{grid-column:auto!important;flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important;margin-left:0!important;margin-right:0!important;overflow:hidden!important}
  .v24premium-search .vayquo-departure-input,
  .v24premium-search #fCabin,
