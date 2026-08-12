@@ -32,10 +32,22 @@ function findAirportInput(dialog){
  });
 }
 
+function restoreAirportIds(dialog,input){
+ const oldId=input.dataset.v24LoungeOriginalId;
+ if(oldId&&input.id==='v24-lounge-airport'){
+  const label=qa('label',dialog).find(el=>el.htmlFor==='v24-lounge-airport');
+  if(label)label.htmlFor=oldId;
+  input.id=oldId;
+  delete input.dataset.v24LoungeOriginalId;
+ }
+ const legacy=q('#v24-lounge-airport-legacy[data-v24-lounge-restore="1"]');
+ if(legacy){legacy.id='v24-lounge-airport';delete legacy.dataset.v24LoungeRestore;}
+}
+
 function triggerAirportPickerEnhancement(dialog,input){
- if(input.dataset.v24s2Airport)return;
+ if(input.dataset.v24s2Airport){restoreAirportIds(dialog,input);return;}
  const existing=q('#v24-lounge-airport');
- if(existing&&existing!==input)existing.id='v24-lounge-airport-legacy';
+ if(existing&&existing!==input){existing.id='v24-lounge-airport-legacy';existing.dataset.v24LoungeRestore='1';}
  if(input.id!=='v24-lounge-airport'){
   const oldId=input.id;
   if(oldId){
@@ -53,9 +65,15 @@ function triggerAirportPickerEnhancement(dialog,input){
 }
 
 function replaceCopy(dialog){
- const leaves=qa('p,div,span,small',dialog).filter(el=>el.children.length===0);
- const note=leaves.find(el=>/Öffnungszeiten, Zugang und teilnehmende Lounges können sich ändern/i.test(clean(el.textContent)));
- if(note)note.textContent='Öffnungszeiten, Zugang und teilnehmende Lounges können sich ändern. VAYQUO öffnet deshalb direkt den offiziellen Amex Lounge-Finder für deinen gewählten Flughafen.';
+ const candidates=qa('p,div,span,small',dialog);
+ const note=candidates.find(el=>/Öffnungszeiten, Zugang und teilnehmende Lounges können sich ändern/i.test(clean(el.textContent)));
+ if(note){
+  const strong=q('strong,b',note);
+  if(strong){
+   const heading=clean(strong.textContent);
+   note.innerHTML=`<strong>${heading}</strong><br>Öffnungszeiten, Zugang und teilnehmende Lounges können sich ändern. VAYQUO öffnet deshalb direkt den offiziellen Amex Lounge-Finder für deinen gewählten Flughafen.`;
+  }else note.textContent='Öffnungszeiten, Zugang und teilnehmende Lounges können sich ändern. VAYQUO öffnet deshalb direkt den offiziellen Amex Lounge-Finder für deinen gewählten Flughafen.';
+ }
 }
 
 function removePriorityPass(dialog){
@@ -64,9 +82,8 @@ function removePriorityPass(dialog){
 }
 
 function wirePrimary(dialog,input){
- let button=qa('button,a,[role="button"]',dialog).find(el=>el.dataset.v24LoungeDirect==='1'||/^Amex Lounge-Finder öffnen$/i.test(clean(el.textContent))||/^Lounges anzeigen(?:\s*→)?$/i.test(clean(el.textContent)));
- if(!button)return;
- if(button.dataset.v24LoungeDirect==='1')return;
+ const button=qa('button,a,[role="button"]',dialog).find(el=>el.dataset.v24LoungeDirect==='1'||/^Amex Lounge-Finder öffnen$/i.test(clean(el.textContent))||/^Lounges anzeigen(?:\s*→)?$/i.test(clean(el.textContent)));
+ if(!button||button.dataset.v24LoungeDirect==='1')return;
  const cleanButton=button.cloneNode(true);
  cleanButton.textContent='Lounges anzeigen';
  cleanButton.dataset.v24LoungeDirect='1';
