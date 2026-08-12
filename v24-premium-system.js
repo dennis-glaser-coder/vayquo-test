@@ -91,3 +91,12 @@ document.addEventListener('click',ev=>{
 document.addEventListener('change',()=>setTimeout(schedule,0));
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 })();
+
+(()=>{
+ const css=document.createElement('link');
+ css.rel='stylesheet';css.href='v24-benchmark-b.css?v=2401';
+ document.head.appendChild(css);
+ const js=document.createElement('script');
+ js.src='v24-benchmark-b.js?v=2401';
+ document.body.appendChild(js);
+})();
