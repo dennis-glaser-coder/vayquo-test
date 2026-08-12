@@ -46,20 +46,24 @@ function findAction(wrap,pattern){
   return qa('button,a,[role="button"]',wrap).find(el=>pattern.test(text(el)))||null;
 }
 
+function cleanDirectClone(clone,label,kind){
+  clone.removeAttribute('id');
+  clone.removeAttribute('data-v24ba-hidden-update');
+  clone.textContent=label;
+  clone.dataset.v24baDirect=kind;
+  return clone;
+}
+
 function makeDirectFrom(target,label,kind){
   if(!target)return;
   if(q(`[data-v24ba-direct="${kind}"]`,target.parentElement||document))return;
-  const clone=target.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.textContent=label;
-  clone.dataset.v24baDirect=kind;
+  const clone=cleanDirectClone(target.cloneNode(true),label,kind);
   target.insertAdjacentElement('afterend',clone);
 }
 
 function prepareTravel(){
   const wrap=benefitWrap(/Online[-\s]?Reiseguthaben/i);if(!wrap)return;
-  const direct=q('[data-v24ba-direct="travel"]',wrap);
-  if(direct)return;
+  if(q('[data-v24ba-direct="travel"]',wrap))return;
   const update=findAction(wrap,/^Nutzung aktualisieren\s*→?$/i);
   if(update){
     update.dataset.v24baHiddenUpdate='1';
@@ -68,7 +72,8 @@ function prepareTravel(){
   }
   const existing=findAction(wrap,/Reiseguthaben.*(?:nutzen|einlösen|buchen)|(?:Reise|Guthaben).*buchen/i);
   if(existing){
-    const clone=existing.cloneNode(true);clone.removeAttribute('id');clone.textContent='Reise mit Guthaben buchen →';clone.dataset.v24baDirect='travel';existing.replaceWith(clone);
+    const clone=cleanDirectClone(existing.cloneNode(true),'Reise mit Guthaben buchen →','travel');
+    existing.replaceWith(clone);
   }
 }
 
@@ -76,14 +81,16 @@ function prepareRestaurant(){
   const wrap=benefitWrap(/Restaurantguthaben/i);if(!wrap||q('[data-v24ba-direct="restaurant"]',wrap))return;
   const existing=findAction(wrap,/^Teilnehmende Restaurants (?:finden|öffnen|anzeigen)\s*→?$/i);
   if(!existing)return;
-  const clone=existing.cloneNode(true);clone.removeAttribute('id');clone.textContent='Teilnehmende Restaurants finden →';clone.dataset.v24baDirect='restaurant';existing.replaceWith(clone);
+  const clone=cleanDirectClone(existing.cloneNode(true),'Teilnehmende Restaurants finden →','restaurant');
+  existing.replaceWith(clone);
 }
 
 function prepareSixt(){
   const wrap=benefitWrap(/SIXT\s*ride/i);if(!wrap||q('[data-v24ba-direct="sixt"]',wrap))return;
   const existing=findAction(wrap,/^(?:Fahrt planen|Fahrt bei SIXT ride suchen)\s*→?$/i);
   if(!existing)return;
-  const clone=existing.cloneNode(true);clone.removeAttribute('id');clone.textContent='Fahrt planen →';clone.dataset.v24baDirect='sixt';existing.replaceWith(clone);
+  const clone=cleanDirectClone(existing.cloneNode(true),'Fahrt planen →','sixt');
+  existing.replaceWith(clone);
 }
 
 function prepareLodenfrey(){
