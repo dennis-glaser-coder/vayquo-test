@@ -54,9 +54,9 @@ function markPoints(){
     const h=panel.querySelector('h2'); if(h&&/Punktestände/i.test(norm(h.textContent)))h.textContent='Punkte & Meilen';
     const p=panel.querySelector('.v24pb-head p'); if(p)p.textContent='Die Bestände, mit denen VAYQUO deine besten Wege berechnet.';
   }
-  const title=leafByText('Punkte & Meilen');
-  if(title&&!panel?.contains(title)){
-    let wrap=title.parentElement;
+  const duplicate=qa('#app *').find(el=>el.children.length===0&&norm(el.textContent)==='Punkte & Meilen'&&!panel?.contains(el));
+  if(duplicate){
+    let wrap=duplicate.parentElement;
     for(let i=0;i<3&&wrap?.parentElement;i++){
       if(/DEINE BESTÄNDE/i.test(norm(wrap.textContent))||wrap.querySelector?.('h1,h2'))break;
       wrap=wrap.parentElement;
