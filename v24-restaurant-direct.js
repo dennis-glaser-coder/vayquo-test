@@ -30,7 +30,7 @@ function restaurantState(){
       }
       for(const [key,value] of Object.entries(b)){
         if(!/restaurant|dining|gastro/i.test(key)||!Number.isFinite(Number(value)))continue;
-        if(/open|remain|left|rest/i.test(key))return {amount:Math.max(0,Math.min(150,Number(value))),known:true};
+        if(/open|remain|left/i.test(key))return {amount:Math.max(0,Math.min(150,Number(value))),known:true};
         if(/used|spent|spend|verbrauch|genutzt/i.test(key))return {amount:Math.max(0,150-Number(value)),known:true};
       }
     }
@@ -56,8 +56,7 @@ function enhanceRestaurant(){
   const oldButton=q('#v24-rest-check');
   if(!place||!oldButton)return;
   const root=place.closest('#v24-sheet-content')||q('#v24-sheet-content');
-  if(!root||root.dataset.v24RestaurantDirect==='1')return;
-  root.dataset.v24RestaurantDirect='1';
+  if(!root||q('#v24-rest-official',root))return;
 
   const s=restaurantState();
   const statusLabel=s.known?'Noch offen · VAYQUO-Stand':'Jahresguthaben';
