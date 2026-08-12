@@ -37,13 +37,13 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const step35Assets='<link rel="stylesheet" href="v24-step35.css?v=2445"><script src="v24-step35.js?v=2446"><\/script>';
   const pointsBalanceAssets='<link rel="stylesheet" href="v24-points-balance.css?v=2401"><script src="v24-points-balance.js?v=2402"><\/script>';
   const startFilterAssets='<script src="v24-start-filter.js?v=2403"><\/script>';
-  const nextActionAssets='<script src="v24-next-action.js?v=2401"><\/script>';
+  const heroPersonalAssets='<script src="v24-hero-personal.js?v=2401"><\/script>';
   const platinumClarityAssets='<script src="v24-platinum-clarity.js?v=2401"><\/script>';
   const loungeDirectAssets='<script src="v24-lounge-direct.js?v=2405"><\/script>';
   const restaurantDirectAssets='<script src="v24-restaurant-direct.js?v=2405"><\/script>';
   const travelCreditAssets='<script src="v24-travel-credit.js?v=2401"><\/script>';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+'</head>'):html+navFix;
-  patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',step2Assets+step3Assets+step35Assets+pointsBalanceAssets+startFilterAssets+nextActionAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+'</body>'):patchedHtml+step2Assets+step3Assets+step35Assets+pointsBalanceAssets+startFilterAssets+nextActionAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets;
+  patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',step2Assets+step3Assets+step35Assets+pointsBalanceAssets+startFilterAssets+heroPersonalAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+'</body>'):patchedHtml+step2Assets+step3Assets+step35Assets+pointsBalanceAssets+startFilterAssets+heroPersonalAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets;
   const remaining=Math.max(0,1450-(Date.now()-introStarted));
   if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
   document.getElementById('loading')?.classList.add('leaving');
