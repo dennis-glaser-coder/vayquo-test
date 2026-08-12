@@ -6,6 +6,7 @@ const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const AMEX_RESTAURANTS='https://www.amex.de/platinum-restaurantguthaben';
 const AMEX_LOGIN='https://www.americanexpress.com/de-de/account/login';
 const OLD_RESTAURANT_COPY='Die teilnehmenden Restaurants können sich ändern. Deshalb führt VAYQUO dich zur offiziellen aktuellen Restaurantliste statt eine veraltete Kopie zu speichern.';
+const OLD_RESTAURANT_PATTERN=/Die\s+teilnehmenden\s+Restaurants\s+können\s+sich\s+ändern\.\s+Deshalb\s+führt\s+VAYQUO\s+dich\s+zur\s+offiziellen\s+aktuellen\s+Restaurantliste\s+statt\s+eine\s+veraltete\s+Kopie\s+zu\s+speichern\./;
 const NEW_RESTAURANT_COPY='Immer aktuell: VAYQUO öffnet direkt die offizielle Amex-Restaurantliste.';
 
 function openExternal(url){
@@ -85,9 +86,15 @@ function bindRestaurantOverview(){
 }
 
 function polishRestaurantCopy(){
-  for(const el of qa('p,small,span,div')){
-    const text=(el.textContent||'').replace(/\s+/g,' ').trim();
-    if(text===OLD_RESTAURANT_COPY)el.textContent=NEW_RESTAURANT_COPY;
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  let node;
+  while((node=walker.nextNode())){
+    const raw=String(node.nodeValue||'');
+    const normalized=raw.replace(/\s+/g,' ').trim();
+    if(normalized===OLD_RESTAURANT_COPY||OLD_RESTAURANT_PATTERN.test(raw)){
+      node.nodeValue=raw.replace(OLD_RESTAURANT_PATTERN,NEW_RESTAURANT_COPY);
+      if(node.nodeValue===raw)node.nodeValue=NEW_RESTAURANT_COPY;
+    }
   }
 }
 
