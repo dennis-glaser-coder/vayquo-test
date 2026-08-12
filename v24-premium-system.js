@@ -22,11 +22,12 @@ function activeView(){
 }
 
 function commonSearchRoot(){
- const from=q('#fFrom'),to=q('#fTo'),cabin=q('#fCabin');
- if(!from||!to||!cabin)return null;
- let node=from.parentElement;
+ const from=q('#fFrom'),to=q('#fTo'),cabin=q('#fCabin'),cash=q('#fCash');
+ if(!from||!to||!cabin||!cash)return null;
+ let node=cash.parentElement;
  for(let i=0;i<10&&node&&node!==document.body;i++,node=node.parentElement){
-  if(node.contains(to)&&node.contains(cabin)&&node.querySelector('button'))return node;
+  if(node.id==='app'||node.tagName==='MAIN')continue;
+  if(node.contains(from)&&node.contains(to)&&node.contains(cabin)&&node.querySelector('button'))return node;
  }
  return null;
 }
@@ -37,13 +38,6 @@ function markStart(){
  let node=heading.parentElement;
  for(let i=0;i<7&&node&&node!==q('#app');i++,node=node.parentElement){
   if(/Ändern/.test(text(node))){node.classList.add('v24premium-start-programs');break;}
- }
- const why=qa('#app button,#app a,[role="button"]').find(el=>/^Warum\?$/i.test(text(el)));
- if(why){
-  let hero=why.parentElement;
-  for(let i=0;i<7&&hero&&hero!==q('#app');i++,hero=hero.parentElement){
-   if(hero.querySelector('h1,h2,h3')&&hero.querySelectorAll('button,a,[role="button"]').length>=2){hero.classList.add('v24premium-hero');break;}
-  }
  }
 }
 
@@ -89,7 +83,11 @@ function schedule(){
 }
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
-document.addEventListener('click',()=>setTimeout(schedule,0));
+document.addEventListener('click',ev=>{
+ const travellers=q('#vayquo-travellers');
+ if(travellers?.open&&!ev.target.closest?.('#vayquo-travellers'))travellers.open=false;
+ setTimeout(schedule,0);
+});
 document.addEventListener('change',()=>setTimeout(schedule,0));
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 })();
