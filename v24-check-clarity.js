@@ -23,7 +23,24 @@ function setLabel(id,value){
   label.insertBefore(document.createTextNode(value+' '),info||label.firstChild);
 }
 
+function patchTransferClarity(){
+  qa('button,a,[role="button"]').filter(el=>/^Membership Rewards prüfen$/i.test(text(el))).forEach(el=>el.textContent='Transferwerte ansehen');
+
+  const heading=qa('h1,h2,h3').find(el=>/^(Deine Punkte bei Partnern|Transferwerte deiner Membership Rewards)$/i.test(text(el)));
+  if(!heading)return;
+  if(text(heading)!=='Transferwerte deiner Membership Rewards')heading.textContent='Transferwerte deiner Membership Rewards';
+
+  let root=heading.closest('section,.card,.panel,[class*="card"],[class*="panel"]');
+  if(!root)root=heading.parentElement?.parentElement||heading.parentElement;
+  const intro=root?qa('p',root).find(el=>/Reine Umrechnung|Live-Verfügbarkeit|Transfer sinnvoll/i.test(text(el))):null;
+  if(intro){
+    const copy='Reine Umrechnung: So viele Partnerpunkte entstehen aus deinem aktuellen MR-Stand. Die Reihenfolge ist keine Rangliste und keine Empfehlung.';
+    if(text(intro)!==copy)intro.textContent=copy;
+  }
+}
+
 function patch(){
+  patchTransferClarity();
   const block=compareBlock();if(!block)return;
 
   const heading=qa('h1,h2,h3,strong',block).find(el=>/^Cash oder Punkte\?$/i.test(text(el)));
