@@ -86,10 +86,18 @@ function ensureAirportSheet(){
 }
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function airportHaystack(a){return norm(`${a.code} ${a.name} ${a.city} ${a.country}`);}
+function oppositeAirportCode(){
+ if(!activeAirportInput)return '';
+ if(activeAirportInput.id==='fFrom')return String(q('#fTo')?.value||'').trim().toUpperCase();
+ if(activeAirportInput.id==='fTo')return String(q('#fFrom')?.value||'').trim().toUpperCase();
+ return '';
+}
 function currentMatches(){
  const query=norm(q('#v24s2-airport-search')?.value||'');
  const source=airports||FALLBACK_AIRPORTS;
+ const blockedCode=oppositeAirportCode();
  let matches=query?source.filter(a=>airportHaystack(a).includes(query)):source.slice();
+ if(blockedCode)matches=matches.filter(a=>a.code!==blockedCode);
  if(query.length===3){const exact=query.toUpperCase();matches.sort((a,b)=>(a.code===exact?-1:0)-(b.code===exact?-1:0));}
  return matches;
 }
@@ -113,8 +121,10 @@ async function openAirportPicker(input){
 function closeAirportPicker(){q('#v24s2-airport-backdrop')?.classList.remove('is-open');q('#v24s2-airport-sheet')?.classList.remove('is-open');activeAirportInput=null;}
 function selectAirport(code){
  if(!activeAirportInput)return;
+ const normalizedCode=String(code||'').trim().toUpperCase();
+ if(normalizedCode&&normalizedCode===oppositeAirportCode())return;
  const descriptor=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');
- if(descriptor?.set)descriptor.set.call(activeAirportInput,code);else activeAirportInput.value=code;
+ if(descriptor?.set)descriptor.set.call(activeAirportInput,normalizedCode);else activeAirportInput.value=normalizedCode;
  activeAirportInput.dispatchEvent(new Event('input',{bubbles:true}));activeAirportInput.dispatchEvent(new Event('change',{bubbles:true}));
  closeAirportPicker();
 }
