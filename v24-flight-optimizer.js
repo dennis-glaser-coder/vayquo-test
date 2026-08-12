@@ -129,6 +129,21 @@ function bestMrPath(target,amount,rules){
  return {best:candidates[0]||null,alternatives:candidates.slice(1)};
 }
 function formatPath(path,rules){return path.map(id=>id==='mr_de'?'MR':id==='payback_de'?'PAYBACK':id==='miles_and_more'?'Miles & More':programLabel(id,rules)).join(' → ');}
+function pathTiming(pathObj){
+ let days=0,known=true;
+ for(const e of pathObj?.edges||[]){
+  const d=e.estimatedBusinessDaysMax??e.estimatedBusinessDays;
+  if(Number.isFinite(Number(d)))days+=Number(d);
+  else if(e.timing==='immediate')continue;
+  else known=false;
+ }
+ return {known,days};
+}
+function timingLabel(pathObj){
+ const t=pathTiming(pathObj);if(!t.known)return '';
+ if(t.days<=0)return 'Transfer: sofort.';
+ return `Transfer: bis zu ${t.days} Werktag${t.days===1?'':'e'}.`;
+}
 function statusInfo(type,missing=0,unit='Punkte'){
  if(type==='ok')return {cls:'ok',text:'Mit deinem Stand möglich'};
  if(type==='action')return {cls:'warn',text:'Punkte reichen · Zielkonto nötig'};
@@ -163,7 +178,8 @@ function evaluateOffer(offer,rules,snap){
  const saving=direct&&direct.sourceNeeded>required?direct.sourceNeeded-required:0;
  if(!snap.mr.active)return {...base,status:statusInfo('inactive'),path:formatPath(mr.best.path,rules),detail:'Membership Rewards ist in VAYQUO nicht aktiv.'};
  if(!snap.mr.known)return {...base,status:statusInfo('unknown'),path:formatPath(mr.best.path,rules),detail:`Für diesen Weg wären im Test ${fmt(required)} MR nötig. Dein MR-Stand ist noch nicht hinterlegt.`};
- const detail=saving?`VAYQUO erkennt den günstigeren Transferweg: ${fmt(saving)} MR weniger als über den direkten Transfer.`:`Benötigt im Test: ${fmt(required)} Membership-Rewards-Punkte. Zielkonto muss vorhanden und mit Amex verknüpft sein.`;
+ const timing=timingLabel(mr.best);
+ const detail=saving?`VAYQUO erkennt den günstigeren Transferweg: ${fmt(saving)} MR weniger als über den direkten Transfer. ${timing}`:`Benötigt im Test: ${fmt(required)} Membership-Rewards-Punkte. ${timing} Zielkonto muss vorhanden und mit Amex verknüpft sein.`;
  if(snap.mr.balance>=required)return {...base,status:statusInfo('action'),path:`${fmt(required)} MR · ${formatPath(mr.best.path,rules)}`,detail};
  return {...base,status:statusInfo('insufficient',required-snap.mr.balance,'MR'),path:`${fmt(required)} MR · ${formatPath(mr.best.path,rules)}`,detail};
 }
@@ -192,12 +208,11 @@ async function optimize(detail){
   const snap=programSnapshot();
   const evaluated=(payload.offers||[]).map(o=>evaluateOffer(o,rules,snap));
   const cashOffers=Array.isArray(detail.offers)?detail.offers:[];
-  const cashValues=cashOffers.map(o=>Number(o?.price?.total)).filter(Number.isFinite);
-  const cashPrice=cashValues.length?Math.min(...cashValues):null;
+  const cashPrice=cashOffers.length?Math.min(...cashOffers.map(o=>Number(o?.price?.total)).filter(Number.isFinite)):null;
   const pax=detail.query||{};
   const family=(Number(pax.children)||0)+(Number(pax.infants)||0)>0;
   const box=mountBox();if(!box)return;
-  box.innerHTML=`<div class="vqo-kicker">VAYQUO TEST-OPTIMIZER</div><h3 class="vqo-title">Barpreis und deine Punktewege – zusammen gedacht</h3><p class="vqo-copy">${cashPrice!==null?`Cash-Testpreis ab ${esc(money(cashPrice,'EUR'))}. `:''}Die Awardwerte darunter sind künstliche Testdaten. Deshalb gibt VAYQUO hier bewusst noch keinen echten Sieger aus.</p><span class="vqo-test">TESTDATEN · NICHT BUCHBAR</span><div class="vqo-balances">${balanceHtml(snap)||'<span class="vqo-balance">Keine Punktestände aktiv</span>'}</div><div class="vqo-list">${evaluated.map(optionHtml).join('')}</div><div class="vqo-foot">${family?'Kinder/Babys erkannt: Die künstlichen Awarddaten enthalten keine belastbare altersabhängige Preislogik. Familienrabatte werden deshalb noch nicht als echte Ersparnis angewendet.<br>':''}Award-Testangebote sind Alternativen und werden nicht als derselbe Flug wie ein Cash-Angebot ausgegeben. Eine echte „Beste Nutzung“-Empfehlung wird erst freigeschaltet, wenn Live-Awardverfügbarkeit und vergleichbare Cashdaten vorliegen.</div>`;
+  box.innerHTML=`<div class="vqo-kicker">VAYQUO TEST-OPTIMIZER</div><h3 class="vqo-title">Barpreis und deine Punktewege – zusammen gedacht</h3><p class="vqo-copy">${cashPrice!==null?`Cash-Testpreis ab ${esc(money(cashPrice,'EUR'))}. `:''}Die Awardwerte darunter sind künstliche Testdaten. Deshalb gibt VAYQUO hier bewusst noch keinen echten Sieger aus.</p><span class="vqo-test">TESTDATEN · NICHT BUCHBAR</span><div class="vqo-balances">${balanceHtml(snap)||'<span class="vqo-balance">Keine Punktestände aktiv</span>'}</div><div class="vqo-list">${evaluated.map(optionHtml).join('')}</div><div class="vqo-foot">${family?'Kinder/Babys erkannt: Die künstlichen Awarddaten enthalten keine belastbare altersabhängige Preislogik. Familienrabatte werden deshalb noch nicht als echte Ersparnis angewendet.<br>':''}Award-Testangebote sind Alternativen und werden nicht als derselbe Flug wie ein Cash-Angebot ausgegeben.<br>Bestehende Flying-Blue-/Avios-Guthaben werden aktuell noch nicht in VAYQUO geführt und deshalb in dieser Testrechnung nicht angerechnet.<br>Kartenguthaben wie das Platinum-Reiseguthaben werden nur bei einem bestätigten berechtigten Buchungskanal berücksichtigt – nicht beim generischen Cashpreis.<br>Eine echte „Beste Nutzung“-Empfehlung wird erst freigeschaltet, wenn Live-Awardverfügbarkeit und vergleichbare, vor Buchung verifizierbare Cashdaten vorliegen.</div>`;
   syncVisibility();
   window.VAYQUO_FLIGHT_OPTIMIZER={mode:'test',query:detail.query,cashOffers,awardOffers:payload.offers||[],evaluated};
   try{window.dispatchEvent(new CustomEvent('vayquo:flight-optimizer',{detail:window.VAYQUO_FLIGHT_OPTIMIZER}));}catch{}
