@@ -14,14 +14,24 @@ let seq=0;
 let manualMode=false;
 let scheduled=false;
 
-function flightRoot(){return q('#app')||document;}
+function setText(el,value){if(el&&text(el)!==value)el.textContent=value;}
+
+function flightBlock(){
+ const from=q('#fFrom'),to=q('#fTo'),cash=q('#fCash');
+ if(!from||!to||!cash)return q('#app')||document;
+ let node=cash.parentElement;
+ for(let i=0;i<10&&node;i++,node=node.parentElement){
+  if(node.contains(from)&&node.contains(to))return node;
+ }
+ return q('#app')||document;
+}
 
 function dateInput(returnTrip=false){
  const direct=returnTrip
   ?q('#fReturnDate,#fReturn,#flightReturnDate')
   :q('#fDate,#fDepartureDate,#flightDate');
  if(direct)return direct;
- const root=flightRoot();
+ const root=flightBlock();
  const dates=qa('input[type="date"]',root);
  if(returnTrip)return dates[1]||null;
  if(dates[0])return dates[0];
@@ -62,7 +72,7 @@ function signature(query){return JSON.stringify(query);}
 function fieldWrap(id){const el=q('#'+id);return el?.closest('.field')||el?.parentElement||null;}
 
 function primaryButton(){
- const root=flightRoot();
+ const root=flightBlock();
  const candidates=qa('button,[role="button"]',root).filter(btn=>!btn.closest('#bottom,.bottom,.v24s2-info-sheet,.v24s2-airport-sheet'));
  return candidates.find(btn=>btn.dataset.vayquoLivePrimary==='1')
   ||candidates.find(btn=>/^(jetzt prüfen|vergleichen|flüge suchen)$/i.test(text(btn)))
@@ -84,7 +94,7 @@ function setStatus(message,type='info'){
  const btn=primaryButton();
  const el=ensureStatus(btn);
  if(!el)return;
- el.textContent=message||'';
+ setText(el,message||'');
  el.style.display=message?'block':'none';
  el.style.color=type==='error'?'#b86a63':'var(--muted,#9ba9a8)';
 }
@@ -118,12 +128,12 @@ function patchUi(){
  setManualVisibility(manualMode);
  const fallback=q('#vayquo-manual-flight-toggle');
  if(manualMode){
-  btn.textContent='Jetzt prüfen';
-  if(fallback)fallback.textContent='Zur automatischen Flugsuche';
+  setText(btn,'Jetzt prüfen');
+  setText(fallback,'Zur automatischen Flugsuche');
   setStatus('Manueller Vergleich: Werte nur eingeben, wenn du ein konkretes Angebot selbst prüfen möchtest.');
  }else{
-  btn.textContent='Flüge suchen';
-  if(fallback)fallback.textContent='Angebot selbst vergleichen';
+  setText(btn,'Flüge suchen');
+  setText(fallback,'Angebot selbst vergleichen');
   if(window.VAYQUO_FLIGHT_LIVE?.status!=='loading'&&window.VAYQUO_FLIGHT_LIVE?.status!=='success')setStatus('');
  }
 }
