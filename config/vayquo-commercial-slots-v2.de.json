@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Keep each commercial opportunity tied to a concrete user need instead of competing by payout.",
+  "slots": {
+    "after_value_demonstrated": {
+      "channels": ["vayquo_pro"],
+      "requires": ["valueDemonstrated"]
+    },
+    "complex_award_help": {
+      "channels": ["concierge"],
+      "requiresAny": ["complexAwardCase", "userRequestsHelp"]
+    },
+    "accommodation_missing_after_trip_intent": {
+      "channels": ["expedia"],
+      "requires": ["tripIntent", "accommodationMissing"]
+    },
+    "activity_after_destination_known": {
+      "channels": ["getyourguide"],
+      "requires": ["destinationKnown"]
+    },
+    "international_connectivity_relevant": {
+      "channels": ["airalo"],
+      "requires": ["internationalTrip", "destinationKnown"]
+    },
+    "car_missing_after_trip_intent": {
+      "channels": ["expedia"],
+      "requires": ["tripIntent", "carRelevant", "carMissing"]
+    },
+    "after_card_gap_analysis": {
+      "channels": ["amex_cards"],
+      "requires": ["cardGap", "valueDemonstrated"]
+    }
+  },
+  "rules": {
+    "maxCommercialCardsPerSurface": 1,
+    "neverBeforeCoreRecommendation": true,
+    "neverInsideRecommendationRanking": true,
+    "requiresUserIntent": true,
+    "requiresDisclosure": true,
+    "chooseByUserNeedNotCommission": true,
+    "noGenericRevenueSlot": true,
+    "noAutomaticExternalNavigation": true
+  }
+}
