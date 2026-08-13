@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "market": "DE",
   "checkedAt": "2026-08-13",
   "purpose": "Commercial routing for VAYQUO. Revenue must never override the user-value recommendation.",
@@ -10,7 +10,9 @@
     "onlyShowConfiguredOffers": true,
     "neverInventPartnerAvailabilityOrRates": true,
     "neverAutoOpenCommercialLinks": true,
-    "neverAutoTransferPoints": true
+    "neverAutoTransferPoints": true,
+    "neverRankFinancialProductsByCommission": true,
+    "planningRatesAreNotGuaranteedPayouts": true
   },
   "disclosure": {
     "short": "Werbelink – VAYQUO kann bei einem Abschluss eine Vergütung erhalten. Für dich ändert sich der Preis dadurch nicht.",
@@ -25,14 +27,16 @@
       "planningReference": {
         "checkedAt": "2026-08-13",
         "currency": "EUR",
-        "publicPayouts": {
+        "publicPayoutsPerValidSale": {
           "platinum": 90,
           "gold": 50,
           "classic": 30,
           "blue": 15,
+          "payback": 30,
           "business_platinum": 140,
           "business_gold": 90
-        }
+        },
+        "note": "Use only approved affiliate links/creative. Product recommendation must be based on user fit, never payout."
       }
     },
     "expedia": {
@@ -43,14 +47,15 @@
       "planningReference": {
         "checkedAt": "2026-08-13",
         "bookingWindowDays": 7,
-        "commissionPercent": {
+        "commissionPercentOfQualifyingTransaction": {
           "hotel": 4,
           "vacation_rental": 2,
           "package": 2,
           "car": 1.5,
           "activity": 4,
           "flight": 0
-        }
+        },
+        "note": "Standard public rates; qualifying/completed booking rules apply. Flight has no standard commission."
       }
     },
     "getyourguide": {
@@ -60,8 +65,9 @@
       "placement": ["activity_after_destination_known", "post_booking_trip_plan"],
       "planningReference": {
         "checkedAt": "2026-08-13",
-        "baseCommissionPercent": 8,
-        "attributionWindowDays": 30
+        "commissionPercentUpTo": 8,
+        "attributionWindowDays": 30,
+        "note": "Official creator documentation says up to 8%; do not model 8% as a guaranteed base rate."
       }
     },
     "airalo": {
@@ -71,7 +77,9 @@
       "placement": ["international_trip_after_destination_known", "pre_departure_checklist"],
       "planningReference": {
         "checkedAt": "2026-08-13",
-        "standardCommissionPercent": 10
+        "standardCommissionPercent": 10,
+        "commissionBasis": "final_sale_value_after_discounts",
+        "note": "Official standard rate; promotional method can affect rate."
       }
     },
     "vayquo_pro": {
