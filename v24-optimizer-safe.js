@@ -55,7 +55,7 @@ function loadRules(){
   .then(r=>r.ok?r.json():null)
   .then(data=>{rules=data||null;})
   .catch(()=>{})
-  .finally(()=>{rulesLoading=false;schedule();});
+  .finally(()=>{rulesLoading=false;if(mode==='landing'||mode==='recommend')setTimeout(()=>renderOptimizer(true),0);else schedule();});
 }
 function transferFor(from,to){return rules?.directTransfers?.find(x=>x.from===from&&x.to===to&&x.status==='active')||null;}
 function mrToPayback(){
@@ -76,46 +76,78 @@ function shell(body,back=false){
  return `<section class="v24os-screen" data-v24os="${esc(mode)}">
   <div class="v24os-head">
    ${back?'<button type="button" class="v24os-back" data-v24os-back>← Zurück</button>':''}
-   <div class="v24os-eyebrow">DEINE PUNKTE. BESSER GENUTZT.</div>
+   <div class="v24os-eyebrow">VAYQUO ENTSCHEIDET MIT DIR</div>
    <h1>Optimieren</h1>
-   <p>VAYQUO zeigt dir verständlich, welche Nutzung für deinen Punktestand interessant ist und was du als Nächstes prüfen solltest.</p>
+   <p>VAYQUO priorisiert deine hinterlegten Punkte und Meilen und zeigt dir zuerst den sinnvollsten nächsten Schritt.</p>
   </div>${body}</section>`;
-}
-function landingHtml(){
- return shell(`<div class="v24os-summary">${pointsSummary()}</div>
-  <div class="v24os-hero">
-   <div class="v24os-icon">↗</div>
-   <div class="v24os-kicker">DEINE BESTE NUTZUNG</div>
-   <h2>Wo holst du aus deinen Punkten am meisten heraus?</h2>
-   <p>VAYQUO vergleicht Wertpotenzial, sichere Alternativen und den Aufwand. Ein Transfer wird erst empfohlen, wenn ein konkretes Angebot geprüft ist.</p>
-   <button type="button" class="v24os-primary" data-v24os-recommend>Beste Nutzung finden <span>→</span></button>
-  </div>
-  <button type="button" class="v24os-offer" data-v24os-offer>
-   <span><small>SCHON ETWAS GEFUNDEN?</small><strong>Konkretes Angebot bewerten</strong><em>Barpreis, Punkte oder Meilen und Zuzahlung eingeben.</em></span><b>→</b>
-  </button>`);
 }
 function buildRecommendations(){
  const cards=[];
  if(active('mr')&&balance('mr')>0){
-  cards.push({priority:10,tag:'HÖCHSTES POTENZIAL',title:'Airline-Partner für Prämienflüge prüfen',copy:'Bei passenden Prämienflügen kann hier besonders viel Gegenwert stecken. VAYQUO prüft zuerst das konkrete Angebot – erst danach wäre ein Transfer sinnvoll.',cta:'Flugmöglichkeiten prüfen',action:'flight'});
-  cards.push({priority:30,tag:'EINFACH & FLEXIBEL',title:'Punkte direkt für Reisen nutzen',copy:'Flug, Hotel oder Mietwagen lassen sich je nach Angebot auch direkt über Reisewege mit Punkten bezahlen. Der aktuelle Umrechnungskurs muss beim konkreten Angebot geprüft werden.',cta:'Konkretes Angebot bewerten',action:'offer'});
+  cards.push({priority:10,tag:'VAYQUO EMPFEHLUNG',title:'Prämienflug über Airline-Partner zuerst prüfen',copy:`Mit ${fmt(balance('mr'))} Membership Rewards liegt hier dein größtes Potenzial. Noch nichts übertragen: VAYQUO prüft zuerst, ob ein konkreter Prämienflug deine planbare Alternative schlägt.`,cta:'Passende Flüge prüfen',action:'flight'});
+  cards.push({priority:30,tag:'EINFACH & FLEXIBEL',title:'Punkte direkt für Reisen nutzen',copy:'Bequem, aber der tatsächliche Umrechnungskurs hängt vom konkreten Angebot ab. Deshalb steht diese Option hinter einer vorherigen Prämienflug-Prüfung.',cta:'Konkretes Angebot bewerten',action:'offer'});
   const pb=mrToPayback();
-  if(pb)cards.push({priority:20,tag:'PLANBARER VERGLEICHSWERT',title:`Über PAYBACK entsprechen ${fmt(pb.source)} MR rund ${euro(pb.eur)}`,copy:`Nach dem aktuell hinterlegten Transferverhältnis werden daraus ${fmt(pb.target)} PAYBACK Punkte. Das ist ein sicher berechenbarer Vergleichswert – nicht automatisch die beste Nutzung.`,cta:'Angebot dagegen prüfen',action:'offer'});
+  if(pb)cards.push({priority:20,tag:'SICHERER VERGLEICH',title:`Über PAYBACK sind rund ${euro(pb.eur)} planbar`,copy:`Aus ${fmt(pb.source)} Membership Rewards werden nach dem hinterlegten Verhältnis ${fmt(pb.target)} PAYBACK Punkte. Dieser Wert ist die Vergleichsbasis, die eine bessere Nutzung schlagen sollte.`,cta:'Angebot dagegen prüfen',action:'offer'});
  }
  if(active('pb')&&balance('pb')>0){
-  cards.push({priority:15,tag:'SICHERER BASISWERT',title:`${fmt(balance('pb'))} PAYBACK Punkte entsprechen ${euro(balance('pb')/100)}`,copy:'PAYBACK hat einen festen Direktwert von 1 Cent pro Punkt. Ein Miles-&-More-Transfer ist nur dann interessanter, wenn der konkrete Meileneinsatz mehr bringt.',cta:'Meilenangebot bewerten',action:'offer'});
+  cards.push({priority:15,tag:'SICHERER BASISWERT',title:`${fmt(balance('pb'))} PAYBACK Punkte entsprechen ${euro(balance('pb')/100)}`,copy:'Diesen festen Direktwert solltest du nur aufgeben, wenn eine konkrete alternative Nutzung nachvollziehbar mehr bringt.',cta:'Alternative dagegen prüfen',action:'offer'});
  }
  if(active('mm')&&balance('mm')>0){
-  cards.push({priority:12,tag:'REISEPOTENZIAL',title:'Miles & More für Flug oder Upgrade einsetzen',copy:'Ob sich deine Meilen wirklich lohnen, hängt vom konkreten Meilenpreis, der Zuzahlung und dem vergleichbaren Barpreis ab.',cta:'Angebot bewerten',action:'offer'});
+  cards.push({priority:12,tag:'REISEPOTENZIAL',title:'Miles & More für Flug oder Upgrade prüfen',copy:'Der tatsächliche Gegenwert entsteht erst beim konkreten Angebot. VAYQUO vergleicht Meilenpreis, Zuzahlung und einen realistischen Barpreis.',cta:'Angebot bewerten',action:'offer'});
  }
  return cards.sort((a,b)=>a.priority-b.priority).slice(0,4).map((c,i)=>({...c,rank:String(i+1).padStart(2,'0')}));
+}
+function decisionProofHtml(){
+ const items=[];
+ if(active('mr')&&balance('mr')>0){
+  const pb=mrToPayback();
+  items.push({label:'SICHERER VERGLEICH',value:pb?`${euro(pb.eur)} über PAYBACK`:'PAYBACK als Vergleichsbasis',copy:'Diesen planbaren Wert sollte eine bessere Nutzung schlagen.'});
+  items.push({label:'DESHALB ZUERST',value:'Prämienflug prüfen',copy:'Hier kann mehr Gegenwert stecken – aber nur bei einem wirklich passenden Angebot.'});
+ }else if(active('pb')&&balance('pb')>0){
+  items.push({label:'SICHERER WERT',value:euro(balance('pb')/100),copy:'Dein direkter PAYBACK-Gegenwert ist die Messlatte.'});
+  items.push({label:'NÄCHSTER SCHRITT',value:'Alternative prüfen',copy:'Nur wechseln, wenn ein konkreter Einsatz diesen Wert nachvollziehbar schlägt.'});
+ }else if(active('mm')&&balance('mm')>0){
+  items.push({label:'ENTSCHEIDEND',value:'Konkretes Angebot',copy:'Meilen haben ohne verfügbaren Flug und Zuzahlung keinen belastbaren Einzelwert.'});
+  items.push({label:'VAYQUO PRÜFT',value:'Barpreis vs. Meilen',copy:'Damit siehst du, ob der Einsatz für dich wirklich sinnvoll ist.'});
+ }
+ return items.length?`<div class="v24os-proof-grid">${items.map(x=>`<div class="v24os-proof"><small>${esc(x.label)}</small><strong>${esc(x.value)}</strong><span>${esc(x.copy)}</span></div>`).join('')}</div>`:'';
+}
+function landingHtml(){
+ const cards=buildRecommendations();
+ if(!cards.length){
+  return shell(`<div class="v24os-summary">${pointsSummary()}</div>
+   <div class="v24os-hero v24os-empty-decision">
+    <div class="v24os-icon">↗</div>
+    <div class="v24os-kicker">VAYQUO BRAUCHT DEINEN STAND</div>
+    <h2>Hinterlege zuerst deine Punkte oder Meilen.</h2>
+    <p>Danach zeigt VAYQUO nicht nur Möglichkeiten, sondern priorisiert direkt, womit du anfangen solltest.</p>
+   </div>
+   <button type="button" class="v24os-offer" data-v24os-offer><span><small>SCHON ETWAS GEFUNDEN?</small><strong>Konkretes Angebot bewerten</strong><em>Barpreis, Punkte oder Meilen und Zuzahlung eingeben.</em></span><b>→</b></button>`);
+ }
+ const primary=cards[0];
+ const alternatives=cards.slice(1,3);
+ const hold=active('mr')&&balance('mr')>0?'<div class="v24os-hold"><b>Noch nicht übertragen.</b><span>Erst prüfen, ob der empfohlene Weg deinen sicheren Vergleich wirklich schlägt.</span></div>':'';
+ return shell(`<div class="v24os-summary">${pointsSummary()}</div>
+  <section class="v24os-decision">
+   <div class="v24os-decision-top"><span>DEINE VAYQUO EMPFEHLUNG</span><b>JETZT</b></div>
+   <h2>${esc(primary.title)}</h2>
+   <p>${esc(primary.copy)}</p>
+   <button type="button" class="v24os-decision-action" data-v24os-action="${esc(primary.action)}">${esc(primary.cta)} <span>→</span></button>
+   ${hold}
+  </section>
+  <section class="v24os-why">
+   <div class="v24os-section"><small>WARUM DAS JETZT SINNVOLL IST</small><h2>VAYQUO hat deine Optionen bereits vorsortiert.</h2><p>Du sollst nicht selbst zwischen zehn Wegen entscheiden müssen. Der sichere Vergleich bleibt sichtbar, aber geprüft wird zuerst die Option mit dem größeren Potenzial.</p></div>
+   ${decisionProofHtml()}
+  </section>
+  ${alternatives.length?`<section class="v24os-alternatives"><div class="v24os-alt-head"><small>DANACH</small><strong>Deine nächsten Alternativen</strong></div>${alternatives.map(c=>`<div class="v24os-alt-row"><span><small>${esc(c.tag)}</small><b>${esc(c.title)}</b></span><em>${c.rank}</em></div>`).join('')}<button type="button" class="v24os-text-action" data-v24os-recommend>Alle eingeordneten Möglichkeiten ansehen →</button></section>`:''}
+  <button type="button" class="v24os-offer v24os-offer-late" data-v24os-offer><span><small>SCHON ETWAS GEFUNDEN?</small><strong>Eigenes Angebot gegen VAYQUO prüfen</strong><em>Barpreis, Punkte oder Meilen und Zuzahlung eingeben.</em></span><b>→</b></button>`);
 }
 function recommendHtml(){
  const cards=buildRecommendations();
  const body=`<div class="v24os-summary">${pointsSummary()}</div>
-  <div class="v24os-section"><small>FÜR DEINEN AKTUELLEN STAND</small><h2>${cards.length?'Das solltest du zuerst ansehen':'Noch fehlt dein Punktestand'}</h2><p>${cards.length?'VAYQUO trennt bewusst zwischen hohem Potenzial und einem tatsächlich geprüften Deal.':'Hinterlege unter „Punkte“ deinen aktuellen Stand. Danach kann VAYQUO die Möglichkeiten für dich einordnen.'}</p></div>
+  <div class="v24os-section"><small>VAYQUO PRIORISIERUNG</small><h2>${cards.length?'So sind deine Möglichkeiten eingeordnet':'Noch fehlt dein Punktestand'}</h2><p>${cards.length?'Oben steht, was du zuerst prüfen solltest. Die weiteren Wege sind bewusst nachgeordnet.':'Hinterlege unter „Punkte“ deinen aktuellen Stand. Danach kann VAYQUO die Möglichkeiten für dich einordnen.'}</p></div>
   <div class="v24os-list">${cards.map(c=>`<article class="v24os-card"><div class="v24os-rank">${c.rank}</div><div><small>${esc(c.tag)}</small><h3>${esc(c.title)}</h3><p>${esc(c.copy)}</p><button type="button" data-v24os-action="${esc(c.action)}">${esc(c.cta)} <span>→</span></button></div></article>`).join('')}</div>
-  ${cards.length?'<div class="v24os-note">Wichtig: „Höchstes Potenzial“ bedeutet nicht automatisch „jetzt transferieren“. VAYQUO soll einen Transfer erst empfehlen, wenn Preis und Verfügbarkeit eines konkreten Angebots geprüft sind.</div>':''}`;
+  ${cards.length?'<div class="v24os-note">VAYQUO-Regel: Potenzial allein reicht nicht. Erst konkrete Verfügbarkeit und Preis prüfen, dann übertragen oder einlösen.</div>':''}`;
  return shell(body,true);
 }
 function offerHtml(){
