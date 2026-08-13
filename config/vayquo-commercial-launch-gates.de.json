@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Single launch checklist that must be complete before any VAYQUO commercial channel can become actionable.",
+  "globalGate": {
+    "commercialLive": false,
+    "allRequired": true,
+    "checks": {
+      "businessSetupReviewed": false,
+      "taxSetupReviewed": false,
+      "imprintReviewed": false,
+      "privacyReviewed": false,
+      "commercialLabelingReviewed": false,
+      "trackingConsentRequirementsReviewed": false,
+      "externalTrackingExplicitlyApproved": false,
+      "productionDomainHttpsReady": false
+    }
+  },
+  "channelGates": {
+    "expedia": {
+      "partnerApproved": false,
+      "trackingConfigured": false,
+      "linkTestPassed": false,
+      "disclosureTestPassed": false
+    },
+    "getyourguide": {
+      "partnerApproved": false,
+      "trackingConfigured": false,
+      "linkTestPassed": false,
+      "disclosureTestPassed": false
+    },
+    "airalo": {
+      "partnerApproved": false,
+      "trackingConfigured": false,
+      "linkTestPassed": false,
+      "disclosureTestPassed": false
+    },
+    "amex_cards": {
+      "partnerApproved": false,
+      "trackingConfigured": false,
+      "productFitLogicReviewed": false,
+      "disclosureTestPassed": false
+    },
+    "vayquo_pro": {
+      "pricingFinal": false,
+      "paymentSetupReady": false,
+      "taxHandlingReady": false,
+      "termsReviewed": false,
+      "cancellationFlowReady": false
+    },
+    "concierge": {
+      "scopeDefined": false,
+      "pricingFinal": false,
+      "capacityReady": false,
+      "taxHandlingReady": false,
+      "termsReviewed": false
+    }
+  },
+  "activationRules": [
+    "No channel may activate while globalGate.commercialLive is false.",
+    "Every global check must be true before any channel can activate.",
+    "Every check for the selected channel must be true before that channel can activate.",
+    "A configured URL alone never activates a channel.",
+    "Affiliate payout may not influence recommendation ranking.",
+    "External tracking must remain off until explicitly approved after legal/privacy review."
+  ]
+}
