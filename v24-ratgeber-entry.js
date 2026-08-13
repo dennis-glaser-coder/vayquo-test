@@ -11,10 +11,44 @@ function addLinkStyle(){
  if(document.getElementById('v24-ratgeber-link-style'))return;
  const style=document.createElement('style');
  style.id='v24-ratgeber-link-style';
- style.textContent='.v24-ratgeber-row{cursor:pointer}.v24-ratgeber-row *{pointer-events:none}';
+ style.textContent=`
+ .v24-ratgeber-row{cursor:pointer}.v24-ratgeber-row *{pointer-events:none}
+ .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding:11px 2px 1px;border-top:1px solid rgba(19,35,32,.1);color:inherit;text-decoration:none}
+ .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12px;line-height:1.3;color:#253330}.v24-ratgeber-home-copy span{display:block;margin-top:2px;font-size:9px;line-height:1.4;color:#7c8783}
+ .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:18px;line-height:1;color:#8b9491}
+ `;
  document.head.appendChild(style);
 }
 function leaves(root=document){return Array.from(root.querySelectorAll('*')).filter(el=>el.children.length===0);}
+function startActive(){
+ const active=Array.from(document.querySelectorAll('#bottom [data-view],.bottom [data-view],#bottom .nav,.bottom .nav')).find(el=>el.classList.contains('active')||el.getAttribute('aria-current')==='page');
+ if(active&&/^start$/i.test(text(active)))return true;
+ return leaves(document.getElementById('app')||document).some(el=>text(el)==='Deine Programme');
+}
+function findStartHero(){
+ const app=document.getElementById('app');if(!app)return null;
+ const why=Array.from(app.querySelectorAll('button,a,[role="button"]')).find(el=>/^Warum\?$/i.test(text(el)));
+ if(!why)return null;
+ let node=why.parentElement;
+ for(let i=0;i<8&&node&&node!==app;i++,node=node.parentElement){
+  const controls=node.querySelectorAll('button,a,[role="button"]');
+  const heading=node.querySelector('h1,h2,h3');
+  if(heading&&controls.length>=2)return node;
+ }
+ return null;
+}
+function mountStartRatgeber(){
+ const existing=document.querySelector('.v24-ratgeber-home');
+ if(!startActive()){existing?.remove();return;}
+ if(existing)return;
+ const hero=findStartHero();if(!hero)return;
+ const link=document.createElement('a');
+ link.className='v24-ratgeber-home';
+ link.href='/ratgeber/';
+ link.setAttribute('aria-label','Ratgeber öffnen');
+ link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>Punkte, Meilen &amp; Vorteile besser verstehen</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
+ hero.appendChild(link);
+}
 function mountRatgeberLink(){
  if(document.querySelector('.v24-ratgeber-row'))return;
  const legalRow=document.querySelector('.v24-legal-row');
@@ -49,10 +83,11 @@ function cleanEntryUrl(){const url=new URL(window.location.href);url.searchParam
 function finish(){if(completed)return;completed=true;entryObserver?.disconnect();cleanEntryUrl();}
 function route(){if(!target||completed)return;const el=findTarget();if(!el)return;if(isActive(el)){finish();return;}el.click();requestAnimationFrame(()=>requestAnimationFrame(finish));}
 function boot(){
- addLinkStyle();mountRatgeberLink();
+ addLinkStyle();mountRatgeberLink();mountStartRatgeber();
  if(target)requestAnimationFrame(()=>{try{route();}catch(e){console.warn('VAYQUO Ratgeber entry',e);}});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
-new MutationObserver(()=>setTimeout(mountRatgeberLink,20)).observe(document.documentElement,{childList:true,subtree:true});
+new MutationObserver(()=>setTimeout(()=>{mountRatgeberLink();mountStartRatgeber();},20)).observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener('click',()=>setTimeout(mountStartRatgeber,0));
 if(target){entryObserver=new MutationObserver(boot);entryObserver.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','aria-current','aria-selected']});document.addEventListener('vq-auth-ready',boot);window.addEventListener('pageshow',boot);}
 })();
