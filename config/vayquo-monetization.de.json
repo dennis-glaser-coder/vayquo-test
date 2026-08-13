@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "checkedAt": "2026-08-13",
+  "purpose": "Commercial routing for VAYQUO. Revenue must never override the user-value recommendation.",
+  "principles": {
+    "userValueFirst": true,
+    "commercialRankingInfluence": false,
+    "affiliateDisclosureRequired": true,
+    "onlyShowConfiguredOffers": true,
+    "neverInventPartnerAvailabilityOrRates": true,
+    "neverAutoOpenCommercialLinks": true,
+    "neverAutoTransferPoints": true
+  },
+  "disclosure": {
+    "short": "Werbelink – VAYQUO kann bei einem Abschluss eine Vergütung erhalten. Für dich ändert sich der Preis dadurch nicht.",
+    "rule": "Show disclosure adjacent to every commercial CTA or in a clearly associated disclosure surface."
+  },
+  "channels": {
+    "amex_cards": {
+      "type": "affiliate",
+      "enabled": false,
+      "activationRequirement": "official affiliate account and approved tracking links",
+      "placement": ["card_gap_after_recommendation", "benefit_context"],
+      "planningReference": {
+        "checkedAt": "2026-08-13",
+        "currency": "EUR",
+        "publicPayouts": {
+          "platinum": 90,
+          "gold": 50,
+          "classic": 30,
+          "blue": 15,
+          "business_platinum": 140,
+          "business_gold": 90
+        }
+      }
+    },
+    "expedia": {
+      "type": "travel_affiliate",
+      "enabled": false,
+      "activationRequirement": "approved affiliate account and tracking links",
+      "placement": ["hotel_after_trip_intent", "car_after_trip_intent", "activity_after_destination_known"],
+      "planningReference": {
+        "checkedAt": "2026-08-13",
+        "bookingWindowDays": 7,
+        "commissionPercent": {
+          "hotel": 4,
+          "vacation_rental": 2,
+          "package": 2,
+          "car": 1.5,
+          "activity": 4,
+          "flight": 0
+        }
+      }
+    },
+    "getyourguide": {
+      "type": "activity_affiliate",
+      "enabled": false,
+      "activationRequirement": "approved partner account and tracking links",
+      "placement": ["activity_after_destination_known", "post_booking_trip_plan"],
+      "planningReference": {
+        "checkedAt": "2026-08-13",
+        "baseCommissionPercent": 8,
+        "attributionWindowDays": 30
+      }
+    },
+    "airalo": {
+      "type": "esim_affiliate",
+      "enabled": false,
+      "activationRequirement": "approved affiliate account and tracking links",
+      "placement": ["international_trip_after_destination_known", "pre_departure_checklist"],
+      "planningReference": {
+        "checkedAt": "2026-08-13",
+        "standardCommissionPercent": 10
+      }
+    },
+    "vayquo_pro": {
+      "type": "subscription",
+      "enabled": false,
+      "placement": ["after_value_demonstrated", "alerts_and_automation"],
+      "pricing": {
+        "status": "not_final",
+        "targetMonthlyEUR": 12.99,
+        "targetAnnualEUR": 119
+      }
+    },
+    "concierge": {
+      "type": "service",
+      "enabled": false,
+      "placement": ["complex_award_case", "high_value_trip", "user_requests_help"],
+      "pricing": {
+        "status": "not_final",
+        "targetStartingEUR": 149
+      }
+    },
+    "b2b_white_label": {
+      "type": "b2b",
+      "enabled": false,
+      "userFacing": false,
+      "commercialModel": ["platform_fee", "usage_fee", "revenue_share"]
+    }
+  },
+  "funnel": [
+    "understand_balance",
+    "recommend_best_use",
+    "validate_concrete_option",
+    "commercial_next_step",
+    "book_or_apply",
+    "cross_sell_trip_needs",
+    "retain_with_pro"
+  ]
+}
