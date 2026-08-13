@@ -6,6 +6,10 @@ const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const text=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
 let scheduled=false;
 
+function normalizeOptimizerNav(){
+ qa('#bottom [data-view="check"],.bottom [data-view="check"]').forEach(el=>{el.dataset.view='optimize';});
+}
+
 function activeView(){
  const active=qa('#bottom [data-view],.bottom [data-view],#bottom .nav,.bottom .nav').find(el=>el.classList.contains('active')||el.getAttribute('aria-current')==='page');
  const raw=String(active?.dataset?.view||text(active)||'').toLowerCase();
@@ -67,6 +71,7 @@ function markSheets(){
 }
 
 function apply(){
+ normalizeOptimizerNav();
  const view=activeView();
  if(view)document.documentElement.dataset.vayquoView=view;
  markStart();
