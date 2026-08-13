@@ -5,6 +5,8 @@ const SUPABASE_URL='https://fcvffslhnaqlwitaeers.supabase.co';
 const API_KEY='sb_publishable_GwUiLouKIRUOpDpp6BaZIQ_o1uRQTl8';
 const SESSION_KEY='vayquo:authSession';
 const LAST_USER_KEY='vayquo:lastUserId';
+const BALANCE_META_KEY='vayquo:balanceMeta';
+const REMOTE_SCHEMA_VERSION=2;
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const clone=v=>JSON.parse(JSON.stringify(v));
@@ -26,6 +28,12 @@ function readSession(){
 function writeSession(value){
  session=value||null;
  try{value?localStorage.setItem(SESSION_KEY,JSON.stringify(value)):localStorage.removeItem(SESSION_KEY);}catch{}
+}
+function readBalanceMeta(){
+ try{const value=JSON.parse(localStorage.getItem(BALANCE_META_KEY)||'{}');return value&&typeof value==='object'?value:{};}catch{return {};}
+}
+function writeBalanceMeta(value){
+ try{localStorage.setItem(BALANCE_META_KEY,JSON.stringify(value&&typeof value==='object'?value:{}));}catch{}
 }
 function withExpiry(payload){
  if(!payload?.access_token)return null;
@@ -58,6 +66,17 @@ async function ensureSession(){
 function snapshot(){
  try{return (typeof state!=='undefined'&&state&&typeof state==='object')?clone(state):null;}catch{return null;}
 }
+function remoteSnapshot(){
+ const appState=snapshot();
+ if(!appState)return null;
+ return {schema_version:REMOTE_SCHEMA_VERSION,state:appState,balance_meta:clone(readBalanceMeta())};
+}
+function decodeRemoteSnapshot(value){
+ if(value&&typeof value==='object'&&Number(value.schema_version)>=2&&value.state&&typeof value.state==='object'){
+  return {state:value.state,balanceMeta:value.balance_meta&&typeof value.balance_meta==='object'?value.balance_meta:{},legacy:false};
+ }
+ return {state:value&&typeof value==='object'?value:null,balanceMeta:null,legacy:true};
+}
 function replaceState(next){
  if(!next||typeof next!=='object')return;
  try{
@@ -78,7 +97,7 @@ async function fetchRemoteState(){
 }
 async function pushRemoteState(force=false){
  if(!user?.id||!session?.access_token)return;
- const snap=snapshot();if(!snap)return;
+ const snap=remoteSnapshot();if(!snap)return;
  const signature=JSON.stringify(snap);if(!force&&signature===lastSynced)return;
  try{
   await ensureSession();if(!user?.id)return;
@@ -95,14 +114,26 @@ function syncSoon(){
  clearTimeout(syncTimer);syncTimer=setTimeout(()=>void pushRemoteState(false),900);
 }
 async function hydrateUser(){
- const remote=await fetchRemoteState();
- const remoteState=remote?.app_state&&typeof remote.app_state==='object'?remote.app_state:null;
- const hasRemote=remoteState&&Object.keys(remoteState).length>0;
  const previous=localStorage.getItem(LAST_USER_KEY)||'';
+ const switching=!!previous&&previous!==user.id;
+ if(switching)writeBalanceMeta({});
+
+ const remote=await fetchRemoteState();
+ const rawRemote=remote?.app_state&&typeof remote.app_state==='object'?remote.app_state:null;
+ const decoded=decodeRemoteSnapshot(rawRemote);
+ const hasRemote=decoded.state&&Object.keys(decoded.state).length>0;
+
  if(hasRemote){
-  replaceState(remoteState);lastSynced=JSON.stringify(snapshot()||{});
+  replaceState(decoded.state);
+  if(decoded.legacy){
+   if(previous!==user.id)writeBalanceMeta({});
+   await pushRemoteState(true);
+  }else{
+   writeBalanceMeta(decoded.balanceMeta);
+   lastSynced=JSON.stringify(remoteSnapshot()||{});
+  }
  }else{
-  if(previous&&previous!==user.id)replaceState(neutralState());
+  if(switching){replaceState(neutralState());writeBalanceMeta({});}
   await pushRemoteState(true);
  }
  localStorage.setItem(LAST_USER_KEY,user.id);
@@ -179,33 +210,52 @@ async function logout(){
  try{if(session?.access_token)await fetch(`${SUPABASE_URL}/auth/v1/logout`,{method:'POST',headers:headers(true)});}catch{}
  writeSession(null);session=null;user=null;lastSynced='';showGate();
 }
+function settingsHeading(){
+ return qa('#app h1,#app h2,#app h3').find(el=>/Einstellungen/i.test(el.textContent||''))||qa('#app *').find(el=>el.children.length===0&&/Einstellungen/i.test(el.textContent||''));
+}
 function patchSettings(){
  if(!user?.email)return;
- const leaves=qa('*').filter(el=>el.children.length===0);
- const note=leaves.find(el=>/VAYQUO\s+V2\.3\s+Test/i.test(el.textContent||''));
- if(note)note.textContent='VAYQUO · Unabhängig. Markennamen dienen nur zur Identifikation unterstützter Programme.';
- const heading=leaves.find(el=>/^Einstellungen$/i.test((el.textContent||'').trim()));if(!heading)return;
- let panel=heading.parentElement;for(let i=0;i<4&&panel?.parentElement;i++){if(/Programme\s*&\s*Amex/i.test(panel.textContent||''))break;panel=panel.parentElement;}
- if(!panel||q('.v24a-account-row',panel))return;
- const row=document.createElement('div');row.className='v24a-account-row';row.innerHTML=`<div><strong>Konto</strong><span>${String(user.email).replace(/[<>&]/g,'')}</span></div><button type="button">Abmelden</button>`;
- row.querySelector('button').addEventListener('click',()=>void logout());
- const firstCard=qa('*',panel).find(el=>el.children.length&&/Programme\s*&\s*Amex/i.test(el.textContent||'')&&!/Einstellungen/i.test(el.textContent||''));
- if(firstCard?.parentElement)firstCard.parentElement.insertBefore(row,firstCard);else panel.appendChild(row);
+ const heading=settingsHeading();if(!heading)return;
+ if(q('.v24a-account-row'))return;
+ const row=document.createElement('div');row.className='v24a-account-row';
+ row.innerHTML=`<div><strong>Konto</strong><span>${String(user.email).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</span></div><button type="button">Abmelden</button>`;
+ row.querySelector('button').addEventListener('click',logout);
+ const target=heading.parentElement||heading;target.insertAdjacentElement('afterend',row);
 }
 
-function observe(){
- document.addEventListener('input',ev=>{if(!ev.target.closest?.('#v24-auth'))syncSoon();},true);
- document.addEventListener('change',ev=>{if(!ev.target.closest?.('#v24-auth'))syncSoon();},true);
- document.addEventListener('click',ev=>{if(!ev.target.closest?.('#v24-auth')){syncSoon();setTimeout(patchSettings,30);}},true);
- window.addEventListener('pagehide',()=>{void pushRemoteState(false);});
- new MutationObserver(()=>{if(user)setTimeout(patchSettings,0);}).observe(document.documentElement,{childList:true,subtree:true});
+function hookSave(){
+ try{
+  if(typeof save!=='function'||save.__vayquoAuthHook)return;
+  const original=save;
+  const wrapped=function(...args){const result=original.apply(this,args);syncSoon();return result;};
+  wrapped.__vayquoAuthHook=true;
+  wrapped.__vayquoAuthOriginal=original;
+  save=wrapped;
+ }catch{}
+}
+function watchStorage(){
+ window.addEventListener('storage',ev=>{
+  if(ev.key===BALANCE_META_KEY&&user?.id)syncSoon();
+ });
 }
 
-async function init(){
- ensureStyle();mount();observe();
- const ok=await ensureSession();if(ok&&user)await startAuthenticated();else showGate();
+async function boot(){
+ hookSave();watchStorage();
+ await ensureSession();
+ if(session&&user){await startAuthenticated();}else showGate();
+ const observer=new MutationObserver(()=>{hookSave();patchSettings();});
+ observer.observe(document.documentElement,{childList:true,subtree:true});
+ document.addEventListener('change',syncSoon,true);
+ document.addEventListener('input',syncSoon,true);
+ window.addEventListener('beforeunload',()=>{try{void pushRemoteState(true);}catch{}});
 }
 
-window.VAYQUO_AUTH={logout,getUser:()=>user?{id:user.id,email:user.email}:null,sync:()=>pushRemoteState(true)};
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>void init(),{once:true});else void init();
+window.VAYQUO_AUTH={
+ get user(){return user;},
+ get session(){return session;},
+ sync(){return pushRemoteState(true);},
+ logout
+};
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else void boot();
 })();
