@@ -2,6 +2,8 @@
   "schemaVersion": 1,
   "market": "DE",
   "mode": "preparation_only",
+  "runtimeLoaded": false,
+  "activationStatus": "awaiting_safe_branch",
   "purpose": "Route acquisition traffic into the existing VAYQUO product context without changing legacy app routes or core recommendation logic.",
   "query": {
     "entryParam": "entry",
