@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Define privacy-safe internal revenue measurement events before any external analytics or partner tracking is activated.",
+  "transport": {
+    "externalNetworkRequestsAllowed": false,
+    "partnerPixelsAllowed": false,
+    "analyticsSdkAllowed": false,
+    "cookiesAllowed": false,
+    "localStorageAllowed": false,
+    "sessionStorageAllowed": false,
+    "persistence": "memory_only"
+  },
+  "privacy": {
+    "allowPersonalData": false,
+    "allowEmail": false,
+    "allowName": false,
+    "allowUserId": false,
+    "allowFullPointBalances": false,
+    "allowExactTravelSearch": false,
+    "allowFreeText": false,
+    "allowPaymentData": false,
+    "allowPreciseLocation": false
+  },
+  "events": {
+    "journey_stage_viewed": {
+      "allowedFields": ["stage"],
+      "allowedValues": {
+        "stage": ["understand_balance","recommend_best_use","validate_concrete_option","trip_intent","booking_confirmed","pre_departure","post_trip","retain"]
+      }
+    },
+    "value_result_shown": {
+      "allowedFields": ["resultType"],
+      "allowedValues": {
+        "resultType": ["best_use","concrete_offer_value","flight_option","transfer_baseline"]
+      }
+    },
+    "trip_intent_detected": {
+      "allowedFields": ["intentLevel"],
+      "allowedValues": {
+        "intentLevel": ["exploring","planning","ready_to_book"]
+      }
+    },
+    "commercial_slot_eligible": {
+      "allowedFields": ["slot","channel"],
+      "allowedValues": {
+        "channel": ["expedia","getyourguide","airalo","amex_cards","vayquo_pro","concierge"]
+      }
+    },
+    "commercial_slot_blocked": {
+      "allowedFields": ["slot","channel","reason"],
+      "allowedValues": {
+        "channel": ["expedia","getyourguide","airalo","amex_cards","vayquo_pro","concierge"],
+        "reason": ["commercial_live_off","partner_not_ready","tracking_not_ready","legal_gate_closed","user_need_missing","channel_disabled"]
+      }
+    },
+    "commercial_offer_viewed": {
+      "allowedFields": ["slot","channel"]
+    },
+    "commercial_offer_clicked": {
+      "allowedFields": ["slot","channel"]
+    },
+    "subscription_interest": {
+      "allowedFields": ["source"],
+      "allowedValues": {
+        "source": ["after_value","alerts","optimizer","other"]
+      }
+    },
+    "concierge_interest": {
+      "allowedFields": ["source"],
+      "allowedValues": {
+        "source": ["complex_award","high_value_trip","user_request","other"]
+      }
+    }
+  },
+  "rules": [
+    "Unknown event names are rejected.",
+    "Unknown payload fields are discarded.",
+    "Free-text payloads are not accepted.",
+    "No event is persisted beyond the current page lifetime.",
+    "No event is transmitted to an external service while mode is preparation_only.",
+    "Revenue measurement must remain separate from recommendation ranking."
+  ]
+}
