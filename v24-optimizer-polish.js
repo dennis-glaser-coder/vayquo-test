@@ -1,6 +1,14 @@
 (()=>{
 'use strict';
 
+if(!document.querySelector('script[data-v24ob-loader]')){
+ const loader=document.createElement('script');
+ loader.src='v24-onboarding.js?v=2401';
+ loader.defer=true;
+ loader.dataset.v24obLoader='1';
+ document.body.appendChild(loader);
+}
+
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const txt=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
