@@ -56,7 +56,7 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const benefitOptimizerAssets='<script src="v24-benefit-optimizer.js?v=2402"><\/script>';
   const premiumAssets='<link rel="stylesheet" href="v24-premium-system.css?v=2402"><script src="v24-premium-system.js?v=2402"><\/script>';
   const dateShellAssets='<script src="v24-date-shell.js?v=2401"><\/script>';
-  const socialAuthAssets='<script src="v24-social-auth.js?v=2401"><\/script>';
+  const socialAuthAssets='<script src="v24-social-auth.js?v=2402"><\/script>';
   const authAssets='<script src="v24-auth.js?v=2401"><\/script>';
   const navStabilityAssets='<style id="v24-nav-stability">@media(max-width:679px){.bottom{position:fixed!important;left:12px!important;right:12px!important;max-width:442px!important;width:auto!important;margin-left:auto!important;margin-right:auto!important;transform:none!important;bottom:max(8px,env(safe-area-inset-bottom))!important;height:62px!important;animation:none!important}.bottom .nav,.nav{flex:1 1 0!important;width:auto!important;height:48px!important;min-height:48px!important;transform:none!important;transition:none!important;animation:none!important}.bottom .nav:active,.nav:active,.bottom .nav.active,.nav.active{transform:none!important}}</style>';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+authGate+'</head>'):html+navFix+authGate;
