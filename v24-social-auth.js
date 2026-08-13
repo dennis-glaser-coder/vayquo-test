@@ -105,7 +105,22 @@ function mount(){
  }catch{}
 }
 
+function removeInternalSettingsFooter(){
+ const leaves=Array.from(document.querySelectorAll('*')).filter(el=>el.children.length===0);
+ const note=leaves.find(el=>/VAYQUO\s+V2\.3\s+Test|VAYQUO\s*[·•]\s*Unabhängig/i.test((el.textContent||'').trim()));
+ if(!note)return;
+ let target=note;
+ const text=(note.textContent||'').trim();
+ for(let i=0;i<3;i++){
+  const parent=target.parentElement;
+  if(!parent)break;
+  if((parent.textContent||'').trim()===text&&parent.children.length<=1)target=parent;else break;
+ }
+ target.remove();
+}
+
+function boot(){mount();removeInternalSettingsFooter();}
 consumeOAuthCallback();
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
-new MutationObserver(mount).observe(document.documentElement,{childList:true,subtree:true});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+new MutationObserver(boot).observe(document.documentElement,{childList:true,subtree:true});
 })();
