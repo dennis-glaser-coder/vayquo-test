@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Define the VAYQUO customer and revenue journey without activating commercial UI or partner tracking.",
+  "hardRules": {
+    "recommendationBeforeRevenue": true,
+    "commercialMustBeContextual": true,
+    "commercialMayNotChangeRecommendationRanking": true,
+    "maxCommercialCardsPerSurface": 1,
+    "noCommercialCTAOnInitialOnboarding": true,
+    "noAutomaticExternalNavigation": true,
+    "noPartnerTrackingBeforeCommercialGate": true,
+    "noTransferRecommendationBecauseOfCommission": true,
+    "noDarkPatterns": true,
+    "userCanIgnoreCommercialNextStep": true
+  },
+  "stages": [
+    {
+      "id": "understand_balance",
+      "userQuestion": "Was habe ich eigentlich?",
+      "primaryValue": "Punktestände, Programme und verfügbare Möglichkeiten verständlich machen.",
+      "commercialAllowed": false,
+      "next": ["recommend_best_use"]
+    },
+    {
+      "id": "recommend_best_use",
+      "userQuestion": "Was lohnt sich für mich am meisten?",
+      "primaryValue": "Nutzungsmöglichkeiten priorisieren und Potenzial von bestätigtem Wert trennen.",
+      "commercialAllowed": false,
+      "next": ["validate_concrete_option", "trip_intent"]
+    },
+    {
+      "id": "validate_concrete_option",
+      "userQuestion": "Ist dieses konkrete Angebot gut?",
+      "primaryValue": "Barpreis, Punkte/Meilen und Zuzahlung sauber vergleichen.",
+      "commercialAllowed": true,
+      "commercialRule": "Only after the result has been shown and explained.",
+      "allowedChannels": ["vayquo_pro", "concierge"],
+      "next": ["trip_intent", "retain"]
+    },
+    {
+      "id": "trip_intent",
+      "userQuestion": "Ich will diese Reise wirklich machen – was fehlt noch?",
+      "primaryValue": "Reiseentscheidung vervollständigen, ohne den Nutzer mit Angeboten zu überladen.",
+      "commercialAllowed": true,
+      "allowedChannels": ["expedia", "getyourguide", "airalo", "amex_cards"],
+      "priorityLogic": [
+        "hotel_if_accommodation_missing",
+        "activity_if_destination_known",
+        "esim_if_international_and_relevant",
+        "card_only_if_real_card_gap_exists"
+      ],
+      "next": ["booking_confirmed", "retain"]
+    },
+    {
+      "id": "booking_confirmed",
+      "userQuestion": "Die Reise steht – was sollte ich noch erledigen?",
+      "primaryValue": "Nur noch fehlende, konkrete Reisebausteine zeigen.",
+      "commercialAllowed": true,
+      "allowedChannels": ["expedia", "getyourguide", "airalo"],
+      "next": ["pre_departure"]
+    },
+    {
+      "id": "pre_departure",
+      "userQuestion": "Bin ich für die Reise komplett vorbereitet?",
+      "primaryValue": "Praktische Checkliste aus bereits bekannten Reisedaten ableiten.",
+      "commercialAllowed": true,
+      "allowedChannels": ["airalo", "getyourguide"],
+      "next": ["post_trip"]
+    },
+    {
+      "id": "post_trip",
+      "userQuestion": "Was hat sich bei meinen Punkten verändert und was mache ich als Nächstes?",
+      "primaryValue": "Neue Punktestände, Erfahrungen und nächste sinnvolle Nutzung aufnehmen.",
+      "commercialAllowed": false,
+      "next": ["retain"]
+    },
+    {
+      "id": "retain",
+      "userQuestion": "Wie hilft mir VAYQUO dauerhaft?",
+      "primaryValue": "Automatisierung, Alerts und wiederkehrende Optimierung anbieten, nachdem der Nutzer Wert erlebt hat.",
+      "commercialAllowed": true,
+      "allowedChannels": ["vayquo_pro", "concierge"],
+      "next": ["understand_balance"]
+    }
+  ],
+  "contextSignals": {
+    "valueDemonstrated": "A useful recommendation or valuation result was shown.",
+    "tripIntent": "The user is actively planning a concrete trip.",
+    "destinationKnown": "A destination is known from the user's current flow.",
+    "internationalTrip": "The trip crosses national borders and an eSIM could be relevant.",
+    "accommodationMissing": "No hotel/accommodation is known yet.",
+    "cardGap": "A card product could materially improve value for the user's actual behavior; not inferred from commission.",
+    "complexAwardCase": "The case requires manual or expert help beyond the normal optimizer.",
+    "bookingConfirmed": "The user explicitly indicates that a booking is complete."
+  },
+  "measurement": {
+    "events": [
+      "journey_stage_viewed",
+      "value_result_shown",
+      "commercial_slot_eligible",
+      "commercial_slot_blocked",
+      "commercial_offer_viewed",
+      "commercial_offer_clicked",
+      "booking_intent_confirmed",
+      "subscription_interest",
+      "concierge_interest"
+    ],
+    "principles": {
+      "noSensitiveDataInEventPayload": true,
+      "measureValueBeforeClick": true,
+      "separateRecommendationMetricsFromRevenueMetrics": true,
+      "doNotRecordPartnerTrackingWhileGateClosed": true
+    },
+    "coreKPIs": [
+      "revenue_per_monthly_active_user",
+      "value_result_to_commercial_click_rate",
+      "commercial_click_to_confirmed_conversion_rate",
+      "pro_conversion_after_value_demonstrated",
+      "revenue_per_trip_intent",
+      "commercial_revenue_share_by_channel"
+    ]
+  },
+  "activationOrder": [
+    "getyourguide",
+    "airalo",
+    "expedia_hotel_and_car",
+    "amex_cards",
+    "vayquo_pro",
+    "concierge",
+    "b2b_white_label"
+  ]
+}
