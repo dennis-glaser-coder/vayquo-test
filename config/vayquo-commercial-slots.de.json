@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "mode": "preparation_only",
+  "slots": {
+    "after_optimizer_value": ["vayquo_pro", "concierge"],
+    "after_destination_known": ["expedia", "getyourguide", "airalo"],
+    "after_trip_intent": ["expedia"],
+    "international_pre_departure": ["airalo"],
+    "after_card_gap_analysis": ["amex_cards"],
+    "complex_award_help": ["concierge"]
+  },
+  "rules": {
+    "maxCommercialCardsPerSurface": 1,
+    "neverBeforeCoreRecommendation": true,
+    "neverInsideRecommendationRanking": true,
+    "requiresUserIntent": true,
+    "requiresDisclosure": true
+  }
+}
