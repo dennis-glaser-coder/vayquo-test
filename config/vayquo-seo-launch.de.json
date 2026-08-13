@@ -5,6 +5,7 @@
   "indexingEnabled": false,
   "reason": "Keep acquisition pages out of search until production HTTPS is ready and all launch checks are verified.",
   "canonicalOrigin": "https://vayquo.de",
+  "deploymentRetry": "2026-08-13T18:50:00+02:00",
   "readyPages": [
     "/ratgeber/membership-rewards-wert.html",
     "/ratgeber/payback-punkte-wert.html",
