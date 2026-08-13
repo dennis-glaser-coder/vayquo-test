@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "checkedAt": "2026-08-13",
+  "objective": "Maximize long-term revenue per qualified user without allowing commission to influence the core VAYQUO recommendation.",
+  "northStar": {
+    "metric": "revenue_per_monthly_active_user",
+    "planningTargetEUR": 2.0,
+    "status": "hypothesis_to_validate"
+  },
+  "decisionRule": "Commercial placement follows user need. Channel scale decisions follow measured revenue per eligible session and retention impact, not headline commission percentage.",
+  "phases": [
+    {
+      "id": "phase_0_prepare",
+      "status": "current",
+      "commercialLive": false,
+      "goals": [
+        "keep partner tracking disabled",
+        "define event contract without sensitive balances or full searches",
+        "separate recommendation metrics from revenue metrics",
+        "prepare intent-specific commercial slots",
+        "prepare legal and privacy activation gates"
+      ]
+    },
+    {
+      "id": "phase_1_business_and_compliance",
+      "status": "blocked_until_user_ready",
+      "requirements": [
+        "business registration reviewed/completed as applicable",
+        "tax setup reviewed",
+        "DDG imprint information reviewed",
+        "commercial communication and affiliate labeling reviewed",
+        "privacy policy reviewed",
+        "TDDDG/consent requirements for any device storage or tracking reviewed"
+      ]
+    },
+    {
+      "id": "phase_2_travel_affiliate_pilot",
+      "status": "future",
+      "channels": [
+        {
+          "id": "expedia_hotel",
+          "role": "primary high-basket travel pilot",
+          "publicPlanningRate": "4% standard qualifying hotel commission, 7-day booking window",
+          "showOnlyWhen": ["tripIntent", "accommodationMissing"]
+        },
+        {
+          "id": "getyourguide",
+          "role": "destination activity cross-sell",
+          "publicPlanningRate": "up to 8%, 30-day attribution",
+          "showOnlyWhen": ["destinationKnown"]
+        },
+        {
+          "id": "airalo",
+          "role": "international pre-departure cross-sell",
+          "publicPlanningRate": "10% standard commission on final sale value after discounts",
+          "showOnlyWhen": ["internationalTrip", "destinationKnown"]
+        }
+      ],
+      "successMetrics": [
+        "revenue_per_eligible_session",
+        "click_to_confirmed_conversion_rate",
+        "revenue_per_trip_intent",
+        "impact_on_core_task_completion"
+      ]
+    },
+    {
+      "id": "phase_3_card_affiliate",
+      "status": "future",
+      "channel": "amex_cards",
+      "rule": "Only after a genuine card-gap analysis. Never sort or recommend cards by commission.",
+      "successMetrics": ["valid_sales_per_card_gap", "revenue_per_card_gap", "recommendation_trust_metrics"]
+    },
+    {
+      "id": "phase_4_owned_recurring_revenue",
+      "status": "future",
+      "channels": ["vayquo_pro", "concierge"],
+      "goal": "Increase recurring and high-margin revenue after users have experienced measurable value.",
+      "requirements": ["pro value proposition validated", "payment/tax/legal setup ready", "support capacity defined"]
+    },
+    {
+      "id": "phase_5_embedded_travel_commerce",
+      "status": "future_scale",
+      "options": [
+        "Expedia Group White Label Travel Platform",
+        "Expedia Group Rapid API",
+        "Airalo partner integrations/API/SDK/co-branding"
+      ],
+      "trigger": "Affiliate pilot proves meaningful qualified demand and partner conversion.",
+      "goal": "Move from outbound affiliate clicks toward an owned VAYQUO booking experience and stronger unit economics."
+    },
+    {
+      "id": "phase_6_b2b_white_label",
+      "status": "future_scale",
+      "channel": "b2b_white_label",
+      "trigger": "Consumer product demonstrates repeatable recommendation quality, conversion and retention.",
+      "commercialModels": ["platform_fee", "usage_fee", "revenue_share"]
+    }
+  ],
+  "verifiedPublicFacts": {
+    "expedia": {
+      "hotelCommissionPercent": 4,
+      "activityCommissionPercent": 4,
+      "carCommissionPercent": 1.5,
+      "flightStandardCommissionPercent": 0,
+      "bookingWindowDays": 7
+    },
+    "getyourguide": {
+      "commissionPercentUpTo": 8,
+      "attributionWindowDays": 30
+    },
+    "airalo": {
+      "standardCommissionPercent": 10,
+      "basis": "final sale value after discounts"
+    },
+    "amex": {
+      "selectedPublicPayoutEUR": {
+        "platinum": 90,
+        "gold": 50,
+        "classic": 30,
+        "blue": 15,
+        "payback": 30,
+        "business_platinum": 140,
+        "business_gold": 90
+      }
+    }
+  }
+}
