@@ -30,9 +30,7 @@ function flightBlock(){
 }
 
 function dateInput(returnTrip=false){
- const direct=returnTrip
-  ?q('#fReturnDate,#fReturn,#flightReturnDate')
-  :q('#fDate,#fDepartureDate,#flightDate');
+ const direct=returnTrip?q('#fReturnDate,#fReturn,#flightReturnDate'):q('#fDate,#fDepartureDate,#flightDate');
  if(direct)return direct;
  const root=flightBlock();
  const dates=qa('input[type="date"]',root);
@@ -46,7 +44,6 @@ function normalizeDate(value){
  const raw=String(value??'').trim();
  return /^\d{4}-\d{2}-\d{2}$/.test(raw)?raw:'';
 }
-
 function cabinClass(){
  const el=q('#fCabin');
  const raw=`${el?.value||''} ${el?.selectedOptions?.[0]?.textContent||''}`.trim().toLowerCase();
@@ -55,7 +52,6 @@ function cabinClass(){
  if(/premium/.test(raw))return 'PREMIUM_ECONOMY';
  return 'ECONOMY';
 }
-
 function passengerCount(id,min=0){
  const n=Math.trunc(Number(q('#'+id)?.value));
  return Number.isFinite(n)?Math.max(min,Math.min(9,n)):min;
@@ -76,13 +72,10 @@ function buildQuery(){
 
 function signature(query){return JSON.stringify(query);}
 function fieldWrap(id){const el=q('#'+id);return el?.closest('.field')||el?.parentElement||null;}
-
 function primaryButton(){
  const root=flightBlock();
  const candidates=qa('button,[role="button"]',root).filter(btn=>!btn.closest('#bottom,.bottom,.v24s2-info-sheet,.v24s2-airport-sheet'));
- return candidates.find(btn=>btn.dataset.vayquoLivePrimary==='1')
-  ||candidates.find(btn=>/^(jetzt prüfen|vergleichen|flüge suchen|diesen flug bewerten)$/i.test(text(btn)))
-  ||null;
+ return candidates.find(btn=>btn.dataset.vayquoLivePrimary==='1')||candidates.find(btn=>/^(jetzt prüfen|vergleichen|flüge suchen|diesen flug bewerten)$/i.test(text(btn)))||null;
 }
 
 function ensureStyle(){
@@ -105,167 +98,120 @@ function ensureStyle(){
  `;
  document.head.appendChild(style);
 }
-
 function ensureStatus(btn){
  let el=q('#vayquo-flight-live-status');
  if(el||!btn)return el;
- el=document.createElement('div');
- el.id='vayquo-flight-live-status';
- el.setAttribute('role','status');
+ el=document.createElement('div');el.id='vayquo-flight-live-status';el.setAttribute('role','status');
  el.style.cssText='margin:10px 0 0;font-size:13px;line-height:1.45;color:var(--muted,#9ba9a8);display:none';
- btn.insertAdjacentElement('beforebegin',el);
- return el;
+ btn.insertAdjacentElement('beforebegin',el);return el;
 }
-
 function setStatus(message,type='info'){
- const btn=primaryButton();
- const el=ensureStatus(btn);
- if(!el)return;
- setText(el,message||'');
- el.style.display=message?'block':'none';
+ const el=ensureStatus(primaryButton());if(!el)return;
+ setText(el,message||'');el.style.display=message?'block':'none';
  el.style.color=type==='error'?'#b86a63':'var(--muted,#9ba9a8)';
 }
-
 function setManualVisibility(show){
  MANUAL_IDS.forEach(id=>{const wrap=fieldWrap(id);if(wrap)wrap.hidden=!show;});
  const controls=q('#vayquo-flight-search-controls');if(controls)controls.hidden=show;
- const results=q('#vayquo-flight-results');
- if(results)results.hidden=show;
+ const results=q('#vayquo-flight-results');if(results)results.hidden=show;
 }
-
 function hideOptionalMarker(control){
- const field=control?.closest('.field');
- if(!field)return;
+ const field=control?.closest('.field');if(!field)return;
  qa('small,span',field).filter(el=>/^optional$/i.test(text(el))).forEach(el=>el.hidden=true);
 }
-
 function ensureFallback(btn){
  if(!btn||q('#vayquo-manual-flight-toggle'))return;
- const fallback=document.createElement('button');
- fallback.type='button';
- fallback.id='vayquo-manual-flight-toggle';
- fallback.textContent='Angebot selbst vergleichen';
+ const fallback=document.createElement('button');fallback.type='button';fallback.id='vayquo-manual-flight-toggle';fallback.textContent='Angebot selbst vergleichen';
  fallback.style.cssText='display:block;width:100%;margin:10px 0 0;padding:8px 0;border:0;background:transparent;color:var(--muted,#9ba9a8);font:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer';
- fallback.addEventListener('click',ev=>{
-  ev.preventDefault();ev.stopPropagation();
-  manualMode=!manualMode;
-  patchUi();
- });
+ fallback.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();manualMode=!manualMode;patchUi();});
  btn.insertAdjacentElement('afterend',fallback);
 }
 
 function timeOnly(value){
  if(!value)return '';
- const d=new Date(value);
- if(Number.isNaN(d.getTime()))return String(value).slice(11,16);
+ const d=new Date(value);if(Number.isNaN(d.getTime()))return String(value).slice(11,16);
  return new Intl.DateTimeFormat('de-DE',{hour:'2-digit',minute:'2-digit'}).format(d);
 }
 function durationLabel(minutes){
  const n=Number(minutes);if(!Number.isFinite(n)||n<=0)return '';
- const h=Math.floor(n/60),m=n%60;
- return `${h?`${h} Std. `:''}${m?`${m} Min.`:''}`.trim();
+ const h=Math.floor(n/60),m=n%60;return `${h?`${h} Std. `:''}${m?`${m} Min.`:''}`.trim();
 }
 function priceLabel(price){
  const total=Number(price?.total);if(!Number.isFinite(total))return '';
  try{return new Intl.NumberFormat('de-DE',{style:'currency',currency:price?.currency||'EUR'}).format(total);}catch{return `${total.toFixed(2)} ${price?.currency||'EUR'}`;}
 }
 function stopsLabel(stops){const n=Math.max(0,Number(stops)||0);return n===0?'Direkt':n===1?'1 Stopp':`${n} Stopps`;}
-
 function ensureResults(){
- let box=q('#vayquo-flight-results');
- const btn=primaryButton();
- if(box||!btn)return box;
- box=document.createElement('div');
- box.id='vayquo-flight-results';
- btn.insertAdjacentElement('beforebegin',box);
- return box;
+ let box=q('#vayquo-flight-results');const btn=primaryButton();if(box||!btn)return box;
+ box=document.createElement('div');box.id='vayquo-flight-results';btn.insertAdjacentElement('beforebegin',box);return box;
 }
-
 function selectOffer(offer,button){
- qa('.vayquo-flight-result').forEach(el=>el.classList.remove('is-selected'));
- button?.classList.add('is-selected');
- window.VAYQUO_SELECTED_FLIGHT=offer;
+ if(offer?.liveData!==true||offer?.bookable!==true)return;
+ qa('.vayquo-flight-result').forEach(el=>el.classList.remove('is-selected'));button?.classList.add('is-selected');window.VAYQUO_SELECTED_FLIGHT=offer;
  const cash=q('#fCash');
  if(cash&&Number.isFinite(Number(offer?.price?.total))){
-  const descriptor=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');
-  const value=String(offer.price.total);
+  const descriptor=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');const value=String(offer.price.total);
   if(descriptor?.set)descriptor.set.call(cash,value);else cash.value=value;
-  cash.dispatchEvent(new Event('input',{bubbles:true}));
-  cash.dispatchEvent(new Event('change',{bubbles:true}));
+  cash.dispatchEvent(new Event('input',{bubbles:true}));cash.dispatchEvent(new Event('change',{bubbles:true}));
  }
  setStatus('Flug ausgewählt. Den Barpreis hat VAYQUO automatisch übernommen.');
  try{window.dispatchEvent(new CustomEvent('vayquo:flight-selected',{detail:{offer}}));}catch{}
 }
-
 function renderOffers(offers){
- ensureStyle();
- const box=ensureResults();
- if(!box)return;
- latestOffers=Array.isArray(offers)?offers:[];
- box.innerHTML='';
- box.hidden=manualMode;
+ ensureStyle();const box=ensureResults();if(!box)return;
+ latestOffers=(Array.isArray(offers)?offers:[]).filter(o=>o?.liveData===true&&o?.bookable===true);
+ box.innerHTML='';box.hidden=manualMode;
  if(!latestOffers.length){
-  box.innerHTML='<div style="padding:12px 0;font-size:13px;color:var(--muted,#879391)">Für diese Suche wurden keine buchbaren Flüge gefunden.</div>';
-  return;
+  box.innerHTML='<div style="padding:12px 0;font-size:13px;color:var(--muted,#879391)">Für diese Suche wurden keine buchbaren Live-Flüge gefunden.</div>';return;
  }
  const shown=latestOffers.slice(0,visibleOffers);
  for(const offer of shown){
-  const button=document.createElement('button');
-  button.type='button';
-  button.className='vayquo-flight-result';
+  const button=document.createElement('button');button.type='button';button.className='vayquo-flight-result';
   const numbers=Array.isArray(offer.flightNumbers)?offer.flightNumbers.join(' · '):'';
   const meta=[stopsLabel(offer.stops),durationLabel(offer.durationMinutes),offer.cabin].filter(Boolean).join(' · ');
   const bags=[offer?.baggage?.carryOnIncluded?'Handgepäck inklusive':'',offer?.baggage?.checkedIncluded?'Aufgabegepäck inklusive':''].filter(Boolean).join(' · ');
   button.innerHTML=`<div class="vayquo-flight-top"><div><div class="vayquo-flight-airline">${esc(offer.airline||'Flug')}</div>${numbers?`<div class="vayquo-flight-number">${esc(numbers)}</div>`:''}</div><div class="vayquo-flight-price">${esc(priceLabel(offer.price))}</div></div><div class="vayquo-flight-route"><b>${esc(timeOnly(offer.departureTime))}</b><span>${esc(offer.origin||'')} → ${esc(offer.destination||'')}</span><b>${esc(timeOnly(offer.arrivalTime))}</b></div><div class="vayquo-flight-meta">${esc(meta)}${bags?`<br>${esc(bags)}`:''}</div>`;
-  button.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();selectOffer(offer,button);});
-  box.appendChild(button);
+  button.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();selectOffer(offer,button);});box.appendChild(button);
  }
  if(latestOffers.length>shown.length){
-  const more=document.createElement('button');
-  more.type='button';more.className='vayquo-flight-more';
-  more.textContent=`Weitere ${Math.min(8,latestOffers.length-shown.length)} Flüge anzeigen`;
-  more.addEventListener('click',()=>{visibleOffers+=8;renderOffers(latestOffers);});
-  box.appendChild(more);
+  const more=document.createElement('button');more.type='button';more.className='vayquo-flight-more';more.textContent=`Weitere ${Math.min(8,latestOffers.length-shown.length)} Flüge anzeigen`;
+  more.addEventListener('click',()=>{visibleOffers+=8;renderOffers(latestOffers);});box.appendChild(more);
  }
 }
 
+function clearResults(message=''){
+ seq++;inFlight=null;lastSignature='';latestOffers=[];visibleOffers=8;
+ q('#vayquo-flight-results')?.remove();q('#vayquo-flight-optimizer')?.remove();
+ window.VAYQUO_SELECTED_FLIGHT=null;
+ window.VAYQUO_FLIGHT_LIVE={status:'idle'};
+ document.documentElement.dataset.vayquoFlightLive='idle';
+ if(message)setStatus(message);else setStatus('');
+}
 function patchUi(){
  if(!q('#fFrom')||!q('#fTo')||!q('#fCash'))return;
- const btn=primaryButton();
- if(!btn)return;
- btn.dataset.vayquoLivePrimary='1';
- ensureStatus(btn);
- ensureFallback(btn);
- hideOptionalMarker(q('#fFrom'));
- hideOptionalMarker(q('#fTo'));
- hideOptionalMarker(dateInput(false));
- setManualVisibility(manualMode);
+ const btn=primaryButton();if(!btn)return;
+ btn.dataset.vayquoLivePrimary='1';ensureStatus(btn);ensureFallback(btn);
+ hideOptionalMarker(q('#fFrom'));hideOptionalMarker(q('#fTo'));hideOptionalMarker(dateInput(false));setManualVisibility(manualMode);
  const fallback=q('#vayquo-manual-flight-toggle');
- if(manualMode){
-  setText(btn,'Jetzt prüfen');
-  setText(fallback,'Zur automatischen Flugsuche');
-  setStatus('Manueller Vergleich: Werte nur eingeben, wenn du ein konkretes Angebot selbst prüfen möchtest.');
- }else{
-  setText(btn,'Flüge suchen');
-  setText(fallback,'Angebot selbst vergleichen');
+ if(manualMode){setText(btn,'Jetzt prüfen');setText(fallback,'Zur automatischen Flugsuche');setStatus('Manueller Vergleich: Werte nur eingeben, wenn du ein konkretes Angebot selbst prüfen möchtest.');}
+ else{
+  setText(btn,'Flüge suchen');setText(fallback,'Angebot selbst vergleichen');
   if(latestOffers.length&&!q('#vayquo-flight-results'))renderOffers(latestOffers);
-  else if(!latestOffers.length&&window.VAYQUO_FLIGHT_LIVE?.status!=='loading'&&window.VAYQUO_FLIGHT_LIVE?.status!=='success')setStatus('');
+  else if(!latestOffers.length&&!['loading','success','sandbox'].includes(window.VAYQUO_FLIGHT_LIVE?.status))setStatus('');
  }
 }
-
 function expose(status,extra={}){
- const detail={status,...extra};
- window.VAYQUO_FLIGHT_LIVE=detail;
- document.documentElement.dataset.vayquoFlightLive=status;
+ const detail={status,...extra};window.VAYQUO_FLIGHT_LIVE=detail;document.documentElement.dataset.vayquoFlightLive=status;
  if(status==='loading'){
-  latestOffers=[];visibleOffers=8;
-  q('#vayquo-flight-results')?.remove();
-  setStatus('Flüge werden gesucht …');
+  latestOffers=[];visibleOffers=8;q('#vayquo-flight-results')?.remove();q('#vayquo-flight-optimizer')?.remove();window.VAYQUO_SELECTED_FLIGHT=null;setStatus('Flüge werden gesucht …');
  }
  if(status==='success'){
-  const offers=Array.isArray(extra.offers)?extra.offers:[];
-  renderOffers(offers);
-  setStatus(offers.length?`${offers.length} Flug${offers.length===1?'':'e'} gefunden.`:'Keine buchbaren Flüge gefunden.');
+  const offers=(Array.isArray(extra.offers)?extra.offers:[]).filter(o=>o?.liveData===true&&o?.bookable===true);renderOffers(offers);
+  setStatus(offers.length?`${offers.length} Live-Flug${offers.length===1?'':'e'} gefunden.`:'Keine buchbaren Live-Flüge gefunden.');
+ }
+ if(status==='sandbox'){
+  latestOffers=[];q('#vayquo-flight-results')?.remove();q('#vayquo-flight-optimizer')?.remove();window.VAYQUO_SELECTED_FLIGHT=null;
+  setStatus('Echte Flugergebnisse sind in der aktuellen Testumgebung noch nicht freigeschaltet. VAYQUO zeigt deshalb bewusst keine Sandbox-Flüge als reale Verbindungen an.');
  }
  if(status==='error')setStatus('Die Live-Flugsuche konnte gerade keine Ergebnisse laden. Du kannst es erneut versuchen oder unten ein Angebot selbst vergleichen.','error');
  try{window.dispatchEvent(new CustomEvent('vayquo:flight-live',{detail}));}catch{}
@@ -273,38 +219,24 @@ function expose(status,extra={}){
 
 async function search(query){
  const sig=signature(query);
- if(sig===lastSignature&&(inFlight||window.VAYQUO_FLIGHT_LIVE?.status==='success'))return inFlight||window.VAYQUO_FLIGHT_LIVE;
- lastSignature=sig;
- const requestId=++seq;
- expose('loading',{query});
+ if(sig===lastSignature&&(inFlight||['success','sandbox'].includes(window.VAYQUO_FLIGHT_LIVE?.status)))return inFlight||window.VAYQUO_FLIGHT_LIVE;
+ lastSignature=sig;const requestId=++seq;expose('loading',{query});
  const task=(async()=>{
   try{
-   const res=await fetch(ENDPOINT,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','apikey':PUBLISHABLE_KEY},
-    body:JSON.stringify(query),
-    cache:'no-store'
-   });
-   let payload=null;
-   try{payload=await res.json();}catch{}
+   const res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','apikey':PUBLISHABLE_KEY},body:JSON.stringify(query),cache:'no-store'});
+   let payload=null;try{payload=await res.json();}catch{}
    if(requestId!==seq)return null;
-   if(!res.ok||!payload?.ok){
-    expose('error',{query,httpStatus:res.status,error:payload?.error||'FLIGHT_SEARCH_FAILED',providerStatus:payload?.providerStatus||null});
-    return null;
+   if(!res.ok||!payload?.ok){expose('error',{query,httpStatus:res.status,error:payload?.error||'FLIGHT_SEARCH_FAILED',providerStatus:payload?.providerStatus||null});return null;}
+   if(payload?.liveData!==true||payload?.environment==='sandbox'){
+    expose('sandbox',{query,source:payload?.source||'nuitee',environment:payload?.environment||'sandbox',offers:[]});return payload;
    }
-   expose('success',{query,source:payload.source||'nuitee',offers:Array.isArray(payload.offers)?payload.offers:[]});
-   return payload;
+   expose('success',{query,source:payload.source||'nuitee',environment:'production',offers:Array.isArray(payload.offers)?payload.offers:[]});return payload;
   }catch{
-   if(requestId===seq)expose('error',{query,error:'FLIGHT_SEARCH_UNREACHABLE'});
-   return null;
-  }finally{
-   if(requestId===seq)inFlight=null;
-  }
+   if(requestId===seq)expose('error',{query,error:'FLIGHT_SEARCH_UNREACHABLE'});return null;
+  }finally{if(requestId===seq)inFlight=null;}
  })();
- inFlight=task;
- return task;
+ inFlight=task;return task;
 }
-
 function focusMissing(){
  const from=q('#fFrom'),to=q('#fTo'),date=dateInput(false),ret=dateInput(true);
  if(!/^[A-Z]{3}$/.test(String(from?.value||'').trim().toUpperCase()))return from?.click?.();
@@ -314,24 +246,28 @@ function focusMissing(){
 }
 
 document.addEventListener('click',ev=>{
- const btn=ev.target.closest?.('button,[role="button"]');
- const primary=primaryButton();
- if(!btn||btn!==primary||manualMode)return;
- ev.preventDefault();
- ev.stopImmediatePropagation();
- const query=buildQuery();
- if(!query){
-  setStatus(tripType()==='roundtrip'?'Bitte Abflughafen, Zielflughafen, Hin- und Rückflugdatum auswählen.':'Bitte Abflughafen, Zielflughafen und Reisedatum auswählen.','error');
-  focusMissing();
-  return;
- }
+ const btn=ev.target.closest?.('button,[role="button"]');const primary=primaryButton();if(!btn||btn!==primary||manualMode)return;
+ ev.preventDefault();ev.stopImmediatePropagation();const query=buildQuery();
+ if(!query){setStatus(tripType()==='roundtrip'?'Bitte Abflughafen, Zielflughafen, Hin- und Rückflugdatum auswählen.':'Bitte Abflughafen, Zielflughafen und Reisedatum auswählen.','error');focusMissing();return;}
  void search(query);
 },true);
 
-function schedule(){
- if(scheduled)return;scheduled=true;
- requestAnimationFrame(()=>{scheduled=false;try{patchUi();}catch(e){console.warn('VAYQUO flight live UI',e);}});
+function relevantSearchControl(el){
+ if(!el)return false;
+ if(['fFrom','fTo','fCabin','fTripType','fAdults','fChildren','fInfants','fReturnDate','fReturn','flightReturnDate','fDate','fDepartureDate','flightDate'].includes(el.id))return true;
+ return el.matches?.('input[type="date"]')&&!!el.closest?.('.v24premium-search');
 }
+function invalidateOnChange(ev){
+ const el=ev.target;if(!relevantSearchControl(el)||manualMode)return;
+ const state=window.VAYQUO_FLIGHT_LIVE?.status;
+ if(!['success','sandbox','loading'].includes(state)&&!latestOffers.length)return;
+ const current=buildQuery();
+ if(!current||signature(current)!==lastSignature)clearResults('Suchangaben geändert – bitte neu suchen.');
+}
+document.addEventListener('input',invalidateOnChange,true);
+document.addEventListener('change',invalidateOnChange,true);
+
+function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;try{patchUi();}catch(e){console.warn('VAYQUO flight live UI',e);}});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 
