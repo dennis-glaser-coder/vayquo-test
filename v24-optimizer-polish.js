@@ -62,9 +62,9 @@ function polishLanding(screen){
  }
  const offer=q('.v24os-offer-late',screen);
  if(offer){
-  setText(q('small',offer),'SCHON EIN ANGEBOT GEFUNDEN?');
-  setText(q('strong',offer),'Prüfen, ob es sich lohnt');
-  setText(q('em',offer),'Barpreis, Punkte oder Meilen und Zuzahlung reichen.');
+  setText(q('small',offer),'SCHON ETWAS GEFUNDEN?');
+  setText(q('strong',offer),'Lohnt sich dein Angebot?');
+  setText(q('em',offer),'Gib dein Angebot ein – VAYQUO prüft, ob sich der Einsatz deiner Punkte oder Meilen lohnt.');
  }
  const empty=q('.v24os-empty-decision',screen);
  if(empty){
