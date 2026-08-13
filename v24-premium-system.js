@@ -6,6 +6,19 @@ const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const text=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
 let scheduled=false;
 
+function loadSafeOptimizer(){
+ if(!q('link[data-v24os-asset]')){
+  const link=document.createElement('link');
+  link.rel='stylesheet';link.href='v24-optimizer-safe.css?v=2401';link.dataset.v24osAsset='style';
+  document.head.appendChild(link);
+ }
+ if(!q('script[data-v24os-asset]')){
+  const script=document.createElement('script');
+  script.src='v24-optimizer-safe.js?v=2401';script.defer=true;script.dataset.v24osAsset='script';
+  document.body.appendChild(script);
+ }
+}
+
 function activeView(){
  const active=qa('#bottom [data-view],.bottom [data-view],#bottom .nav,.bottom .nav').find(el=>el.classList.contains('active')||el.getAttribute('aria-current')==='page');
  const raw=String(active?.dataset?.view||text(active)||'').toLowerCase();
@@ -67,6 +80,7 @@ function markSheets(){
 }
 
 function apply(){
+ loadSafeOptimizer();
  const view=activeView();
  if(view)document.documentElement.dataset.vayquoView=view;
  markStart();
