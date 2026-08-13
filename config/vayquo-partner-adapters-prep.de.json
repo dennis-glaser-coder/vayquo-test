@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Define partner inputs and activation requirements without storing live affiliate URLs or credentials.",
+  "globalRules": {
+    "liveUrlsAllowed": false,
+    "credentialsAllowedInRepo": false,
+    "partnerIdsAllowedInRepoBeforeApproval": false,
+    "httpsRequiredWhenActivated": true,
+    "explicitActivationRequired": true,
+    "recommendationRankingMayUseCommission": false,
+    "autoRedirectAllowed": false
+  },
+  "adapters": {
+    "expedia": {
+      "products": ["hotel", "car"],
+      "slots": ["accommodation_missing_after_trip_intent", "car_missing_after_trip_intent"],
+      "activationInputs": ["partnerApproved", "approvedTrackingTemplate", "affiliateDisclosureReviewed"],
+      "contextInputs": ["destination", "travelDates"],
+      "sendOnlyAfterUserAction": true
+    },
+    "getyourguide": {
+      "products": ["activities"],
+      "slots": ["activity_after_destination_known"],
+      "activationInputs": ["partnerApproved", "approvedTrackingTemplate", "affiliateDisclosureReviewed"],
+      "contextInputs": ["destination"],
+      "sendOnlyAfterUserAction": true
+    },
+    "airalo": {
+      "products": ["esim"],
+      "slots": ["international_connectivity_relevant"],
+      "activationInputs": ["partnerApproved", "approvedTrackingTemplate", "affiliateDisclosureReviewed"],
+      "contextInputs": ["destinationCountry"],
+      "sendOnlyAfterUserAction": true
+    },
+    "amex_cards": {
+      "products": ["card_application"],
+      "slots": ["after_card_gap_analysis"],
+      "activationInputs": ["partnerApproved", "approvedTrackingLinks", "financialProductCopyReviewed", "affiliateDisclosureReviewed"],
+      "contextInputs": ["cardGapResult"],
+      "sendOnlyAfterUserAction": true,
+      "specialRule": "Never recommend or rank a card based on affiliate payout."
+    },
+    "vayquo_pro": {
+      "products": ["subscription"],
+      "slots": ["after_value_demonstrated"],
+      "activationInputs": ["pricingFinal", "paymentProviderReady", "taxSetupReady", "termsReviewed"],
+      "sendOnlyAfterUserAction": true
+    },
+    "concierge": {
+      "products": ["service_request"],
+      "slots": ["complex_award_help"],
+      "activationInputs": ["pricingFinal", "serviceScopeDefined", "supportCapacityReady", "taxSetupReady", "termsReviewed"],
+      "sendOnlyAfterUserAction": true
+    }
+  }
+}
