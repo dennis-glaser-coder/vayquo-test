@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "commercialLive": false,
+  "externalPartnerTrackingAllowed": false,
+  "requiredChecks": {
+    "businessSetupReady": false,
+    "taxSetupReady": false,
+    "imprintReviewed": false,
+    "privacyReviewed": false,
+    "affiliateDisclosureReviewed": false
+  },
+  "channelChecks": {
+    "amex_cards": {"partnerApproved": false, "trackingConfigured": false},
+    "expedia": {"partnerApproved": false, "trackingConfigured": false},
+    "getyourguide": {"partnerApproved": false, "trackingConfigured": false},
+    "airalo": {"partnerApproved": false, "trackingConfigured": false},
+    "vayquo_pro": {"commercialSetupReady": false},
+    "concierge": {"commercialSetupReady": false},
+    "b2b_white_label": {"commercialSetupReady": false}
+  },
+  "rules": [
+    "No commercial CTA may become actionable while commercialLive is false.",
+    "No external affiliate or partner tracking may run while externalPartnerTrackingAllowed is false.",
+    "An affiliate channel requires both partnerApproved and trackingConfigured.",
+    "Commercial revenue must never alter VAYQUO recommendation ranking.",
+    "Activation must be an explicit configuration change, never inferred from the presence of a URL."
+  ]
+}
