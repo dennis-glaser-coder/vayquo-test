@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Route acquisition traffic into the existing VAYQUO product context without changing legacy app routes or core recommendation logic.",
+  "query": {
+    "entryParam": "entry",
+    "sourceParam": "source",
+    "allowedSources": ["ratgeber"],
+    "allowPersonalData": false,
+    "allowFreeText": false
+  },
+  "entries": {
+    "mr_value": {
+      "sourcePage": "/ratgeber/membership-rewards-wert.html",
+      "targetInternalView": "points",
+      "visibleDestination": "Punkte",
+      "intent": "understand_membership_rewards_value"
+    },
+    "payback_value": {
+      "sourcePage": "/ratgeber/payback-punkte-wert.html",
+      "targetInternalView": "points",
+      "visibleDestination": "Punkte",
+      "intent": "understand_payback_value"
+    },
+    "offer_compare": {
+      "sourcePage": "/ratgeber/punkte-oder-geld.html",
+      "targetInternalView": "check",
+      "visibleDestination": "Optimieren",
+      "intent": "compare_concrete_offer"
+    }
+  },
+  "hardRules": [
+    "Never rename or replace the existing internal check route.",
+    "Never modify the flight form or benefit logic from acquisition routing.",
+    "Never bypass authentication or auth-pending state.",
+    "Never prefill personal data, balances, travel searches or free text from URL parameters.",
+    "Only allow predefined entry IDs and predefined sources.",
+    "Acquisition context may influence entry destination, never recommendation ranking.",
+    "Unknown or malformed acquisition parameters must fall back to normal app startup."
+  ]
+}
