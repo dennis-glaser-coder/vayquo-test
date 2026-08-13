@@ -1,5 +1,6 @@
 (()=>{
 'use strict';
+// VAYQUO stable iOS date shell v2402
 const q=(s,r=document)=>r.querySelector(s);
 let scheduled=false;
 
