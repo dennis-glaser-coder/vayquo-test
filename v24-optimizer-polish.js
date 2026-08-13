@@ -13,6 +13,13 @@ function addStyle(){
  const style=document.createElement('style');
  style.id='v24-optimizer-polish-style';
  style.textContent=`
+ .v24os-landing .v24os-decision{padding:19px 21px!important}
+ .v24os-landing .v24os-decision-top{margin-bottom:12px!important}
+ .v24os-landing .v24os-decision h1{margin-bottom:12px!important}
+ .v24os-landing .v24os-decision>p{margin-bottom:15px!important;line-height:1.5!important}
+ .v24os-landing .v24os-decision-action{min-height:48px!important}
+ .v24os-landing .v24os-hold{margin-top:11px!important;padding-top:11px!important}
+ .v24os-landing .v24os-why{margin-top:15px!important}
  .v24os-landing .v24os-proof-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
  .v24os-landing .v24os-proof{padding:14px}
  .v24os-landing .v24os-proof strong{font-size:14px}
@@ -29,28 +36,28 @@ function polishLanding(screen){
  screen.dataset.v24copy='1';
  const decision=q('.v24os-decision',screen);
  if(decision){
-  setText(q('.v24os-decision-reason small',decision),'MACH ZUERST DAS');
+  setText(q('.v24os-decision-reason small',decision),'DEIN NÄCHSTER SCHRITT');
   const reason=q('.v24os-decision-reason strong',decision);
   if(reason&&/Prämienflug/i.test(txt(reason)))setText(reason,'Prämienflug prüfen');
   const p=q(':scope>p',decision);
-  if(p)setText(p,'Da kann deutlich mehr drin sein als bei einer einfachen Einlösung.');
+  if(p)setText(p,'Hier kann deutlich mehr drin sein als bei einer einfachen Einlösung.');
   const hold=q('.v24os-hold',decision);
-  if(hold){setText(q('b',hold),'Noch nichts übertragen.');setText(q('span',hold),'Erst schauen, ob ein passender Flug verfügbar ist.');}
+  if(hold){setText(q('b',hold),'Noch nichts übertragen.');setText(q('span',hold),'Erst prüfen, ob ein passender Flug verfügbar ist.');}
  }
  const why=q('.v24os-why',screen);
  if(why){
   const section=q('.v24os-section',why);
   setText(q('small',section),'WARUM?');
   setText(q('h2',section),'Eine Empfehlung statt zehn Möglichkeiten.');
-  setText(q('p',section),'Wir prüfen zuerst, wo für dich am meisten drin sein kann. Wenn das nicht passt, bleibt der nächste Weg offen.');
+  setText(q('p',section),'Wir starten mit dem Weg, der aus deinen Punkten am meisten machen kann. Gibt es dafür nichts Passendes, zeigen wir dir direkt die nächste gute Option.');
   const proofs=qa('.v24os-proof',why);
-  if(proofs[0]){setText(q('small',proofs[0]),'ZUERST');setText(q('strong',proofs[0]),'Prämienflug');setText(q('span',proofs[0]),'Hier kann aus deinen Punkten deutlich mehr werden.');}
-  if(proofs[1]){setText(q('small',proofs[1]),'PLAN B');setText(q('strong',proofs[1]),'Einfach einlösen');setText(q('span',proofs[1]),'Bleibt offen, wenn kein passender Flug überzeugt.');}
+  if(proofs[0]){setText(q('small',proofs[0]),'ZUERST');setText(q('strong',proofs[0]),'Prämienflug prüfen');setText(q('span',proofs[0]),'Wenn ein guter Flug verfügbar ist, kann hier deutlich mehr für dich drin sein.');}
+  if(proofs[1]){setText(q('small',proofs[1]),'PLAN B');setText(q('strong',proofs[1]),'Punkte direkt nutzen');setText(q('span',proofs[1]),'Wenn kein guter Prämienflug passt, bleibt dieser einfache Weg offen.');}
  }
  const alts=q('.v24os-alternatives',screen);
  if(alts){
   const link=q('[data-v24os-recommend]',alts);
-  if(link){setText(link,'Andere Möglichkeiten ansehen →');alts.insertAdjacentElement('beforebegin',link);}
+  if(link){setText(link,'Weitere Möglichkeiten ansehen →');alts.insertAdjacentElement('beforebegin',link);}
   alts.remove();
  }
  const offer=q('.v24os-offer-late',screen);
@@ -71,9 +78,9 @@ function polishRecommendation(screen){
  if(screen.dataset.v24copy==='1')return;
  screen.dataset.v24copy='1';
  const head=q('.v24os-head',screen);
- if(head){setText(q('.v24os-eyebrow',head),'DEINE MÖGLICHKEITEN');setText(q('h1',head),'Was sich für dich lohnt');setText(q('p',head),'Nummer 1 zuerst prüfen. Den Rest nur, wenn das nicht passt.');}
+ if(head){setText(q('.v24os-eyebrow',head),'DEINE MÖGLICHKEITEN');setText(q('h1',head),'Was sich für dich lohnt');setText(q('p',head),'Starte mit Nummer 1. Die anderen Wege bleiben offen.');}
  const section=q('.v24os-section',screen);
- if(section){setText(q('small',section),'DEINE REIHENFOLGE');setText(q('h2',section),'Damit solltest du anfangen');setText(q('p',section),'Oben anfangen. Nur weitergehen, wenn der erste Weg nicht passt.');}
+ if(section){setText(q('small',section),'DEINE REIHENFOLGE');setText(q('h2',section),'Damit solltest du anfangen');setText(q('p',section),'Starte oben. Nur wenn das nicht passt, gehst du weiter.');}
  qa('.v24os-card',screen).forEach(card=>{
   const title=q('h3',card),copy=q('p',card),label=q('small',card);
   const t=txt(title);
