@@ -9,12 +9,12 @@ let scheduled=false;
 function loadSafeOptimizer(){
  if(!q('link[data-v24os-asset]')){
   const link=document.createElement('link');
-  link.rel='stylesheet';link.href='v24-optimizer-safe.css?v=2401';link.dataset.v24osAsset='style';
+  link.rel='stylesheet';link.href='v24-optimizer-safe.css?v=2402';link.dataset.v24osAsset='style';
   document.head.appendChild(link);
  }
  if(!q('script[data-v24os-asset]')){
   const script=document.createElement('script');
-  script.src='v24-optimizer-safe.js?v=2401';script.defer=true;script.dataset.v24osAsset='script';
+  script.src='v24-optimizer-safe.js?v=2402';script.defer=true;script.dataset.v24osAsset='script';
   document.body.appendChild(script);
  }
 }
