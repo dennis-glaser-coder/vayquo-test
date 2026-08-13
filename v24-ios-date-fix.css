@@ -1,0 +1,6 @@
+@media(max-width:679px){
+ .v24premium-search .v24premium-date-field{position:relative!important;min-width:0!important;max-width:none!important;overflow:hidden!important}
+ .v24premium-search .v24premium-date-field input[type="date"]{-webkit-appearance:none!important;appearance:none!important;display:block!important;inline-size:100%!important;width:100%!important;min-inline-size:0!important;min-width:0!important;max-inline-size:100%!important;max-width:100%!important;box-sizing:border-box!important;border-radius:15px!important;background:#fff!important;overflow:hidden!important}
+ .v24premium-search .v24premium-date-field input[type="date"]::-webkit-date-and-time-value{display:block!important;min-inline-size:0!important;min-width:0!important;width:auto!important;text-align:left!important;padding:0!important;margin:0!important}
+ .v24premium-search .v24premium-date-field:after{content:"";position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:var(--vqp-control,52px)!important;box-sizing:border-box!important;border:1px solid rgba(21,35,32,.11)!important;border-radius:15px!important;pointer-events:none!important;z-index:2!important}
+}
