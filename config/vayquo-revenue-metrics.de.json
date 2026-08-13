@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Revenue measurement plan for VAYQUO before any commercial channel is activated.",
+  "northStar": {
+    "metric": "revenue_per_monthly_active_user",
+    "longTermTargetEUR": 2.0,
+    "note": "Planning target only, not a forecast."
+  },
+  "funnelMetrics": [
+    "monthly_active_users",
+    "optimizer_value_results",
+    "trip_intents",
+    "commercial_eligible_sessions",
+    "commercial_clicks",
+    "confirmed_partner_conversions",
+    "pro_subscribers",
+    "concierge_requests"
+  ],
+  "derivedMetrics": [
+    "value_result_per_active_user",
+    "trip_intent_per_active_user",
+    "commercial_click_rate_after_value",
+    "conversion_rate_after_commercial_click",
+    "revenue_per_trip_intent",
+    "revenue_per_monthly_active_user",
+    "pro_conversion_after_value",
+    "revenue_mix_by_channel"
+  ],
+  "safety": {
+    "partnerTrackingEnabled": false,
+    "storeSensitivePointBalancesInAnalytics": false,
+    "storeFullTravelSearchesInAnalytics": false,
+    "recommendationRankingMayUseRevenueData": false
+  }
+}
