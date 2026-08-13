@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "indexingEnabled": false,
+  "reason": "Keep acquisition pages out of search until production HTTPS is ready and the Ratgeber hub contains only completed links.",
+  "canonicalOrigin": "https://vayquo.de",
+  "readyPages": [
+    "/ratgeber/membership-rewards-wert.html",
+    "/ratgeber/payback-punkte-wert.html",
+    "/ratgeber/punkte-oder-geld.html"
+  ],
+  "blockedOrIncompletePages": [
+    "/ratgeber/amex-punkte-wert.html",
+    "/ratgeber/miles-and-more-meilen-wert.html",
+    "/ratgeber/membership-rewards-uebertragen.html"
+  ],
+  "launchChecks": {
+    "httpsReady": false,
+    "hubClean": false,
+    "allReadyPagesReturn200": false,
+    "canonicalHttpsVerified": false,
+    "robotsIndexEnabled": false,
+    "sitemapCreated": false,
+    "sitemapSubmitted": false,
+    "searchConsoleVerified": false
+  },
+  "contentRules": [
+    "People-first utility before keyword coverage.",
+    "No invented or static live award prices.",
+    "Time-sensitive program rules must show a review date.",
+    "No affiliate links while commercial gate is closed.",
+    "No mass-generated thin pages.",
+    "Core app recommendation ranking remains independent from SEO and revenue."
+  ]
+}
