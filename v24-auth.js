@@ -114,15 +114,13 @@ function syncSoon(){
  clearTimeout(syncTimer);syncTimer=setTimeout(()=>void pushRemoteState(false),900);
 }
 async function hydrateUser(){
- const previous=localStorage.getItem(LAST_USER_KEY)||'';
- const switching=!!previous&&previous!==user.id;
- if(switching)writeBalanceMeta({});
-
  const remote=await fetchRemoteState();
  const rawRemote=remote?.app_state&&typeof remote.app_state==='object'?remote.app_state:null;
  const decoded=decodeRemoteSnapshot(rawRemote);
  const hasRemote=decoded.state&&Object.keys(decoded.state).length>0;
-
+ const previous=localStorage.getItem(LAST_USER_KEY)||'';
+ const switching=!!previous&&previous!==user.id;
+ if(switching)writeBalanceMeta({});
  if(hasRemote){
   replaceState(decoded.state);
   if(decoded.legacy){
@@ -210,52 +208,33 @@ async function logout(){
  try{if(session?.access_token)await fetch(`${SUPABASE_URL}/auth/v1/logout`,{method:'POST',headers:headers(true)});}catch{}
  writeSession(null);session=null;user=null;lastSynced='';showGate();
 }
-function settingsHeading(){
- return qa('#app h1,#app h2,#app h3').find(el=>/Einstellungen/i.test(el.textContent||''))||qa('#app *').find(el=>el.children.length===0&&/Einstellungen/i.test(el.textContent||''));
-}
 function patchSettings(){
  if(!user?.email)return;
- const heading=settingsHeading();if(!heading)return;
- if(q('.v24a-account-row'))return;
- const row=document.createElement('div');row.className='v24a-account-row';
- row.innerHTML=`<div><strong>Konto</strong><span>${String(user.email).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</span></div><button type="button">Abmelden</button>`;
- row.querySelector('button').addEventListener('click',logout);
- const target=heading.parentElement||heading;target.insertAdjacentElement('afterend',row);
+ const leaves=qa('*').filter(el=>el.children.length===0);
+ const note=leaves.find(el=>/VAYQUO\s+V2\.3\s+Test/i.test(el.textContent||''));
+ if(note)note.textContent='VAYQUO · Unabhängig. Markennamen dienen nur zur Identifikation unterstützter Programme.';
+ const heading=leaves.find(el=>/^Einstellungen$/i.test((el.textContent||'').trim()));if(!heading)return;
+ let panel=heading.parentElement;for(let i=0;i<4&&panel?.parentElement;i++){if(/Programme\s*&\s*Amex/i.test(panel.textContent||''))break;panel=panel.parentElement;}
+ if(!panel||q('.v24a-account-row',panel))return;
+ const row=document.createElement('div');row.className='v24a-account-row';row.innerHTML=`<div><strong>Konto</strong><span>${String(user.email).replace(/[<>&]/g,'')}</span></div><button type="button">Abmelden</button>`;
+ row.querySelector('button').addEventListener('click',()=>void logout());
+ const firstCard=qa('*',panel).find(el=>el.children.length&&/Programme\s*&\s*Amex/i.test(el.textContent||'')&&!/Einstellungen/i.test(el.textContent||''));
+ if(firstCard?.parentElement)firstCard.parentElement.insertBefore(row,firstCard);else panel.appendChild(row);
 }
 
-function hookSave(){
- try{
-  if(typeof save!=='function'||save.__vayquoAuthHook)return;
-  const original=save;
-  const wrapped=function(...args){const result=original.apply(this,args);syncSoon();return result;};
-  wrapped.__vayquoAuthHook=true;
-  wrapped.__vayquoAuthOriginal=original;
-  save=wrapped;
- }catch{}
-}
-function watchStorage(){
- window.addEventListener('storage',ev=>{
-  if(ev.key===BALANCE_META_KEY&&user?.id)syncSoon();
- });
+function observe(){
+ document.addEventListener('input',ev=>{if(!ev.target.closest?.('#v24-auth'))syncSoon();},true);
+ document.addEventListener('change',ev=>{if(!ev.target.closest?.('#v24-auth'))syncSoon();},true);
+ document.addEventListener('click',ev=>{if(!ev.target.closest?.('#v24-auth')){syncSoon();setTimeout(patchSettings,30);}},true);
+ window.addEventListener('pagehide',()=>{void pushRemoteState(false);});
+ new MutationObserver(()=>{if(user)setTimeout(patchSettings,0);}).observe(document.documentElement,{childList:true,subtree:true});
 }
 
-async function boot(){
- hookSave();watchStorage();
- await ensureSession();
- if(session&&user){await startAuthenticated();}else showGate();
- const observer=new MutationObserver(()=>{hookSave();patchSettings();});
- observer.observe(document.documentElement,{childList:true,subtree:true});
- document.addEventListener('change',syncSoon,true);
- document.addEventListener('input',syncSoon,true);
- window.addEventListener('beforeunload',()=>{try{void pushRemoteState(true);}catch{}});
+async function init(){
+ ensureStyle();mount();observe();
+ const ok=await ensureSession();if(ok&&user)await startAuthenticated();else showGate();
 }
 
-window.VAYQUO_AUTH={
- get user(){return user;},
- get session(){return session;},
- sync(){return pushRemoteState(true);},
- logout
-};
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else void boot();
+window.VAYQUO_AUTH={logout,getUser:()=>user?{id:user.id,email:user.email}:null,sync:()=>pushRemoteState(true)};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>void init(),{once:true});else void init();
 })();
