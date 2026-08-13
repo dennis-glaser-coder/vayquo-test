@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "purpose": "Deterministic scenarios for validating commercial eligibility before any live partner integration is enabled.",
+  "scenarios": [
+    {
+      "id": "no_value_no_commercial",
+      "context": {},
+      "expectedEligibleSlots": [],
+      "expectedForbiddenChannels": ["expedia","getyourguide","airalo","amex_cards","vayquo_pro","concierge"]
+    },
+    {
+      "id": "value_shown_pro_only",
+      "context": {"valueDemonstrated": true},
+      "expectedEligibleSlots": ["after_value_demonstrated"],
+      "expectedChannels": ["vayquo_pro"]
+    },
+    {
+      "id": "trip_needs_hotel",
+      "context": {"tripIntent": true,"accommodationMissing": true},
+      "expectedEligibleSlots": ["accommodation_missing_after_trip_intent"],
+      "expectedChannels": ["expedia"]
+    },
+    {
+      "id": "destination_activity",
+      "context": {"destinationKnown": true},
+      "expectedEligibleSlots": ["activity_after_destination_known"],
+      "expectedChannels": ["getyourguide"]
+    },
+    {
+      "id": "international_connectivity",
+      "context": {"destinationKnown": true,"internationalTrip": true},
+      "expectedEligibleSlots": ["activity_after_destination_known","international_connectivity_relevant"],
+      "expectedChannels": ["getyourguide","airalo"],
+      "surfaceRule": "Never show more than one commercial card on one surface."
+    },
+    {
+      "id": "card_gap_after_value",
+      "context": {"valueDemonstrated": true,"cardGap": true},
+      "expectedEligibleSlots": ["after_value_demonstrated","after_card_gap_analysis"],
+      "expectedChannels": ["vayquo_pro","amex_cards"],
+      "specialRule": "Card fit must be determined without affiliate payout data."
+    },
+    {
+      "id": "complex_award",
+      "context": {"complexAwardCase": true},
+      "expectedEligibleSlots": ["complex_award_help"],
+      "expectedChannels": ["concierge"]
+    },
+    {
+      "id": "commercial_gate_closed",
+      "context": {"valueDemonstrated": true,"tripIntent": true,"accommodationMissing": true,"destinationKnown": true,"internationalTrip": true,"cardGap": true,"complexAwardCase": true},
+      "globalCommercialLive": false,
+      "expectedActionableChannels": [],
+      "expectedReason": "commercial_live_off"
+    }
+  ]
+}
