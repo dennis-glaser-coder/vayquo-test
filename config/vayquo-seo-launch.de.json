@@ -3,7 +3,7 @@
   "market": "DE",
   "mode": "preparation_only",
   "indexingEnabled": false,
-  "reason": "Keep acquisition pages out of search until production HTTPS is ready and the Ratgeber hub contains only completed links.",
+  "reason": "Keep acquisition pages out of search until production HTTPS is ready and all launch checks are verified.",
   "canonicalOrigin": "https://vayquo.de",
   "readyPages": [
     "/ratgeber/membership-rewards-wert.html",
@@ -17,7 +17,7 @@
   ],
   "launchChecks": {
     "httpsReady": false,
-    "hubClean": false,
+    "hubClean": true,
     "allReadyPagesReturn200": false,
     "canonicalHttpsVerified": false,
     "robotsIndexEnabled": false,
