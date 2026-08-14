@@ -1,0 +1,84 @@
+(()=>{
+'use strict';
+
+const q=(s,r=document)=>r.querySelector(s);
+const fmt=n=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:0}).format(Math.max(0,Math.round(Number(n)||0)));
+const euro=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(n)||0);
+const PROGRAMS={
+ mr:{label:'Membership Rewards',unit:'Punkte',short:'MR'},
+ pb:{label:'PAYBACK',unit:'Punkte',short:'PAYBACK'},
+ mm:{label:'Miles & More',unit:'Meilen',short:'M&M'}
+};
+const META_KEY='vayquo:balanceMeta';
+
+function safeState(){
+ try{if(window.state&&typeof window.state==='object')return window.state;}catch{}
+ try{if(typeof state!=='undefined'&&state&&typeof state==='object')return state;}catch{}
+ return {};
+}
+function balance(id){return Math.max(0,Math.round(Number(safeState()?.balances?.[id])||0));}
+function readMeta(){try{const v=JSON.parse(localStorage.getItem(META_KEY)||'{}');return v&&typeof v==='object'?v:{};}catch{return {};}}
+function known(id){return readMeta()[id]?.known===true||balance(id)>0;}
+function ensureStyle(){
+ if(q('#v24oc-style'))return;
+ const style=document.createElement('style');
+ style.id='v24oc-style';
+ style.textContent=`
+  .v24oc-context{margin-top:13px;padding:13px 14px;border:1px solid rgba(23,33,31,.08);border-radius:15px;background:rgba(255,255,255,.48)}
+  .v24oc-context small{display:block;font-size:8.5px;letter-spacing:.12em;font-weight:850;color:#7b7469}
+  .v24oc-context strong{display:block;margin-top:5px;color:#1f312f;font-size:14px;line-height:1.3}
+  .v24oc-context span{display:block;margin-top:5px;color:#65726e;font-size:11px;line-height:1.45}
+  .v24oc-context.is-warn{background:#f7f1e8;border-color:rgba(148,112,63,.16)}
+ `;
+ document.head.appendChild(style);
+}
+function enhanceResult(){
+ const result=q('#v24os-result .v24os-result');
+ if(!result)return;
+ const cash=Number(q('#v24os-cash')?.value);
+ const award=Number(q('#v24os-award')?.value);
+ const fees=Number(q('#v24os-fees')?.value||0);
+ if(!Number.isFinite(cash)||cash<=0||!Number.isFinite(award)||award<=0||!Number.isFinite(fees)||fees<0)return;
+
+ ensureStyle();
+ const cashDifference=cash-fees;
+ const p=q('p',result);
+ if(p&&cashDifference>0){
+  const sentences=(p.textContent||'').trim().split(/(?<=\.)\s+/).filter(Boolean);
+  const detail=sentences.filter(s=>!/Gegenüber dem Barpreis|weniger in bar/i.test(s)).join(' ');
+  p.textContent=`Bei dieser Buchung würdest du ${euro(cashDifference)} weniger in bar ausgeben als beim vergleichbaren Barpreis. Dafür setzt du ${fmt(award)} Punkte oder Meilen ein.${detail?` ${detail}`:''}`;
+ }
+
+ q('.v24oc-context',result)?.remove();
+ const currency=String(q('#v24os-currency')?.value||'other');
+ const program=PROGRAMS[currency];
+ if(!program)return;
+
+ const box=document.createElement('div');
+ box.className='v24oc-context';
+ if(!known(currency)){
+  box.classList.add('is-warn');
+  box.innerHTML=`<small>DEIN BESTAND</small><strong>Stand noch nicht hinterlegt</strong><span>Trag deinen aktuellen ${program.label}-Stand unter „Punkte“ ein. Dann kann VAYQUO prüfen, ob du dieses Angebot mit deinem Bestand umsetzen kannst.</span>`;
+  result.appendChild(box);
+  return;
+ }
+
+ const have=balance(currency);
+ if(have>=award){
+  const remaining=Math.max(0,have-Math.round(award));
+  box.innerHTML=`<small>DEIN BESTAND DANACH</small><strong>${fmt(remaining)} ${program.unit} bleiben übrig</strong><span>Aktuell ${fmt(have)} ${program.unit} · für dieses Angebot ${fmt(award)} ${program.unit}.</span>`;
+ }else{
+  const missing=Math.max(0,Math.round(award)-have);
+  box.classList.add('is-warn');
+  box.innerHTML=`<small>MIT DEINEM AKTUELLEN STAND</small><strong>Noch ${fmt(missing)} ${program.unit} zu wenig</strong><span>Du hast ${fmt(have)} ${program.unit}, das Angebot benötigt ${fmt(award)}. Der Vergleichswert ist berechenbar, die Buchung aber mit diesem Bestand noch nicht vollständig möglich.</span>`;
+ }
+ result.appendChild(box);
+}
+
+document.addEventListener('click',ev=>{
+ if(ev.target.closest?.('[data-v24os-calc]'))setTimeout(enhanceResult,0);
+});
+new MutationObserver(()=>{
+ if(q('#v24os-result .v24os-result')&&!q('#v24os-result .v24oc-context'))setTimeout(enhanceResult,0);
+}).observe(document.documentElement,{childList:true,subtree:true});
+})();
