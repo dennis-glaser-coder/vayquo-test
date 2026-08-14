@@ -19,6 +19,15 @@ let onboardingSeen=false;
 let skipIntentOnce=false;
 
 function setText(el,value){if(el&&el.textContent!==value)el.textContent=value;}
+function safeState(){
+ try{if(window.state&&typeof window.state==='object')return window.state;}catch{}
+ try{if(typeof state!=='undefined'&&state&&typeof state==='object')return state;}catch{}
+ return {};
+}
+function positivePrograms(){
+ const s=safeState();
+ return ['mr','pb','mm'].filter(id=>!!s?.programs?.[id]&&Number(s?.balances?.[id])>0);
+}
 
 function addStyle(){
  if(document.getElementById('v24-optimizer-polish-style'))return;
@@ -69,7 +78,7 @@ function showIntent(screen){
   <div class="v24ctx-list">
    <button type="button" class="v24ctx-option" data-v24ctx="flight"><span class="v24ctx-nr">01</span><span class="v24ctx-copy"><strong>Flug mit Punkten oder Meilen prüfen</strong><span>Prüfe den passenden Weg für einen Flug und deinen vorhandenen Bestand.</span></span><span class="v24ctx-arrow">›</span></button>
    <button type="button" class="v24ctx-option" data-v24ctx="offer"><span class="v24ctx-nr">02</span><span class="v24ctx-copy"><strong>Ich habe schon ein Angebot</strong><span>Barpreis, Punkte oder Meilen und Zuzahlung miteinander vergleichen.</span></span><span class="v24ctx-arrow">›</span></button>
-   <button type="button" class="v24ctx-option" data-v24ctx="best"><span class="v24ctx-nr">03</span><span class="v24ctx-copy"><strong>Das Beste aus meinem Bestand machen</strong><span>VAYQUO zeigt dir, womit du anhand deines Setups anfangen solltest.</span></span><span class="v24ctx-arrow">›</span></button>
+   <button type="button" class="v24ctx-option" data-v24ctx="best"><span class="v24ctx-nr">03</span><span class="v24ctx-copy"><strong>Ich weiß noch nicht, was sinnvoll ist</strong><span>VAYQUO ordnet deinen Bestand und zeigt dir, womit du anfangen kannst.</span></span><span class="v24ctx-arrow">›</span></button>
    <button type="button" class="v24ctx-option" data-v24ctx="benefits"><span class="v24ctx-nr">04</span><span class="v24ctx-copy"><strong>Meine Vorteile nutzen</strong><span>Guthaben, Status- und Kartenvorteile öffnen.</span></span><span class="v24ctx-arrow">›</span></button>
   </div>`;
  screen.prepend(wrap);
@@ -111,25 +120,51 @@ function runIntent(action,screen){
 function polishLanding(screen){
  if(screen.dataset.v24copy==='1')return;
  screen.dataset.v24copy='1';
+ const ids=positivePrograms();
+ const onlyPb=ids.length===1&&ids[0]==='pb';
+ const onlyMm=ids.length===1&&ids[0]==='mm';
+ const multi=ids.length>1;
  const decision=q('.v24os-decision',screen);
  if(decision){
   setText(q('.v24os-decision-reason small',decision),'DEIN NÄCHSTER SCHRITT');
   const reason=q('.v24os-decision-reason strong',decision);
   if(reason&&/Prämienflug/i.test(txt(reason)))setText(reason,'Prämienflug prüfen');
   const p=q(':scope>p',decision);
-  if(p)setText(p,'Hier kann deutlich mehr drin sein als bei einer einfachen Einlösung.');
+  if(p){
+   if(multi)setText(p,'Du hast mehrere Wege. Welcher davon besser ist, entscheidet erst der konkrete Einsatz. Deshalb noch nichts übertragen oder einlösen.');
+   else if(onlyPb)setText(p,'Der direkte PAYBACK-Wert ist deine sichere Vergleichsbasis. Prüfe nur Alternativen, die nachweisbar mehr bringen.');
+   else if(onlyMm)setText(p,'Ob sich deine Meilen lohnen, zeigt erst ein konkretes Angebot aus Meilenpreis, Zuzahlung und Barpreis.');
+   else setText(p,'Hier kann deutlich mehr drin sein als bei einer einfachen Einlösung.');
+  }
   const hold=q('.v24os-hold',decision);
   if(hold){setText(q('b',hold),'Noch nichts übertragen.');setText(q('span',hold),'Erst prüfen, ob ein passender Flug verfügbar ist.');}
  }
  const why=q('.v24os-why',screen);
  if(why){
   const section=q('.v24os-section',why);
-  setText(q('small',section),'WARUM?');
-  setText(q('h2',section),'Eine Empfehlung statt zehn Möglichkeiten.');
-  setText(q('p',section),'Wir starten mit dem Weg, der aus deinen Punkten am meisten machen kann. Gibt es dafür nichts Passendes, zeigen wir dir direkt die nächste gute Option.');
   const proofs=qa('.v24os-proof',why);
-  if(proofs[0]){setText(q('small',proofs[0]),'ZUERST');setText(q('strong',proofs[0]),'Prämienflug prüfen');setText(q('span',proofs[0]),'Wenn ein guter Flug verfügbar ist, kann hier deutlich mehr für dich drin sein.');}
-  if(proofs[1]){setText(q('small',proofs[1]),'PLAN B');setText(q('strong',proofs[1]),'Punkte direkt nutzen');setText(q('span',proofs[1]),'Wenn kein guter Prämienflug passt, bleibt dieser einfache Weg offen.');}
+  setText(q('small',section),'WARUM?');
+  if(multi){
+   setText(q('h2',section),'Noch kein pauschaler Sieger.');
+   setText(q('p',section),'Deine Programme haben unterschiedliche Einsatzmöglichkeiten. Erst ein konkretes Ziel oder Angebot macht einen fairen Vergleich möglich.');
+   if(proofs[0]){setText(q('small',proofs[0]),'JETZT');setText(q('strong',proofs[0]),'Noch nichts verschieben');setText(q('span',proofs[0]),'So bleiben deine Punkte und Meilen flexibel, bis der konkrete Einsatz feststeht.');}
+   if(proofs[1]){setText(q('small',proofs[1]),'DANN');setText(q('strong',proofs[1]),'Konkreten Einsatz vergleichen');setText(q('span',proofs[1]),'Preis, Punkte oder Meilen und Zuzahlung entscheiden über die bessere Option.');}
+  }else if(onlyPb){
+   setText(q('h2',section),'Erst vergleichen, dann einlösen.');
+   setText(q('p',section),'PAYBACK hat einen klaren direkten Wert. Eine Alternative ist nur sinnvoll, wenn ein konkretes Angebot darüber liegt.');
+   if(proofs[0]){setText(q('small',proofs[0]),'BASIS');setText(q('strong',proofs[0]),'1 Cent pro Punkt direkt');setText(q('span',proofs[0]),'Das ist dein sicherer Vergleichswert.');}
+   if(proofs[1]){setText(q('small',proofs[1]),'NÄCHSTER CHECK');setText(q('strong',proofs[1]),'Konkretes Angebot vergleichen');setText(q('span',proofs[1]),'Nur wechseln, wenn du nachweisbar mehr Gegenwert bekommst.');}
+  }else if(onlyMm){
+   setText(q('h2',section),'Der Wert entsteht erst beim Angebot.');
+   setText(q('p',section),'Ohne verfügbaren Flug, Meilenpreis und Zuzahlung wäre ein pauschaler Wert nicht belastbar.');
+   if(proofs[0]){setText(q('small',proofs[0]),'ENTSCHEIDEND');setText(q('strong',proofs[0]),'Konkretes Angebot');setText(q('span',proofs[0]),'Erst ein verfügbarer Flug macht den Meileneinsatz bewertbar.');}
+   if(proofs[1]){setText(q('small',proofs[1]),'VERGLEICH');setText(q('strong',proofs[1]),'Barpreis gegen Meilen');setText(q('span',proofs[1]),'Meilenpreis und Zuzahlung müssen gegen denselben Barflug antreten.');}
+  }else{
+   setText(q('h2',section),'Eine Empfehlung statt zehn Möglichkeiten.');
+   setText(q('p',section),'Wir starten mit dem Weg, der aus deinen Punkten am meisten machen kann. Gibt es dafür nichts Passendes, zeigen wir dir direkt die nächste gute Option.');
+   if(proofs[0]){setText(q('small',proofs[0]),'ZUERST');setText(q('strong',proofs[0]),'Prämienflug prüfen');setText(q('span',proofs[0]),'Wenn ein guter Flug verfügbar ist, kann hier deutlich mehr für dich drin sein.');}
+   if(proofs[1]){setText(q('small',proofs[1]),'PLAN B');setText(q('strong',proofs[1]),'Punkte direkt nutzen');setText(q('span',proofs[1]),'Wenn kein guter Prämienflug passt, bleibt dieser einfache Weg offen.');}
+  }
  }
  const alts=q('.v24os-alternatives',screen);
  if(alts){
@@ -154,25 +189,35 @@ function polishLanding(screen){
 function polishRecommendation(screen){
  if(screen.dataset.v24copy==='1')return;
  screen.dataset.v24copy='1';
+ const multi=positivePrograms().length>1;
  const head=q('.v24os-head',screen);
- if(head){setText(q('.v24os-eyebrow',head),'DEINE MÖGLICHKEITEN');setText(q('h1',head),'Was sich für dich lohnt');setText(q('p',head),'Starte mit Nummer 1. Die anderen Wege bleiben offen.');}
+ if(head){
+  setText(q('.v24os-eyebrow',head),'DEINE MÖGLICHKEITEN');
+  setText(q('h1',head),multi?'Deine Wege im Überblick':'Was sich für dich lohnt');
+  setText(q('p',head),multi?'Ohne konkretes Ziel gibt es keine seriöse Rangfolge.':'Starte mit Nummer 1. Die anderen Wege bleiben offen.');
+ }
  const section=q('.v24os-section',screen);
- if(section){setText(q('small',section),'DEINE REIHENFOLGE');setText(q('h2',section),'Damit solltest du anfangen');setText(q('p',section),'Starte oben. Nur wenn das nicht passt, gehst du weiter.');}
+ if(section){
+  setText(q('small',section),multi?'EINORDNUNG':'DEINE REIHENFOLGE');
+  setText(q('h2',section),multi?'Erst konkret vergleichen':'Damit solltest du anfangen');
+  setText(q('p',section),multi?'Die Wege sind Möglichkeiten, keine pauschale Wert-Rangliste.':'Starte oben. Nur wenn das nicht passt, gehst du weiter.');
+ }
  qa('.v24os-card',screen).forEach(card=>{
   const title=q('h3',card),copy=q('p',card),label=q('small',card);
   const t=txt(title);
   if(/Airline-Partner|Prämienflug/i.test(t)){
-   setText(label,'ZUERST');setText(title,'Prämienflug prüfen');setText(copy,'Hier steckt die beste Chance, deutlich mehr aus deinen Punkten zu machen. Erst Verfügbarkeit prüfen, dann übertragen.');
+   setText(label,multi?'MR PRÜFEN':'ZUERST');setText(title,'Prämienflug prüfen');setText(copy,'Hier steckt die Chance, mehr aus deinen Punkten zu machen. Erst Verfügbarkeit prüfen, dann übertragen.');
   }else if(/PAYBACK/i.test(t)){
-   setText(label,'PLAN B');setText(title,'PAYBACK behalten');setText(copy,'Sicher und einfach. Erst interessant, wenn kein besserer Einsatz passt.');
+   setText(label,multi?'PAYBACK':'PLAN B');setText(title,'PAYBACK einordnen');setText(copy,'Der direkte Wert ist die sichere Basis. Eine Alternative sollte nur gewinnen, wenn sie konkret mehr bringt.');
   }else if(/direkt für Reisen|direkt einsetzen/i.test(t)){
-   setText(label,'EINFACH');setText(title,'Punkte direkt einsetzen');setText(copy,'Bequem, aber meist nicht der erste Weg, wenn du mehr herausholen willst.');
+   setText(label,'EINFACH');setText(title,'Punkte direkt einsetzen');setText(copy,'Bequem, aber erst nach dem Vergleich mit einer konkreten Alternative.');
   }else if(/Miles & More/i.test(t)){
-   setText(label,'PRÜFEN');setText(title,'Flug oder Upgrade prüfen');setText(copy,'Ob es sich lohnt, zeigt das konkrete Angebot: Meilen, Zuzahlung und Barpreis.');
+   setText(label,multi?'M&M PRÜFEN':'PRÜFEN');setText(title,'Flug oder Upgrade prüfen');setText(copy,'Ob es sich lohnt, zeigt das konkrete Angebot: Meilen, Zuzahlung und Barpreis.');
   }
+  if(multi)setText(q('.v24os-rank',card),'→');
  });
  const note=q('.v24os-note',screen);
- if(note)setText(note,'Erst prüfen, dann übertragen. So bleiben dir alle Wege offen.');
+ if(note)setText(note,multi?'Erst das konkrete Ziel macht die Wege fair vergleichbar. Bis dahin nichts vorschnell übertragen.':'Erst prüfen, dann übertragen. So bleiben dir alle Wege offen.');
 }
 
 function polishOffer(screen){
