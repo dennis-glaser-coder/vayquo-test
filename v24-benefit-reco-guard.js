@@ -1,6 +1,7 @@
 (()=>{
 'use strict';
 
+// Only hide card prompts that VAYQUO cannot yet justify from personal usage data.
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 
