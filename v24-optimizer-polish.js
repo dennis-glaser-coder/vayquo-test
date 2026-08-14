@@ -13,6 +13,8 @@ const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const txt=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
 let scheduled=false;
+let lastScreen=null;
+let intentOpen=true;
 
 function setText(el,value){if(el&&el.textContent!==value)el.textContent=value;}
 
@@ -34,9 +36,74 @@ function addStyle(){
  .v24os-landing .v24os-proof span{font-size:10.5px}
  .v24os-landing>.v24os-text-action{display:inline-flex;margin:14px 2px 2px;font-size:12px}
  .v24os-landing .v24os-offer-late{margin-top:12px;margin-bottom:20px}
- @media(max-width:360px){.v24os-landing .v24os-proof-grid{grid-template-columns:1fr!important}}
+ .v24ctx{display:grid;gap:14px;padding:5px 0 22px}
+ .v24ctx-head{padding:5px 2px 2px}
+ .v24ctx-head small{display:block;font-size:9px;letter-spacing:.14em;font-weight:900;color:#8a7451}
+ .v24ctx-head h1{margin:7px 0 8px;color:#171817;font-size:30px;line-height:1.05;letter-spacing:-.045em}
+ .v24ctx-head p{margin:0;color:#68716e;font-size:13px;line-height:1.5}
+ .v24ctx-list{display:grid;gap:10px}
+ .v24ctx-option{width:100%;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;padding:14px;border:1px solid rgba(23,24,23,.10);border-radius:18px;background:#fffdf9;color:#171817;text-align:left;font:inherit;cursor:pointer;box-shadow:0 6px 18px rgba(23,33,31,.035)}
+ .v24ctx-option:active{transform:scale(.995)}
+ .v24ctx-nr{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#eee9df;color:#7e6948;font-size:10px;font-weight:900;letter-spacing:.06em}
+ .v24ctx-copy strong{display:block;font-size:14px;line-height:1.25;color:#1d2d2a}
+ .v24ctx-copy span{display:block;margin-top:4px;color:#6f7975;font-size:10.5px;line-height:1.4}
+ .v24ctx-arrow{font-size:20px;color:#b89b64}
+ .v24ctx-return{display:inline-flex;margin:0 0 11px;padding:0;border:0;background:transparent;color:#596762;font:800 11px inherit;cursor:pointer}
+ @media(max-width:360px){.v24os-landing .v24os-proof-grid{grid-template-columns:1fr!important}.v24ctx-head h1{font-size:27px}}
  `;
  document.head.appendChild(style);
+}
+
+function restoreIntentContent(screen){
+ qa(':scope>[data-v24ctx-hidden="1"]',screen).forEach(el=>{el.hidden=false;delete el.dataset.v24ctxHidden;});
+ q(':scope>.v24ctx',screen)?.remove();
+}
+function showIntent(screen){
+ if(q(':scope>.v24ctx',screen))return;
+ qa(':scope>*',screen).forEach(el=>{if(!el.classList.contains('v24ctx')){el.dataset.v24ctxHidden='1';el.hidden=true;}});
+ const wrap=document.createElement('section');
+ wrap.className='v24ctx';
+ wrap.innerHTML=`<div class="v24ctx-head"><small>DEIN VORHABEN</small><h1>Was möchtest du gerade machen?</h1><p>Wähle dein Ziel. VAYQUO führt dich direkt zur passenden Auswertung.</p></div>
+  <div class="v24ctx-list">
+   <button type="button" class="v24ctx-option" data-v24ctx="flight"><span class="v24ctx-nr">01</span><span class="v24ctx-copy"><strong>Flug mit Punkten oder Meilen prüfen</strong><span>Prüfe den passenden Weg für einen Flug und deinen vorhandenen Bestand.</span></span><span class="v24ctx-arrow">›</span></button>
+   <button type="button" class="v24ctx-option" data-v24ctx="offer"><span class="v24ctx-nr">02</span><span class="v24ctx-copy"><strong>Ich habe schon ein Angebot</strong><span>Barpreis, Punkte oder Meilen und Zuzahlung miteinander vergleichen.</span></span><span class="v24ctx-arrow">›</span></button>
+   <button type="button" class="v24ctx-option" data-v24ctx="best"><span class="v24ctx-nr">03</span><span class="v24ctx-copy"><strong>Das Beste aus meinem Bestand machen</strong><span>VAYQUO zeigt dir, womit du anhand deines Setups anfangen solltest.</span></span><span class="v24ctx-arrow">›</span></button>
+   <button type="button" class="v24ctx-option" data-v24ctx="benefits"><span class="v24ctx-nr">04</span><span class="v24ctx-copy"><strong>Meine Vorteile nutzen</strong><span>Guthaben, Status- und Kartenvorteile öffnen.</span></span><span class="v24ctx-arrow">›</span></button>
+  </div>`;
+ screen.prepend(wrap);
+ qa('[data-v24ctx]',wrap).forEach(btn=>btn.addEventListener('click',()=>runIntent(btn.dataset.v24ctx,screen)));
+}
+function showExistingLanding(screen){
+ intentOpen=false;
+ restoreIntentContent(screen);
+ if(!q(':scope>.v24ctx-return',screen)){
+  const back=document.createElement('button');
+  back.type='button';back.className='v24ctx-return';back.textContent='← Anderes Vorhaben';
+  back.addEventListener('click',()=>{back.remove();intentOpen=true;showIntent(screen);});
+  screen.prepend(back);
+ }
+}
+function openBenefits(){
+ const nav=qa('#bottom [data-view],.bottom [data-view],#bottom .nav,.bottom .nav').find(el=>{
+  const v=String(el.dataset?.view||'').toLowerCase();
+  const t=txt(el).toLowerCase();
+  return v==='card'||v==='benefits'||/vorteile/.test(t);
+ });
+ nav?.click();
+}
+function runIntent(action,screen){
+ if(action==='best'){showExistingLanding(screen);return;}
+ if(action==='offer'){
+  const button=q('[data-v24os-offer]',screen);
+  if(button){button.click();return;}
+ }
+ if(action==='flight'){
+  const button=q('[data-v24os-action="flight"]',screen);
+  if(button){button.click();return;}
+  const offer=q('[data-v24os-offer]',screen);
+  if(offer){offer.click();return;}
+ }
+ if(action==='benefits')openBenefits();
 }
 
 function polishLanding(screen){
@@ -139,10 +206,13 @@ function polishOffer(screen){
 function polish(){
  addStyle();
  const screen=q('#app .v24os-screen');
- if(!screen)return;
+ if(!screen){lastScreen=null;return;}
  const mode=screen.dataset.v24os;
- if(mode==='landing')polishLanding(screen);
- else if(mode==='recommend')polishRecommendation(screen);
+ if(screen!==lastScreen){lastScreen=screen;if(mode==='landing')intentOpen=true;}
+ if(mode==='landing'){
+  polishLanding(screen);
+  if(intentOpen)showIntent(screen);
+ }else if(mode==='recommend')polishRecommendation(screen);
  else if(mode==='offer')polishOffer(screen);
 }
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;try{polish();}catch(e){console.warn('VAYQUO optimizer polish',e);}});}
