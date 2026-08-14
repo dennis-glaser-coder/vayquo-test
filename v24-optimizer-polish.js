@@ -15,6 +15,8 @@ const txt=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
 let scheduled=false;
 let lastScreen=null;
 let intentOpen=true;
+let onboardingSeen=false;
+let skipIntentOnce=false;
 
 function setText(el,value){if(el&&el.textContent!==value)el.textContent=value;}
 
@@ -204,14 +206,23 @@ function polishOffer(screen){
 }
 
 function polish(){
+ const onboardingVisible=!!q('#v24-onboarding');
+ if(onboardingVisible)onboardingSeen=true;
+ else if(onboardingSeen){onboardingSeen=false;skipIntentOnce=true;}
  addStyle();
  const screen=q('#app .v24os-screen');
  if(!screen){lastScreen=null;return;}
  const mode=screen.dataset.v24os;
- if(screen!==lastScreen){lastScreen=screen;if(mode==='landing')intentOpen=true;}
+ if(screen!==lastScreen){
+  lastScreen=screen;
+  if(mode==='landing'){
+   if(skipIntentOnce){intentOpen=false;skipIntentOnce=false;}else intentOpen=true;
+  }
+ }
  if(mode==='landing'){
   polishLanding(screen);
   if(intentOpen)showIntent(screen);
+  else if(!q(':scope>.v24ctx-return',screen))showExistingLanding(screen);
  }else if(mode==='recommend')polishRecommendation(screen);
  else if(mode==='offer')polishOffer(screen);
 }
