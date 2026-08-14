@@ -81,6 +81,8 @@ function mountAuthExtras(){
  const form=document.getElementById('v24a-form');
  const pass=document.getElementById('v24a-password');
  if(!root||!form||!pass)return;
+ const sub=root.querySelector('.v24a-sub');
+ if(sub)sub.textContent='VAYQUO zeigt dir, was du sinnvoll nutzen solltest – und was du besser behältst.';
  addStyle();
  if(!document.getElementById('v24a-forgot')){
   const wrap=document.createElement('div');wrap.className='v24a-forgot-wrap';
