@@ -6,17 +6,36 @@ const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const text=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
 const DATA_AS_OF='14.08.2026';
 
-const CARD_LABELS={
+const CURRENT_CARD_LABELS={
  none:'Keine Kreditkarte',
  visa_mc_standard:'Visa / Mastercard · Standard',
  visa_mc_premium:'Visa / Mastercard · Premium',
  miles_more:'Miles & More Kreditkarte',
  amex_payback:'PAYBACK American Express',
+ amex_blue:'American Express Blue Card',
+ amex_green:'American Express Card',
  amex_gold:'American Express Gold',
  amex_platinum:'American Express Platinum',
  amex_other:'Andere American Express',
  other:'Andere Kreditkarte'
 };
+
+const BENEFITS={
+ mr:'Membership Rewards',
+ payback:'PAYBACK Punkte',
+ insurance:'Reiseversicherungen',
+ mobility:'Mobilitätsguthaben',
+ lounge:'Loungezugang',
+ travel:'Reiseguthaben',
+ restaurant:'Restaurantguthaben'
+};
+
+const CANDIDATES=[
+ {id:'amex_payback',label:'PAYBACK American Express',fee:0,features:['payback']},
+ {id:'amex_green',label:'American Express Card',fee:5,features:['mr']},
+ {id:'amex_gold',label:'American Express Gold',fee:20,features:['mr','insurance','mobility']},
+ {id:'amex_platinum',label:'American Express Platinum',fee:60,features:['mr','insurance','mobility','lounge','travel','restaurant']}
+];
 
 function safeState(){
  try{if(window.state&&typeof window.state==='object')return window.state;}catch{}
@@ -32,13 +51,39 @@ function existingCard(){
  const card=String(safeState()?.card||'none');
  if(card==='platinum')return 'amex_platinum';
  if(card==='gold'||card==='goldrose')return 'amex_gold';
+ if(card==='green')return 'amex_green';
+ if(card==='blue')return 'amex_blue';
  if(card==='payback'||card==='dmpayback')return 'amex_payback';
- if(['green','blue','bmw','bmwpremium'].includes(card))return 'amex_other';
+ if(['bmw','bmwpremium'].includes(card))return 'amex_other';
  return safeState()?.cardCheckProfile?.currentCard||'other';
 }
 function profile(){
  const saved=safeState()?.cardCheckProfile;
  return saved&&typeof saved==='object'?saved:{};
+}
+function defaultBudget(card){
+ if(card==='amex_platinum')return '60';
+ if(card==='amex_gold')return '20';
+ if(card==='amex_green')return '5';
+ if(card==='amex_payback'||card==='amex_blue'||card==='none')return '0';
+ return '20';
+}
+function legacyBenefits(p){
+ const out=[];
+ if(p?.lounge===true)out.push('lounge');
+ if(p?.insurance===true)out.push('insurance');
+ if(p?.payback===true)out.push('payback');
+ return out;
+}
+function currentAnswers(){
+ const p=profile();
+ const currentCard=p.currentCard||existingCard();
+ const savedBenefits=Array.isArray(p.benefits)?p.benefits.filter(x=>BENEFITS[x]):legacyBenefits(p);
+ return {
+  currentCard,
+  budget:String(p.budget??defaultBudget(currentCard)),
+  benefits:savedBenefits
+ };
 }
 function saveProfile(next){
  try{
@@ -58,15 +103,12 @@ function ensureStyle(){
  #v24-card-check{position:fixed;inset:0;z-index:2147483500;display:flex;align-items:flex-end;justify-content:center;background:rgba(7,25,27,.52);padding:14px;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
  #v24-card-check[hidden]{display:none!important}.v24cc-sheet{width:min(100%,520px);max-height:min(88vh,760px);overflow:auto;background:#f7f3ec;color:#18302d;border-radius:25px;padding:20px 18px 22px;box-sizing:border-box;box-shadow:0 25px 80px rgba(0,0,0,.28)}
  .v24cc-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.v24cc-head small{display:block;color:#987a4d;font-size:8px;font-weight:900;letter-spacing:.13em}.v24cc-head h2{margin:6px 0 5px;font-size:26px;line-height:1.05;letter-spacing:-.04em}.v24cc-head p{margin:0;color:#707b78;font-size:11px;line-height:1.5}.v24cc-close{border:0;background:transparent;color:#61706d;font-size:25px;line-height:1;padding:0 2px}
- .v24cc-form{display:grid;gap:13px;margin-top:18px}.v24cc-field>span{display:block;margin:0 0 6px 2px;color:#566662;font-size:10px;font-weight:850}.v24cc-field select{width:100%;height:48px;border:1px solid #dcd8cf;border-radius:14px;background:#fffdf9;color:#18302d;padding:0 12px;font:700 13px inherit;box-sizing:border-box}
- .v24cc-question{padding:12px 13px;border:1px solid #dfdbd2;border-radius:15px;background:#fffdf9}.v24cc-question strong{display:block;font-size:12px;line-height:1.35}.v24cc-toggle{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.v24cc-toggle button{height:38px;border:1px solid #ddd8ce;border-radius:11px;background:#f5f1e9;color:#65716e;font:800 11px inherit}.v24cc-toggle button.active{background:#183b35;color:#fff;border-color:#183b35}
- .v24cc-submit{height:48px;border:0;border-radius:14px;background:#183b35;color:#fff;font:850 13px inherit}.v24cc-result{margin-top:17px;padding:16px;border-radius:17px;background:#fffdf9;border:1px solid #ded9cf}.v24cc-result small{display:block;color:#987a4d;font-size:8px;font-weight:900;letter-spacing:.13em}.v24cc-result h3{margin:7px 0 7px;font-size:20px;line-height:1.15;letter-spacing:-.03em}.v24cc-result p{margin:0;color:#66736f;font-size:10.5px;line-height:1.5}.v24cc-reasons{display:grid;gap:5px;margin:11px 0}.v24cc-reasons span{font-size:10px;color:#405550}.v24cc-note{margin-top:10px!important;color:#8a9390!important;font-size:8.5px!important}.v24cc-reset{margin-top:11px;border:0;background:transparent;padding:0;color:#536762;font:800 10px inherit;text-decoration:underline;text-underline-offset:3px}
+ .v24cc-form{display:grid;gap:13px;margin-top:18px}.v24cc-field>span,.v24cc-benefit-title{display:block;margin:0 0 6px 2px;color:#566662;font-size:10px;font-weight:850}.v24cc-field select{width:100%;height:48px;border:1px solid #dcd8cf;border-radius:14px;background:#fffdf9;color:#18302d;padding:0 12px;font:700 13px inherit;box-sizing:border-box}
+ .v24cc-benefit-box{padding:13px;border:1px solid #dfdbd2;border-radius:15px;background:#fffdf9}.v24cc-benefit-box>small{display:block;margin-top:-1px;color:#8a9390;font-size:9px;line-height:1.4}.v24cc-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.v24cc-chip{min-height:38px;border:1px solid #ddd8ce;border-radius:12px;background:#f5f1e9;color:#65716e;padding:8px 11px;font:800 10px inherit}.v24cc-chip.active{background:#183b35;color:#fff;border-color:#183b35}.v24cc-none{width:100%}
+ .v24cc-scope{margin:-2px 2px 0;color:#8a9390;font-size:8.5px;line-height:1.45}.v24cc-submit{height:48px;border:0;border-radius:14px;background:#183b35;color:#fff;font:850 13px inherit}.v24cc-result{margin-top:17px;padding:16px;border-radius:17px;background:#fffdf9;border:1px solid #ded9cf}.v24cc-result small{display:block;color:#987a4d;font-size:8px;font-weight:900;letter-spacing:.13em}.v24cc-result h3{margin:7px 0 7px;font-size:20px;line-height:1.15;letter-spacing:-.03em}.v24cc-result p{margin:0;color:#66736f;font-size:10.5px;line-height:1.5}.v24cc-reasons{display:grid;gap:5px;margin:11px 0}.v24cc-reasons span{font-size:10px;color:#405550}.v24cc-note{margin-top:10px!important;color:#8a9390!important;font-size:8.5px!important}.v24cc-reset{margin-top:11px;border:0;background:transparent;padding:0;color:#536762;font:800 10px inherit;text-decoration:underline;text-underline-offset:3px}
  @media(min-width:680px){#v24-card-check{align-items:center}.v24cc-sheet{padding:24px 22px}}
  `;
  document.head.appendChild(style);
-}
-function yesNo(name,label,value){
- return `<div class="v24cc-question" data-v24cc-q="${name}"><strong>${label}</strong><div class="v24cc-toggle"><button type="button" data-value="yes" class="${value===true?'active':''}">Ja</button><button type="button" data-value="no" class="${value===false?'active':''}">Nein</button></div></div>`;
 }
 function mountOverlay(){
  let root=q('#v24-card-check');if(root)return root;
@@ -76,77 +118,88 @@ function mountOverlay(){
  root.addEventListener('click',ev=>{if(ev.target===root)close();});
  return root;
 }
-function currentAnswers(){
- const p=profile();
- return {
-  currentCard:p.currentCard||existingCard(),
-  budget:String(p.budget??'20'),
-  lounge:typeof p.lounge==='boolean'?p.lounge:null,
-  credits:typeof p.credits==='boolean'?p.credits:null,
-  insurance:typeof p.insurance==='boolean'?p.insurance:null,
-  payback:typeof p.payback==='boolean'?p.payback:null
- };
+function benefitButtons(selected){
+ const buttons=Object.entries(BENEFITS).map(([id,label])=>`<button type="button" class="v24cc-chip ${selected.includes(id)?'active':''}" data-v24cc-benefit="${id}">${label}</button>`).join('');
+ return `${buttons}<button type="button" class="v24cc-chip v24cc-none ${selected.length?'':'active'}" data-v24cc-benefit="none">Keinen davon</button>`;
 }
 function open(){
  const root=mountOverlay();const p=currentAnswers();
- root.innerHTML=`<section class="v24cc-sheet" role="dialog" aria-modal="true" aria-label="Kreditkarte prüfen"><div class="v24cc-head"><div><small>VAYQUO KARTEN-CHECK</small><h2>Welche Karte passt eher zu dir?</h2><p>VAYQUO prüft dein Nutzungsprofil. Ein Wechsel wird nur empfohlen, wenn die Angaben dafür reichen.</p></div><button type="button" class="v24cc-close" aria-label="Schließen">×</button></div>
- <form class="v24cc-form" id="v24cc-form"><label class="v24cc-field"><span>Welche Kreditkarte nutzt du aktuell?</span><select id="v24cc-current">${Object.entries(CARD_LABELS).map(([id,label])=>`<option value="${id}" ${p.currentCard===id?'selected':''}>${label}</option>`).join('')}</select></label>
- <label class="v24cc-field"><span>Was darf deine Karte maximal pro Monat kosten?</span><select id="v24cc-budget"><option value="0" ${p.budget==='0'?'selected':''}>0 €</option><option value="20" ${p.budget==='20'?'selected':''}>bis 20 €</option><option value="60" ${p.budget==='60'?'selected':''}>bis 60 €</option></select></label>
- ${yesNo('lounge','Würdest du Flughafen-Lounges mehrmals im Jahr wirklich nutzen?',p.lounge)}
- ${yesNo('credits','Würdest du Reise-, Mobilitäts- oder Restaurantguthaben tatsächlich nutzen?',p.credits)}
- ${yesNo('insurance','Sind umfangreiche Reiseversicherungen für dich wichtig?',p.insurance)}
- ${yesNo('payback','Sammelst du aktiv PAYBACK Punkte?',p.payback)}
+ root.innerHTML=`<section class="v24cc-sheet" role="dialog" aria-modal="true" aria-label="Kreditkarte prüfen"><div class="v24cc-head"><div><small>VAYQUO KARTEN-CHECK</small><h2>Passt eine Amex zu deinem Profil?</h2><p>Deine aktuelle Karte ist der Ausgangspunkt. Wähle nur Vorteile, die du wirklich nutzen würdest.</p></div><button type="button" class="v24cc-close" aria-label="Schließen">×</button></div>
+ <form class="v24cc-form" id="v24cc-form"><label class="v24cc-field"><span>Welche Kreditkarte nutzt du aktuell?</span><select id="v24cc-current">${Object.entries(CURRENT_CARD_LABELS).map(([id,label])=>`<option value="${id}" ${p.currentCard===id?'selected':''}>${label}</option>`).join('')}</select></label>
+ <label class="v24cc-field"><span>Was darf deine Karte maximal pro Monat kosten?</span><select id="v24cc-budget"><option value="0" ${p.budget==='0'?'selected':''}>0 €</option><option value="5" ${p.budget==='5'?'selected':''}>bis 5 €</option><option value="20" ${p.budget==='20'?'selected':''}>bis 20 €</option><option value="60" ${p.budget==='60'?'selected':''}>bis 60 €</option><option value="999" ${p.budget==='999'?'selected':''}>Mehr, wenn der Mehrwert stimmt</option></select></label>
+ <div class="v24cc-benefit-box"><span class="v24cc-benefit-title">Welche Vorteile würdest du wirklich nutzen?</span><small>Mehrfachauswahl möglich.</small><div class="v24cc-chips">${benefitButtons(p.benefits)}</div></div>
+ <p class="v24cc-scope">Aktuell berücksichtigt VAYQUO PAYBACK Amex, American Express Card, Gold und Platinum. Individuelle Leistungen anderer Karten werden noch nicht automatisch bewertet.</p>
  <button class="v24cc-submit" type="submit">Karte einordnen</button></form><div id="v24cc-result"></div></section>`;
  root.hidden=false;
  q('.v24cc-close',root)?.addEventListener('click',close);
- qa('[data-v24cc-q]',root).forEach(block=>qa('button',block).forEach(btn=>btn.addEventListener('click',()=>{
-  qa('button',block).forEach(x=>x.classList.remove('active'));btn.classList.add('active');
- })));
+ qa('[data-v24cc-benefit]',root).forEach(btn=>btn.addEventListener('click',()=>toggleBenefit(btn,root)));
  q('#v24cc-form',root)?.addEventListener('submit',submit);
 }
 function close(){q('#v24-card-check')?.setAttribute('hidden','');}
-function boolAnswer(name){
- const block=q(`[data-v24cc-q="${name}"]`);
- const active=q('button.active',block);if(!active)return null;
- return active.dataset.value==='yes';
+function toggleBenefit(btn,root){
+ const id=btn.dataset.v24ccBenefit;
+ if(id==='none'){
+  qa('[data-v24cc-benefit]',root).forEach(x=>x.classList.toggle('active',x===btn));
+  return;
+ }
+ btn.classList.toggle('active');
+ q('[data-v24cc-benefit="none"]',root)?.classList.remove('active');
+ const any=qa('[data-v24cc-benefit]:not([data-v24cc-benefit="none"])',root).some(x=>x.classList.contains('active'));
+ if(!any)q('[data-v24cc-benefit="none"]',root)?.classList.add('active');
+}
+function selectedBenefits(){
+ return qa('[data-v24cc-benefit].active').map(x=>x.dataset.v24ccBenefit).filter(x=>BENEFITS[x]);
+}
+function isExternalCurrent(card){
+ return !String(card||'').startsWith('amex_');
+}
+function fitCandidates(p){
+ const selected=p.benefits;
+ const budget=Number(p.budget)||0;
+ return CANDIDATES.map(card=>{
+  const affordable=budget>=999||card.fee<=budget;
+  const matches=selected.filter(x=>card.features.includes(x));
+  const missing=selected.filter(x=>!card.features.includes(x));
+  const coverage=selected.length?matches.length/selected.length:0;
+  return {...card,affordable,matches,missing,coverage};
+ });
 }
 function recommendation(p){
- const reasons=[];
- const same=(id)=>p.currentCard===id;
- if(p.currentCard==='amex_platinum')return {title:'Deine Platinum bleibt vorerst die Referenz.',copy:'Aus diesen wenigen Angaben lässt sich kein seriöser Wechsel oder Downgrade ableiten. Entscheidend ist jetzt, ob du die enthaltenen Vorteile tatsächlich nutzt.',reasons:['Kein Kartenwechsel nur aufgrund eines kurzen Profils.']};
- if(p.budget>=60&&p.lounge===true&&p.credits===true){
-  reasons.push('Du würdest Loungezugang real nutzen.','Du würdest enthaltene Guthaben tatsächlich einsetzen.','Ein Kartenentgelt bis 60 € pro Monat ist für dich grundsätzlich möglich.');
-  return {title:same('amex_platinum')?'Platinum passt zu deinem angegebenen Nutzungsprofil.':'American Express Platinum näher prüfen.',copy:'Deine Angaben passen zu den zentralen Reise- und Guthabenmerkmalen der Platinum. Das ist noch keine finanzielle Wechsel-Empfehlung.',reasons};
+ const selected=p.benefits;
+ if(!selected.length){
+  return {title:'Aktuell kein Kartenwechsel ableitbar.',copy:'Du hast keinen der abgefragten Vorteile ausgewählt. Deshalb empfiehlt VAYQUO keine andere Karte nur wegen ihres Namens oder ihrer Positionierung.',reasons:['Keine unnötige Kartenempfehlung ohne konkreten Nutzen.']};
  }
- if(p.budget>=20&&(p.insurance===true||p.credits===true)){
-  if(p.insurance===true)reasons.push('Reiseversicherungen sind dir wichtig.');
-  if(p.credits===true)reasons.push('Du würdest Mobilitäts- oder andere Guthaben real nutzen.');
-  reasons.push('Ein Kartenentgelt bis 20 € pro Monat ist für dich grundsätzlich möglich.');
-  return {title:same('amex_gold')?'Gold passt zu deinem angegebenen Nutzungsprofil.':'American Express Gold näher prüfen.',copy:'Deine Angaben passen eher zur Gold als zu einer pauschalen Premium-Empfehlung. Vor einem Wechsel müssen die Leistungen deiner aktuellen Karte noch dagegen gerechnet werden.',reasons};
+ const fits=fitCandidates(p);
+ const affordable=fits.filter(x=>x.affordable&&x.matches.length>0).sort((a,b)=>b.matches.length-a.matches.length||b.coverage-a.coverage||a.fee-b.fee);
+ const best=affordable[0];
+ if(!best){
+  const closest=fits.filter(x=>x.matches.length>0).sort((a,b)=>b.matches.length-a.matches.length||a.fee-b.fee)[0];
+  const extra=closest?` Die naheliegendste Option wäre ${closest.label} mit ${closest.fee} € Monatsentgelt.`:'';
+  return {title:'Dein Budget und deine Wünsche passen noch nicht zusammen.',copy:`Innerhalb deines gewählten Monatsbudgets deckt keine der aktuell berücksichtigten Amex-Karten deine ausgewählten Schwerpunkte sinnvoll ab.${extra}`,reasons:['VAYQUO empfiehlt keine Karte oberhalb deines gewählten Budgets.']};
  }
- if(p.budget===0&&p.payback===true){
-  reasons.push('Du möchtest kein laufendes Kartenentgelt.','PAYBACK ist für dich relevant.');
-  return {title:same('amex_payback')?'Deine PAYBACK Amex passt zu diesem Profil.':'PAYBACK American Express näher prüfen.',copy:'Die PAYBACK Amex hat aktuell kein Jahresentgelt und passt deshalb zu deinem angegebenen Kosten- und Punkteprofil. Weitere Entgelte können laut Anbieterbedingungen anfallen.',reasons};
+ if(selected.length>1&&best.coverage<0.67){
+  return {title:'Noch kein eindeutiger Karten-Treffer.',copy:`${best.label} deckt nur einen Teil deiner ausgewählten Wünsche ab. Für eine klare Empfehlung ist das zu wenig.`,reasons:[`Passend: ${best.matches.map(x=>BENEFITS[x]).join(', ')}.`,`Nicht abgedeckt: ${best.missing.map(x=>BENEFITS[x]).join(', ')}.`]};
  }
- if(p.budget>=60&&p.lounge===true){
-  reasons.push('Loungezugang ist für dich relevant.','Ein höheres Kartenentgelt wäre für dich grundsätzlich möglich.');
-  return {title:'Platinum nur als Option näher prüfen.',copy:'Der Lounge-Wunsch spricht dafür. Ohne klaren Nutzen der weiteren Guthaben empfiehlt VAYQUO aber noch keinen Wechsel.',reasons};
- }
- return {title:'Aktuell kein Kartenwechsel empfohlen.',copy:'Deine Angaben reichen nicht für einen klaren Vorteil einer der geprüften Amex-Optionen. Deine bestehende Karte bleibt deshalb vorerst die Referenz.',reasons:['VAYQUO empfiehlt nicht automatisch eine teurere Karte.']};
+ const same=p.currentCard===best.id;
+ const reasons=best.matches.map(x=>`${BENEFITS[x]} passt zu deinen Angaben.`);
+ if(best.missing.length)reasons.push(`Nicht direkt abgedeckt: ${best.missing.map(x=>BENEFITS[x]).join(', ')}.`);
+ reasons.push(best.fee===0?'Kein laufendes Jahresentgelt für diese Karte.':`Aktuelles Kartenentgelt: ${best.fee} € pro Monat.`);
+ let copy=same
+  ?'Von den aktuell berücksichtigten Amex-Karten passt deine bestehende Karte am besten zu den von dir ausgewählten Schwerpunkten und deinem Budget.'
+  :`Von den aktuell berücksichtigten Amex-Karten passt ${best.label} am besten zu deinen ausgewählten Schwerpunkten und deinem Budget.`;
+ if(isExternalCurrent(p.currentCard))copy+=' Die individuellen Leistungen deiner aktuellen Karte werden dabei noch nicht automatisch gegengerechnet.';
+ return {title:same?`Deine ${best.label} passt zu deinem Profil.`:`${best.label} näher prüfen.`,copy,reasons};
 }
 function submit(ev){
  ev.preventDefault();
  const answers={
   currentCard:String(q('#v24cc-current')?.value||'other'),
   budget:Number(q('#v24cc-budget')?.value||0),
-  lounge:boolAnswer('lounge'),credits:boolAnswer('credits'),insurance:boolAnswer('insurance'),payback:boolAnswer('payback')
+  benefits:selectedBenefits()
  };
- if([answers.lounge,answers.credits,answers.insurance,answers.payback].some(v=>v===null)){
-  q('#v24cc-result').innerHTML='<div class="v24cc-result"><h3>Bitte alle vier Fragen beantworten.</h3></div>';return;
- }
  saveProfile(answers);
  const r=recommendation(answers);
- q('#v24cc-result').innerHTML=`<div class="v24cc-result"><small>DEINE VAYQUO EINORDNUNG</small><h3>${r.title}</h3><p>${r.copy}</p><div class="v24cc-reasons">${r.reasons.map(x=>`<span>✓ ${x}</span>`).join('')}</div><p class="v24cc-note">Datenstand ${DATA_AS_OF}. Kartengebühren und Leistungen können sich ändern und sollten vor einem Antrag beim Anbieter geprüft werden. Affiliate-Verfügbarkeit beeinflusst diese Einordnung nicht.</p><button type="button" class="v24cc-reset">Angaben ändern</button></div>`;
+ q('#v24cc-result').innerHTML=`<div class="v24cc-result"><small>DEINE VAYQUO EINORDNUNG</small><h3>${r.title}</h3><p>${r.copy}</p><div class="v24cc-reasons">${r.reasons.map(x=>`<span>✓ ${x}</span>`).join('')}</div><p class="v24cc-note">Datenstand ${DATA_AS_OF}. Berücksichtigt werden die öffentlich ausgewiesenen Kartenentgelte und die hier abgefragten Kernleistungen. Weitere Entgelte, Bedingungen und Versicherungsdetails können gelten und sollten vor einem Antrag beim Anbieter geprüft werden. Affiliate-Verfügbarkeit beeinflusst diese Einordnung nicht.</p><button type="button" class="v24cc-reset">Angaben ändern</button></div>`;
  q('.v24cc-reset')?.addEventListener('click',()=>q('.v24cc-sheet')?.scrollTo?.({top:0,behavior:'smooth'}));
 }
 function renderEntry(){
@@ -154,7 +207,7 @@ function renderEntry(){
  if(q('#v24-card-check-entry'))return;
  ensureStyle();
  const box=document.createElement('section');box.id='v24-card-check-entry';
- box.innerHTML='<div class="v24cc-entry"><div class="v24cc-kicker">KARTE PRÜFEN</div><h3>Passt deine Kreditkarte noch zu dir?</h3><p>Vergleiche dein Nutzungsprofil neutral mit passenden Kartenoptionen – ohne automatische Upgrade-Empfehlung.</p><button type="button" class="v24cc-entry-btn">Karte prüfen <span>→</span></button></div>';
+ box.innerHTML='<div class="v24cc-entry"><div class="v24cc-kicker">KARTE PRÜFEN</div><h3>Passt deine Kreditkarte noch zu dir?</h3><p>Prüfe, ob eine Amex-Karte zu deinem Nutzungsprofil passt – oder ob du keinen Wechsel brauchst.</p><button type="button" class="v24cc-entry-btn">Karte prüfen <span>→</span></button></div>';
  const guidance=q('#v24-benefit-guidance');
  if(guidance)guidance.insertAdjacentElement('afterend',box);
  else{
