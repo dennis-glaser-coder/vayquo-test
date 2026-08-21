@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "publicMode": "coming_soon",
+  "publicLiveSearchEnabled": false,
+  "publicSyntheticDataEnabled": false,
+  "preparedFrontendImplementation": "v24-flight-optimizer.js",
+  "publicGateImplementation": "v26-award-coming-soon.js",
+  "providerContract": "config/vayquo-award-search-contract.json",
+  "targetPrograms": [
+    "miles_and_more",
+    "flying_blue",
+    "qatar_privilege"
+  ],
+  "launchRequirements": [
+    "commercial_usage_rights_confirmed",
+    "real_award_availability",
+    "real_mileage_amounts",
+    "real_taxes_and_fees",
+    "program_identifier",
+    "availability_timestamp",
+    "passenger_availability_where_supported",
+    "provider_normalized_to_existing_contract",
+    "no_synthetic_values_in_public_mode",
+    "no_transfer_recommendation_without_live_award_data",
+    "regression_tests_pass"
+  ],
+  "releaseRule": "publicMode darf erst auf live gesetzt werden, wenn alle launchRequirements erfüllt und gegengeprüft sind.",
+  "publicCopy": {
+    "title": "Echte Prämienflug-Verfügbarkeiten kommen bald",
+    "badge": "KOMMT BALD · KEINE TESTDATEN"
+  }
+}
