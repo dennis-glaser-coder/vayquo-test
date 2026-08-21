@@ -9,6 +9,7 @@ const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const json=file=>JSON.parse(read(file));
 
 const partners=json('config/vayquo-partner-links.de.json');
+const launchGates=json('config/vayquo-commercial-launch-gates.de.json');
 const monetization=json('config/vayquo-monetization.de.json');
 const contract=json('config/vayquo-revenue-event-contract.de.json');
 const policy=read('v24-commercial-policy.js');
@@ -27,6 +28,11 @@ assert.equal(payback.network,'financeads');
 assert.equal(payback.publicCommission.amount,66);
 assert.equal(payback.cookieTrackingDays,0);
 
+assert.equal(launchGates.mode,'preparation_only');
+assert.equal(launchGates.globalGate.commercialLive,false);
+assert.ok(Object.values(launchGates.globalGate.checks).some(value=>value===false));
+assert.ok(Object.values(launchGates.channelGates.amex_cards).some(value=>value===false));
+
 const verified=monetization.channels.amex_cards.verifiedProgram;
 assert.equal(monetization.channels.amex_cards.enabled,false);
 assert.equal(verified.cardId,'amex_payback');
@@ -35,7 +41,10 @@ assert.equal(verified.cookieTrackingDays,0);
 assert.notEqual(verified.status,'active');
 assert.equal(monetization.principles.neverRankFinancialProductsByCommission,true);
 
-assert.match(policy,/entry\.status!==['"]active['"]/);
+assert.match(policy,/vayquo-commercial-launch-gates\.de\.json/);
+assert.match(policy,/global\?\.commercialLive!==true/);
+assert.match(policy,/partnerMode==='live'/);
+assert.match(policy,/entry\.status==='active'/);
 assert.match(policy,/getCardPartnerUrl/);
 assert.match(router,/FINANCEADS_HOST=['"]www\.financeads\.net['"]/);
 assert.match(router,/url\.hostname!==FINANCEADS_HOST/);
