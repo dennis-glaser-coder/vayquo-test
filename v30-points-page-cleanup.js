@@ -19,7 +19,6 @@ function ensureStyle(){
  style.textContent=`
   #v24pb-panel.v30-points-balance{margin-top:14px!important;margin-bottom:20px!important}
   #v24pb-panel.v30-points-balance .v24pb-head{display:block!important}
-  #v24pb-panel.v30-points-balance .v24pb-head>button{display:none!important}
   .v30-pb-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:12px 0 0}
   .v30-pb-actions .v24pb-all,.v30-programs-manage{width:100%!important;min-height:42px!important;margin:0!important;border:1px solid rgba(21,35,32,.10)!important;border-radius:14px!important;background:#f1f2ee!important;color:#263a36!important;padding:0 12px!important;font:800 10.5px -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif!important;box-shadow:none!important}
   .v30-programs-manage{background:#fffdf9!important;color:#755f3e!important}
@@ -45,7 +44,7 @@ function headingAnchor(heading){
  let node=heading.parentElement;
  for(let i=0;i<4&&node&&node.id!=='app';i++,node=node.parentElement){
   const t=txt(node);
-  if(t.length>240||/Deine Programme|Deine aktuellen Punktestände|Membership Rewards|PAYBACK/.test(t))break;
+  if(t.length>240||/Deine Programme|Deine Bestände|Membership Rewards|PAYBACK/.test(t))break;
   best=node;
  }
  return best;
@@ -58,37 +57,12 @@ function moveBalanceBelowTitle(){
  const anchor=headingAnchor(heading);
  if(!anchor?.parentElement)return;
  if(anchor.nextElementSibling!==panel)anchor.insertAdjacentElement('afterend',panel);
- panel.classList.add('v30-points-balance');
- const kicker=q('.v24pb-head span',panel),title=q('.v24pb-head h2',panel),copy=q('.v24pb-head p',panel);
- if(kicker)kicker.textContent='AKTUELLE STÄNDE';
- if(title)title.textContent='Deine Bestände';
- if(copy)copy.textContent='Diese Stände nutzt VAYQUO für deine Auswertungen.';
 }
 
 function exactControl(label){
  return qa('#app button,#app a,#app [role="button"]').find(el=>txt(el)===label&&!el.classList.contains('v30-programs-manage'))||null;
 }
-
 function sourceManageButton(){return exactControl('Programme ändern');}
-
-function ensureBalanceActions(){
- const panel=q('#v24pb-panel');if(!panel)return;
- const head=q('.v24pb-head',panel);if(!head)return;
- let actions=q('.v30-pb-actions',panel);
- if(!actions){actions=document.createElement('div');actions.className='v30-pb-actions';head.insertAdjacentElement('afterend',actions);}
- const all=q('#v24pb-all',panel);
- if(all&&all.parentElement!==actions)actions.appendChild(all);
- let manage=q('.v30-programs-manage',actions);
- if(!manage){
-  manage=document.createElement('button');manage.type='button';manage.className='v30-programs-manage';manage.textContent='Programme verwalten';
-  manage.addEventListener('click',()=>{
-   const source=sourceManageButton();
-   if(source){source.click();return;}
-   try{typeof toast==='function'&&toast('Programmverwaltung gerade nicht verfügbar');}catch{}
-  });
-  actions.appendChild(manage);
- }
-}
 
 function commonParent(nodes){
  if(!nodes.length)return null;
@@ -140,7 +114,6 @@ function apply(){
  ensureStyle();
  moveBalanceBelowTitle();
  simplifyProgramFilter();
- ensureBalanceActions();
  hideDuplicateBalanceActions();
 }
 
