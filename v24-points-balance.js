@@ -52,8 +52,8 @@ function cardHtml(id){
 function panelHtml(){
  const ids=activePrograms();
  if(!ids.length)return `<section id="v24pb-panel" class="v24pb-panel v30-points-balance">
-  <div class="v24pb-head"><div><span>AKTUELLE STÄNDE</span><h2>Deine Bestände</h2><p>Aktiviere ein Programm und hinterlege danach den aktuellen Stand.</p></div></div>
-  <div class="v30-pb-actions"><button type="button" class="v30-programs-manage" id="v24pb-programs">Programme verwalten</button></div>
+  <div class="v24pb-head"><div><span>AKTUELLE STÄNDE</span><h2>Deine Bestände</h2><p>Du hast noch kein Punkte- oder Meilenprogramm eingerichtet. Das brauchst du nur für Punkte-Auswertungen.</p></div></div>
+  <div class="v30-pb-actions"><button type="button" class="v30-programs-manage" id="v24pb-programs">Punkte & Meilen einrichten</button></div>
  </section>`;
  return `<section id="v24pb-panel" class="v24pb-panel v30-points-balance">
   <div class="v24pb-head"><div><span>AKTUELLE STÄNDE</span><h2>Deine Bestände</h2><p>Diese Stände nutzt VAYQUO für deine Auswertungen.</p></div></div>
@@ -119,8 +119,12 @@ function openAll(){
  });
 }
 function openPrograms(){
+ if(!activePrograms().length){
+  try{if(window.VAYQUO_ONBOARDING?.open?.())return;}catch{}
+ }
  const source=qa('#app button,#app a,#app [role="button"]').find(el=>el.id!=='v24pb-programs'&&txt(el)==='Programme ändern');
  if(source){source.click();return;}
+ try{if(window.VAYQUO_ONBOARDING?.open?.())return;}catch{}
  try{typeof toast==='function'&&toast('Programmverwaltung gerade nicht verfügbar');}catch{}
 }
 function bindPanel(){
@@ -129,8 +133,7 @@ function bindPanel(){
  q('#v24pb-programs')?.addEventListener('click',openPrograms);
 }
 
-let scheduled=false;
-function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;try{renderPanel();}catch(e){console.warn('VAYQUO point balances',e);}});}
+let scheduled=false;function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;try{renderPanel();}catch(e){console.warn('VAYQUO point balances',e);}});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 document.addEventListener('click',()=>setTimeout(schedule,0));
 new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true});
