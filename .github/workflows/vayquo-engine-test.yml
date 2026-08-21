@@ -14,10 +14,12 @@ on:
       - 'v28-card-advisor-abroad-ux.js'
       - 'v28-card-advisor-provider-cta.js'
       - 'v29-ui-consistency.js'
+      - 'v30-points-page-cleanup.js'
       - 'config/vayquo-card-advisor.de.json'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
       - 'tests/ui-consistency.test.cjs'
+      - 'tests/points-page-cleanup.test.cjs'
       - 'v25-engine-v2.js'
       - 'v25-engine-selftest-v2.js'
       - 'v25-classic-engine-bridge.js'
@@ -37,10 +39,12 @@ on:
       - 'v28-card-advisor-abroad-ux.js'
       - 'v28-card-advisor-provider-cta.js'
       - 'v29-ui-consistency.js'
+      - 'v30-points-page-cleanup.js'
       - 'config/vayquo-card-advisor.de.json'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
       - 'tests/ui-consistency.test.cjs'
+      - 'tests/points-page-cleanup.test.cjs'
       - 'v25-engine-v2.js'
       - 'v25-engine-selftest-v2.js'
       - 'v25-classic-engine-bridge.js'
@@ -64,12 +68,14 @@ jobs:
       - name: Verify public award release gate
         run: node tests/award-release-gate.test.cjs
       - name: Check card advisor and UI syntax
-        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v29-ui-consistency.js && node --check v24-card-check.js
+        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-card-check.js
       - name: Verify existing card advisor decision matrix
         run: node tests/card-advisor.test.cjs
       - name: Verify refined card advisor matrix
         run: node tests/card-advisor-v29.test.cjs
       - name: Verify UI order and theme consistency
         run: node tests/ui-consistency.test.cjs
+      - name: Verify points page hierarchy and deduplication
+        run: node tests/points-page-cleanup.test.cjs
       - name: Run VAYQUO engine tests
         run: node tests/v25-engine.test.cjs
