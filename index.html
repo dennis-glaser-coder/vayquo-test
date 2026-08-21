@@ -87,7 +87,7 @@ html,body{margin:0;min-height:100%;background:#151617;color:#f8f4ed;font-family:
   const navigationStateAssets='<script src="v33-navigation-state.js?v=3301"><\/script>';
   const cardFlowStabilityAssets='<script src="v33-card-flow-stability.js?v=3301"><\/script>';
   const contextualSetupAssets='<script src="v33-contextual-setup.js?v=3301"><\/script>';
-  const visualPolishAssets='<link rel="stylesheet" href="v35-visual-polish.css?v=3501">';
+  const visualPolishAssets='<link rel="stylesheet" href="v35-visual-polish.css?v=3502">';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+authGate+'</head>'):html+navFix+authGate;
   const injected=step2Assets+checkClarityAssets+flightSearchControlsAssets+edgeAuthAssets+flightLiveAssets+flightOptimizerAssets+flightSourcePointsAssets+flightFeasibilityAssets+releaseCleanupAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+onboardingAssets+startFilterAssets+heroPersonalAssets+homeUspAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+benefitOptimizerAssets+benefitRecoGuardAssets+cardCatalogRuntimeAssets+cardCheckAssets+commercialPolicyAssets+v25CoreAssets+premiumAssets+offerContextAssets+dateShellAssets+socialAuthAssets+authAssets+authPolishAssets+legalAssets+ratgeberEntryAssets+navStabilityAssets+uiConsistencyAssets+pointsPageCleanupAssets+navigationStateAssets+cardFlowStabilityAssets+contextualSetupAssets+visualPolishAssets;
   patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',injected+'</body>'):patchedHtml+injected;
