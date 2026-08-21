@@ -10,9 +10,11 @@ on:
       - 'v33-navigation-state.js'
       - 'v33-card-flow-stability.js'
       - 'v33-contextual-setup.js'
+      - 'v34-card-catalog-runtime.js'
       - 'tests/deferred-auth.test.cjs'
       - 'tests/full-flow-audit.cjs'
       - 'tests/flow-stability.test.cjs'
+      - 'tests/card-catalog-runtime.test.cjs'
       - 'assets/data-*.txt'
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
@@ -46,9 +48,11 @@ on:
       - 'v33-navigation-state.js'
       - 'v33-card-flow-stability.js'
       - 'v33-contextual-setup.js'
+      - 'v34-card-catalog-runtime.js'
       - 'tests/deferred-auth.test.cjs'
       - 'tests/full-flow-audit.cjs'
       - 'tests/flow-stability.test.cjs'
+      - 'tests/card-catalog-runtime.test.cjs'
       - 'assets/data-*.txt'
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
@@ -100,7 +104,9 @@ jobs:
       - name: Verify public award release gate
         run: node tests/award-release-gate.test.cjs
       - name: Check card advisor and UI syntax
-        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v31-card-advisor-unsure-ux.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js
+        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v31-card-advisor-unsure-ux.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js && node --check v34-card-catalog-runtime.js
+      - name: Verify instant card catalog runtime
+        run: node tests/card-catalog-runtime.test.cjs
       - name: Verify existing card advisor decision matrix
         run: node tests/card-advisor.test.cjs
       - name: Verify refined card advisor matrix
