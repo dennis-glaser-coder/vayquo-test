@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://vayquo.de/</loc></url>
-  <url><loc>https://vayquo.de/ratgeber/</loc></url>
-  <url><loc>https://vayquo.de/ratgeber/payback-punkte-wert.html</loc></url>
-  <url><loc>https://vayquo.de/ratgeber/punkte-oder-geld.html</loc></url>
-  <url><loc>https://vayquo.de/ratgeber/membership-rewards-wert.html</loc></url>
+  <url><loc>https://vayquo.de/</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/membership-rewards-wert.html</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/payback-punkte-wert.html</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/miles-and-more-meilen-wert.html</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/punkte-oder-geld.html</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/payback-zu-miles-and-more.html</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/membership-rewards-transfer.html</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/kreditkarte-lohnt-sich.html</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://vayquo.de/ratgeber/punkte-einloesen-oder-sammeln.html</loc><lastmod>2026-08-21</lastmod></url>
 </urlset>
