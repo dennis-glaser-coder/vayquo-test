@@ -9,14 +9,14 @@ const loader=fs.readFileSync('v24-card-check.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
 assert(loader.includes('v28-card-advisor-engine.js?v=2802'),'loader must load audited V28 decision engine');
-assert(loader.includes('v28-card-advisor.js?v=2801'),'loader must load V28 advisor UI');
+assert(loader.includes('v28-card-advisor.js?v=2803'),'loader must load refreshed V28 advisor UI');
 assert(loader.includes('v28-card-advisor-abroad-ux.js?v=2802'),'loader must load abroad UX after advisor UI');
 assert(loader.includes('v28-card-advisor-provider-cta.js?v=2802'),'loader must load audited provider CTA after abroad UX');
 assert(loader.includes('[data-view="start"]'),'loader must recognize the real start nav directly');
 assert(loader.includes('v28-card-advisor-start-marker'),'loader must maintain a start marker');
 assert(ui.includes('const STEP_COUNT=5'),'advisor must stay short and simple');
 assert(ui.includes('Wie viel zahlst du ungefähr pro Monat mit Karte?'),'spend question must state monthly timeframe');
-assert(ui.includes('Kartenzahlungen insgesamt pro Monat'),'spend helper must explain timeframe');
+assert(ui.includes('Für einzelne Gebührenvorteile zählt später dein tatsächlicher Jahresumsatz.'),'spend helper must explain annual-spend caveat');
 assert(ui.includes("key:'freePriority'"),'zero-fee discriminator must use its own state key');
 assert(ui.includes('Keine Provision beeinflusst die Empfehlung.'),'ranking independence disclosure must remain visible');
 assert(ui.includes('href="${esc(best.officialUrl)}"'),'provider detail link must use the recommended card official URL');
@@ -45,7 +45,7 @@ assert(paybackAmex,'PAYBACK American Express must remain in the checked catalog'
 assert.strictEqual(paybackAmex.officialUrl,'https://www.americanexpress.com/de-de/kreditkarte/payback-karte/','PAYBACK Amex must point to the checked official product page');
 const amexGreen=byId('amex_green');
 assert(amexGreen.facts.some(x=>x.includes('9.000 Euro Jahresumsatz')),'Amex Green conditional fee waiver must be documented');
-const answer=(overrides={})=>({goal:'points',travel:'low',spend:'mid',fee:'small',ecosystem:'none',freePriority:'',...overrides});
+const answer=(overrides={})=>({goal:'points',travel:'low',spend:'mid_low',fee:'small',ecosystem:'none',freePriority:'',...overrides});
 
 let d=engine.decide(catalog,answer({goal:'premium',travel:'high',fee:'medium'}));
 assert.strictEqual(d.kind,'no_match','premium lounge goal must not fall back to Gold when Platinum is over budget');
@@ -98,7 +98,7 @@ assert.strictEqual(d.kind,'needs_preference','unclear users without an ecosystem
 
 const goals=['premium','points','miles','payback','save_fees','abroad','unsure'];
 const travel=['rare','low','mid','high'];
-const spend=['low','mid','high','very_high'];
+const spend=['low','mid_low','mid_high','high','very_high'];
 const fees=['zero','small','medium','value'];
 const ecosystems=['none','mr','miles_more','payback'];
 const freePriorities=['payback','miles_more','acceptance'];
@@ -128,7 +128,7 @@ for(const goal of goals){
   }
  }
 }
-assert.strictEqual(checked,2304,'decision matrix size changed unexpectedly; update the expected count intentionally if answer dimensions change');
+assert.strictEqual(checked,2880,'decision matrix size changed unexpectedly; update the expected count intentionally if answer dimensions change');
 
 const allowedProviderHosts=new Set(['www.americanexpress.com','www.miles-and-more-kreditkarte.com','www.banknorwegian.de','www.hanseaticbank.de','tfbank.de']);
 for(const id of ['amex_payback','amex_green','amex_gold','amex_platinum','mm_myflex','mm_blue','mm_gold','bank_norwegian_visa','hanseatic_genialcard','tf_mastercard_gold'])assert(byId(id),`missing checked card ${id}`);
