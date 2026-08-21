@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 
-const MARKER_ID='v27-card-advisor-start-marker';
+const MARKER_ID='v28-card-advisor-start-marker';
 function syncStartMarker(){
  const app=document.querySelector('#app');
  if(!app)return;
@@ -23,11 +23,19 @@ function syncStartMarker(){
 syncStartMarker();
 new MutationObserver(syncStartMarker).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-current']});
 
-if(document.querySelector('script[data-vayquo-card-advisor-v27]'))return;
-const script=document.createElement('script');
-script.src='v27-card-advisor.js?v=2701';
-script.dataset.vayquoCardAdvisorV27='1';
-script.async=false;
-script.addEventListener('error',()=>console.warn('VAYQUO card advisor V27 konnte nicht geladen werden.'));
-document.head.appendChild(script);
+if(document.querySelector('script[data-vayquo-card-advisor-v28]'))return;
+const engine=document.createElement('script');
+engine.src='v28-card-advisor-engine.js?v=2801';
+engine.dataset.vayquoCardAdvisorEngineV28='1';
+engine.async=false;
+engine.addEventListener('error',()=>console.warn('VAYQUO card advisor engine V28 konnte nicht geladen werden.'));
+engine.addEventListener('load',()=>{
+ const ui=document.createElement('script');
+ ui.src='v28-card-advisor.js?v=2801';
+ ui.dataset.vayquoCardAdvisorV28='1';
+ ui.async=false;
+ ui.addEventListener('error',()=>console.warn('VAYQUO card advisor V28 konnte nicht geladen werden.'));
+ document.head.appendChild(ui);
+});
+document.head.appendChild(engine);
 })();
