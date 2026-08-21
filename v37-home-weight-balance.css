@@ -1,97 +1,157 @@
 /* VAYQUO v37 — Start page weight balance
-   Make the Kreditkarten-Check the primary entry point and reduce the visual dominance
-   of the points hero beneath it. CSS only: no logic, navigation or data changes. */
+   Card Check is the primary Start hero. The points setup is intentionally secondary.
+   CSS only: no logic, navigation or data changes. */
 
-/* Kreditkarten-Check: clearly stronger first action on Start. */
+/* ---------------------------------------------------------
+   1. Kreditkarten-Check = primary signature hero
+   --------------------------------------------------------- */
 #v28-card-advisor-entry{
-  margin:24px 0 28px!important;
+  margin:20px 0 26px!important;
 }
 
 #v28-card-advisor-entry .v28ca-entry{
-  padding:26px 2px 24px!important;
+  position:relative!important;
+  overflow:hidden!important;
+  padding:29px 24px 25px!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:30px!important;
+  background:
+    radial-gradient(115% 90% at 100% 0,rgba(91,122,108,.24) 0,rgba(91,122,108,0) 48%),
+    linear-gradient(145deg,#151817 0,#1b2421 58%,#16201d 100%)!important;
+  box-shadow:0 22px 56px rgba(12,22,19,.18)!important;
+}
+
+#v28-card-advisor-entry .v28ca-entry:after{
+  content:""!important;
+  position:absolute!important;
+  width:180px!important;
+  height:180px!important;
+  right:-88px!important;
+  bottom:-110px!important;
+  border:1px solid rgba(199,172,124,.15)!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
 }
 
 #v28-card-advisor-entry .v28ca-kicker{
+  position:relative!important;
+  z-index:1!important;
   font-size:9.5px!important;
-  letter-spacing:.17em!important;
+  letter-spacing:.18em!important;
+  color:#c7ac7c!important;
 }
 
 #v28-card-advisor-entry .v28ca-entry h3{
-  margin:9px 0 9px!important;
-  font-size:29px!important;
-  line-height:1.045!important;
-  letter-spacing:-.05em!important;
+  position:relative!important;
+  z-index:1!important;
+  margin:10px 0 10px!important;
+  max-width:470px!important;
+  color:#fffdf8!important;
+  font-size:31px!important;
+  line-height:1.035!important;
+  letter-spacing:-.052em!important;
   font-weight:770!important;
 }
 
 #v28-card-advisor-entry .v28ca-entry p{
+  position:relative!important;
+  z-index:1!important;
   max-width:460px!important;
-  font-size:13.5px!important;
+  margin:0!important;
+  color:rgba(255,253,248,.68)!important;
+  font-size:13px!important;
   line-height:1.52!important;
-  color:#69736f!important;
 }
 
 #v28-card-advisor-entry .v28ca-entry-btn{
+  position:relative!important;
+  z-index:1!important;
   min-height:58px!important;
-  margin-top:18px!important;
-  padding:0 17px!important;
-  font-size:12.5px!important;
+  margin-top:20px!important;
+  padding:0 18px!important;
+  border:1px solid rgba(255,255,255,.28)!important;
   border-radius:17px!important;
-  box-shadow:0 11px 26px rgba(23,25,24,.15),inset 0 1px 0 rgba(255,255,255,.08)!important;
+  background:#fffaf0!important;
+  color:#19211f!important;
+  font-size:12.5px!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.20)!important;
 }
 
 #v28-card-advisor-entry .v28ca-entry-btn b{
+  color:#19211f!important;
   font-size:19px!important;
 }
 
-/* Existing dark points hero: still premium, but clearly second in hierarchy. */
+/* ---------------------------------------------------------
+   2. Points setup = secondary premium surface
+   --------------------------------------------------------- */
 #app [data-v24hero-state]{
-  padding:21px 18px!important;
+  padding:20px 19px!important;
+  border:1px solid rgba(23,25,24,.085)!important;
+  border-radius:24px!important;
+  background:linear-gradient(180deg,#fffefb 0,#f8f5ef 100%)!important;
+  color:#17211f!important;
+  box-shadow:none!important;
+}
+
+#app [data-v24hero-state] small{
+  color:#9a7b4b!important;
 }
 
 #app [data-v24hero-state] h1,
 #app [data-v24hero-state] h2,
 #app [data-v24hero-state] h3{
   margin-top:6px!important;
-  margin-bottom:10px!important;
-  font-size:30px!important;
-  line-height:1.05!important;
-  letter-spacing:-.045em!important;
+  margin-bottom:9px!important;
+  color:#17211f!important;
+  font-size:25px!important;
+  line-height:1.07!important;
+  letter-spacing:-.042em!important;
 }
 
 #app [data-v24hero-state] p{
   margin-top:0!important;
-  margin-bottom:14px!important;
-  font-size:12.5px!important;
+  margin-bottom:13px!important;
+  color:#6f7975!important;
+  font-size:11.5px!important;
   line-height:1.48!important;
 }
 
 #app [data-v24hero-state] button,
 #app [data-v24hero-state] a[role="button"]{
-  min-height:48px!important;
+  min-height:46px!important;
+}
+
+#app [data-v24hero-state] button:not([data-v24hero-open]),
+#app [data-v24hero-state] a[role="button"]:not([data-v24hero-open]){
+  background:transparent!important;
+  color:#4d5f5a!important;
+  border-color:rgba(23,25,24,.12)!important;
+  box-shadow:none!important;
 }
 
 /* Keep the relationship obvious on smaller iPhones too. */
 @media(max-width:390px){
   #v28-card-advisor-entry .v28ca-entry{
-    padding:24px 2px 22px!important;
+    padding:27px 21px 23px!important;
+    border-radius:28px!important;
   }
 
   #v28-card-advisor-entry .v28ca-entry h3{
-    font-size:27px!important;
+    font-size:29px!important;
   }
 
   #v28-card-advisor-entry .v28ca-entry p{
-    font-size:13px!important;
+    font-size:12.5px!important;
   }
 
   #app [data-v24hero-state]{
-    padding:19px 16px!important;
+    padding:18px 17px!important;
   }
 
   #app [data-v24hero-state] h1,
   #app [data-v24hero-state] h2,
   #app [data-v24hero-state] h3{
-    font-size:28px!important;
+    font-size:23px!important;
   }
 }
