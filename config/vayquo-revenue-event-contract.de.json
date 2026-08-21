@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "market": "DE",
   "mode": "preparation_only",
   "purpose": "Define privacy-safe internal revenue measurement events before any external analytics or partner tracking is activated.",
@@ -71,6 +71,30 @@
       "allowedFields": ["source"],
       "allowedValues": {
         "source": ["complex_award","high_value_trip","user_request","other"]
+      }
+    },
+    "card_check_started": {
+      "allowedFields": []
+    },
+    "card_result_ready": {
+      "allowedFields": ["authState"],
+      "allowedValues": {
+        "authState": ["guest","signed_in"]
+      }
+    },
+    "card_registration_gate_shown": {
+      "allowedFields": []
+    },
+    "card_registration_gate_completed": {
+      "allowedFields": []
+    },
+    "card_result_shown": {
+      "allowedFields": []
+    },
+    "card_external_click": {
+      "allowedFields": ["destination"],
+      "allowedValues": {
+        "destination": ["provider","affiliate"]
       }
     }
   },
