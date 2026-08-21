@@ -14,7 +14,7 @@ assert(loader.includes('v28-card-advisor.js?v=2803'),'loader must load refreshed
 assert(loader.includes('v31-card-advisor-unsure-ux.js?v=3101'),'loader must load guided unsure UX after advisor UI');
 assert(loader.indexOf('v31-card-advisor-unsure-ux.js?v=3101')<loader.indexOf('v28-card-advisor-abroad-ux.js?v=2802'),'unsure UX must initialize before abroad UX');
 assert(loader.includes('v28-card-advisor-abroad-ux.js?v=2802'),'loader must load abroad UX after advisor UI');
-assert(loader.includes('v28-card-advisor-provider-cta.js?v=2802'),'loader must load audited provider CTA after abroad UX');
+assert(loader.includes('v28-card-advisor-provider-cta.js?v=2803'),'loader must load conversion-safe provider CTA after abroad UX');
 assert(loader.includes('[data-view="start"]'),'loader must recognize the real start nav directly');
 assert(loader.includes('v28-card-advisor-start-marker'),'loader must maintain a start marker');
 assert(ui.includes('const STEP_COUNT=5'),'advisor must stay short and simple');
@@ -41,6 +41,12 @@ assert(providerCta.includes('ALLOWED_PROVIDER_HOSTS'),'provider redirect must be
 assert(providerCta.includes('goToProvider(detailLink.getAttribute(\'href\'))'),'secondary link must pass through the same allowlist function');
 for(const host of ['www.americanexpress.com','www.miles-and-more-kreditkarte.com','www.banknorwegian.de','www.hanseaticbank.de','tfbank.de'])assert(providerCta.includes(host),`provider CTA allowlist missing ${host}`);
 assert(providerCta.includes('window.location.assign(safe)'),'guarded provider CTA must continue only to the validated provider page');
+assert(providerCta.includes('DEIN NÄCHSTER SCHRITT'),'recommended card must expose a user-value next step');
+assert(providerCta.includes('Passende Karte beim Anbieter prüfen'),'primary CTA must describe the user benefit rather than monetization');
+assert(providerCta.includes('Für dich bleibt VAYQUO kostenlos.'),'commercial disclosure must explain the user benefit when a partner link is active');
+assert(providerCta.includes('Deine Empfehlung bleibt davon unabhängig.'),'commercial disclosure must explicitly preserve recommendation independence');
+assert(providerCta.includes('[data-vq-commercial="1"]'),'affiliate disclosure must appear only on an actually marked commercial link');
+assert(!providerCta.includes('commissionScore'),'provider CTA must never introduce commission-weighted ranking');
 assert(!ui.includes('planningReference'),'commission planning data must not enter recommendation logic');
 assert.strictEqual(catalog.checkedAt,'2026-08-21');
 assert.strictEqual(catalog.principles.commissionMayNotAffectRanking,true);
@@ -174,4 +180,4 @@ for(const card of catalog.cards){
  for(const url of card.sourceUrls)assert(/^https:\/\//.test(url),`${card.id} audit source must be https`);
 }
 
-console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; guided unsure path; ${catalog.cards.length} audited cards; both provider CTAs guarded)`);
+console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; guided unsure path; value-forward CTA; ${catalog.cards.length} audited cards; both provider CTAs guarded)`);
