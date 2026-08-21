@@ -3,11 +3,13 @@ const assert=require('assert');
 const engine=require('../v28-card-advisor-engine.js');
 
 const ui=fs.readFileSync('v28-card-advisor.js','utf8');
+const providerCta=fs.readFileSync('v28-card-advisor-provider-cta.js','utf8');
 const loader=fs.readFileSync('v24-card-check.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
 assert(loader.includes('v28-card-advisor-engine.js?v=2801'),'loader must load V28 decision engine');
 assert(loader.includes('v28-card-advisor.js?v=2801'),'loader must load V28 advisor UI');
+assert(loader.includes('v28-card-advisor-provider-cta.js?v=2801'),'loader must load provider CTA after advisor UI');
 assert(loader.includes('[data-view="start"]'),'loader must recognize the real start nav directly');
 assert(loader.includes('v28-card-advisor-start-marker'),'loader must maintain a start marker');
 assert(ui.includes('const STEP_COUNT=5'),'advisor must stay short and simple');
@@ -15,11 +17,19 @@ assert(ui.includes('Wie viel zahlst du ungefähr pro Monat mit Karte?'),'spend q
 assert(ui.includes('Kartenzahlungen insgesamt pro Monat'),'spend helper must explain timeframe');
 assert(ui.includes("key:'freePriority'"),'zero-fee discriminator must use its own state key');
 assert(ui.includes('Keine Provision beeinflusst die Empfehlung.'),'ranking independence disclosure must remain visible');
+assert(ui.includes('href="${esc(best.officialUrl)}"'),'provider detail link must use the recommended card official URL');
+assert(providerCta.includes("closest?.('.v28ca-select')"),'primary card CTA must be captured');
+assert(providerCta.includes("querySelector('.v28ca-provider[href]')"),'primary CTA must reuse the exact provider URL rendered for the winner');
+assert(providerCta.includes("url.protocol==='https:'"),'provider redirect must reject non-HTTPS destinations');
+assert(providerCta.includes('window.location.assign(href)'),'primary CTA must continue to the provider page');
 assert(!ui.includes('planningReference'),'commission planning data must not enter recommendation logic');
 assert.strictEqual(catalog.checkedAt,'2026-08-21');
 assert.strictEqual(catalog.principles.commissionMayNotAffectRanking,true);
 
 const byId=id=>catalog.cards.find(card=>card.id===id);
+const paybackAmex=byId('amex_payback');
+assert(paybackAmex,'PAYBACK American Express must remain in the checked catalog');
+assert.strictEqual(paybackAmex.officialUrl,'https://www.americanexpress.com/de-de/kreditkarte/payback-karte/','PAYBACK Amex must point to the checked official product page');
 const answer=(overrides={})=>({goal:'points',travel:'low',spend:'mid',fee:'small',ecosystem:'none',freePriority:'',...overrides});
 
 let d=engine.decide(catalog,answer({goal:'premium',travel:'high',fee:'medium'}));
