@@ -53,6 +53,22 @@ engine.addEventListener('load',()=>{
     cta.dataset.vayquoCardAdvisorProviderCtaV28='1';
     cta.async=false;
     cta.addEventListener('error',()=>console.warn('VAYQUO Kartenanbieter-Weiterleitung konnte nicht geladen werden.'));
+    cta.addEventListener('load',()=>{
+     const router=document.createElement('script');
+     router.src='v35-card-partner-router.js?v=3501';
+     router.dataset.vayquoCardPartnerRouterV35='1';
+     router.async=false;
+     router.addEventListener('error',()=>console.warn('VAYQUO Partner-Router konnte nicht geladen werden.'));
+     router.addEventListener('load',()=>{
+      const funnel=document.createElement('script');
+      funnel.src='v35-card-affiliate-funnel.js?v=3501';
+      funnel.dataset.vayquoCardAffiliateFunnelV35='1';
+      funnel.async=false;
+      funnel.addEventListener('error',()=>console.warn('VAYQUO Karten-Funnel konnte nicht geladen werden.'));
+      document.head.appendChild(funnel);
+     });
+     document.head.appendChild(router);
+    });
     document.head.appendChild(cta);
    });
    document.head.appendChild(abroad);

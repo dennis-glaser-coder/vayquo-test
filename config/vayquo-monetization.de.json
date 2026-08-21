@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "market": "DE",
-  "checkedAt": "2026-08-13",
+  "checkedAt": "2026-08-21",
   "purpose": "Commercial routing for VAYQUO. Revenue must never override the user-value recommendation.",
   "principles": {
     "userValueFirst": true,
@@ -22,21 +22,32 @@
     "amex_cards": {
       "type": "affiliate",
       "enabled": false,
-      "activationRequirement": "official affiliate account and approved tracking links",
+      "activationRequirement": "official affiliate account, advertiser program approval and approved tracking links",
       "placement": ["card_gap_after_recommendation", "benefit_context"],
+      "verifiedProgram": {
+        "cardId": "amex_payback",
+        "network": "financeads",
+        "programName": "American Express Payback",
+        "checkedAt": "2026-08-21",
+        "commissionModel": "CPA",
+        "commissionEUR": 66,
+        "cookieTrackingDays": 0,
+        "status": "publisher_approval_required",
+        "note": "Public financeAds program conditions only. No VAYQUO tracking URL is active until publisher and advertiser approval are complete."
+      },
       "planningReference": {
-        "checkedAt": "2026-08-13",
+        "checkedAt": "2026-08-21",
         "currency": "EUR",
         "publicPayoutsPerValidSale": {
           "platinum": 90,
           "gold": 50,
           "classic": 30,
           "blue": 15,
-          "payback": 30,
+          "payback": 66,
           "business_platinum": 140,
           "business_gold": 90
         },
-        "note": "Use only approved affiliate links/creative. Product recommendation must be based on user fit, never payout."
+        "note": "PAYBACK value rechecked 21.08.2026. Other planning figures are legacy planning references and must be reverified before activation. Use only approved affiliate links/creative. Product recommendation must be based on user fit, never payout."
       }
     },
     "expedia": {
@@ -109,12 +120,12 @@
     }
   },
   "funnel": [
-    "understand_balance",
-    "recommend_best_use",
-    "validate_concrete_option",
+    "card_check",
+    "result_teaser",
+    "register_or_login",
+    "full_result",
     "commercial_next_step",
-    "book_or_apply",
-    "cross_sell_trip_needs",
-    "retain_with_pro"
+    "apply_at_provider",
+    "confirmed_partner_conversion"
   ]
 }

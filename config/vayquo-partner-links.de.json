@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "mode": "preparation_only",
+  "checkedAt": "2026-08-21",
+  "purpose": "Single source of truth for approved commercial card destinations. A program page is not a tracking link and never activates monetization by itself.",
+  "rules": {
+    "onlyApprovedTrackingLinks": true,
+    "httpsRequired": true,
+    "autoRedirectAllowed": false,
+    "recommendationRankingMayUseCommission": false,
+    "inactiveEntriesFallBackToOfficialProvider": true
+  },
+  "cards": {
+    "amex_payback": {
+      "kind": "amex-payback",
+      "network": "financeads",
+      "programName": "American Express Payback",
+      "programPage": "https://www.financeads.com/programs/american_express_payback/",
+      "publicCommission": {
+        "model": "CPA",
+        "currency": "EUR",
+        "amount": 66
+      },
+      "cookieTrackingDays": 0,
+      "status": "publisher_approval_required",
+      "trackingUrl": "",
+      "note": "Public financeAds program page verified 21.08.2026. Insert only the tracking URL issued for VAYQUO after publisher and program approval, then set status to active."
+    }
+  }
+}

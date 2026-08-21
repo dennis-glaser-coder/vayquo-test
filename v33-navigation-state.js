@@ -2,10 +2,12 @@
 'use strict';
 
 const KEY='vayquo:sessionView';
+const RETURN_PARAM='vqReturn';
 const VALID=new Set(['today','wallet','optimize','card']);
 let ready=false;
 let suppress=false;
 let last='';
+let returnView=readReturnView();
 
 function navs(){return Array.from(document.querySelectorAll('#bottom [data-view],.bottom [data-view]'));}
 function canonical(value){
@@ -15,6 +17,20 @@ function canonical(value){
  if(v==='benefits')return 'card';
  if(v==='check')return 'optimize';
  return VALID.has(v)?v:'';
+}
+function readReturnView(){
+ try{return canonical(new URL(location.href).searchParams.get(RETURN_PARAM));}catch{return '';}
+}
+function consumeReturnView(){
+ const target=returnView;
+ if(!target)return '';
+ returnView='';
+ try{
+  const url=new URL(location.href);
+  url.searchParams.delete(RETURN_PARAM);
+  history.replaceState(history.state,'',`${url.pathname}${url.search}${url.hash}`);
+ }catch{}
+ return target;
 }
 function activeView(){
  const active=navs().find(el=>el.classList.contains('active')||el.getAttribute('aria-current')==='page');
@@ -37,11 +53,23 @@ function push(view){
  try{history.pushState({vq:true,vqView:view},'',location.href);}catch{}
 }
 function sync(){
- const current=activeView();if(!current)return;
+ const current=activeView();
+ if(!current){
+  if(returnView){
+   const wanted=consumeReturnView();
+   store(wanted);
+   suppress=true;
+   if(navigate(wanted))return;
+   suppress=false;
+  }
+  return;
+ }
  if(!ready){
   ready=true;
-  const wanted=stored();
+  const explicit=consumeReturnView();
+  const wanted=explicit||stored();
   if(wanted&&wanted!==current){
+   store(wanted);
    suppress=true;
    if(navigate(wanted))return;
    suppress=false;
@@ -61,9 +89,6 @@ window.addEventListener('popstate',ev=>{
  suppress=true;last=target;store(target);navigate(target);
 });
 
-let scheduled=false;
-function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;sync();});}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
-document.addEventListener('click',()=>setTimeout(schedule,0),true);
-new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-current']});
+let scheduled=false;function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;sync();});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();document.addEventListener('click',()=>setTimeout(schedule,0),true);new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-current']});
 })();
