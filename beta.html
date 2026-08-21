@@ -1,11 +1,16 @@
 <!doctype html>
 <html lang="de">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="refresh" content="0; url=beta3.html">
-<title>VAYQUO</title>
-<script>location.replace('beta3.html'+location.search+location.hash);</script>
-</head>
-<body></body>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VAYQUO</title></head>
+<body>
+<script>
+(async()=>{
+ try{
+  const r=await fetch('beta3.html?v=2504',{cache:'no-store'});if(!r.ok)throw new Error('beta');
+  let html=await r.text();
+  html=html.replace('</body>','<script src="v25-live-cash.js?v=2501"><\\/script></body>');
+  document.open();document.write(html);document.close();
+ }catch(e){document.body.innerHTML='<p style="font-family:system-ui;padding:24px">VAYQUO konnte nicht geladen werden. Bitte neu laden.</p>';}
+})();
+</script>
+</body>
 </html>
