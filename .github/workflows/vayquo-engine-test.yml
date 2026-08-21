@@ -9,6 +9,7 @@ on:
       - 'v24-onboarding.js'
       - 'v33-navigation-state.js'
       - 'v33-card-flow-stability.js'
+      - 'v33-contextual-setup.js'
       - 'tests/deferred-auth.test.cjs'
       - 'tests/full-flow-audit.cjs'
       - 'tests/flow-stability.test.cjs'
@@ -44,6 +45,7 @@ on:
       - 'v24-onboarding.js'
       - 'v33-navigation-state.js'
       - 'v33-card-flow-stability.js'
+      - 'v33-contextual-setup.js'
       - 'tests/deferred-auth.test.cjs'
       - 'tests/full-flow-audit.cjs'
       - 'tests/flow-stability.test.cjs'
@@ -84,7 +86,7 @@ jobs:
       - name: Audit compressed core navigation and persistence
         run: node tests/full-flow-audit.cjs
       - name: Check flow stability syntax
-        run: node --check v24-onboarding.js && node --check v33-navigation-state.js && node --check v33-card-flow-stability.js
+        run: node --check v24-onboarding.js && node --check v33-navigation-state.js && node --check v33-card-flow-stability.js && node --check v33-contextual-setup.js
       - name: Verify guest, Back and refresh continuity
         run: node tests/flow-stability.test.cjs
       - name: Check optimizer bridge syntax
