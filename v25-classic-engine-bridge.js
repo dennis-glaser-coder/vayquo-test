@@ -3,7 +3,6 @@
 
 const RULES_URL='config/vayquo-optimizer-rules.de.json?v=2507';
 const q=(s,r=document)=>r.querySelector(s);
-const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:0}).format(Math.max(0,Math.round(Number(n)||0)));
 const euro=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(n)||0);
@@ -97,11 +96,6 @@ function detailValue(d){
  if(/eur/.test(d.label))return euro(d.value);
  return fmt(d.value);
 }
-function headlineFor(r){
- if(r.kind==='good')return r.title;
- if(r.kind==='bad')return r.title;
- return r.title;
-}
 function render(r){
  const out=q('#v24os-result');if(!out)return;
  const valueMetric=(r.metrics||[]).find(m=>m.label==='value_cents');
@@ -109,11 +103,11 @@ function render(r){
  (r.metrics||[]).filter(m=>m!==valueMetric).slice(0,3).forEach(m=>rows.push([m.label,metricValue(m.label,m.value)]));
  (r.details||[]).slice(0,6).forEach(d=>rows.push([detailLabel(d.label),detailValue(d)]));
  const resultClass=r.kind==='good'?' v25cb-result-good':'';
- out.innerHTML=`<div class="v24os-result${resultClass}"><small>VAYQUO ERGEBNIS</small>${valueMetric?`<div class="v24os-result-number">${Number(valueMetric.value).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})} <span>Cent pro Punkt/Meile</span></div>`:''}<h3>${esc(headlineFor(r))}</h3><p>${esc(r.copy)}</p>${rows.length?`<div class="v25cb-extra">${rows.map(([l,v])=>`<div class="v25cb-row"><span>${esc(l)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:''}${r.kind==='good'&&/AWARD|MR_|PB_|MM_/.test(r.code)?'<div class="v25cb-gold">Vor einem Transfer oder einer Buchung die Prämienverfügbarkeit beim Anbieter noch einmal prüfen.</div>':''}</div>`;
+ out.innerHTML=`<div class="v24os-result${resultClass}" data-v24oc-done="1"><small>VAYQUO ERGEBNIS</small>${valueMetric?`<div class="v24os-result-number">${Number(valueMetric.value).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})} <span>Cent pro Punkt/Meile</span></div>`:''}<h3>${esc(r.title)}</h3><p>${esc(r.copy)}</p>${rows.length?`<div class="v25cb-extra">${rows.map(([l,v])=>`<div class="v25cb-row"><span>${esc(l)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:''}${r.kind==='good'&&/AWARD|MR_|PB_|MM_/.test(r.code)?'<div class="v25cb-gold">Vor einem Transfer oder einer Buchung die Prämienverfügbarkeit beim Anbieter noch einmal prüfen.</div>':''}</div>`;
 }
 function renderUnavailable(){
  const out=q('#v24os-result');if(!out)return;
- out.innerHTML='<div class="v24os-result"><small>VAYQUO</small><h3>Berechnung gerade nicht verfügbar.</h3><p>Der geprüfte Rechenkern oder die aktuellen Transferregeln konnten nicht geladen werden. VAYQUO gibt deshalb bewusst keine Ersatzschätzung aus.</p></div>';
+ out.innerHTML='<div class="v24os-result" data-v24oc-done="1"><small>VAYQUO</small><h3>Berechnung gerade nicht verfügbar.</h3><p>Der geprüfte Rechenkern oder die aktuellen Transferregeln konnten nicht geladen werden. VAYQUO gibt deshalb bewusst keine Ersatzschätzung aus.</p></div>';
 }
 async function calculate(ev){
  const btn=ev.target.closest?.('[data-v24os-calc]');if(!btn)return;
@@ -141,7 +135,6 @@ function enhance(){
  ensureReady().then(ok=>{if(ok)enhanceSelect();});
 }
 
-// Capture phase prevents the legacy calculator from also producing a second verdict.
 document.addEventListener('click',calculate,true);
 let scheduled=false;
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;enhance();});}
