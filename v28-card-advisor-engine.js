@@ -17,7 +17,17 @@
 
   function feeCap(answer){return FEE_CAP[answer]??0;}
   function hasAll(card,features){return features.every(feature=>card.features?.includes(feature));}
-  function requiredFeatures(a){
+  function normalizeAnswer(answer){
+    const a={...(answer||{})};
+    if(a.goal!=='unsure')return a;
+    if(a.ecosystem==='none')return {...a,goal:'save_fees',freePriority:'acceptance',unsurePriority:'low_cost'};
+    if(a.ecosystem==='mr')return {...a,goal:a.fee==='zero'?'payback':'points',unsurePriority:'rewards'};
+    if(a.ecosystem==='miles_more')return {...a,goal:'premium',unsurePriority:'travel'};
+    if(a.ecosystem==='payback')return {...a,goal:'abroad',unsurePriority:'abroad'};
+    return a;
+  }
+  function requiredFeatures(answer){
+    const a=normalizeAnswer(answer);
     const base=[...(GOAL_REQUIRED[a.goal]||[])];
     if(a.goal==='save_fees'&&a.freePriority==='payback')base.push('payback');
     if(a.goal==='save_fees'&&a.freePriority==='miles_more')base.push('miles_direct');
@@ -25,11 +35,12 @@
     return [...new Set(base)];
   }
   function scopeExit(){return null;}
-  function usageConflict(a){
+  function usageConflict(answer){
+    const a=normalizeAnswer(answer);
     if(a.goal==='premium'&&a.travel==='rare')return {
       code:'premium_rare_travel',
       title:'Premium-Wunsch und Nutzung passen noch nicht zusammen.',
-      copy:'Du hast Lounge- und Premium-Reisevorteile gewählt, reist aber fast nie. Auf dieser Basis empfiehlt VAYQUO keine teure Premiumkarte.'
+      copy:'Du möchtest mehr Komfort auf Reisen, reist aber fast nie. Auf dieser Basis empfiehlt VAYQUO keine teure Premiumkarte.'
     };
     return null;
   }
@@ -78,15 +89,6 @@
       }
       if(has('free_cash_abroad'))s+=2;
       if(has('insurance_included'))s+=1;
-    }else if(a.goal==='unsure'){
-      if(Number(card.monthlyFeeEUR)===0)s+=5;
-      if(a.ecosystem==='mr'&&has('mr'))s+=7;
-      if(a.ecosystem==='miles_more'&&has('miles_direct'))s+=7;
-      if(a.ecosystem==='payback'&&has('payback'))s+=7;
-      if((a.travel==='mid'||a.travel==='high')&&has('insurance'))s+=2;
-      if((a.travel==='mid'||a.travel==='high')&&has('insurance_basic'))s+=0.5;
-      if(a.travel==='high'&&has('lounge'))s+=1;
-      if(Number(card.monthlyFeeEUR)>=40)s-=5;
     }
 
     if(a.travel==='high'){
@@ -114,16 +116,18 @@
   function cheapestMatching(cards,required){
     return cards.filter(card=>hasAll(card,required)).sort((a,b)=>Number(a.monthlyFeeEUR)-Number(b.monthlyFeeEUR))[0]||null;
   }
-  function decide(catalog,a){
+  function decide(catalog,answer){
+    const original={...(answer||{})};
+    const a=normalizeAnswer(original);
     const scope=scopeExit(a);
-    if(scope)return {kind:'scope',scope,required:[],ranked:[]};
+    if(scope)return {kind:'scope',scope,required:[],ranked:[],effectiveAnswer:a};
+
+    if(original.goal==='unsure'&&a.goal==='unsure'){
+      return {kind:'needs_preference',required:[],ranked:[],effectiveAnswer:a};
+    }
 
     const conflict=usageConflict(a);
-    if(conflict)return {kind:'conflict',conflict,required:requiredFeatures(a),ranked:[]};
-
-    if(a.goal==='unsure'&&(!a.ecosystem||a.ecosystem==='none')){
-      return {kind:'needs_preference',required:[],ranked:[]};
-    }
+    if(conflict)return {kind:'conflict',conflict,required:requiredFeatures(a),ranked:[],effectiveAnswer:a};
 
     const cards=Array.isArray(catalog?.cards)?catalog.cards:[];
     const required=requiredFeatures(a);
@@ -133,12 +137,12 @@
 
     if(!affordable.length){
       const nearest=cheapestMatching(cards,required);
-      return {kind:'no_match',reason:nearest?'budget':'feature',required,nearest,ranked:[]};
+      return {kind:'no_match',reason:nearest?'budget':'feature',required,nearest,ranked:[],effectiveAnswer:a};
     }
 
     const ranked=affordable.map(card=>({card,score:score(card,a)})).sort((x,y)=>y.score-x.score||Number(x.card.monthlyFeeEUR)-Number(y.card.monthlyFeeEUR)||String(x.card.name).localeCompare(String(y.card.name),'de'));
-    return {kind:'match',required,ranked};
+    return {kind:'match',required,ranked,effectiveAnswer:a};
   }
 
-  return {FEE_CAP,requiredFeatures,scopeExit,usageConflict,score,decide};
+  return {FEE_CAP,normalizeAnswer,requiredFeatures,scopeExit,usageConflict,score,decide};
 });

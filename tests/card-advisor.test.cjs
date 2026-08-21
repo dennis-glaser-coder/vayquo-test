@@ -3,13 +3,16 @@ const assert=require('assert');
 const engine=require('../v28-card-advisor-engine.js');
 
 const ui=fs.readFileSync('v28-card-advisor.js','utf8');
+const unsureUx=fs.readFileSync('v31-card-advisor-unsure-ux.js','utf8');
 const abroadUx=fs.readFileSync('v28-card-advisor-abroad-ux.js','utf8');
 const providerCta=fs.readFileSync('v28-card-advisor-provider-cta.js','utf8');
 const loader=fs.readFileSync('v24-card-check.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(loader.includes('v28-card-advisor-engine.js?v=2802'),'loader must load audited V28 decision engine');
+assert(loader.includes('v28-card-advisor-engine.js?v=2803'),'loader must load guided V28 decision engine');
 assert(loader.includes('v28-card-advisor.js?v=2803'),'loader must load refreshed V28 advisor UI');
+assert(loader.includes('v31-card-advisor-unsure-ux.js?v=3101'),'loader must load guided unsure UX after advisor UI');
+assert(loader.indexOf('v31-card-advisor-unsure-ux.js?v=3101')<loader.indexOf('v28-card-advisor-abroad-ux.js?v=2802'),'unsure UX must initialize before abroad UX');
 assert(loader.includes('v28-card-advisor-abroad-ux.js?v=2802'),'loader must load abroad UX after advisor UI');
 assert(loader.includes('v28-card-advisor-provider-cta.js?v=2802'),'loader must load audited provider CTA after abroad UX');
 assert(loader.includes('[data-view="start"]'),'loader must recognize the real start nav directly');
@@ -20,6 +23,10 @@ assert(ui.includes('Für einzelne Gebührenvorteile zählt später dein tatsäch
 assert(ui.includes("key:'freePriority'"),'zero-fee discriminator must use its own state key');
 assert(ui.includes('Keine Provision beeinflusst die Empfehlung.'),'ranking independence disclosure must remain visible');
 assert(ui.includes('href="${esc(best.officialUrl)}"'),'provider detail link must use the recommended card official URL');
+assert(unsureUx.includes('Was klingt spontan am ehesten nach dir?'),'unsure path must ask a simple preference instead of giving up');
+for(const phrase of ['gute Karte ohne laufende Gebühr','Punkte & Prämien holen','komfortabler werden','häufig im Ausland'])assert(unsureUx.includes(phrase),`unsure UX missing plain-language option ${phrase}`);
+assert(unsureUx.includes("next.disabled=true"),'unsure final step must force a fresh choice instead of reusing stale ecosystem state');
+assert(unsureUx.includes('DEIN SCHWERPUNKT'),'unsure result must explain the inferred focus instead of repeating that the user is unsure');
 assert(abroadUx.includes('Was ist dir im Ausland am wichtigsten?'),'abroad final question must ask about actual travel needs');
 assert(abroadUx.includes('Auch Bargeld im Ausland möglichst günstig abheben'),'abroad UX must offer a cash priority');
 assert(abroadUx.includes('Eine Reiseversicherung ist mir wichtig'),'abroad UX must offer an insurance priority');
@@ -93,8 +100,34 @@ for(const ecosystem of ['none','mr','miles_more','payback']){
 assert(engine.requiredFeatures(answer({goal:'abroad'})).includes('high_acceptance'));
 assert(engine.requiredFeatures(answer({goal:'abroad'})).includes('no_fx'));
 
-d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'none',fee:'value'}));
-assert.strictEqual(d.kind,'needs_preference','unclear users without an ecosystem must not get an arbitrary expensive card');
+// „Ich weiß es noch nicht“ must become a guided recommendation path.
+d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'',fee:'value'}));
+assert.strictEqual(d.kind,'needs_preference','unsure must only stop before the user has answered the guided final question');
+
+d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'none',fee:'zero'}));
+assert.strictEqual(d.kind,'match');
+assert.strictEqual(d.effectiveAnswer.goal,'save_fees');
+assert.strictEqual(d.ranked[0].card.id,'bank_norwegian_visa');
+
+d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'mr',fee:'zero'}));
+assert.strictEqual(d.kind,'match');
+assert.strictEqual(d.effectiveAnswer.goal,'payback');
+assert.strictEqual(d.ranked[0].card.id,'amex_payback');
+
+d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'mr',fee:'small'}));
+assert.strictEqual(d.kind,'match');
+assert.strictEqual(d.effectiveAnswer.goal,'points');
+assert.strictEqual(d.ranked[0].card.id,'amex_green');
+
+d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'miles_more',travel:'high',fee:'value'}));
+assert.strictEqual(d.kind,'match');
+assert.strictEqual(d.effectiveAnswer.goal,'premium');
+assert.strictEqual(d.ranked[0].card.id,'amex_platinum');
+
+d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'payback',fee:'zero'}));
+assert.strictEqual(d.kind,'match');
+assert.strictEqual(d.effectiveAnswer.goal,'abroad');
+assert.strictEqual(d.ranked[0].card.id,'bank_norwegian_visa');
 
 const goals=['premium','points','miles','payback','save_fees','abroad','unsure'];
 const travel=['rare','low','mid','high'];
@@ -141,4 +174,4 @@ for(const card of catalog.cards){
  for(const url of card.sourceUrls)assert(/^https:\/\//.test(url),`${card.id} audit source must be https`);
 }
 
-console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; ${catalog.cards.length} audited cards; both provider CTAs guarded)`);
+console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; guided unsure path; ${catalog.cards.length} audited cards; both provider CTAs guarded)`);
