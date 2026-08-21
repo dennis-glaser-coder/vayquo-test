@@ -1,6 +1,7 @@
 const fs=require('fs');
 const path=require('path');
 const assert=require('assert');
+const vm=require('vm');
 const E=require('../v25-engine-v2.js');
 const rules=JSON.parse(fs.readFileSync(path.join(__dirname,'../config/vayquo-optimizer-rules.de.json'),'utf8'));
 const approx=(a,b,eps=1e-8)=>Math.abs(a-b)<=eps;
@@ -34,4 +35,11 @@ assert.strictEqual(r.code,'PB_CASH_BETTER','0.8 cent PAYBACK redemption should l
 r=E.evaluate({target:'qatar_privilege',cash:1200,award:40000,copay:150,existing:0,balances:{mr:50000,pb:0,mm:0},comparable:true},rules);
 assert.strictEqual(r.code,'AWARD_BEATS_FLOOR','Strong Qatar award should beat MR cash floor');
 
-console.log('VAYQUO engine tests passed');
+const bridge=fs.readFileSync(path.join(__dirname,'../v25-classic-engine-bridge.js'),'utf8');
+assert.doesNotThrow(()=>new vm.Script(bridge),'Classic bridge must parse as valid JavaScript');
+const index=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
+for(const asset of ['v25-engine-v2.js','v25-engine-selftest-v2.js','v25-classic-engine-bridge.js']){
+  assert(index.includes(asset),`Classic index must load ${asset}`);
+}
+
+console.log('VAYQUO engine and classic bridge tests passed');
