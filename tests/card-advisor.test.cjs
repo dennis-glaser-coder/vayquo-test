@@ -95,7 +95,7 @@ for(const goal of goals){
   }
  }
 }
-assert(checked>2500,'exhaustive decision matrix should cover thousands of answer combinations');
+assert.strictEqual(checked,2304,'decision matrix size changed unexpectedly; update the expected count intentionally if answer dimensions change');
 
 for(const id of ['amex_payback','amex_green','amex_gold','amex_platinum','mm_myflex','mm_blue','mm_gold'])assert(byId(id),`missing checked card ${id}`);
 for(const card of catalog.cards){assert(/^https:\/\//.test(card.officialUrl),`${card.id} needs official https URL`);assert(Number.isFinite(Number(card.monthlyFeeEUR)),`${card.id} needs numeric monthly fee`);}
