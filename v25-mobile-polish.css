@@ -24,6 +24,12 @@
 
 @media (min-width:641px){#engine-status{display:none!important;}}
 
+/* VAYQUO palette: no system green */
+:root{--good:#d6bd8a!important;}
+.status.ok,.shareok{color:#d6bd8a!important;}
+.decision.good{border-color:rgba(214,189,138,.42)!important;background:rgba(214,189,138,.08)!important;}
+.v25lc-status.good{color:#d6bd8a!important;}
+
 /* Core calculator first */
 #screen-check .vq-core-card{margin-top:8px;}
 #screen-check .vq-tools{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;}
