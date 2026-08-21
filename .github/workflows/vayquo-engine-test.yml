@@ -8,6 +8,13 @@ on:
       - 'config/vayquo-optimizer-rules.de.json'
       - 'tests/v25-engine.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'v25-engine-v2.js'
+      - 'config/vayquo-optimizer-rules.de.json'
+      - 'tests/v25-engine.test.cjs'
+      - '.github/workflows/vayquo-engine-test.yml'
   workflow_dispatch:
 
 jobs:
