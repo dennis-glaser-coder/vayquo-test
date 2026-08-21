@@ -9,6 +9,7 @@ on:
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
       - 'v24-card-check.js'
+      - 'v24-points-balance.js'
       - 'v28-card-advisor-engine.js'
       - 'v28-card-advisor.js'
       - 'v28-card-advisor-abroad-ux.js'
@@ -34,6 +35,7 @@ on:
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
       - 'v24-card-check.js'
+      - 'v24-points-balance.js'
       - 'v28-card-advisor-engine.js'
       - 'v28-card-advisor.js'
       - 'v28-card-advisor-abroad-ux.js'
@@ -68,7 +70,7 @@ jobs:
       - name: Verify public award release gate
         run: node tests/award-release-gate.test.cjs
       - name: Check card advisor and UI syntax
-        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-card-check.js
+        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js
       - name: Verify existing card advisor decision matrix
         run: node tests/card-advisor.test.cjs
       - name: Verify refined card advisor matrix
