@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'v24-auth.js'
+      - 'tests/deferred-auth.test.cjs'
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
@@ -32,6 +34,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'v24-auth.js'
+      - 'tests/deferred-auth.test.cjs'
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
@@ -67,6 +71,10 @@ jobs:
           node-version: '22'
       - name: Check optimizer bridge syntax
         run: node --check v25-classic-engine-bridge.js
+      - name: Check auth syntax
+        run: node --check v24-auth.js
+      - name: Verify deferred guest-to-decision auth
+        run: node tests/deferred-auth.test.cjs
       - name: Check award gate syntax
         run: node --check v26-award-coming-soon.js
       - name: Verify public award release gate
