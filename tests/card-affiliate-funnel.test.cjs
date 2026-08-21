@@ -42,18 +42,22 @@ assert.match(router,/url\.hostname!==FINANCEADS_HOST/);
 assert.match(router,/link\.dataset\.vqCommercial/);
 assert.match(providerCta,/www\.financeads\.net/);
 
-for(const name of [
+const funnelEvents=[
  'card_check_started',
  'card_result_ready',
  'card_registration_gate_shown',
  'card_registration_gate_completed',
- 'card_result_shown',
- 'card_external_click'
-]){
+ 'card_result_shown'
+];
+for(const name of [...funnelEvents,'card_external_click']){
  assert.ok(contract.events[name],`event contract missing ${name}`);
  assert.match(revenue,new RegExp(`${name}\\s*:`),`runtime missing ${name}`);
+}
+for(const name of funnelEvents){
  assert.match(funnel,new RegExp(name),`funnel missing ${name}`);
 }
+assert.match(router,/card_external_click/);
+assert.match(router,/commercial_offer_clicked/);
 
 assert.equal(contract.transport.externalNetworkRequestsAllowed,false);
 assert.equal(contract.transport.cookiesAllowed,false);
