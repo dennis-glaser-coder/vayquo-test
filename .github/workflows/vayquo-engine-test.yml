@@ -8,6 +8,10 @@ on:
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
+      - 'v24-card-check.js'
+      - 'v26-card-advisor.js'
+      - 'config/vayquo-card-advisor.de.json'
+      - 'tests/card-advisor.test.cjs'
       - 'v25-engine-v2.js'
       - 'v25-engine-selftest-v2.js'
       - 'v25-classic-engine-bridge.js'
@@ -21,6 +25,10 @@ on:
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
+      - 'v24-card-check.js'
+      - 'v26-card-advisor.js'
+      - 'config/vayquo-card-advisor.de.json'
+      - 'tests/card-advisor.test.cjs'
       - 'v25-engine-v2.js'
       - 'v25-engine-selftest-v2.js'
       - 'v25-classic-engine-bridge.js'
@@ -43,5 +51,9 @@ jobs:
         run: node --check v26-award-coming-soon.js
       - name: Verify public award release gate
         run: node tests/award-release-gate.test.cjs
+      - name: Check card advisor syntax
+        run: node --check v26-card-advisor.js && node --check v24-card-check.js
+      - name: Verify card advisor gates
+        run: node tests/card-advisor.test.cjs
       - name: Run VAYQUO engine tests
         run: node tests/v25-engine.test.cjs
