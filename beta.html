@@ -5,9 +5,10 @@
 <script>
 (async()=>{
  try{
-  const r=await fetch('beta3.html?v=2504',{cache:'no-store'});if(!r.ok)throw new Error('beta');
+  const r=await fetch('beta3.html?v=2505',{cache:'no-store'});if(!r.ok)throw new Error('beta');
   let html=await r.text();
-  html=html.replace('</body>','<script src="v25-live-cash.js?v=2501"><\\/script></body>');
+  const liveTag='<scr'+'ipt src="v25-live-cash.js?v=2502"></scr'+'ipt>';
+  html=html.replace('</body>',liveTag+'</body>');
   document.open();document.write(html);document.close();
  }catch(e){document.body.innerHTML='<p style="font-family:system-ui;padding:24px">VAYQUO konnte nicht geladen werden. Bitte neu laden.</p>';}
 })();
