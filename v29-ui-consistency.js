@@ -39,9 +39,32 @@ function findProgramsBlock(){
  }
  return heading.parentElement&&heading.parentElement!==app?heading.parentElement:null;
 }
+function findOptimizerBlock(){
+ const app=q('#app');if(!app)return null;
+ const trigger=leaves(app).find(el=>text(el)==='Beste Nutzung finden')||qa('button,a,[role="button"]',app).find(el=>text(el)==='Beste Nutzung finden');
+ if(!trigger)return null;
+ let node=trigger.closest('button,a,[role="button"]')||trigger;
+ let fallback=node.parentElement&&node.parentElement!==app?node.parentElement:node;
+ for(let i=0;i<8&&node&&node!==app;i++,node=node.parentElement){
+  const ownText=text(node);
+  if(/Beste Nutzung finden/.test(ownText)&&/Maximum daraus machen/i.test(ownText))fallback=node;
+  if(/Beste Nutzung finden/.test(ownText)&&/Warum\?/.test(ownText)&&/Maximum daraus machen/i.test(ownText))return node;
+ }
+ return fallback&&fallback!==app?fallback:null;
+}
+function moveCardCheckBeforeOptimizer(){
+ if(!startActive())return;
+ const entry=q('#v28-card-advisor-entry');
+ if(!entry)return;
+ const optimizer=findOptimizerBlock();
+ if(!optimizer||!optimizer.parentElement)return;
+ if(optimizer.previousElementSibling===entry)return;
+ optimizer.insertAdjacentElement('beforebegin',entry);
+ entry.dataset.v29Position='before-optimizer';
+}
 function moveRatgeberBelowPrograms(){
  const link=q('.v24-ratgeber-home');
- if(!startActive()){return;}
+ if(!startActive())return;
  if(!link)return;
  const programs=findProgramsBlock();
  if(!programs||!programs.parentElement)return;
@@ -55,7 +78,7 @@ function markDuplicateOffer(){
  duplicate.setAttribute('aria-hidden','true');
  duplicate.dataset.v29Duplicate='hidden';
 }
-function apply(){ensureStyle();moveRatgeberBelowPrograms();markDuplicateOffer();}
+function apply(){ensureStyle();moveCardCheckBeforeOptimizer();moveRatgeberBelowPrograms();markDuplicateOffer();}
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;try{apply();}catch(e){console.warn('VAYQUO UI consistency',e);}});}
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
