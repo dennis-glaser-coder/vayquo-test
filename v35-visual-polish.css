@@ -1,0 +1,237 @@
+/* VAYQUO v35 — final visual polish
+   Purpose: unify the premium visual system without changing app structure or logic. */
+
+:root{
+  --v35-ink:#171918;
+  --v35-accent:#173a35;
+  --v35-gold:#8a7047;
+  --v35-surface:#fffefb;
+  --v35-soft:#f4f4ef;
+  --v35-line:rgba(23,25,24,.075);
+  --v35-line-strong:rgba(23,25,24,.115);
+  --v35-radius-control:16px;
+  --v35-radius-card:18px;
+  --v35-radius-shell:24px;
+  --v35-radius-sheet:28px;
+  --v35-shadow-card:0 10px 30px rgba(18,31,28,.045);
+  --v35-shadow-float:0 18px 48px rgba(12,24,21,.14);
+  --v35-shadow-action:0 10px 24px rgba(23,25,24,.14);
+
+  --vqp-radius-sm:12px;
+  --vqp-radius-md:16px;
+  --vqp-radius-lg:20px;
+  --vqp-radius-xl:28px;
+  --vqp-line:var(--v35-line);
+  --vqp-surface:var(--v35-surface);
+  --vqp-soft:var(--v35-soft);
+  --vqp-shadow:var(--v35-shadow-card);
+}
+
+/* Floating navigation: restrained glass, not a heavy floating card. */
+@media(max-width:679px){
+  .bottom{
+    border:1px solid rgba(23,25,24,.075)!important;
+    border-radius:22px!important;
+    background:rgba(255,254,251,.88)!important;
+    backdrop-filter:blur(28px) saturate(1.24)!important;
+    -webkit-backdrop-filter:blur(28px) saturate(1.24)!important;
+    box-shadow:var(--v35-shadow-float),inset 0 1px 0 rgba(255,255,255,.72)!important;
+  }
+  .bottom .nav,.nav{
+    border-radius:16px!important;
+    font-size:10px!important;
+    font-weight:700!important;
+    letter-spacing:-.01em!important;
+  }
+  .bottom .nav.active,.nav.active{
+    background:var(--v35-ink)!important;
+    color:#fff!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important;
+  }
+}
+
+/* Outer shells use one radius and one subtle elevation tier. */
+.v24premium-surface,
+#vayquo-flight-optimizer,
+.v24premium-search,
+#v24pb-panel,
+.v24s35-source-card,
+.v24s35-reco{
+  border-color:var(--v35-line)!important;
+  box-shadow:var(--v35-shadow-card)!important;
+}
+
+.v24premium-search,
+#v24pb-panel{
+  border-radius:var(--v35-radius-shell)!important;
+}
+
+#vayquo-flight-optimizer,
+.v24s35-source-card,
+.v24s35-reco{
+  border-radius:20px!important;
+}
+
+/* Inner cards stay visibly nested and consistent. */
+.v24hero-option,
+.v24pb-card,
+.vayquo-flight-result,
+#vayquo-flight-optimizer .vqo-option,
+.v28ca-choice:not(.active){
+  border-color:var(--v35-line)!important;
+  border-radius:var(--v35-radius-card)!important;
+  box-shadow:0 6px 20px rgba(18,31,28,.035)!important;
+}
+
+/* Controls: one family across search, setup and sheets. */
+.v24premium-search input:not([type="hidden"]),
+.v24premium-search select,
+.v24premium-search .vayquo-extra-control,
+.v24s2-search-wrap,
+.v24s3-primary,
+.v24s3-secondary,
+.v24s35-reco-btn,
+.v28ca-entry-btn,
+.v28ca-next,
+.v28ca-select{
+  border-radius:var(--v35-radius-control)!important;
+}
+
+.v24premium-search input:not([type="hidden"]),
+.v24premium-search select,
+.v24premium-search .vayquo-extra-control,
+.v24s2-search-wrap{
+  border-color:var(--v35-line-strong)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78)!important;
+}
+
+.v24premium-search input:focus,
+.v24premium-search select:focus,
+.v24premium-search .vayquo-extra-control:focus{
+  border-color:rgba(23,58,53,.30)!important;
+  box-shadow:0 0 0 4px rgba(23,58,53,.055),inset 0 1px 0 rgba(255,255,255,.8)!important;
+}
+
+/* Primary actions: confident near-black; green remains an accent, not a competing button color. */
+.v28ca-entry-btn,
+.v28ca-next,
+.v28ca-select,
+.v24premium-primary,
+.v24s3-primary,
+.v24s35-reco-btn{
+  min-height:52px!important;
+  background:var(--v35-ink)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.06)!important;
+  border-radius:var(--v35-radius-control)!important;
+  font-weight:760!important;
+  letter-spacing:-.012em!important;
+  box-shadow:var(--v35-shadow-action),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+
+.v28ca-entry-btn:active,
+.v28ca-next:active,
+.v28ca-select:active,
+.v24premium-primary:active,
+.v24s3-primary:active,
+.v24s35-reco-btn:active{
+  transform:scale(.995)!important;
+  box-shadow:0 6px 16px rgba(23,25,24,.12),inset 0 1px 0 rgba(255,255,255,.07)!important;
+}
+
+/* Secondary surfaces: warm neutral instead of extra visual noise. */
+.v24pb-all,
+.v24s35-chip,
+.v24s35-facts span,
+.v24s35-benefit-tags span,
+#vayquo-flight-optimizer .vqo-balance,
+#vayquo-flight-optimizer .vqof-empty{
+  background:var(--v35-soft)!important;
+  border-color:var(--v35-line)!important;
+}
+
+/* Typography polish: microcopy remains secondary, but no longer feels tiny. */
+.v24premium-search label,
+.v24premium-search .vayquo-extra-label{
+  font-size:12px!important;
+  color:#5f6966!important;
+}
+
+#vayquo-flight-optimizer .vqo-kicker{
+  font-size:10px!important;
+  color:#7a8380!important;
+}
+
+#vayquo-flight-optimizer .vqo-copy{
+  font-size:12px!important;
+  line-height:1.52!important;
+}
+
+#vayquo-flight-optimizer .vqo-test,
+#vayquo-flight-optimizer .vqo-foot{
+  font-size:10px!important;
+  line-height:1.45!important;
+}
+
+.v24pb-head p{
+  font-size:12px!important;
+  line-height:1.45!important;
+}
+
+.v24s35-facts span,
+.v24s35-benefit-tags span{
+  font-size:10px!important;
+}
+
+.v24s35-action{
+  min-height:44px!important;
+  font-size:11px!important;
+}
+
+.v24s35-reco-btn{
+  font-size:12px!important;
+}
+
+/* Monograms and chips share a calmer geometry. */
+.v24hero-mono,
+.v24pb-mono,
+.v24s35-monogram{
+  border-radius:12px!important;
+}
+
+[data-v24sp-row] .v24sp-chip,
+.v24s35-chip,
+.v24s35-facts span,
+.v24s35-benefit-tags span{
+  border-radius:12px!important;
+}
+
+/* Keep active selection legible after the generic card cleanup. */
+.v28ca-choice.active{
+  border-color:var(--v35-ink)!important;
+  background:#f2efe8!important;
+  box-shadow:0 7px 22px rgba(23,25,24,.055)!important;
+}
+
+/* Sheets stay softer and more elevated than cards. */
+.v24premium-sheet{
+  border-radius:var(--v35-radius-sheet) var(--v35-radius-sheet) 0 0!important;
+  box-shadow:0 -24px 64px rgba(8,18,16,.20)!important;
+}
+
+@media(min-width:680px){
+  .v24premium-sheet{
+    border-radius:var(--v35-radius-sheet)!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .v28ca-entry-btn,
+  .v28ca-next,
+  .v28ca-select,
+  .v24premium-primary,
+  .v24s3-primary,
+  .v24s35-reco-btn{
+    transition:none!important;
+  }
+}
