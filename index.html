@@ -55,7 +55,7 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const step3Assets='<link rel="stylesheet" href="v24-step3.css?v=2402"><script src="v24-step3.js?v=2405"><\/script>';
   const mrSeparationAssets='<script src="v24-mr-separation.js?v=2402"><\/script>';
   const step35Assets='<link rel="stylesheet" href="v24-step35.css?v=2445"><script src="v24-step35.js?v=2446"><\/script>';
-  const pointsBalanceAssets='<link rel="stylesheet" href="v24-points-balance.css?v=2401"><script src="v24-points-balance.js?v=2402"><\/script>';
+  const pointsBalanceAssets='<link rel="stylesheet" href="v24-points-balance.css?v=2401"><script src="v24-points-balance.js?v=2403"><\/script>';
   const pointsValidationAssets='<script src="v24-points-validation.js?v=2401"><\/script>';
   const startFilterAssets='<script src="v24-start-filter.js?v=2403"><\/script>';
   const heroPersonalAssets='<script src="v24-hero-personal.js?v=2401"><\/script>';
@@ -80,8 +80,9 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const ratgeberEntryAssets='<script src="v24-ratgeber-entry.js?v=2401"><\/script>';
   const navStabilityAssets='<style id="v24-nav-stability">@media(max-width:679px){.bottom{position:fixed!important;left:12px!important;right:12px!important;max-width:442px!important;width:auto!important;margin-left:auto!important;margin-right:auto!important;transform:none!important;bottom:max(8px,env(safe-area-inset-bottom))!important;height:62px!important;animation:none!important}.bottom .nav,.nav{flex:1 1 0!important;width:auto!important;height:48px!important;min-height:48px!important;transform:none!important;transition:none!important;animation:none!important}.bottom .nav:active,.nav:active,.bottom .nav.active,.nav.active{transform:none!important}}</style>';
   const uiConsistencyAssets='<script src="v29-ui-consistency.js?v=2901"><\/script>';
+  const pointsPageCleanupAssets='<script src="v30-points-page-cleanup.js?v=3001"><\/script>';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+authGate+'</head>'):html+navFix+authGate;
-  const injected=step2Assets+checkClarityAssets+flightSearchControlsAssets+edgeAuthAssets+flightLiveAssets+flightOptimizerAssets+flightSourcePointsAssets+flightFeasibilityAssets+releaseCleanupAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+startFilterAssets+heroPersonalAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+benefitOptimizerAssets+benefitRecoGuardAssets+cardCheckAssets+commercialPolicyAssets+v25CoreAssets+premiumAssets+offerContextAssets+dateShellAssets+socialAuthAssets+authAssets+authPolishAssets+legalAssets+ratgeberEntryAssets+navStabilityAssets+uiConsistencyAssets;
+  const injected=step2Assets+checkClarityAssets+flightSearchControlsAssets+edgeAuthAssets+flightLiveAssets+flightOptimizerAssets+flightSourcePointsAssets+flightFeasibilityAssets+releaseCleanupAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+startFilterAssets+heroPersonalAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+benefitOptimizerAssets+benefitRecoGuardAssets+cardCheckAssets+commercialPolicyAssets+v25CoreAssets+premiumAssets+offerContextAssets+dateShellAssets+socialAuthAssets+authAssets+authPolishAssets+legalAssets+ratgeberEntryAssets+navStabilityAssets+uiConsistencyAssets+pointsPageCleanupAssets;
   patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',injected+'</body>'):patchedHtml+injected;
   const remaining=Math.max(0,1450-(Date.now()-introStarted));
   if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
