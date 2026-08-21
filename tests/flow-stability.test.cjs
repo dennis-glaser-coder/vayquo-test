@@ -9,6 +9,7 @@ const contextual=fs.readFileSync('v33-contextual-setup.js','utf8');
 const advisor=fs.readFileSync('v28-card-advisor.js','utf8');
 const optimizer=fs.readFileSync('v24-optimizer-polish.js','utf8');
 const points=fs.readFileSync('v24-points-balance.js','utf8');
+const legal=fs.readFileSync('rechtliches.html','utf8');
 
 // A fresh Instagram/Google visitor must reach the product before point setup or login.
 assert(index.includes('v24-onboarding.js?v=2402'), 'contextual onboarding version must be loaded explicitly');
@@ -33,6 +34,10 @@ assert(nav.includes("sessionStorage.setItem(KEY,view)"), 'current main view must
 assert(nav.includes('history.pushState'), 'main-view changes must create browser history entries');
 assert(nav.includes("window.addEventListener('popstate'"), 'Safari/browser Back must restore prior VAYQUO view');
 assert(nav.includes('suppress=true'), 'history replay must avoid creating a navigation loop');
+assert(legal.includes('href="./?vqReturn=start"'), 'legal page must return explicitly to VAYQUO Start');
+assert(nav.includes("const RETURN_PARAM='vqReturn'"), 'navigation must recognize the legal return signal');
+assert(nav.includes('if(!current){'), 'navigation must recover from a blank/no-active-view shell');
+assert(nav.includes('consumeReturnView()'), 'return signal must be consumed after navigation');
 
 // Card advisor: internal back already retains answers; refresh must retain an in-progress flow.
 assert(advisor.includes('session.step=Math.max(0,session.step-1);render();'), 'internal Back must keep the existing session answers');

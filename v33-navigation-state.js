@@ -2,10 +2,12 @@
 'use strict';
 
 const KEY='vayquo:sessionView';
+const RETURN_PARAM='vqReturn';
 const VALID=new Set(['today','wallet','optimize','card']);
 let ready=false;
 let suppress=false;
 let last='';
+let returnView=readReturnView();
 
 function navs(){return Array.from(document.querySelectorAll('#bottom [data-view],.bottom [data-view]'));}
 function canonical(value){
@@ -15,6 +17,19 @@ function canonical(value){
  if(v==='benefits')return 'card';
  if(v==='check')return 'optimize';
  return VALID.has(v)?v:'';
+}
+function readReturnView(){
+ try{return canonical(new URL(location.href).searchParams.get(RETURN_PARAM));}catch{return '';}
+}
+function consumeReturnView(){
+ const target=returnView;if(!target)return '';
+ returnView='';
+ try{
+  const url=new URL(location.href);
+  url.searchParams.delete(RETURN_PARAM);
+  history.replaceState(history.state,'',`${url.pathname}${url.search}${url.hash}`);
+ }catch{}
+ return target;
 }
 function activeView(){
  const active=navs().find(el=>el.classList.contains('active')||el.getAttribute('aria-current')==='page');
@@ -30,19 +45,24 @@ function navigate(view){
 }
 function stored(){try{return canonical(sessionStorage.getItem(KEY));}catch{return '';}}
 function store(view){try{sessionStorage.setItem(KEY,view);}catch{}}
-function replace(view){
- try{history.replaceState({...history.state,vq:true,vqView:view},'',location.href);}catch{}
-}
-function push(view){
- try{history.pushState({vq:true,vqView:view},'',location.href);}catch{}
-}
+function replace(view){try{history.replaceState({...history.state,vq:true,vqView:view},'',location.href);}catch{}}
+function push(view){try{history.pushState({vq:true,vqView:view},'',location.href);}catch{}}
 function sync(){
- const current=activeView();if(!current)return;
+ const current=activeView();
+ if(!current){
+  if(returnView){
+   const wanted=consumeReturnView();store(wanted);suppress=true;
+   if(navigate(wanted))return;
+   suppress=false;
+  }
+  return;
+ }
  if(!ready){
   ready=true;
-  const wanted=stored();
+  const explicit=consumeReturnView();
+  const wanted=explicit||stored();
   if(wanted&&wanted!==current){
-   suppress=true;
+   store(wanted);suppress=true;
    if(navigate(wanted))return;
    suppress=false;
   }
