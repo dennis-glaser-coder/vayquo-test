@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'v26-award-coming-soon.js'
+      - 'config/vayquo-award-release.de.json'
+      - 'tests/award-release-gate.test.cjs'
       - 'v25-engine-v2.js'
       - 'v25-engine-selftest-v2.js'
       - 'v25-classic-engine-bridge.js'
@@ -15,6 +18,9 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'v26-award-coming-soon.js'
+      - 'config/vayquo-award-release.de.json'
+      - 'tests/award-release-gate.test.cjs'
       - 'v25-engine-v2.js'
       - 'v25-engine-selftest-v2.js'
       - 'v25-classic-engine-bridge.js'
@@ -33,5 +39,9 @@ jobs:
           node-version: '22'
       - name: Check optimizer bridge syntax
         run: node --check v25-classic-engine-bridge.js
+      - name: Check award gate syntax
+        run: node --check v26-award-coming-soon.js
+      - name: Verify public award release gate
+        run: node tests/award-release-gate.test.cjs
       - name: Run VAYQUO engine tests
         run: node tests/v25-engine.test.cjs
