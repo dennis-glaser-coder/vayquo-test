@@ -31,5 +31,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Check optimizer bridge syntax
+        run: node --check v25-classic-engine-bridge.js
       - name: Run VAYQUO engine tests
         run: node tests/v25-engine.test.cjs
