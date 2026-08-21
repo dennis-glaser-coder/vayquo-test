@@ -41,6 +41,13 @@ function greetingRow(greeting){
   return best;
 }
 
+function findLoggedOutAnchor(){
+  const app=q('#app');if(!app)return null;
+  const cardCheck=q('#v28-card-advisor-entry',app);
+  if(cardCheck&&visible(cardCheck))return cardCheck;
+  return null;
+}
+
 function cleanup(){
   qa('.v34usp-brand').forEach(el=>el.classList.remove('v34usp-brand'));
   qa('.v34usp-title').forEach(el=>{el.classList.remove('v34usp-title');el.removeAttribute('aria-label');});
@@ -52,15 +59,13 @@ function apply(){
   cleanup();
 
   const greeting=findGreeting();
+  const anchor=greeting?greetingRow(greeting):findLoggedOutAnchor();
   let line=q('.v34usp-headerline');
 
-  if(!greeting){
+  if(!anchor?.parentElement){
     line?.remove();
     return;
   }
-
-  const row=greetingRow(greeting);
-  if(!row?.parentElement)return;
 
   if(!line){
     line=document.createElement('div');
@@ -68,7 +73,7 @@ function apply(){
   }
   if(text(line)!==HEADER_COPY)line.textContent=HEADER_COPY;
 
-  if(row.previousElementSibling!==line)row.insertAdjacentElement('beforebegin',line);
+  if(anchor.previousElementSibling!==line)anchor.insertAdjacentElement('beforebegin',line);
 }
 
 let scheduled=false;
