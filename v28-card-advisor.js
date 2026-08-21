@@ -21,7 +21,7 @@ const GOALS={
  unsure:{icon:'?',label:'Ich weiß es noch nicht',short:'eine passende Richtung finden'}
 };
 const TRAVEL={rare:'Fast nie',low:'1–2 Reisen/Jahr',mid:'3–5 Reisen/Jahr',high:'6+ Reisen/Jahr'};
-const SPEND={low:'unter 500 €',mid:'500–1.500 €',high:'1.500–3.000 €',very_high:'über 3.000 €'};
+const SPEND={low:'unter 500 €',mid_low:'500–749 €',mid_high:'750–1.499 €',high:'1.500–3.000 €',very_high:'über 3.000 €'};
 const FEES={zero:'0 €',small:'bis etwa 6 €/Monat',medium:'bis etwa 20 €/Monat',value:'bis 60 €, wenn es sich wirklich lohnt'};
 const ECOSYSTEM={none:'Noch nirgendwo',mr:'Amex Membership Rewards',miles_more:'Miles & More',payback:'PAYBACK'};
 const FREE_PRIORITY={payback:'PAYBACK Punkte sammeln',miles_more:'Miles & More-Meilen sammeln',acceptance:'Möglichst hohe Akzeptanz im Alltag & Ausland'};
@@ -46,12 +46,12 @@ function ensureStyle(){
 }
 function mountOverlay(){let root=q('#v28-card-advisor');if(root)return root;ensureStyle();root=document.createElement('div');root.id='v28-card-advisor';root.hidden=true;document.body.appendChild(root);root.addEventListener('click',ev=>{if(ev.target===root)close();});return root;}
 function close(){q('#v28-card-advisor')?.setAttribute('hidden','');}
-function initialSession(){const saved=savedProfile();return {step:0,answers:{goal:saved.goal||'',travel:saved.travel||'',spend:saved.spend||'',fee:saved.fee||'',ecosystem:saved.ecosystem||'',freePriority:saved.freePriority||''}};}
+function initialSession(){const saved=savedProfile();const spend=mapHas(SPEND,saved.spend)?saved.spend:'';return {step:0,answers:{goal:saved.goal||'',travel:saved.travel||'',spend,fee:saved.fee||'',ecosystem:saved.ecosystem||'',freePriority:saved.freePriority||''}};}
 function open(){session=initialSession();const root=mountOverlay();root.hidden=false;render();try{window.dispatchEvent(new CustomEvent('vayquo:card-advisor-open'));}catch{}}
 function stepMeta(step){
  if(step===0)return {title:'Was soll deine Karte für dich tun?',copy:'Kein Kartenwissen nötig. Wähle einfach dein wichtigstes Ziel.',map:GOALS,key:'goal'};
  if(step===1)return {title:'Wie oft bist du unterwegs?',copy:'Damit VAYQUO Reisevorteile nur dann hoch bewertet, wenn du sie wirklich nutzen kannst.',map:TRAVEL,key:'travel'};
- if(step===2)return {title:'Wie viel zahlst du ungefähr pro Monat mit Karte?',copy:'Gemeint sind deine Kartenzahlungen insgesamt pro Monat. Eine grobe Spanne reicht.',map:SPEND,key:'spend'};
+ if(step===2)return {title:'Wie viel zahlst du ungefähr pro Monat mit Karte?',copy:'Eine grobe Spanne reicht. Für einzelne Gebührenvorteile zählt später dein tatsächlicher Jahresumsatz.',map:SPEND,key:'spend'};
  if(step===3)return {title:'Was darf eine gute Karte kosten?',copy:'Wähle die höchste Gebühr, die für dich okay wäre, wenn die Vorteile wirklich passen.',map:FEES,key:'fee'};
  if(session?.answers?.goal==='save_fees')return {title:'Was wäre dir bei 0 € Kartenentgelt wichtiger?',copy:'Damit VAYQUO kostenlose Karten nicht einfach über einen Kamm schert.',map:FREE_PRIORITY,key:'freePriority'};
  return {title:'Wo sammelst du schon?',copy:'Bestehende Punkte oder Meilen können die sinnvollste Karte verändern.',map:ECOSYSTEM,key:'ecosystem'};
@@ -76,7 +76,7 @@ function goalNeed(a){
  if(a.goal==='abroad')return 'Hohe Akzeptanz und gute Auslandskonditionen.';
  return 'Erst einen klaren Schwerpunkt – damit VAYQUO keine Karte errät.';
 }
-function reasons(card,a){const out=[];const has=f=>card.features?.includes(f);if(Number(card.monthlyFeeEUR)===0)out.push('0 € laufendes Kartenentgelt passt zu deinem Gebührenrahmen.');if(a.goal==='premium'&&has('lounge'))out.push('Loungezugang erfüllt deinen wichtigsten Wunsch direkt.');if(a.goal==='premium'&&has('premium_travel'))out.push('Die Karte bietet echte Premium-Reiseleistungen.');if(a.goal==='points'&&has('mr'))out.push('Membership Rewards hält deine Punkte flexibel nutzbar.');if(a.goal==='miles'&&has('miles_direct'))out.push('Du sammelst direkt Miles-&-More-Meilen.');if(a.goal==='payback'&&has('payback'))out.push('Die Karte sammelt im PAYBACK-System.');if(a.goal==='save_fees'&&a.freePriority==='payback'&&has('payback'))out.push('Sie kombiniert 0 € Kartenentgelt mit PAYBACK.');if(a.goal==='save_fees'&&a.freePriority==='miles_more'&&has('miles_direct'))out.push('Sie kombiniert 0 € Kartenentgelt mit Miles & More.');if((a.travel==='mid'||a.travel==='high')&&has('insurance'))out.push('Reiseversicherungen passen zu deiner Reisehäufigkeit.');return out.slice(0,4);}
+function reasons(card,a){const out=[];const has=f=>card.features?.includes(f);if(Number(card.monthlyFeeEUR)===0)out.push('0 € laufendes Kartenentgelt passt zu deinem Gebührenrahmen.');if(a.goal==='premium'&&has('lounge'))out.push('Loungezugang erfüllt deinen wichtigsten Wunsch direkt.');if(a.goal==='premium'&&has('premium_travel'))out.push('Die Karte bietet echte Premium-Reiseleistungen.');if(a.goal==='points'&&has('mr'))out.push('Membership Rewards hält deine Punkte flexibel nutzbar.');if(card.id==='amex_green'&&['mid_high','high','very_high'].includes(a.spend))out.push('Bei deinem Umsatzbereich kann ab dem 2. Jahr das Kartenentgelt im Folgejahr entfallen, wenn dein tatsächlicher Jahresumsatz über 9.000 € liegt.');if(a.goal==='miles'&&has('miles_direct'))out.push('Du sammelst direkt Miles-&-More-Meilen.');if(a.goal==='payback'&&has('payback'))out.push('Die Karte sammelt im PAYBACK-System.');if(a.goal==='save_fees'&&a.freePriority==='payback'&&has('payback'))out.push('Sie kombiniert 0 € Kartenentgelt mit PAYBACK.');if(a.goal==='save_fees'&&a.freePriority==='miles_more'&&has('miles_direct'))out.push('Sie kombiniert 0 € Kartenentgelt mit Miles & More.');if((a.travel==='mid'||a.travel==='high')&&has('insurance'))out.push('Reiseversicherungen passen zu deiner Reisehäufigkeit.');return out.slice(0,4);}
 function summary(a){return `${GOALS[a.goal]?.short||'passende Karte'} · ${TRAVEL[a.travel]||''} · ${SPEND[a.spend]||''}/Monat`;}
 function shell(content){return `<section class="v28ca-sheet"><div class="v28ca-top"><div class="v28ca-brand">VAYQUO KARTEN-CHECK</div><button class="v28ca-close" type="button" aria-label="Schließen">×</button></div>${content}</section>`;}
 function resultSummary(a){return `<div class="v28ca-summary"><div><small>DU WILLST</small><b>${esc(GOALS[a.goal]?.label||'Eine passende Karte')}</b></div><div><small>DAFÜR BRAUCHST DU</small><b>${esc(goalNeed(a))}</b></div></div>`;}
