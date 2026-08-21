@@ -61,13 +61,16 @@ function channelOpenForKind(kind){
  const channel=KIND_CHANNEL[kind];
  return !!channel&&activeChannels.has(channel);
 }
+function configurationOpenForKind(kind){
+ return KIND_CHANNEL[kind]!=='amex_cards'||partnerMode==='live';
+}
 
 function setPartnerLinks(next){
  if(!next||typeof next!=='object')return false;
  let changed=false;
  Object.entries(next).forEach(([key,value])=>{
   if(!Object.prototype.hasOwnProperty.call(ELIGIBLE,key))return;
-  if(!channelOpenForKind(key)){
+  if(!channelOpenForKind(key)||!configurationOpenForKind(key)){
    if(links[key]){delete links[key];changed=true;}
    return;
   }
@@ -86,7 +89,7 @@ function applyPartnerConfig(data){
   partnerMeta[cardId]={...entry,cardId};
   const kind=CARD_KIND[cardId]||String(entry.kind||'');
   if(!kind||!Object.prototype.hasOwnProperty.call(ELIGIBLE,kind))return;
-  const mayActivate=partnerMode==='live'&&channelOpenForKind(kind)&&entry.status==='active';
+  const mayActivate=configurationOpenForKind(kind)&&channelOpenForKind(kind)&&entry.status==='active';
   if(!mayActivate){delete links[kind];return;}
   const url=cleanUrl(entry.trackingUrl);
   if(url)links[kind]=url;
@@ -116,7 +119,7 @@ async function loadPartnerConfig(){
 }
 
 function canShow(kind,decision){
- return channelOpenForKind(kind)&&!!links[kind]&&!!ELIGIBLE[kind]?.has(String(decision||''));
+ return configurationOpenForKind(kind)&&channelOpenForKind(kind)&&!!links[kind]&&!!ELIGIBLE[kind]?.has(String(decision||''));
 }
 function prepareLink(element,kind,decision){
  if(!element)return false;
@@ -135,7 +138,7 @@ function prepareLink(element,kind,decision){
 }
 function getCardPartnerUrl(cardId){
  const kind=CARD_KIND[String(cardId||'')];
- return kind&&channelOpenForKind(kind)?links[kind]||'':'';
+ return kind&&configurationOpenForKind(kind)&&channelOpenForKind(kind)?links[kind]||'':'';
 }
 function getCardPartnerMeta(cardId){
  const meta=partnerMeta[String(cardId||'')];
@@ -146,7 +149,7 @@ window.VAYQUO_COMMERCIAL=Object.freeze({
  setPartnerLinks,
  canShow,
  prepareLink,
- getPartnerUrl:kind=>channelOpenForKind(kind)?links[kind]||'':'',
+ getPartnerUrl:kind=>configurationOpenForKind(kind)&&channelOpenForKind(kind)?links[kind]||'':'',
  getCardPartnerUrl,
  getCardPartnerMeta,
  getActiveChannels:()=>Array.from(activeChannels),
