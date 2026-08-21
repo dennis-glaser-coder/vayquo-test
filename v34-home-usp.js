@@ -4,7 +4,7 @@
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const text=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
-const HEADER_COPY='VAYQUO findet für dich die beste Entscheidung aus Kreditkarten, Punkten, Meilen und Vorteilen.';
+const HEADER_COPY='VAYQUO zeigt dir, was sich bei Kreditkarten, Punkten, Meilen und Vorteilen wirklich lohnt.';
 
 function ensureStyle(){
   if(q('#v34-home-usp-style'))return;
