@@ -39,7 +39,7 @@ assert.match(policy,/entry\.status!==['"]active['"]/);
 assert.match(policy,/getCardPartnerUrl/);
 assert.match(router,/FINANCEADS_HOST=['"]www\.financeads\.net['"]/);
 assert.match(router,/url\.hostname!==FINANCEADS_HOST/);
-assert.match(router,/data\.vqCommercial/);
+assert.match(router,/link\.dataset\.vqCommercial/);
 assert.match(providerCta,/www\.financeads\.net/);
 
 for(const name of [
@@ -51,7 +51,7 @@ for(const name of [
  'card_external_click'
 ]){
  assert.ok(contract.events[name],`event contract missing ${name}`);
- assert.match(revenue,new RegExp(`${name.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&')}\\s*:`),`runtime missing ${name}`);
+ assert.match(revenue,new RegExp(`${name}\\s*:`),`runtime missing ${name}`);
  assert.match(funnel,new RegExp(name),`funnel missing ${name}`);
 }
 
