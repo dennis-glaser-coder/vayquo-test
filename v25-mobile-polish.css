@@ -1,7 +1,8 @@
 @media (max-width: 640px){
   .app{padding:12px 12px calc(26px + var(--safe));}
-  .top{padding:4px 2px 10px;}
+  .top{padding:4px 2px 10px;justify-content:flex-start;}
   .brand{font-size:15px;}
+  #engine-status{display:none!important;}
   h1{font-size:27px;line-height:1.02;margin-bottom:5px;}
   .lead{font-size:11px;line-height:1.35;}
   .tabs{margin:10px 0 8px;gap:4px;}
@@ -20,6 +21,8 @@
   .v25lc-head h3{font-size:14px!important;margin:3px 0 2px!important;}
   .v25lc-head p{font-size:9px!important;}
 }
+
+@media (min-width:641px){#engine-status{display:none!important;}}
 
 /* Core calculator first */
 #screen-check .vq-core-card{margin-top:8px;}
