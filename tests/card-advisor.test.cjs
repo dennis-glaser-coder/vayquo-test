@@ -26,11 +26,14 @@ assert(abroadUx.includes('Eine Reiseversicherung ist mir wichtig'),'abroad UX mu
 assert(abroadUx.includes("next.disabled=true"),'abroad UX must force a fresh final choice instead of reusing a stale ecosystem answer');
 assert(abroadUx.includes("fetch('config/vayquo-card-advisor.de.json?v=2802'"),'abroad result reasons must come from the audited catalog');
 assert(providerCta.includes("closest?.('.v28ca-select')"),'primary card CTA must be captured');
+assert(providerCta.includes("closest?.('.v28ca-provider[href]')"),'secondary provider detail link must also be captured');
+assert(providerCta.includes('ev.preventDefault()'),'secondary provider link must not bypass the provider guard');
 assert(providerCta.includes("querySelector('.v28ca-provider[href]')"),'primary CTA must reuse the exact provider URL rendered for the winner');
 assert(providerCta.includes("url.protocol!=='https:'"),'provider redirect must reject non-HTTPS destinations');
 assert(providerCta.includes('ALLOWED_PROVIDER_HOSTS'),'provider redirect must be limited to audited provider domains');
+assert(providerCta.includes('goToProvider(detailLink.getAttribute(\'href\'))'),'secondary link must pass through the same allowlist function');
 for(const host of ['www.americanexpress.com','www.miles-and-more-kreditkarte.com','www.banknorwegian.de','www.hanseaticbank.de','tfbank.de'])assert(providerCta.includes(host),`provider CTA allowlist missing ${host}`);
-assert(providerCta.includes('window.location.assign(href)'),'primary CTA must continue to the provider page');
+assert(providerCta.includes('window.location.assign(safe)'),'guarded provider CTA must continue only to the validated provider page');
 assert(!ui.includes('planningReference'),'commission planning data must not enter recommendation logic');
 assert.strictEqual(catalog.checkedAt,'2026-08-21');
 assert.strictEqual(catalog.principles.commissionMayNotAffectRanking,true);
@@ -127,12 +130,15 @@ for(const goal of goals){
 }
 assert.strictEqual(checked,2304,'decision matrix size changed unexpectedly; update the expected count intentionally if answer dimensions change');
 
+const allowedProviderHosts=new Set(['www.americanexpress.com','www.miles-and-more-kreditkarte.com','www.banknorwegian.de','www.hanseaticbank.de','tfbank.de']);
 for(const id of ['amex_payback','amex_green','amex_gold','amex_platinum','mm_myflex','mm_blue','mm_gold','bank_norwegian_visa','hanseatic_genialcard','tf_mastercard_gold'])assert(byId(id),`missing checked card ${id}`);
 for(const card of catalog.cards){
  assert(/^https:\/\//.test(card.officialUrl),`${card.id} needs official https URL`);
+ const official=new URL(card.officialUrl);
+ assert(allowedProviderHosts.has(official.hostname),`${card.id} official URL points outside audited provider hosts`);
  assert(Number.isFinite(Number(card.monthlyFeeEUR)),`${card.id} needs numeric monthly fee`);
  assert(Array.isArray(card.sourceUrls)&&card.sourceUrls.length>0,`${card.id} needs at least one audit source URL`);
  for(const url of card.sourceUrls)assert(/^https:\/\//.test(url),`${card.id} audit source must be https`);
 }
 
-console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; ${catalog.cards.length} audited cards)`);
+console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; ${catalog.cards.length} audited cards; both provider CTAs guarded)`);
