@@ -18,14 +18,26 @@ function validProviderUrl(value){
  }catch{return '';}
 }
 
+function goToProvider(href){
+ const safe=validProviderUrl(href||'');
+ if(!safe)return false;
+ try{window.VAYQUOMonetization?.emit?.('card_provider_click',{destination:'provider'});}catch{}
+ setTimeout(()=>window.location.assign(safe),0);
+ return true;
+}
+
 document.addEventListener('click',ev=>{
+ const detailLink=ev.target?.closest?.('.v28ca-provider[href]');
+ if(detailLink){
+  ev.preventDefault();
+  goToProvider(detailLink.getAttribute('href'));
+  return;
+ }
+
  const btn=ev.target?.closest?.('.v28ca-select');
  if(!btn)return;
  const root=btn.closest('#v28-card-advisor');
  const provider=root?.querySelector('.v28ca-provider[href]');
- const href=validProviderUrl(provider?.getAttribute('href')||'');
- if(!href)return;
- try{window.VAYQUOMonetization?.emit?.('card_provider_click',{destination:'provider'});}catch{}
- setTimeout(()=>window.location.assign(href),0);
+ goToProvider(provider?.getAttribute('href')||'');
 });
 })();
