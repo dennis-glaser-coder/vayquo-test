@@ -7,6 +7,8 @@ on:
       - 'index.html'
       - 'v24-auth.js'
       - 'tests/deferred-auth.test.cjs'
+      - 'tests/full-flow-audit.cjs'
+      - 'assets/data-*.txt'
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
@@ -36,6 +38,8 @@ on:
       - 'index.html'
       - 'v24-auth.js'
       - 'tests/deferred-auth.test.cjs'
+      - 'tests/full-flow-audit.cjs'
+      - 'assets/data-*.txt'
       - 'v26-award-coming-soon.js'
       - 'config/vayquo-award-release.de.json'
       - 'tests/award-release-gate.test.cjs'
@@ -69,6 +73,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Audit compressed core navigation and persistence
+        run: node tests/full-flow-audit.cjs
       - name: Check optimizer bridge syntax
         run: node --check v25-classic-engine-bridge.js
       - name: Check auth syntax
