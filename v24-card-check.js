@@ -35,6 +35,14 @@ engine.addEventListener('load',()=>{
  ui.dataset.vayquoCardAdvisorV28='1';
  ui.async=false;
  ui.addEventListener('error',()=>console.warn('VAYQUO card advisor V28 konnte nicht geladen werden.'));
+ ui.addEventListener('load',()=>{
+  const cta=document.createElement('script');
+  cta.src='v28-card-advisor-provider-cta.js?v=2801';
+  cta.dataset.vayquoCardAdvisorProviderCtaV28='1';
+  cta.async=false;
+  cta.addEventListener('error',()=>console.warn('VAYQUO Kartenanbieter-Weiterleitung konnte nicht geladen werden.'));
+  document.head.appendChild(cta);
+ });
  document.head.appendChild(ui);
 });
 document.head.appendChild(engine);
