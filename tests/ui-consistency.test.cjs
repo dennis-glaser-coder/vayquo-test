@@ -8,7 +8,7 @@ const optimizer=fs.readFileSync('v24-optimizer-polish.js','utf8');
 
 assert(index.includes('v29-ui-consistency.js?v=2901'),'index must load the UI consistency pass');
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'UI consistency must run after the Ratgeber entry is mounted');
-assert(index.includes('v24-card-check.js?v=2403'),'card-check loader cache version must be refreshed');
+assert(index.includes('v24-card-check.js?v=2404'),'card-check loader cache version must be refreshed');
 
 assert(ui.includes('--vqp-accent:#171918!important'),'modern VAYQUO accent token must use anthracite instead of green');
 assert(ui.includes('.v28ca-entry-btn,.v28ca-next,.v28ca-select'),'card-advisor primary actions must use the common dark CTA treatment');
