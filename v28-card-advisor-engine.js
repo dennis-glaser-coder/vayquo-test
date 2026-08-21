@@ -62,10 +62,22 @@
       if(has('high_acceptance'))s+=14;
       if(has('no_fx'))s+=12;
       if(has('free'))s+=3;
-      if(has('free_cash_abroad'))s+=4;
-      if(has('free_cash_domestic'))s+=1;
-      if(has('insurance_included'))s+=3;
-      if(has('cash_interest_free_if_full_payment'))s+=2;
+      if(a.ecosystem==='none'){
+        if(has('no_fx'))s+=3;
+        if(has('high_acceptance'))s+=2;
+      }else if(a.ecosystem==='mr'){
+        if(has('free_cash_abroad'))s+=7;
+        if(has('free_cash_domestic'))s+=2;
+        if(has('cash_interest_free_if_full_payment'))s+=5;
+      }else if(a.ecosystem==='miles_more'){
+        if(has('insurance_included'))s+=8;
+      }else if(a.ecosystem==='payback'){
+        if(has('free_cash_abroad'))s+=3;
+        if(has('insurance_included'))s+=4;
+        if(has('cash_interest_free_if_full_payment'))s+=3;
+      }
+      if(has('free_cash_abroad'))s+=2;
+      if(has('insurance_included'))s+=1;
     }else if(a.goal==='unsure'){
       if(Number(card.monthlyFeeEUR)===0)s+=5;
       if(a.ecosystem==='mr'&&has('mr'))s+=7;
@@ -94,7 +106,7 @@
     }
 
     if(card.id==='tf_mastercard_gold'&&(a.goal==='abroad'||a.freePriority==='acceptance'))s-=2;
-    if(card.id==='hanseatic_genialcard'&&a.goal==='abroad'&&has('free_cash_domestic')===false)s-=0.5;
+    if(card.id==='hanseatic_genialcard'&&a.goal==='abroad'&&!has('free_cash_domestic'))s-=0.5;
 
     s-=Number(card.monthlyFeeEUR||0)*0.08;
     return s;
