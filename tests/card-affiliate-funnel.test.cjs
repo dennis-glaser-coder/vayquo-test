@@ -40,7 +40,9 @@ assert.match(policy,/getCardPartnerUrl/);
 assert.match(router,/FINANCEADS_HOST=['"]www\.financeads\.net['"]/);
 assert.match(router,/url\.hostname!==FINANCEADS_HOST/);
 assert.match(router,/link\.dataset\.vqCommercial/);
-assert.match(providerCta,/www\.financeads\.net/);
+assert.match(router,/stopImmediatePropagation/);
+assert.match(router,/window\.location\.assign\(safe\)/);
+assert.doesNotMatch(providerCta,/www\.financeads\.net/,'official provider guard must remain separate from affiliate destinations');
 
 const funnelEvents=[
  'card_check_started',
@@ -65,6 +67,7 @@ assert.equal(contract.transport.persistence,'memory_only');
 assert.equal(contract.privacy.allowEmail,false);
 assert.equal(contract.privacy.allowPaymentData,false);
 
+assert.match(loader,/v28-card-advisor-provider-cta\.js\?v=2803/);
 assert.match(loader,/v35-card-partner-router\.js/);
 assert.match(loader,/v35-card-affiliate-funnel\.js/);
 
