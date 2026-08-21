@@ -4,14 +4,20 @@ on:
   push:
     branches: [main]
     paths:
+      - 'index.html'
       - 'v25-engine-v2.js'
+      - 'v25-engine-selftest-v2.js'
+      - 'v25-classic-engine-bridge.js'
       - 'config/vayquo-optimizer-rules.de.json'
       - 'tests/v25-engine.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   pull_request:
     branches: [main]
     paths:
+      - 'index.html'
       - 'v25-engine-v2.js'
+      - 'v25-engine-selftest-v2.js'
+      - 'v25-classic-engine-bridge.js'
       - 'config/vayquo-optimizer-rules.de.json'
       - 'tests/v25-engine.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
