@@ -1,10 +1,20 @@
 (()=>{
 'use strict';
 
+const ALLOWED_PROVIDER_HOSTS=new Set([
+ 'www.americanexpress.com',
+ 'www.miles-and-more-kreditkarte.com',
+ 'www.banknorwegian.de',
+ 'www.hanseaticbank.de',
+ 'tfbank.de'
+]);
+
 function validProviderUrl(value){
  try{
-  const url=new URL(value,window.location.href);
-  return url.protocol==='https:'?url.href:'';
+  const url=new URL(value);
+  if(url.protocol!=='https:')return '';
+  if(!ALLOWED_PROVIDER_HOSTS.has(url.hostname))return '';
+  return url.href;
  }catch{return '';}
 }
 
