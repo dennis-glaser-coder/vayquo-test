@@ -53,6 +53,7 @@ function ensureStyle(){
   .v25cb-target-existing{display:none}
   .v25cb-target-existing.is-visible{display:block}
   .v25cb-result-good{border-color:rgba(166,132,77,.2)!important;background:linear-gradient(180deg,#fffdf9,#f7f1e8)!important}
+  .vqo-state.ok{background:rgba(184,155,100,.12)!important;color:#8a7451!important}
  `;
  document.head.appendChild(style);
 }
@@ -130,8 +131,8 @@ async function calculate(ev){
 }
 
 function enhance(){
- if(!q('#v24os-currency'))return;
  ensureStyle();
+ if(!q('#v24os-currency'))return;
  ensureReady().then(ok=>{if(ok)enhanceSelect();});
 }
 
