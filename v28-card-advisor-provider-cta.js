@@ -6,8 +6,7 @@ const ALLOWED_PROVIDER_HOSTS=new Set([
  'www.miles-and-more-kreditkarte.com',
  'www.banknorwegian.de',
  'www.hanseaticbank.de',
- 'tfbank.de',
- 'www.financeads.net'
+ 'tfbank.de'
 ]);
 
 function validProviderUrl(value){
