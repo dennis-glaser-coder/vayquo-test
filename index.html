@@ -42,7 +42,7 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
   const html=await new Response(stream).text();
   const navFix='<style id="v23-nav-fix">@media(max-width:679px){.bottom{bottom:max(4px,calc(var(--safe-bottom) - 8px))!important;height:60px!important;width:min(calc(100% - 18px),442px)!important;padding:5px!important;border-radius:19px!important;box-shadow:0 10px 26px rgba(18,18,18,.09)!important}.nav{font-size:9px!important;gap:3px!important;border-radius:14px!important}.nav svg{width:20px!important;height:20px!important}main{padding-bottom:calc(122px + var(--safe-bottom))!important}.toast{bottom:calc(76px + var(--safe-bottom))!important}}</style>';
-  const authGate='<style id="v24-auth-gate">html.vq-auth-pending #app,html.vq-auth-pending .bottom{visibility:hidden!important}</style><script>document.documentElement.classList.add("vq-auth-pending");<\/script>';
+  const authGate='<style id="v24-auth-gate">html.vq-auth-pending #app,html.vq-auth-pending .bottom{visibility:hidden!important}</style><script>try{if(localStorage.getItem("vayquo:authSession"))document.documentElement.classList.add("vq-auth-pending")}catch{}<\/script>';
   const step2Assets='<link rel="stylesheet" href="v24-step2.css?v=2411"><script src="v24-step2.js?v=2406"><\/script>';
   const checkClarityAssets='<script src="v24-check-clarity.js?v=2402"><\/script>';
   const flightSearchControlsAssets='<script src="v24-flight-search-controls.js?v=2402"><\/script>';
@@ -67,14 +67,14 @@ html,body{margin:0;min-height:100%;background:#07191b;color:#f8f4ed;font-family:
   const benefitActionsAssets='<script src="v24-benefit-actions.js?v=2401"><\/script>';
   const benefitOptimizerAssets='<script src="v24-benefit-optimizer.js?v=2402"><\/script>';
   const benefitRecoGuardAssets='<script src="v24-benefit-reco-guard.js?v=2402"><\/script>';
-  const cardCheckAssets='<script src="v24-card-check.js?v=2403"><\/script>';
+  const cardCheckAssets='<script src="v24-card-check.js?v=2404"><\/script>';
   const commercialPolicyAssets='<script src="v24-commercial-policy.js?v=2401"><\/script>';
   const v25CoreAssets='<script src="v25-engine-v2.js?v=2502"><\/script><script src="v25-engine-selftest-v2.js?v=2502"><\/script><script src="v25-classic-engine-bridge.js?v=2502"><\/script>';
   const premiumAssets='<link rel="stylesheet" href="v24-premium-system.css?v=2402"><script src="v24-premium-system.js?v=2403"><\/script><script src="v24-optimizer-polish.js?v=2407"><\/script>';
   const offerContextAssets='<script src="v24-offer-context.js?v=2402"><\/script>';
   const dateShellAssets='<script src="v24-date-shell.js?v=2401"><\/script>';
   const socialAuthAssets='<script src="v24-social-auth.js?v=2404"><\/script>';
-  const authAssets='<script src="v24-auth.js?v=2402"><\/script>';
+  const authAssets='<script src="v24-auth.js?v=2403"><\/script>';
   const authPolishAssets='<script src="v24-auth-polish.js?v=2402"><\/script><style id="v24-auth-layout-stability">.v24a-forgot-wrap{height:18px!important;min-height:18px!important}</style>';
   const legalAssets='<script src="v24-legal.js?v=2401"><\/script>';
   const ratgeberEntryAssets='<script src="v24-ratgeber-entry.js?v=2401"><\/script>';
