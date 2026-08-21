@@ -11,6 +11,7 @@ const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:0}).format(Math.max(0,Math.round(Number(n)||0)));
+const txt=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
 
 function readMeta(){
  try{const v=JSON.parse(localStorage.getItem(META_KEY)||'{}');return v&&typeof v==='object'?v:{};}catch{return {};}
@@ -50,9 +51,13 @@ function cardHtml(id){
 }
 function panelHtml(){
  const ids=activePrograms();
- if(!ids.length)return `<section id="v24pb-panel" class="v24pb-panel"><div class="v24pb-head"><div><span>DEINE PUNKTESTÄNDE</span><h2>Noch kein Programm aktiv</h2><p>Aktiviere zuerst ein Programm. Danach kannst du seinen aktuellen Stand hier direkt pflegen.</p></div></div></section>`;
- return `<section id="v24pb-panel" class="v24pb-panel">
-  <div class="v24pb-head"><div><span>DEINE PUNKTESTÄNDE</span><h2>Deine aktuellen Punktestände</h2><p>Hier siehst und aktualisierst du die Stände, mit denen VAYQUO rechnet.</p></div><button type="button" class="v24pb-all" id="v24pb-all">Alle aktualisieren</button></div>
+ if(!ids.length)return `<section id="v24pb-panel" class="v24pb-panel v30-points-balance">
+  <div class="v24pb-head"><div><span>AKTUELLE STÄNDE</span><h2>Deine Bestände</h2><p>Aktiviere ein Programm und hinterlege danach den aktuellen Stand.</p></div></div>
+  <div class="v30-pb-actions"><button type="button" class="v30-programs-manage" id="v24pb-programs">Programme verwalten</button></div>
+ </section>`;
+ return `<section id="v24pb-panel" class="v24pb-panel v30-points-balance">
+  <div class="v24pb-head"><div><span>AKTUELLE STÄNDE</span><h2>Deine Bestände</h2><p>Diese Stände nutzt VAYQUO für deine Auswertungen.</p></div></div>
+  <div class="v30-pb-actions"><button type="button" class="v24pb-all" id="v24pb-all">Stände aktualisieren</button><button type="button" class="v30-programs-manage" id="v24pb-programs">Programme verwalten</button></div>
   <div class="v24pb-list">${ids.map(cardHtml).join('')}</div>
   <div class="v24pb-note">Manuell hinterlegt · keine automatische Synchronisierung</div>
  </section>`;
@@ -113,9 +118,15 @@ function openAll(){
   writeMeta(meta);typeof save==='function'&&save();typeof closeModal==='function'&&closeModal();typeof render==='function'&&render();typeof toast==='function'&&toast('Punktestände aktualisiert');setTimeout(renderPanel,0);
  });
 }
+function openPrograms(){
+ const source=qa('#app button,#app a,#app [role="button"]').find(el=>el.id!=='v24pb-programs'&&txt(el)==='Programme ändern');
+ if(source){source.click();return;}
+ try{typeof toast==='function'&&toast('Programmverwaltung gerade nicht verfügbar');}catch{}
+}
 function bindPanel(){
  qa('[data-v24pb-edit]').forEach(b=>b.onclick=()=>openEditor(b.dataset.v24pbEdit));
  q('#v24pb-all')?.addEventListener('click',openAll);
+ q('#v24pb-programs')?.addEventListener('click',openPrograms);
 }
 
 let scheduled=false;
