@@ -70,3 +70,13 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 document.addEventListener('change',schedule);
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 })();
+
+(()=>{
+ if(document.querySelector('script[data-v36-anonymous-analytics]'))return;
+ const script=document.createElement('script');
+ script.src='v36-anonymous-analytics.js?v=3601';
+ script.dataset.v36AnonymousAnalytics='1';
+ script.async=true;
+ script.addEventListener('error',()=>console.warn('VAYQUO anonymous analytics konnte nicht geladen werden.'));
+ document.head.appendChild(script);
+})();
