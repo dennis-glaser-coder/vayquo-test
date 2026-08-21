@@ -25,6 +25,14 @@ on:
       - 'v28-card-advisor.js'
       - 'v28-card-advisor-abroad-ux.js'
       - 'v28-card-advisor-provider-cta.js'
+      - 'v24-commercial-policy.js'
+      - 'v24-revenue-runtime-prep.js'
+      - 'v35-card-partner-router.js'
+      - 'v35-card-affiliate-funnel.js'
+      - 'config/vayquo-partner-links.de.json'
+      - 'config/vayquo-monetization.de.json'
+      - 'config/vayquo-revenue-event-contract.de.json'
+      - 'tests/card-affiliate-funnel.test.cjs'
       - 'v29-ui-consistency.js'
       - 'v30-points-page-cleanup.js'
       - 'v31-card-advisor-unsure-ux.js'
@@ -63,6 +71,14 @@ on:
       - 'v28-card-advisor.js'
       - 'v28-card-advisor-abroad-ux.js'
       - 'v28-card-advisor-provider-cta.js'
+      - 'v24-commercial-policy.js'
+      - 'v24-revenue-runtime-prep.js'
+      - 'v35-card-partner-router.js'
+      - 'v35-card-affiliate-funnel.js'
+      - 'config/vayquo-partner-links.de.json'
+      - 'config/vayquo-monetization.de.json'
+      - 'config/vayquo-revenue-event-contract.de.json'
+      - 'tests/card-affiliate-funnel.test.cjs'
       - 'v29-ui-consistency.js'
       - 'v30-points-page-cleanup.js'
       - 'v31-card-advisor-unsure-ux.js'
@@ -105,6 +121,10 @@ jobs:
         run: node tests/award-release-gate.test.cjs
       - name: Check card advisor and UI syntax
         run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v31-card-advisor-unsure-ux.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js && node --check v34-card-catalog-runtime.js
+      - name: Check card monetization syntax
+        run: node --check v24-commercial-policy.js && node --check v24-revenue-runtime-prep.js && node --check v35-card-partner-router.js && node --check v35-card-affiliate-funnel.js
+      - name: Verify card affiliate funnel safety
+        run: node tests/card-affiliate-funnel.test.cjs
       - name: Verify instant card catalog runtime
         run: node tests/card-catalog-runtime.test.cjs
       - name: Verify existing card advisor decision matrix
