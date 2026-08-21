@@ -14,6 +14,8 @@ let step=1;
 let selected=new Set();
 let mounted=false;
 let scheduled=false;
+let explicitOpen=false;
+let guestUnlocked=false;
 
 function appState(){
   try{if(typeof state!=='undefined'&&state&&typeof state==='object')return state;}catch{}
@@ -36,8 +38,26 @@ function hasExistingSetup(){
   if(Object.values(meta).some(x=>x?.known===true))return true;
   return Object.keys(PROGRAMS).some(id=>Math.max(0,Number(s?.balances?.[id])||0)>0);
 }
+function activeProgramIds(){
+  const s=appState();
+  return Object.keys(PROGRAMS).filter(id=>!!s?.programs?.[id]);
+}
 function shouldOpen(){
-  return !mounted&&!authVisible()&&!authPending()&&!hasExistingSetup();
+  return explicitOpen&&!mounted&&!authVisible()&&!authPending()&&!hasExistingSetup();
+}
+function unlockGuestStart(){
+  if(guestUnlocked||authVisible()||authPending())return;
+  const s=appState();if(!s||hasExistingSetup())return;
+  guestUnlocked=true;
+  if(s.onboarded!==true){
+    s.onboarded=true;
+    try{if(typeof save==='function')save();}catch{}
+  }
+  try{
+    if(typeof go==='function'){go('today');return;}
+    if(typeof window.go==='function'){window.go('today');return;}
+    if(typeof render==='function')render();
+  }catch{}
 }
 function ensureStyle(){
   if(q('#v24ob-style'))return;
@@ -92,8 +112,8 @@ function mount(){
 }
 function programStep(){
   return `<div class="v24ob-top"><div class="v24ob-brand">VAYQUO</div><div class="v24ob-step">1 VON 2</div></div>
-   <h1>Willkommen bei VAYQUO.</h1>
-   <p class="v24ob-lead">In zwei Schritten zu deiner ersten Empfehlung. Welche Programme nutzt du?</p>
+   <h1>Deine Punkte einrichten.</h1>
+   <p class="v24ob-lead">Nur nötig, wenn VAYQUO deine vorhandenen Punkte oder Meilen optimieren soll. Welche Programme nutzt du?</p>
    <div class="v24ob-list">${Object.entries(PROGRAMS).map(([id,p])=>`
     <button type="button" class="v24ob-program" data-v24ob-program="${id}" aria-pressed="${selected.has(id)}">
       <span class="v24ob-mono">${esc(p.short)}</span>
@@ -101,19 +121,19 @@ function programStep(){
       <span class="v24ob-check">✓</span>
     </button>`).join('')}</div>
    <button type="button" class="v24ob-primary" data-v24ob-next ${selected.size?'':'disabled'}>Weiter →</button>
-   <p class="v24ob-note">Du kannst Programme und Stände später jederzeit ändern.</p>`;
+   <p class="v24ob-note">Für den Kreditkarten-Check brauchst du dieses Setup nicht.</p>`;
 }
 function balanceStep(){
   return `<div class="v24ob-top"><div class="v24ob-brand">VAYQUO</div><div class="v24ob-step">2 VON 2</div></div>
    <h1>Wie viele Punkte oder Meilen hast du?</h1>
-   <p class="v24ob-lead">Ein ungefährer Stand reicht für den Start. VAYQUO nutzt ihn für deine erste Empfehlung.</p>
+   <p class="v24ob-lead">Ein ungefährer Stand reicht für den Start. VAYQUO nutzt ihn für deine Punkte-Auswertungen.</p>
    <div class="v24ob-balance-list">${Array.from(selected).map(id=>{const p=PROGRAMS[id];return `
     <label class="v24ob-balance">
       <span class="v24ob-balance-head"><span>${esc(p.label)}</span><small>${esc(p.unit.toUpperCase())}</small></span>
       <span class="v24ob-input"><input type="number" min="0" step="1" inputmode="numeric" data-v24ob-balance="${id}" placeholder="${id==='mr'?'100000':id==='pb'?'8500':'42000'}"><b>${esc(p.unit)}</b></span>
     </label>`;}).join('')}</div>
    <div class="v24ob-error" data-v24ob-error></div>
-   <button type="button" class="v24ob-primary" data-v24ob-finish>Meine Empfehlung anzeigen →</button>
+   <button type="button" class="v24ob-primary" data-v24ob-finish>Punkte-Setup speichern →</button>
    <button type="button" class="v24ob-back" data-v24ob-back>← Programme ändern</button>`;
 }
 function render(){
@@ -139,11 +159,11 @@ function goOptimize(){
   const nav=qa('#bottom [data-view],.bottom [data-view],#bottom .nav,.bottom .nav').find(el=>{
     const v=String(el.dataset?.view||'').toLowerCase();
     const t=(el.textContent||'').trim().toLowerCase();
-    return v==='check'||/optimieren|prüfen/.test(t);
+    return v==='optimize'||v==='check'||/optimieren|prüfen/.test(t);
   });
   if(nav){nav.click();return;}
-  try{if(typeof go==='function'){go('check');return;}}catch{}
-  try{if(typeof window.go==='function')window.go('check');}catch{}
+  try{if(typeof go==='function'){go('optimize');return;}}catch{}
+  try{if(typeof window.go==='function')window.go('optimize');}catch{}
 }
 function finish(){
   const values={};
@@ -157,7 +177,7 @@ function finish(){
     values[id]=Math.round(value);
     if(value>0)positive=true;
   }
-  if(!positive){showError('Für deine erste Empfehlung brauchen wir bei mindestens einem Programm einen Stand über 0.');return;}
+  if(!positive){showError('Für eine Punkte-Auswertung brauchen wir bei mindestens einem Programm einen Stand über 0.');return;}
   const s=appState();if(!s){showError('VAYQUO ist noch nicht bereit. Bitte versuche es noch einmal.');return;}
   s.programs=s.programs||{};
   s.balances=s.balances||{};
@@ -166,18 +186,26 @@ function finish(){
   const meta=readMeta();
   Object.entries(values).forEach(([id,value])=>{s.balances[id]=value;meta[id]={known:true,updatedAt:now};});
   s.onboardingComplete=true;
+  s.onboarded=true;
   writeMeta(meta);
   try{if(typeof save==='function')save();}catch{}
   try{if(typeof render==='function')render();}catch{}
   document.dispatchEvent(new Event('change',{bubbles:true}));
   q('#v24-onboarding')?.remove();
-  mounted=false;
+  mounted=false;explicitOpen=false;
   setTimeout(goOptimize,120);
+}
+function openSetup(){
+  if(hasExistingSetup())return false;
+  explicitOpen=true;step=1;selected=new Set(activeProgramIds());
+  mount();
+  return true;
 }
 function schedule(){
   if(scheduled)return;scheduled=true;
-  requestAnimationFrame(()=>{scheduled=false;if(shouldOpen())mount();});
+  requestAnimationFrame(()=>{scheduled=false;unlockGuestStart();if(shouldOpen())mount();});
 }
+window.VAYQUO_ONBOARDING={open:openSetup,isConfigured:hasExistingSetup};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 document.addEventListener('click',()=>setTimeout(schedule,0),true);
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','class']});
