@@ -20,16 +20,20 @@ assert(ui.includes('Keine Provision beeinflusst die Empfehlung.'),'ranking indep
 assert(ui.includes('href="${esc(best.officialUrl)}"'),'provider detail link must use the recommended card official URL');
 assert(providerCta.includes("closest?.('.v28ca-select')"),'primary card CTA must be captured');
 assert(providerCta.includes("querySelector('.v28ca-provider[href]')"),'primary CTA must reuse the exact provider URL rendered for the winner');
-assert(providerCta.includes("url.protocol==='https:'"),'provider redirect must reject non-HTTPS destinations');
+assert(providerCta.includes("url.protocol!=='https:'"),'provider redirect must reject non-HTTPS destinations');
+assert(providerCta.includes('ALLOWED_PROVIDER_HOSTS'),'provider redirect must be limited to audited provider domains');
 assert(providerCta.includes('window.location.assign(href)'),'primary CTA must continue to the provider page');
 assert(!ui.includes('planningReference'),'commission planning data must not enter recommendation logic');
 assert.strictEqual(catalog.checkedAt,'2026-08-21');
 assert.strictEqual(catalog.principles.commissionMayNotAffectRanking,true);
+assert.strictEqual(catalog.principles.providerTermsWin,true);
 
 const byId=id=>catalog.cards.find(card=>card.id===id);
 const paybackAmex=byId('amex_payback');
 assert(paybackAmex,'PAYBACK American Express must remain in the checked catalog');
 assert.strictEqual(paybackAmex.officialUrl,'https://www.americanexpress.com/de-de/kreditkarte/payback-karte/','PAYBACK Amex must point to the checked official product page');
+const amexGreen=byId('amex_green');
+assert(amexGreen.facts.some(x=>x.includes('9.000 Euro Jahresumsatz')),'Amex Green conditional fee waiver must be documented');
 const answer=(overrides={})=>({goal:'points',travel:'low',spend:'mid',fee:'small',ecosystem:'none',freePriority:'',...overrides});
 
 let d=engine.decide(catalog,answer({goal:'premium',travel:'high',fee:'medium'}));
@@ -41,7 +45,7 @@ d=engine.decide(catalog,answer({goal:'premium',travel:'rare',fee:'value'}));
 assert.strictEqual(d.kind,'conflict','rare travelers must not receive an expensive premium recommendation just for selecting lounge');
 
 d=engine.decide(catalog,answer({goal:'points',fee:'zero'}));
-assert.strictEqual(d.kind,'no_match','flexible-points goal with 0 EUR budget needs a relevant budget no-match, not a Visa fallback');
+assert.strictEqual(d.kind,'no_match','flexible-points goal with 0 EUR budget needs a relevant budget no-match');
 assert.strictEqual(d.nearest?.id,'amex_green');
 
 d=engine.decide(catalog,answer({goal:'points',fee:'small'}));
@@ -65,10 +69,15 @@ assert.strictEqual(d.kind,'match');
 assert.strictEqual(d.ranked[0].card.id,'mm_myflex');
 
 d=engine.decide(catalog,answer({goal:'save_fees',fee:'zero',freePriority:'acceptance'}));
-assert.strictEqual(d.kind,'scope');
+assert.strictEqual(d.kind,'match','high-acceptance zero-fee path must now use verified Visa/Mastercard products');
+assert.strictEqual(d.ranked[0].card.id,'bank_norwegian_visa');
+assert(engine.requiredFeatures(answer({goal:'save_fees',freePriority:'acceptance'})).includes('no_fx'));
 
 d=engine.decide(catalog,answer({goal:'abroad',fee:'zero'}));
-assert.strictEqual(d.kind,'scope');
+assert.strictEqual(d.kind,'match','abroad path must now return a verified market result');
+assert.strictEqual(d.ranked[0].card.id,'bank_norwegian_visa');
+assert(engine.requiredFeatures(answer({goal:'abroad'})).includes('high_acceptance'));
+assert(engine.requiredFeatures(answer({goal:'abroad'})).includes('no_fx'));
 
 d=engine.decide(catalog,answer({goal:'unsure',ecosystem:'none',fee:'value'}));
 assert.strictEqual(d.kind,'needs_preference','unclear users without an ecosystem must not get an arbitrary expensive card');
@@ -89,6 +98,7 @@ for(const goal of goals){
      for(const freePriority of priorities){
       const a={goal,travel:t,spend:s,fee,ecosystem:eco,freePriority};
       const result=engine.decide(catalog,a);checked++;
+      assert.notStrictEqual(result.kind,'scope','verified current catalog should not route supported user goals to an unverified market scope');
       if(result.kind==='match'){
        assert(result.ranked.length>0,'a match must contain at least one ranked card');
        const required=engine.requiredFeatures(a);
@@ -98,7 +108,6 @@ for(const goal of goals){
         for(const feature of required)assert(item.card.features.includes(feature),`${item.card.id} misses hard feature ${feature} for goal ${goal}`);
        }
       }
-      if(result.kind==='scope')assert(goal==='abroad'||(goal==='save_fees'&&freePriority==='acceptance'),'scope exit only allowed for actual acceptance/abroad paths');
      }
     }
    }
@@ -107,7 +116,12 @@ for(const goal of goals){
 }
 assert.strictEqual(checked,2304,'decision matrix size changed unexpectedly; update the expected count intentionally if answer dimensions change');
 
-for(const id of ['amex_payback','amex_green','amex_gold','amex_platinum','mm_myflex','mm_blue','mm_gold'])assert(byId(id),`missing checked card ${id}`);
-for(const card of catalog.cards){assert(/^https:\/\//.test(card.officialUrl),`${card.id} needs official https URL`);assert(Number.isFinite(Number(card.monthlyFeeEUR)),`${card.id} needs numeric monthly fee`);}
+for(const id of ['amex_payback','amex_green','amex_gold','amex_platinum','mm_myflex','mm_blue','mm_gold','bank_norwegian_visa','hanseatic_genialcard','tf_mastercard_gold'])assert(byId(id),`missing checked card ${id}`);
+for(const card of catalog.cards){
+ assert(/^https:\/\//.test(card.officialUrl),`${card.id} needs official https URL`);
+ assert(Number.isFinite(Number(card.monthlyFeeEUR)),`${card.id} needs numeric monthly fee`);
+ assert(Array.isArray(card.sourceUrls)&&card.sourceUrls.length>0,`${card.id} needs at least one audit source URL`);
+ for(const url of card.sourceUrls)assert(/^https:\/\//.test(url),`${card.id} audit source must be https`);
+}
 
-console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked)`);
+console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; ${catalog.cards.length} audited cards)`);
