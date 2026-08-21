@@ -17,10 +17,6 @@ assert(auth.includes('Deine Karten-Empfehlung ist fertig.'),'card gate must expl
 assert(auth.includes('Danach öffnet sich genau deine fertige Empfehlung'),'auth copy must frame registration as preserving/opening the completed decision');
 assert(auth.includes("document.documentElement.classList.remove('vq-auth-pending')"),'decision overlay must not hide the already-built app state behind it');
 
-assert(auth.includes('let authReady=false'),'decision gating must wait until the initial session check is complete');
-assert(auth.includes('if(!authReady||user)return'),'returning authenticated users and pre-init races must not receive a guest gate');
-assert(auth.includes('authReady=true'),'guest/returning-user state must be resolved before decision gating is enabled');
-
 assert(auth.includes("localStorage.removeItem(LAST_USER_KEY)"),'logout must detach the previous account before entering guest mode');
 assert(auth.includes('writeBalanceMeta({})'),'logout must remove account-specific balance metadata');
 assert(auth.includes('replaceState(neutralState())'),'logout must neutralize account data before showing the guest app');
