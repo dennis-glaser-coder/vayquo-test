@@ -3,13 +3,15 @@ const assert=require('assert');
 const engine=require('../v28-card-advisor-engine.js');
 
 const ui=fs.readFileSync('v28-card-advisor.js','utf8');
+const abroadUx=fs.readFileSync('v28-card-advisor-abroad-ux.js','utf8');
 const providerCta=fs.readFileSync('v28-card-advisor-provider-cta.js','utf8');
 const loader=fs.readFileSync('v24-card-check.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(loader.includes('v28-card-advisor-engine.js?v=2801'),'loader must load V28 decision engine');
+assert(loader.includes('v28-card-advisor-engine.js?v=2802'),'loader must load audited V28 decision engine');
 assert(loader.includes('v28-card-advisor.js?v=2801'),'loader must load V28 advisor UI');
-assert(loader.includes('v28-card-advisor-provider-cta.js?v=2801'),'loader must load provider CTA after advisor UI');
+assert(loader.includes('v28-card-advisor-abroad-ux.js?v=2802'),'loader must load abroad UX after advisor UI');
+assert(loader.includes('v28-card-advisor-provider-cta.js?v=2802'),'loader must load audited provider CTA after abroad UX');
 assert(loader.includes('[data-view="start"]'),'loader must recognize the real start nav directly');
 assert(loader.includes('v28-card-advisor-start-marker'),'loader must maintain a start marker');
 assert(ui.includes('const STEP_COUNT=5'),'advisor must stay short and simple');
@@ -18,10 +20,16 @@ assert(ui.includes('Kartenzahlungen insgesamt pro Monat'),'spend helper must exp
 assert(ui.includes("key:'freePriority'"),'zero-fee discriminator must use its own state key');
 assert(ui.includes('Keine Provision beeinflusst die Empfehlung.'),'ranking independence disclosure must remain visible');
 assert(ui.includes('href="${esc(best.officialUrl)}"'),'provider detail link must use the recommended card official URL');
+assert(abroadUx.includes('Was ist dir im Ausland am wichtigsten?'),'abroad final question must ask about actual travel needs');
+assert(abroadUx.includes('Auch Bargeld im Ausland möglichst günstig abheben'),'abroad UX must offer a cash priority');
+assert(abroadUx.includes('Eine Reiseversicherung ist mir wichtig'),'abroad UX must offer an insurance priority');
+assert(abroadUx.includes("next.disabled=true"),'abroad UX must force a fresh final choice instead of reusing a stale ecosystem answer');
+assert(abroadUx.includes("fetch('config/vayquo-card-advisor.de.json?v=2802'"),'abroad result reasons must come from the audited catalog');
 assert(providerCta.includes("closest?.('.v28ca-select')"),'primary card CTA must be captured');
 assert(providerCta.includes("querySelector('.v28ca-provider[href]')"),'primary CTA must reuse the exact provider URL rendered for the winner');
 assert(providerCta.includes("url.protocol!=='https:'"),'provider redirect must reject non-HTTPS destinations');
 assert(providerCta.includes('ALLOWED_PROVIDER_HOSTS'),'provider redirect must be limited to audited provider domains');
+for(const host of ['www.americanexpress.com','www.miles-and-more-kreditkarte.com','www.banknorwegian.de','www.hanseaticbank.de','tfbank.de'])assert(providerCta.includes(host),`provider CTA allowlist missing ${host}`);
 assert(providerCta.includes('window.location.assign(href)'),'primary CTA must continue to the provider page');
 assert(!ui.includes('planningReference'),'commission planning data must not enter recommendation logic');
 assert.strictEqual(catalog.checkedAt,'2026-08-21');
@@ -73,9 +81,12 @@ assert.strictEqual(d.kind,'match','high-acceptance zero-fee path must now use ve
 assert.strictEqual(d.ranked[0].card.id,'bank_norwegian_visa');
 assert(engine.requiredFeatures(answer({goal:'save_fees',freePriority:'acceptance'})).includes('no_fx'));
 
-d=engine.decide(catalog,answer({goal:'abroad',fee:'zero'}));
-assert.strictEqual(d.kind,'match','abroad path must now return a verified market result');
-assert.strictEqual(d.ranked[0].card.id,'bank_norwegian_visa');
+for(const ecosystem of ['none','mr','miles_more','payback']){
+ d=engine.decide(catalog,answer({goal:'abroad',fee:'zero',ecosystem}));
+ assert.strictEqual(d.kind,'match',`abroad path ${ecosystem} must return a verified market result`);
+ assert.strictEqual(d.ranked[0].card.id,'bank_norwegian_visa',`audited overall abroad winner changed for priority mapping ${ecosystem}`);
+ assert(d.ranked.every(item=>item.card.features.includes('high_acceptance')&&item.card.features.includes('no_fx')),'every abroad result must meet hard acceptance and FX requirements');
+}
 assert(engine.requiredFeatures(answer({goal:'abroad'})).includes('high_acceptance'));
 assert(engine.requiredFeatures(answer({goal:'abroad'})).includes('no_fx'));
 
