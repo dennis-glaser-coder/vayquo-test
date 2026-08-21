@@ -35,3 +35,4 @@ r=E.evaluate({target:'qatar_privilege',cash:1200,award:40000,copay:150,existing:
 assert.strictEqual(r.code,'AWARD_BEATS_FLOOR','Strong Qatar award should beat MR cash floor');
 
 console.log('VAYQUO engine tests passed');
+// CI verification branch: behavior intentionally unchanged.
