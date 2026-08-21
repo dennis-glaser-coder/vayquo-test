@@ -1,0 +1,97 @@
+/* VAYQUO v37 — Start page weight balance
+   Make the Kreditkarten-Check the primary entry point and reduce the visual dominance
+   of the points hero beneath it. CSS only: no logic, navigation or data changes. */
+
+/* Kreditkarten-Check: clearly stronger first action on Start. */
+#v28-card-advisor-entry{
+  margin:24px 0 28px!important;
+}
+
+#v28-card-advisor-entry .v28ca-entry{
+  padding:26px 2px 24px!important;
+}
+
+#v28-card-advisor-entry .v28ca-kicker{
+  font-size:9.5px!important;
+  letter-spacing:.17em!important;
+}
+
+#v28-card-advisor-entry .v28ca-entry h3{
+  margin:9px 0 9px!important;
+  font-size:29px!important;
+  line-height:1.045!important;
+  letter-spacing:-.05em!important;
+  font-weight:770!important;
+}
+
+#v28-card-advisor-entry .v28ca-entry p{
+  max-width:460px!important;
+  font-size:13.5px!important;
+  line-height:1.52!important;
+  color:#69736f!important;
+}
+
+#v28-card-advisor-entry .v28ca-entry-btn{
+  min-height:58px!important;
+  margin-top:18px!important;
+  padding:0 17px!important;
+  font-size:12.5px!important;
+  border-radius:17px!important;
+  box-shadow:0 11px 26px rgba(23,25,24,.15),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+
+#v28-card-advisor-entry .v28ca-entry-btn b{
+  font-size:19px!important;
+}
+
+/* Existing dark points hero: still premium, but clearly second in hierarchy. */
+#app [data-v24hero-state]{
+  padding:21px 18px!important;
+}
+
+#app [data-v24hero-state] h1,
+#app [data-v24hero-state] h2,
+#app [data-v24hero-state] h3{
+  margin-top:6px!important;
+  margin-bottom:10px!important;
+  font-size:30px!important;
+  line-height:1.05!important;
+  letter-spacing:-.045em!important;
+}
+
+#app [data-v24hero-state] p{
+  margin-top:0!important;
+  margin-bottom:14px!important;
+  font-size:12.5px!important;
+  line-height:1.48!important;
+}
+
+#app [data-v24hero-state] button,
+#app [data-v24hero-state] a[role="button"]{
+  min-height:48px!important;
+}
+
+/* Keep the relationship obvious on smaller iPhones too. */
+@media(max-width:390px){
+  #v28-card-advisor-entry .v28ca-entry{
+    padding:24px 2px 22px!important;
+  }
+
+  #v28-card-advisor-entry .v28ca-entry h3{
+    font-size:27px!important;
+  }
+
+  #v28-card-advisor-entry .v28ca-entry p{
+    font-size:13px!important;
+  }
+
+  #app [data-v24hero-state]{
+    padding:19px 16px!important;
+  }
+
+  #app [data-v24hero-state] h1,
+  #app [data-v24hero-state] h2,
+  #app [data-v24hero-state] h3{
+    font-size:28px!important;
+  }
+}
