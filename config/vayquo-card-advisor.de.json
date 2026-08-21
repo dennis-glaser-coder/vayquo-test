@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "checkedAt": "2026-08-21",
+  "principles": {
+    "userFitFirst": true,
+    "commissionMayNotAffectRanking": true,
+    "showNoMatchWhenAppropriate": true,
+    "doNotInventBenefits": true,
+    "providerTermsWin": true
+  },
+  "cards": [
+    {
+      "id": "amex_payback",
+      "name": "PAYBACK American Express",
+      "family": "amex",
+      "monthlyFeeEUR": 0,
+      "rewards": ["payback"],
+      "features": ["free", "payback", "amex_offers"],
+      "bestFor": ["payback", "save_fees"],
+      "notFor": ["lounge", "premium_travel", "miles_direct"],
+      "officialUrl": "https://www.americanexpress.com/de-de/kreditkarte/payback-karte/",
+      "facts": ["Dauerhaft kein Jahresentgelt", "PAYBACK Punkte bei Kartenzahlungen"],
+      "sourceNote": "American Express DE, geprüft 21.08.2026"
+    },
+    {
+      "id": "amex_green",
+      "name": "American Express Card",
+      "family": "amex",
+      "monthlyFeeEUR": 5,
+      "rewards": ["mr"],
+      "features": ["mr", "basic_travel"],
+      "bestFor": ["points", "low_fee_rewards"],
+      "notFor": ["lounge", "premium_travel"],
+      "officialUrl": "https://www.americanexpress.com/de-de/kreditkarte/american-express-card/",
+      "facts": ["Membership Rewards inklusive", "Monatliches Kartenentgelt 5 Euro; laut Anbieter kann es bei entsprechendem Jahresumsatz entfallen"],
+      "sourceNote": "American Express DE, geprüft 21.08.2026"
+    },
+    {
+      "id": "amex_gold",
+      "name": "American Express Gold Card",
+      "family": "amex",
+      "monthlyFeeEUR": 20,
+      "rewards": ["mr"],
+      "features": ["mr", "insurance", "mobility", "shopping"],
+      "bestFor": ["points", "travel", "insurance", "mobility"],
+      "notFor": ["included_lounge_access"],
+      "officialUrl": "https://www.americanexpress.com/de-de/kreditkarte/goldcard/",
+      "facts": ["20 Euro Monatsentgelt", "Membership Rewards inklusive", "Reiseversicherungen und Mobilitätsguthaben"],
+      "sourceNote": "American Express DE, geprüft 21.08.2026"
+    },
+    {
+      "id": "amex_platinum",
+      "name": "American Express Platinum Card",
+      "family": "amex",
+      "monthlyFeeEUR": 60,
+      "rewards": ["mr"],
+      "features": ["mr", "insurance", "lounge", "travel_credit", "mobility", "premium_travel"],
+      "bestFor": ["premium_travel", "lounge", "travel", "points"],
+      "notFor": ["save_fees"],
+      "officialUrl": "https://www.americanexpress.com/de-de/kreditkarte/platinum-card/",
+      "facts": ["60 Euro Monatsentgelt", "200 Euro Online-Reiseguthaben jährlich", "Zugang zur Global Lounge Collection"],
+      "sourceNote": "American Express DE, geprüft 21.08.2026"
+    },
+    {
+      "id": "mm_myflex",
+      "name": "Miles & More MyFlex Credit Card",
+      "family": "miles_more",
+      "monthlyFeeEUR": 0,
+      "rewards": ["miles_more"],
+      "features": ["free", "miles_direct"],
+      "bestFor": ["miles", "save_fees"],
+      "notFor": ["lounge", "premium_travel"],
+      "officialUrl": "https://www.miles-and-more-kreditkarte.com/de/privatkunden/kreditkarten/miles-and-more-myflex-credit-card.html",
+      "facts": ["0 Euro monatlicher Kartenpreis", "1 Meile je 2 Euro Kartenumsatz"],
+      "warnings": ["Bei Nutzung der Teilzahlungsfunktion können Zinsen entstehen."],
+      "sourceNote": "Miles & More Kreditkarte, geprüft 21.08.2026"
+    },
+    {
+      "id": "mm_blue",
+      "name": "Miles & More Blue Credit Card",
+      "family": "miles_more",
+      "monthlyFeeEUR": 5.5,
+      "rewards": ["miles_more"],
+      "features": ["miles_direct", "miles_expiry_protection"],
+      "bestFor": ["miles", "protect_miles"],
+      "notFor": ["lounge", "premium_travel"],
+      "officialUrl": "https://www.miles-and-more-kreditkarte.com/de/privatkunden/kreditkarten/miles-and-more-blue-credit-card.html",
+      "facts": ["5,50 Euro monatlicher Kartenpreis", "1 Meile je 2 Euro Kartenumsatz", "Meilenschutz nach Anbieterbedingungen"],
+      "sourceNote": "Miles & More Kreditkarte, geprüft 21.08.2026"
+    },
+    {
+      "id": "mm_gold",
+      "name": "Miles & More Gold Credit Card",
+      "family": "miles_more",
+      "monthlyFeeEUR": 11.5,
+      "rewards": ["miles_more"],
+      "features": ["miles_direct", "miles_expiry_protection", "insurance"],
+      "bestFor": ["miles", "protect_miles", "insurance", "travel"],
+      "notFor": ["included_lounge_access"],
+      "officialUrl": "https://www.miles-and-more-kreditkarte.com/de/privatkunden/kreditkarten/miles-and-more-gold-credit-card.html",
+      "facts": ["11,50 Euro monatlicher Kartenpreis", "1 Meile je 2 Euro Kartenumsatz", "Premium-Versicherungspaket"],
+      "sourceNote": "Miles & More Kreditkarte, geprüft 21.08.2026"
+    }
+  ],
+  "outsideScope": {
+    "free_abroad": {
+      "title": "Kostenlose Visa/Mastercard fürs Ausland",
+      "copy": "Wenn dir vor allem 0 Euro Jahresgebühr, hohe weltweite Akzeptanz und geringe Auslandskosten wichtig sind, kann eine Visa/Mastercard besser passen als die aktuell vollständig bewerteten Punkte- und Meilenkarten. VAYQUO zwingt dir in diesem Fall keine Amex oder Miles-&-More-Karte auf.",
+      "status": "market-expansion-needed"
+    }
+  }
+}
