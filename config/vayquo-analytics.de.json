@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "productionActivationAt": "2026-08-22T17:30:51Z",
+  "productionActivationCommit": "d20b19b056d5fe551ea2cc50b3ebbf8ecc918e5e",
+  "purpose": "Define the clean production baseline for VAYQUO's cookieless first-party usage analytics. Events before productionActivationAt are pre-activation/test data and must not be mixed into production funnel reporting.",
+  "privacyModel": {
+    "cookies": false,
+    "persistentAnalyticsIdentifier": false,
+    "accountLinked": false,
+    "userIdStored": false,
+    "fullReferrerStored": false,
+    "referrerHostnameOnly": true,
+    "fullUrlQueryStored": false,
+    "pathnameOnly": true,
+    "supabaseRlsRequired": true,
+    "anonymousRoleMaySelect": false
+  },
+  "allowedEvents": [
+    "page_view",
+    "nav_view",
+    "card_check_start",
+    "card_check_complete",
+    "card_check_abandon",
+    "card_check_provider_click",
+    "card_check_restart",
+    "ratgeber_click",
+    "outbound_click"
+  ],
+  "attribution": {
+    "acceptedQueryParameters": ["utm_source", "utm_medium", "utm_campaign", "source", "entry"],
+    "ignoredForAnalytics": ["vqReturn"],
+    "rule": "Only short token-like campaign values are retained; the full query string is never stored."
+  }
+}
