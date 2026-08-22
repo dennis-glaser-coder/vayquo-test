@@ -42,13 +42,14 @@ assert(nav.includes('consumeReturnView()'), 'return signal must be consumed afte
 
 // Card advisor: the core owns Q5 state and result progression. No compatibility layer may intercept it.
 assert(advisor.includes('session.step=Math.max(0,session.step-1);render();'), 'internal Back must keep the existing session answers');
-assert(index.includes('v24-card-check.js?v=2405'), 'card loader must be cache-busted after the core fix');
-assert(cardLoader.includes("v28-card-advisor.js?v=2804"), 'fixed core advisor must be cache-busted');
+assert(index.includes('v24-card-check.js?v=2406'), 'card loader must be cache-busted after the auto-open fix');
+assert(cardLoader.includes("v28-card-advisor.js?v=2805"), 'auto-opening core advisor must be cache-busted');
 assert(index.includes("const cardFlowStabilityAssets=''"), 'legacy card-flow compatibility layer must not be loaded');
 assert(card.includes('Disabled: v28-card-advisor.js now owns and repairs the final transition itself.'), 'compatibility file must remain inert');
 assert(advisor.includes("const active=q('[data-v28ca-choice].active',root)"), 'core final action must recover the visible Q5 choice if session state is stale');
 assert(advisor.includes('session.answers[meta.key]=fallback;value=fallback'), 'core must synchronize recovered Q5 state before deciding');
-assert(advisor.includes("if(session.step===STEP_COUNT-1){session.step=STEP_COUNT;void renderResult();return;}"), 'final action must call the existing result renderer directly');
+assert(advisor.includes("if(session.step===STEP_COUNT-1){const expectedStep=session.step;setTimeout(()=>{if(session&&session.step===expectedStep){session.step=STEP_COUNT;void renderResult();}},0);}"), 'Q5 choice must auto-open the existing result renderer without another tap');
+assert(advisor.includes("if(session.step===STEP_COUNT-1){session.step=STEP_COUNT;void renderResult();return;}"), 'final button must remain a fallback path to the existing result renderer');
 assert(advisor.includes("qa('[data-v28ca-choice]',root).forEach(btn=>btn.addEventListener('click'"), 'core advisor must own answer selection');
 assert(advisor.includes("q('.v28ca-close',root)?.addEventListener('click',close)"), 'core advisor must keep the close action wired');
 
@@ -61,4 +62,4 @@ assert(points.includes('<h2>Deine Bestände</h2>'), 'points page must name its f
 assert(points.includes('Diese Stände nutzt VAYQUO für deine Auswertungen.'), 'configured points page must explain why balances matter');
 assert(points.includes('Du hast noch kein Punkte- oder Meilenprogramm eingerichtet.'), 'fresh points page must explain its empty state in plain language');
 
-console.log('VAYQUO full-flow stability and core final-result gates: OK');
+console.log('VAYQUO full-flow stability and auto-open final-result gates: OK');
