@@ -5,7 +5,7 @@ const CONFIG_URL='config/vayquo-card-advisor.de.json?v=2801';
 const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const text=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
 const ENGINE=window.VAYQUOCardAdvisorEngine;
 if(!ENGINE){console.warn('VAYQUO card advisor engine fehlt.');return;}
 
@@ -64,7 +64,7 @@ function render(){
  q('.v28ca-close',root)?.addEventListener('click',close);
  qa('[data-v28ca-choice]',root).forEach(btn=>btn.addEventListener('click',()=>{session.answers[meta.key]=btn.dataset.v28caChoice||'';qa('[data-v28ca-choice]',root).forEach(x=>x.classList.toggle('active',x===btn));q('.v28ca-next',root).disabled=false;}));
  q('.v28ca-back',root)?.addEventListener('click',()=>{session.step=Math.max(0,session.step-1);render();});
- q('.v28ca-next',root)?.addEventListener('click',()=>{const value=session.answers[meta.key];if(!mapHas(meta.map,value))return;session.step++;render();});
+ q('.v28ca-next',root)?.addEventListener('click',()=>{let value=session.answers[meta.key];if(!mapHas(meta.map,value)){const active=q('[data-v28ca-choice].active',root);const fallback=active?.dataset?.v28caChoice||'';if(mapHas(meta.map,fallback)){session.answers[meta.key]=fallback;value=fallback;}}if(!mapHas(meta.map,value))return;if(session.step===STEP_COUNT-1){session.step=STEP_COUNT;void renderResult();return;}session.step++;render();});
 }
 function feeLabel(card){const n=Number(card?.monthlyFeeEUR)||0;return n===0?'0 € Kartenentgelt':`${new Intl.NumberFormat('de-DE',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2}).format(n)} € / Monat`;}
 function goalNeed(a){
