@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "checkedAt": "2026-08-22",
+  "purpose": "Canonical provider facts that may change over time and are reused across VAYQUO content, decision rules and benefit UI. Provider terms win if a source changes after checkedAt.",
+  "principles": {
+    "providerTermsWin": true,
+    "temporaryPromotionsNeedSeparateValidity": true,
+    "doNotInferMissingProviderRules": true,
+    "publishedCopiesMustBeGuardedByCI": true
+  },
+  "membershipRewardsDE": {
+    "expiry": {
+      "duringActiveParticipation": "unlimited",
+      "requiresUncancelledParticipation": true,
+      "requiresAccountInGoodStanding": true,
+      "ordinaryTerminationRedemptionMonths": 12,
+      "note": "Current Membership Rewards terms state unlimited validity during uncancelled participation with an account in good standing. Missed monthly payment and termination can change validity under the provider terms.",
+      "sourceId": "amex_mr_terms_de"
+    },
+    "hotelTransfers": [
+      {
+        "id": "accor_all",
+        "label": "ALL Accor",
+        "sourceUnits": 3,
+        "targetUnits": 1,
+        "minimumSource": 900,
+        "sourceStep": 3,
+        "estimatedBusinessDaysMax": 1,
+        "status": "active",
+        "sourceId": "amex_accor_transfer_de"
+      },
+      {
+        "id": "hilton_honors",
+        "label": "Hilton Honors",
+        "sourceUnits": 1,
+        "targetUnits": 1,
+        "minimumSource": 2500,
+        "sourceStep": 25,
+        "estimatedBusinessDaysMax": 1,
+        "status": "active",
+        "sourceId": "amex_hilton_transfer_de"
+      },
+      {
+        "id": "marriott_bonvoy",
+        "label": "Marriott Bonvoy",
+        "sourceUnits": 3,
+        "targetUnits": 2,
+        "minimumSource": 900,
+        "sourceStep": 3,
+        "estimatedBusinessDaysMax": 1,
+        "status": "active",
+        "sourceId": "amex_marriott_transfer_de"
+      },
+      {
+        "id": "radisson_rewards",
+        "label": "Radisson Rewards",
+        "sourceUnits": 1,
+        "targetUnits": 2,
+        "minimumSource": 1000,
+        "sourceStep": 2,
+        "estimatedBusinessDays": 7,
+        "status": "active",
+        "sourceId": "amex_radisson_transfer_de"
+      }
+    ]
+  },
+  "milesAndMoreDE": {
+    "mileageExpiry": {
+      "validityMonthsFromActivity": 36,
+      "expiresAtNextQuarterEnd": true,
+      "providerMayPublishLongerPeriods": true,
+      "protectionDependsOnStatusOrEligibleCardTerms": true,
+      "sourceId": "mm_mileage_expiry_de"
+    }
+  },
+  "paybackDE": {
+    "cashValueCentsPerPoint": 1,
+    "minimumRedemptionPoints": 200,
+    "bankTransferAllowed": true,
+    "bankTransferMustBeOwnAccount": true,
+    "sourceId": "payback_terms_de"
+  },
+  "amexPlatinumDE": {
+    "benefits": {
+      "onlineTravelCredit": {
+        "amountEUR": 200,
+        "period": "annual",
+        "sourceId": "amex_platinum_terms_de"
+      },
+      "restaurantCredit": {
+        "amountEUR": 150,
+        "period": "annual",
+        "current2026RedemptionStart": "2026-01-07",
+        "current2026RedemptionEnd": "2026-12-31",
+        "requiresActivation": true,
+        "mainCardOnly": true,
+        "sourceId": "amex_platinum_terms_de"
+      },
+      "sixtRideCredit": {
+        "amountEUR": 200,
+        "voucherCount": 8,
+        "voucherAmountEUR": 25,
+        "validityMonthsFromBenefitRegistration": 12,
+        "sourceId": "amex_platinum_terms_de"
+      },
+      "lodenfreyCredit": {
+        "amountEUR": 100,
+        "installmentsPerYear": 2,
+        "installmentAmountEUR": 50,
+        "currentOfferEnd": "2027-12-31",
+        "requiresActivation": true,
+        "mainCardOnly": true,
+        "sourceId": "amex_platinum_terms_de"
+      }
+    }
+  },
+  "officialSources": [
+    {
+      "id": "amex_mr_terms_de",
+      "provider": "American Express Deutschland",
+      "url": "https://www.americanexpress.com/de-de/rewards/membership-rewards/getwebimage.mtw?hash=a9767f2a941cc8974907bfb0e1141a1d&languageid=de_de&webimagename=de_mr_0822.pdf&websitedesignid=314"
+    },
+    {
+      "id": "amex_accor_transfer_de",
+      "provider": "American Express Deutschland",
+      "url": "https://www.americanexpress.com/de-de/rewards/membership-rewards/partner/Accor/ALL-Accor-Punktetransfer/ACCR-01"
+    },
+    {
+      "id": "amex_hilton_transfer_de",
+      "provider": "American Express Deutschland",
+      "url": "https://www.americanexpress.com/de-de/rewards/membership-rewards/partner/hilton-honors/hilton-honors-punktetransfer/hlrt-01"
+    },
+    {
+      "id": "amex_marriott_transfer_de",
+      "provider": "American Express Deutschland",
+      "url": "https://www.americanexpress.com/de-de/rewards/membership-rewards/partner/Marriott/Marriott-Bonvoy-Punktetransfer/MBRT-01"
+    },
+    {
+      "id": "amex_radisson_transfer_de",
+      "provider": "American Express Deutschland",
+      "url": "https://www.americanexpress.com/de-de/rewards/membership-rewards/partner/Radisson-Rewards/Radisson-Rewards-Punktetransfer/RZ-1DE"
+    },
+    {
+      "id": "amex_platinum_terms_de",
+      "provider": "American Express Deutschland",
+      "url": "https://www.americanexpress.com/de-de/vorteile/platinum-card/angebotsbedingungen/"
+    },
+    {
+      "id": "mm_mileage_expiry_de",
+      "provider": "Miles & More",
+      "url": "https://www.miles-and-more.com/de/de/program/at-a-glance/spend.html"
+    },
+    {
+      "id": "payback_terms_de",
+      "provider": "PAYBACK",
+      "url": "https://www.payback.de/resource/blob/115252/bfbf8e323d79802bf532ed466b668512/teilnahmebedingungen-payback-programm-data.pdf"
+    }
+  ]
+}
