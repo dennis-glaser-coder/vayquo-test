@@ -38,6 +38,11 @@ on:
       - 'v25-classic-engine-bridge.js'
       - 'config/vayquo-optimizer-rules.de.json'
       - 'tests/v25-engine.test.cjs'
+      - 'config/vayquo-fact-governance.de.json'
+      - 'tests/content-fact-consistency.test.cjs'
+      - 'ratgeber/*.html'
+      - 'v24-offer-context.js'
+      - 'v24-benefit-optimizer.js'
       - '.github/workflows/vayquo-engine-test.yml'
   pull_request:
     branches: [main]
@@ -76,6 +81,11 @@ on:
       - 'v25-classic-engine-bridge.js'
       - 'config/vayquo-optimizer-rules.de.json'
       - 'tests/v25-engine.test.cjs'
+      - 'config/vayquo-fact-governance.de.json'
+      - 'tests/content-fact-consistency.test.cjs'
+      - 'ratgeber/*.html'
+      - 'v24-offer-context.js'
+      - 'v24-benefit-optimizer.js'
       - '.github/workflows/vayquo-engine-test.yml'
   workflow_dispatch:
 
@@ -107,6 +117,8 @@ jobs:
         run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v31-card-advisor-unsure-ux.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js && node --check v34-card-catalog-runtime.js
       - name: Verify instant card catalog runtime
         run: node tests/card-catalog-runtime.test.cjs
+      - name: Verify cross-surface content fact consistency
+        run: node tests/content-fact-consistency.test.cjs
       - name: Verify existing card advisor decision matrix
         run: node tests/card-advisor.test.cjs
       - name: Verify refined card advisor matrix
