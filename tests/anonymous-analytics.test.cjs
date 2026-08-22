@@ -4,6 +4,7 @@ const assert=require('assert');
 const index=fs.readFileSync('index.html','utf8');
 const analytics=fs.readFileSync('v36-anonymous-analytics.js','utf8');
 const legal=fs.readFileSync('rechtliches.html','utf8');
+const config=JSON.parse(fs.readFileSync('config/vayquo-analytics.de.json','utf8'));
 
 assert(index.includes('v36-anonymous-analytics.js?v=3602'),'Main app must load the reviewed anonymous analytics module');
 assert(analytics.includes("const ENDPOINT='https://fcvffslhnaqlwitaeers.supabase.co/rest/v1/vayquo_events'"),'Analytics must write only to the dedicated VAYQUO events endpoint');
@@ -15,10 +16,19 @@ assert(!analytics.includes('localStorage'),'Analytics must not create or read a 
 assert(!analytics.includes('sessionStorage'),'Analytics must not create or read a persistent session identifier');
 assert(!analytics.includes('document.cookie'),'Analytics must not use cookies');
 assert(!analytics.includes('email'),'Analytics must not collect email addresses');
+assert(!analytics.includes('vqReturn'),'Internal return-routing parameters must not enter analytics');
 assert(analytics.includes("path:clean(location.pathname||'/',240)||'/'"),'Analytics may store the pathname but not the full URL query string');
 assert(analytics.includes('new URL(document.referrer).hostname'),'Referrer collection must be reduced to hostname only');
 assert(legal.includes('cookielose Nutzungsstatistik'),'Privacy notice must disclose cookieless usage statistics');
 assert(legal.includes('nicht mit deinem VAYQUO-Konto'),'Privacy notice must state analytics are not linked to the user account');
 assert(legal.includes('keine dauerhafte Gerätekennung'),'Privacy notice must state that no persistent device identifier is created');
 
-console.log('VAYQUO anonymous analytics privacy gate: OK');
+assert.strictEqual(config.productionActivationCommit,'d20b19b056d5fe551ea2cc50b3ebbf8ecc918e5e','Analytics baseline must point to the activation commit');
+assert(!Number.isNaN(Date.parse(config.productionActivationAt)),'Analytics production baseline needs a valid timestamp');
+assert.strictEqual(config.privacyModel.accountLinked,false,'Analytics baseline must remain account-independent');
+assert.strictEqual(config.privacyModel.persistentAnalyticsIdentifier,false,'Analytics baseline must forbid persistent analytics identifiers');
+for(const eventName of config.allowedEvents){
+  assert(analytics.includes(`${eventName}:`)||analytics.includes(`'${eventName}'`),`Configured analytics event ${eventName} must exist in the runtime allowlist`);
+}
+
+console.log(`VAYQUO anonymous analytics privacy gate: OK (production baseline ${config.productionActivationAt})`);
