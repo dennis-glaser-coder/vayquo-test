@@ -114,7 +114,12 @@ document.addEventListener('click',event=>{
  if(view)send('nav_view',{view});
  if(target.matches('.v28ca-close'))markAbandon();
  if(target.matches('.v28ca-provider'))send('card_check_provider_click');
- if(target.matches('.v28ca-restart'))send('card_check_restart');
+ if(target.matches('.v28ca-restart')){
+  cardCheckStarted=true;
+  cardCheckCompleted=false;
+  cardCheckAbandoned=false;
+  send('card_check_restart');
+ }
  if(target instanceof HTMLAnchorElement){
   try{
    const u=new URL(target.href,location.href);
