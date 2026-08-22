@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "market": "DE",
   "checkedAt": "2026-08-22",
-  "purpose": "Inventory and guard mutable product facts before visible VAYQUO changes ship. Published surfaces must be classified; high-risk duplicated facts must either be tied to a canonical rule source or be explicitly listed as remediation backlog.",
+  "purpose": "Inventory and guard mutable product facts before visible VAYQUO changes ship. Published surfaces must be classified and dynamic facts must be tied to a reviewed canonical source.",
   "policies": {
     "canonicalBeforeCopy": true,
     "recommendationLogicMayNotDependOnCommercialAvailability": true,
@@ -14,25 +14,26 @@
   "canonicalSources": {
     "cardCatalog": "config/vayquo-card-advisor.de.json",
     "optimizerRules": "config/vayquo-optimizer-rules.de.json",
+    "programFacts": "config/vayquo-program-facts.de.json",
     "cardCatalogRuntimeMirror": "v34-card-catalog-runtime.js"
   },
   "ratgeberInventory": [
     {"path":"ratgeber/index.html","classification":"hub"},
-    {"path":"ratgeber/amex-punkte-einloesen.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
-    {"path":"ratgeber/amex-punkte-verfallen.html","classification":"review_backlog"},
+    {"path":"ratgeber/amex-punkte-einloesen.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
+    {"path":"ratgeber/amex-punkte-verfallen.html","classification":"guarded_dynamic","canonical":"programFacts"},
     {"path":"ratgeber/amex-punkte-wert.html","classification":"draft_noindex"},
     {"path":"ratgeber/amex-punkte-zu-miles-and-more.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
     {"path":"ratgeber/kreditkarte-lohnt-sich.html","classification":"reviewed_stable"},
     {"path":"ratgeber/membership-rewards-transfer.html","classification":"reviewed_stable"},
-    {"path":"ratgeber/membership-rewards-transferpartner.html","classification":"guarded_partial","canonical":"optimizerRules"},
-    {"path":"ratgeber/membership-rewards-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
-    {"path":"ratgeber/miles-and-more-meilen-verfallen.html","classification":"review_backlog"},
+    {"path":"ratgeber/membership-rewards-transferpartner.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
+    {"path":"ratgeber/membership-rewards-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
+    {"path":"ratgeber/miles-and-more-meilen-verfallen.html","classification":"guarded_dynamic","canonical":"programFacts"},
     {"path":"ratgeber/miles-and-more-meilen-wert.html","classification":"reviewed_stable"},
-    {"path":"ratgeber/payback-punkte-auszahlen-oder-meilen.html","classification":"guarded_partial","canonical":"optimizerRules"},
-    {"path":"ratgeber/payback-punkte-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
+    {"path":"ratgeber/payback-punkte-auszahlen-oder-meilen.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
+    {"path":"ratgeber/payback-punkte-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
     {"path":"ratgeber/payback-zu-miles-and-more.html","classification":"reviewed_stable"},
     {"path":"ratgeber/punkte-einloesen-oder-sammeln.html","classification":"reviewed_stable"},
-    {"path":"ratgeber/punkte-oder-geld.html","classification":"guarded_dynamic","canonical":"optimizerRules"}
+    {"path":"ratgeber/punkte-oder-geld.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"}
   ],
   "transferPartnerLabels": {
     "ba_club": "British Airways Club",
@@ -48,7 +49,7 @@
   "guardedClaims": [
     {
       "id": "mr_to_payback_ratio_and_cash_basis",
-      "canonical": "optimizerRules",
+      "canonical": "optimizerRules+programFacts",
       "surfaces": [
         "ratgeber/amex-punkte-einloesen.html",
         "ratgeber/membership-rewards-wert.html"
@@ -65,8 +66,23 @@
       "surfaces": ["ratgeber/membership-rewards-transferpartner.html"]
     },
     {
-      "id": "payback_cash_value_and_mm_ratio",
-      "canonical": "optimizerRules",
+      "id": "mr_hotel_transfer_ratios",
+      "canonical": "programFacts",
+      "surfaces": ["ratgeber/membership-rewards-transferpartner.html"]
+    },
+    {
+      "id": "mr_expiry_rule",
+      "canonical": "programFacts",
+      "surfaces": ["ratgeber/amex-punkte-verfallen.html"]
+    },
+    {
+      "id": "miles_more_expiry_rule",
+      "canonical": "programFacts",
+      "surfaces": ["ratgeber/miles-and-more-meilen-verfallen.html"]
+    },
+    {
+      "id": "payback_cash_value_mm_ratio_and_payout_minimum",
+      "canonical": "optimizerRules+programFacts",
       "surfaces": [
         "ratgeber/payback-punkte-wert.html",
         "ratgeber/payback-punkte-auszahlen-oder-meilen.html",
@@ -75,50 +91,14 @@
       ]
     },
     {
-      "id": "amex_platinum_travel_credit",
-      "canonical": "optimizerRules+cardCatalog",
-      "surfaces": ["config/vayquo-card-advisor.de.json", "v24-benefit-optimizer.js"]
-    }
-  ],
-  "remediationBacklog": [
-    {
-      "id": "mr_hotel_transfer_ratios",
-      "severity": "high",
-      "reason": "Hotel transfer ratios are published as literals but are not yet represented in the canonical optimizer rules.",
-      "file": "ratgeber/membership-rewards-transferpartner.html",
-      "needles": ["ALL Accor 3:1", "Hilton Honors 1:1", "Marriott Bonvoy 3:2", "Radisson Rewards 1:2"]
-    },
-    {
-      "id": "amex_membership_rewards_expiry_rule",
-      "severity": "high",
-      "reason": "The no-expiry statement is time-sensitive and published, but not yet represented in a canonical program-rules source.",
-      "file": "ratgeber/amex-punkte-verfallen.html",
-      "needles": ["ohne Verfallsdatum", "kein reguläres Ablaufdatum"]
-    },
-    {
-      "id": "miles_more_expiry_rule",
-      "severity": "high",
-      "reason": "The 36-month / quarter-end expiry rule is time-sensitive and published, but not yet represented in a canonical program-rules source.",
-      "file": "ratgeber/miles-and-more-meilen-verfallen.html",
-      "needles": ["36 Monate", "Quartalsende"]
-    },
-    {
-      "id": "payback_payout_minimum",
-      "severity": "medium",
-      "reason": "The payout minimum is a provider rule separate from the canonical PAYBACK-to-Miles-&-More transfer minimum.",
-      "file": "ratgeber/payback-punkte-auszahlen-oder-meilen.html",
-      "needles": ["Auszahlung ab 200 Punkten"]
-    },
-    {
-      "id": "platinum_non_travel_benefit_maxima",
-      "severity": "high",
-      "reason": "SIXT ride, restaurant and LODENFREY maxima are currently hardcoded in the benefit optimizer and still need a verified canonical benefit source.",
-      "file": "v24-benefit-optimizer.js",
-      "needles": [
-        "{id:'sixt',label:'SIXT ride',max:200",
-        "{id:'restaurant',label:'Restaurantguthaben',max:150",
-        "{id:'loden',label:'LODENFREY',max:100"
+      "id": "amex_platinum_benefit_maxima",
+      "canonical": "programFacts+optimizerRules+cardCatalog",
+      "surfaces": [
+        "config/vayquo-card-advisor.de.json",
+        "config/vayquo-optimizer-rules.de.json",
+        "v24-benefit-optimizer.js"
       ]
     }
-  ]
+  ],
+  "remediationBacklog": []
 }
