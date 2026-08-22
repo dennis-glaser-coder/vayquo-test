@@ -31,7 +31,7 @@ engine.async=false;
 engine.addEventListener('error',()=>console.warn('VAYQUO card advisor engine V28 konnte nicht geladen werden.'));
 engine.addEventListener('load',()=>{
  const ui=document.createElement('script');
- ui.src='v28-card-advisor.js?v=2803';
+ ui.src='v28-card-advisor.js?v=2804';
  ui.dataset.vayquoCardAdvisorV28='1';
  ui.async=false;
  ui.addEventListener('error',()=>console.warn('VAYQUO card advisor V28 konnte nicht geladen werden.'));
