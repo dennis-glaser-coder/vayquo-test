@@ -25,31 +25,8 @@ function startActive(){
  if(active&&/^start$/i.test(text(active)))return true;
  return leaves(document.getElementById('app')||document).some(el=>text(el)==='Deine Programme');
 }
-function findStartHero(){
- const app=document.getElementById('app');if(!app)return null;
- const why=Array.from(app.querySelectorAll('button,a,[role="button"]')).find(el=>/^Warum\?$/i.test(text(el)));
- if(!why)return null;
- let node=why.parentElement;
- for(let i=0;i<8&&node&&node!==app;i++,node=node.parentElement){
-  const controls=node.querySelectorAll('button,a,[role="button"]');
-  const heading=node.querySelector('h1,h2,h3');
-  if(heading&&controls.length>=2)return node;
- }
- return null;
-}
 function findSetupCard(){
- const app=document.getElementById('app');if(!app)return null;
- const label=leaves(app).find(el=>/^DEIN VAYQUO SETUP$/i.test(text(el)));
- if(!label)return null;
- let node=label.parentElement;
- for(let i=0;i<10&&node&&node!==app;i++,node=node.parentElement){
-  const controls=Array.from(node.querySelectorAll('button,a,[role="button"]')).map(text);
-  const hasPrimary=controls.some(t=>/^Beste Nutzung finden$/i.test(t));
-  const hasWhy=controls.some(t=>/^Warum\?$/i.test(t));
-  const hasPrograms=leaves(node).some(el=>/^Deine Programme$/i.test(text(el)));
-  if(hasPrimary&&hasWhy&&!hasPrograms)return node;
- }
- return null;
+ return document.querySelector('#app [data-v24hero-state]');
 }
 function mountStartRatgeber(){
  let link=document.querySelector('.v24-ratgeber-home');
