@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "checkedAt": "2026-08-22",
+  "purpose": "Inventory and guard mutable product facts before visible VAYQUO changes ship. Published surfaces must be classified; high-risk duplicated facts must either be tied to a canonical rule source or be explicitly listed as remediation backlog.",
+  "policies": {
+    "canonicalBeforeCopy": true,
+    "recommendationLogicMayNotDependOnCommercialAvailability": true,
+    "publishedDynamicFactsNeedAReviewedSource": true,
+    "newRatgeberPageMustBeClassified": true,
+    "knownUngardedFactMustStayInBacklogUntilCentralized": true,
+    "visibleUiChangesAreOutsideThisGate": true
+  },
+  "canonicalSources": {
+    "cardCatalog": "config/vayquo-card-advisor.de.json",
+    "optimizerRules": "config/vayquo-optimizer-rules.de.json",
+    "cardCatalogRuntimeMirror": "v34-card-catalog-runtime.js"
+  },
+  "ratgeberInventory": [
+    {"path":"ratgeber/index.html","classification":"hub"},
+    {"path":"ratgeber/amex-punkte-einloesen.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/amex-punkte-verfallen.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/amex-punkte-wert.html","classification":"draft_noindex"},
+    {"path":"ratgeber/amex-punkte-zu-miles-and-more.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
+    {"path":"ratgeber/kreditkarte-lohnt-sich.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/membership-rewards-transfer.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/membership-rewards-transferpartner.html","classification":"guarded_partial","canonical":"optimizerRules"},
+    {"path":"ratgeber/membership-rewards-wert.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/miles-and-more-meilen-verfallen.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/miles-and-more-meilen-wert.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/payback-punkte-auszahlen-oder-meilen.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/payback-punkte-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
+    {"path":"ratgeber/payback-zu-miles-and-more.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/punkte-einloesen-oder-sammeln.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/punkte-oder-geld.html","classification":"reviewed_stable"}
+  ],
+  "transferPartnerLabels": {
+    "ba_club": "British Airways Club",
+    "cathay": "Cathay",
+    "delta_skymiles": "Delta SkyMiles",
+    "emirates_skywards": "Emirates Skywards",
+    "flying_blue": "Flying Blue",
+    "iberia_club": "Iberia Club",
+    "qatar_privilege": "Qatar Privilege Club",
+    "sas_eurobonus": "SAS EuroBonus",
+    "singapore_krisflyer": "Singapore KrisFlyer"
+  },
+  "guardedClaims": [
+    {
+      "id": "mr_to_payback_and_mm_chain",
+      "canonical": "optimizerRules",
+      "surfaces": ["ratgeber/amex-punkte-zu-miles-and-more.html"]
+    },
+    {
+      "id": "mr_airline_transfer_ratios",
+      "canonical": "optimizerRules",
+      "surfaces": ["ratgeber/membership-rewards-transferpartner.html"]
+    },
+    {
+      "id": "payback_cash_value_and_mm_ratio",
+      "canonical": "optimizerRules",
+      "surfaces": ["ratgeber/payback-punkte-wert.html", "v24-offer-context.js"]
+    },
+    {
+      "id": "amex_platinum_travel_credit",
+      "canonical": "optimizerRules+cardCatalog",
+      "surfaces": ["config/vayquo-card-advisor.de.json", "v24-benefit-optimizer.js"]
+    }
+  ],
+  "remediationBacklog": [
+    {
+      "id": "mr_hotel_transfer_ratios",
+      "severity": "high",
+      "reason": "Hotel transfer ratios are published as literals but are not yet represented in the canonical optimizer rules.",
+      "file": "ratgeber/membership-rewards-transferpartner.html",
+      "needles": ["ALL Accor 3:1", "Hilton Honors 1:1", "Marriott Bonvoy 3:2", "Radisson Rewards 1:2"]
+    },
+    {
+      "id": "platinum_non_travel_benefit_maxima",
+      "severity": "high",
+      "reason": "SIXT ride, restaurant and LODENFREY maxima are currently hardcoded in the benefit optimizer and still need a verified canonical benefit source.",
+      "file": "v24-benefit-optimizer.js",
+      "needles": [
+        "{id:'sixt',label:'SIXT ride',max:200",
+        "{id:'restaurant',label:'Restaurantguthaben',max:150",
+        "{id:'loden',label:'LODENFREY',max:100"
+      ]
+    }
+  ]
+}
