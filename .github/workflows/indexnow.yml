@@ -1,0 +1,111 @@
+name: Notify IndexNow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'ratgeber/**'
+      - 'sitemap.xml'
+      - '7e725d49c6290673cd88a900e0b569ffbea65a3b207e4784a8080f7889a2a761.txt'
+      - '.github/workflows/indexnow.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Wait for verification key to be live
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='7e725d49c6290673cd88a900e0b569ffbea65a3b207e4784a8080f7889a2a761'
+          URL="https://vayquo.de/${KEY}.txt"
+          for attempt in $(seq 1 20); do
+            if [ "$(curl -fsS --max-time 10 "$URL" || true)" = "$KEY" ]; then
+              echo "IndexNow key is live."
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "IndexNow verification key was not reachable in time."
+          exit 1
+
+      - name: Submit changed public URLs to IndexNow
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess, urllib.request, xml.etree.ElementTree as ET
+
+          host = 'vayquo.de'
+          base = 'https://vayquo.de'
+          key = '7e725d49c6290673cd88a900e0b569ffbea65a3b207e4784a8080f7889a2a761'
+          key_location = f'{base}/{key}.txt'
+          before = os.environ.get('BEFORE_SHA', '')
+          current = os.environ.get('CURRENT_SHA', 'HEAD')
+
+          def all_sitemap_urls():
+              root = ET.parse('sitemap.xml').getroot()
+              ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+              return [n.text.strip() for n in root.findall('s:url/s:loc', ns) if n.text]
+
+          try:
+              changed = subprocess.check_output(
+                  ['git', 'diff', '--name-only', before, current], text=True
+              ).splitlines()
+          except Exception:
+              changed = []
+
+          urls = set()
+          bootstrap = any(
+              p in {
+                  '7e725d49c6290673cd88a900e0b569ffbea65a3b207e4784a8080f7889a2a761.txt',
+                  '.github/workflows/indexnow.yml'
+              }
+              for p in changed
+          )
+
+          if bootstrap:
+              urls.update(all_sitemap_urls())
+          else:
+              for path in changed:
+                  if path == 'index.html':
+                      urls.add(base + '/')
+                  elif path == 'ratgeber/index.html':
+                      urls.add(base + '/ratgeber/')
+                  elif path.startswith('ratgeber/') and path.endswith('.html'):
+                      urls.add(base + '/' + path)
+              if 'sitemap.xml' in changed and not urls:
+                  urls.update(all_sitemap_urls())
+
+          if not urls:
+              print('No public URLs changed; nothing to submit.')
+              raise SystemExit(0)
+
+          payload = json.dumps({
+              'host': host,
+              'key': key,
+              'keyLocation': key_location,
+              'urlList': sorted(urls),
+          }).encode('utf-8')
+
+          req = urllib.request.Request(
+              'https://api.indexnow.org/IndexNow',
+              data=payload,
+              headers={'Content-Type': 'application/json; charset=utf-8'},
+              method='POST',
+          )
+          with urllib.request.urlopen(req, timeout=30) as response:
+              print('IndexNow status:', response.status)
+              print('Submitted URLs:', len(urls))
+              if response.status not in (200, 202):
+                  raise SystemExit(1)
+          PY
