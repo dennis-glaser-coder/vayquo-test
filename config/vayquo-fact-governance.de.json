@@ -8,7 +8,7 @@
     "recommendationLogicMayNotDependOnCommercialAvailability": true,
     "publishedDynamicFactsNeedAReviewedSource": true,
     "newRatgeberPageMustBeClassified": true,
-    "knownUngardedFactMustStayInBacklogUntilCentralized": true,
+    "knownUnguardedFactMustStayInBacklogUntilCentralized": true,
     "visibleUiChangesAreOutsideThisGate": true
   },
   "canonicalSources": {
@@ -18,21 +18,21 @@
   },
   "ratgeberInventory": [
     {"path":"ratgeber/index.html","classification":"hub"},
-    {"path":"ratgeber/amex-punkte-einloesen.html","classification":"reviewed_stable"},
-    {"path":"ratgeber/amex-punkte-verfallen.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/amex-punkte-einloesen.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
+    {"path":"ratgeber/amex-punkte-verfallen.html","classification":"review_backlog"},
     {"path":"ratgeber/amex-punkte-wert.html","classification":"draft_noindex"},
     {"path":"ratgeber/amex-punkte-zu-miles-and-more.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
     {"path":"ratgeber/kreditkarte-lohnt-sich.html","classification":"reviewed_stable"},
     {"path":"ratgeber/membership-rewards-transfer.html","classification":"reviewed_stable"},
     {"path":"ratgeber/membership-rewards-transferpartner.html","classification":"guarded_partial","canonical":"optimizerRules"},
-    {"path":"ratgeber/membership-rewards-wert.html","classification":"reviewed_stable"},
-    {"path":"ratgeber/miles-and-more-meilen-verfallen.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/membership-rewards-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
+    {"path":"ratgeber/miles-and-more-meilen-verfallen.html","classification":"review_backlog"},
     {"path":"ratgeber/miles-and-more-meilen-wert.html","classification":"reviewed_stable"},
-    {"path":"ratgeber/payback-punkte-auszahlen-oder-meilen.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/payback-punkte-auszahlen-oder-meilen.html","classification":"guarded_partial","canonical":"optimizerRules"},
     {"path":"ratgeber/payback-punkte-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
     {"path":"ratgeber/payback-zu-miles-and-more.html","classification":"reviewed_stable"},
     {"path":"ratgeber/punkte-einloesen-oder-sammeln.html","classification":"reviewed_stable"},
-    {"path":"ratgeber/punkte-oder-geld.html","classification":"reviewed_stable"}
+    {"path":"ratgeber/punkte-oder-geld.html","classification":"guarded_dynamic","canonical":"optimizerRules"}
   ],
   "transferPartnerLabels": {
     "ba_club": "British Airways Club",
@@ -47,6 +47,14 @@
   },
   "guardedClaims": [
     {
+      "id": "mr_to_payback_ratio_and_cash_basis",
+      "canonical": "optimizerRules",
+      "surfaces": [
+        "ratgeber/amex-punkte-einloesen.html",
+        "ratgeber/membership-rewards-wert.html"
+      ]
+    },
+    {
       "id": "mr_to_payback_and_mm_chain",
       "canonical": "optimizerRules",
       "surfaces": ["ratgeber/amex-punkte-zu-miles-and-more.html"]
@@ -59,7 +67,12 @@
     {
       "id": "payback_cash_value_and_mm_ratio",
       "canonical": "optimizerRules",
-      "surfaces": ["ratgeber/payback-punkte-wert.html", "v24-offer-context.js"]
+      "surfaces": [
+        "ratgeber/payback-punkte-wert.html",
+        "ratgeber/payback-punkte-auszahlen-oder-meilen.html",
+        "ratgeber/punkte-oder-geld.html",
+        "v24-offer-context.js"
+      ]
     },
     {
       "id": "amex_platinum_travel_credit",
@@ -74,6 +87,27 @@
       "reason": "Hotel transfer ratios are published as literals but are not yet represented in the canonical optimizer rules.",
       "file": "ratgeber/membership-rewards-transferpartner.html",
       "needles": ["ALL Accor 3:1", "Hilton Honors 1:1", "Marriott Bonvoy 3:2", "Radisson Rewards 1:2"]
+    },
+    {
+      "id": "amex_membership_rewards_expiry_rule",
+      "severity": "high",
+      "reason": "The no-expiry statement is time-sensitive and published, but not yet represented in a canonical program-rules source.",
+      "file": "ratgeber/amex-punkte-verfallen.html",
+      "needles": ["ohne Verfallsdatum", "kein reguläres Ablaufdatum"]
+    },
+    {
+      "id": "miles_more_expiry_rule",
+      "severity": "high",
+      "reason": "The 36-month / quarter-end expiry rule is time-sensitive and published, but not yet represented in a canonical program-rules source.",
+      "file": "ratgeber/miles-and-more-meilen-verfallen.html",
+      "needles": ["36 Monate", "Quartalsende"]
+    },
+    {
+      "id": "payback_payout_minimum",
+      "severity": "medium",
+      "reason": "The payout minimum is a provider rule separate from the canonical PAYBACK-to-Miles-&-More transfer minimum.",
+      "file": "ratgeber/payback-punkte-auszahlen-oder-meilen.html",
+      "needles": ["Auszahlung ab 200 Punkten"]
     },
     {
       "id": "platinum_non_travel_benefit_maxima",
