@@ -5,6 +5,7 @@ const index=fs.readFileSync('index.html','utf8');
 const onboarding=fs.readFileSync('v24-onboarding.js','utf8');
 const nav=fs.readFileSync('v33-navigation-state.js','utf8');
 const card=fs.readFileSync('v33-card-flow-stability.js','utf8');
+const cardLoader=fs.readFileSync('v24-card-check.js','utf8');
 const contextual=fs.readFileSync('v33-contextual-setup.js','utf8');
 const advisor=fs.readFileSync('v28-card-advisor.js','utf8');
 const optimizer=fs.readFileSync('v24-optimizer-polish.js','utf8');
@@ -39,21 +40,17 @@ assert(nav.includes("const RETURN_PARAM='vqReturn'"), 'navigation must recognize
 assert(nav.includes('if(!current){'), 'navigation must recover from a blank/no-active-view shell');
 assert(nav.includes('consumeReturnView()'), 'return signal must be consumed after navigation');
 
-// Card advisor: core owns everything; compatibility bridge only syncs the visible Q5 choice into core.
+// Card advisor: the core owns Q5 state and result progression. No compatibility layer may intercept it.
 assert(advisor.includes('session.step=Math.max(0,session.step-1);render();'), 'internal Back must keep the existing session answers');
-assert(index.includes('v33-card-flow-stability.js?v=3306'), 'minimal Q5 sync must be cache-busted');
-assert(card.includes("label==='FRAGE 5 VON 5'"), 'compatibility bridge must be limited to question 5');
-assert(card.includes("root.querySelector('[data-v28ca-choice].active')"), 'bridge must read only the visibly selected final choice');
-assert(card.includes('active.click()'), 'bridge must reuse the core choice handler instead of writing advisor state itself');
-assert(card.includes("closest?.('#v28-card-advisor .v28ca-next')"), 'bridge must run only immediately before the result action');
-assert(!card.includes('sessionStorage'), 'bridge must not persist or replay advisor answers');
-assert(!card.includes('MutationObserver'), 'bridge must not observe or rewrite advisor DOM state');
-assert(!card.includes('preventDefault'), 'bridge must not suppress the original result click');
-assert(!card.includes('stopPropagation'), 'bridge must not block the original result click');
-assert(!card.includes('stopImmediatePropagation'), 'bridge must not block the original result click');
-assert(!card.includes('innerHTML'), 'bridge must never render or replace card advisor UI');
+assert(index.includes('v24-card-check.js?v=2405'), 'card loader must be cache-busted after the core fix');
+assert(cardLoader.includes("v28-card-advisor.js?v=2804"), 'fixed core advisor must be cache-busted');
+assert(index.includes("const cardFlowStabilityAssets=''"), 'legacy card-flow compatibility layer must not be loaded');
+assert(card.includes('Disabled: v28-card-advisor.js now owns and repairs the final transition itself.'), 'compatibility file must remain inert');
+assert(advisor.includes("const active=q('[data-v28ca-choice].active',root)"), 'core final action must recover the visible Q5 choice if session state is stale');
+assert(advisor.includes('session.answers[meta.key]=fallback;value=fallback'), 'core must synchronize recovered Q5 state before deciding');
+assert(advisor.includes("if(session.step===STEP_COUNT-1){session.step=STEP_COUNT;void renderResult();return;}"), 'final action must call the existing result renderer directly');
 assert(advisor.includes("qa('[data-v28ca-choice]',root).forEach(btn=>btn.addEventListener('click'"), 'core advisor must own answer selection');
-assert(advisor.includes("q('.v28ca-next',root)?.addEventListener('click'"), 'core advisor must own next/result progression');
+assert(advisor.includes("q('.v28ca-close',root)?.addEventListener('click',close)"), 'core advisor must keep the close action wired');
 
 // 3-second clarity checks on the central user areas.
 assert(advisor.includes('Welche Kreditkarte lohnt sich für mich?'), 'card entry must say directly what it does');
@@ -64,4 +61,4 @@ assert(points.includes('<h2>Deine Bestände</h2>'), 'points page must name its f
 assert(points.includes('Diese Stände nutzt VAYQUO für deine Auswertungen.'), 'configured points page must explain why balances matter');
 assert(points.includes('Du hast noch kein Punkte- oder Meilenprogramm eingerichtet.'), 'fresh points page must explain its empty state in plain language');
 
-console.log('VAYQUO full-flow stability and minimal Q5 core-session sync gates: OK');
+console.log('VAYQUO full-flow stability and core final-result gates: OK');
