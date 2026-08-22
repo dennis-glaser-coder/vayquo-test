@@ -45,8 +45,8 @@ function mountStartRatgeber(){
  const link=document.createElement('a');
  link.className='v24-ratgeber-home';
  link.href='/ratgeber/';
- link.setAttribute('aria-label','Kostenlose Ratgeber öffnen');
- link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Kostenlose Ratgeber</strong><span>Neu: PAYBACK auszahlen oder in Meilen?</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
+ link.setAttribute('aria-label','Ratgeber öffnen');
+ link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>PAYBACK: Geld oder Meilen?</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
  hero.parentElement.insertBefore(link,hero.nextSibling);
 }
 function mountRatgeberLink(){
