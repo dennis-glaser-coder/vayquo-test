@@ -37,32 +37,17 @@ function findStartHero(){
  }
  return null;
 }
-function findProgramsAnchor(hero){
- const app=document.getElementById('app');if(!app||!hero)return null;
- const programs=leaves(app).find(el=>text(el)==='Deine Programme');
- if(!programs)return null;
- const heroAncestors=new Set();
- for(let n=hero;n;n=n.parentElement)heroAncestors.add(n);
- let common=programs;
- while(common&&!heroAncestors.has(common))common=common.parentElement;
- if(!common)return null;
- let branch=programs;
- while(branch.parentElement&&branch.parentElement!==common)branch=branch.parentElement;
- return branch.parentElement===common?{parent:common,before:branch}:null;
-}
 function mountStartRatgeber(){
  const existing=document.querySelector('.v24-ratgeber-home');
  if(!startActive()){existing?.remove();return;}
  if(existing)return;
- const hero=findStartHero();if(!hero)return;
+ const hero=findStartHero();if(!hero||!hero.parentElement)return;
  const link=document.createElement('a');
  link.className='v24-ratgeber-home';
  link.href='/ratgeber/';
  link.setAttribute('aria-label','Ratgeber öffnen');
  link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>PAYBACK: Geld oder Meilen?</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
- const anchor=findProgramsAnchor(hero);
- if(anchor){anchor.parent.insertBefore(link,anchor.before);return;}
- if(hero.parentElement)hero.parentElement.insertBefore(link,hero.nextSibling);
+ hero.parentElement.insertBefore(link,hero);
 }
 function mountRatgeberLink(){
  if(document.querySelector('.v24-ratgeber-row'))return;
