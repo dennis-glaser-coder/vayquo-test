@@ -6,52 +6,47 @@ Stand: 22.08.2026
 
 Vor sichtbaren Produktänderungen wird geprüft, ob dieselbe fachliche Information an mehreren Stellen verwendet wird und ob eine Änderung bestehende Entscheidungs-, Navigations- oder Monetarisierungslogik beschädigen kann.
 
-Die neue CI-Prüfung `tests/content-fact-consistency.test.cjs` ist absichtlich **kein UI-Umbau**. Sie schützt den vorhandenen Stand und zwingt künftige Änderungen dazu, abhängige Inhalte mitzudenken.
+Die CI-Prüfung `tests/content-fact-consistency.test.cjs` ist absichtlich **kein UI-Umbau**. Sie schützt den vorhandenen Stand und zwingt künftige Änderungen dazu, abhängige Inhalte mitzudenken.
 
-## Bereits gut abgesichert
+## Kanonische Quellen
 
-- Kreditkartenkonditionen: `config/vayquo-card-advisor.de.json` ist die geprüfte Quelle. `tests/card-catalog-runtime.test.cjs` verhindert bereits, dass die schnelle Runtime-Kopie davon abweicht.
-- Optimierer-/Transferregeln: `config/vayquo-optimizer-rules.de.json` enthält die zentrale Entscheidungslogik für Transferverhältnisse, Mindestmengen, PAYBACK-Opportunitätswert und das Amex-Platinum-Reiseguthaben.
-- Award-/Live-Daten: bestehende Release-Gates verhindern, dass Test- oder nicht belastbare Awarddaten als echte Empfehlung ausgegeben werden.
-- Monetarisierung: bestehende Regeln trennen Empfehlung und Provision; Partnerverfügbarkeit darf die Empfehlung nicht verändern.
+- Kreditkartenkonditionen: `config/vayquo-card-advisor.de.json`
+- Optimierer- und Entscheidungsregeln: `config/vayquo-optimizer-rules.de.json`
+- Veränderliche Programm- und Benefit-Fakten: `config/vayquo-program-facts.de.json`
+- Governance/Abhängigkeitsregister: `config/vayquo-fact-governance.de.json`
 
-## Neu abgesichert
+`config/vayquo-program-facts.de.json` enthält nur gegengeprüfte Provider-Fakten und dokumentiert die jeweils offizielle Quelle. Wenn sich ein Anbieter nach dem `checkedAt`-Stand ändert, gewinnt immer die aktuelle Anbieterbedingung.
 
-Das Fact-Gate prüft jetzt unter anderem:
+## Jetzt zentral abgesichert
 
-1. Jede `ratgeber/*.html`-Seite muss im Governance-Register klassifiziert sein. Neue Ratgeber können damit nicht unbemerkt ohne Faktenprüfung live gehen.
+1. Jede `ratgeber/*.html`-Seite muss im Governance-Register klassifiziert sein. Neue Ratgeber können nicht unbemerkt ohne Faktenprüfung live gehen.
 2. MR → PAYBACK → Miles & More muss in Ratgebertexten mit den kanonischen Optimierer-Regeln übereinstimmen.
-3. Alle veröffentlichten MR-Airline-Transferverhältnisse im Transferpartner-Ratgeber müssen den aktiven kanonischen Routen entsprechen.
-4. PAYBACK-Direktwert und PAYBACK → Miles & More müssen zwischen Ratgeber und Angebotsvergleich konsistent bleiben.
-5. Das Amex-Platinum-Online-Reiseguthaben muss zwischen Optimierer-Regeln, Kartenkatalog und Vorteils-UI identisch bleiben.
-6. Veröffentlichte dynamische Ratgeber müssen einen `dateModified`-Stand haben, der nicht älter ist als die zugrunde liegende Optimierer-Regelquelle.
-7. Bekannte, noch nicht zentralisierte Fakten bleiben als expliziter Backlog im Governance-Register. Ändert jemand einen solchen Wert, schlägt CI fehl und zwingt zur bewussten Prüfung.
+3. Alle veröffentlichten MR-Airline-Transferverhältnisse müssen den aktiven Optimierer-Regeln entsprechen.
+4. Die vier aktuell verifizierten Hotel-Transferverhältnisse ALL Accor, Hilton Honors, Marriott Bonvoy und Radisson Rewards sind jetzt zentrale Programm-Fakten und werden gegen den öffentlichen Transferpartner-Ratgeber geprüft.
+5. Die Membership-Rewards-Gültigkeitsregel ist zentral erfasst: unbeschränkte Gültigkeit während ungekündigter Teilnahme bei ausgeglichenem Kartenkonto; Sonderregeln bei Zahlungsversäumnis und Beendigung bleiben zu beachten.
+6. Die Miles-&-More-Regel mit 36 Monaten und Verfall zum nächsten Quartalsende ist zentral erfasst und gegen den Ratgeber abgesichert.
+7. PAYBACK-Direktwert, Mindestpunkteguthaben für Einlösung/Auszahlung und PAYBACK → Miles & More werden zwischen Programm-Fakten, Optimierer, Ratgebern und Angebotsvergleich abgeglichen.
+8. Die Platinum-Guthaben Online-Reiseguthaben, Restaurantguthaben, SIXT ride und LODENFREY sind mit ihren aktuell verifizierten Maximalwerten zentral erfasst. Der Test verhindert, dass die Vorteils-UI davon unbemerkt abweicht.
+9. Das Online-Reiseguthaben wird zusätzlich weiterhin gegen Kartenkatalog und Optimierer-Regeln abgeglichen.
+10. Dynamische Ratgeber müssen einen `dateModified`-Stand besitzen, der nicht älter ist als ihre kanonische Faktenquelle.
 
-## Gefundene offene Risiken
+## Quellenprüfung 22.08.2026
 
-### Hoch: Hotel-Transferverhältnisse
+Für die neu zentralisierten Fakten wurden aktuelle offizielle Quellen von American Express Deutschland, Miles & More und PAYBACK geprüft. Die genauen Provider-URLs stehen in `config/vayquo-program-facts.de.json`.
 
-`ratgeber/membership-rewards-transferpartner.html` veröffentlicht aktuell ALL Accor, Hilton Honors, Marriott Bonvoy und Radisson Rewards mit konkreten Transferverhältnissen. Diese Werte sind noch nicht in der kanonischen Optimierer-Regelquelle modelliert.
+Besonders wichtig: Der Membership-Rewards-Verfallsratgeber wurde inhaltlich präzisiert. Die Aussage ist nicht mehr verkürzt als „verfällt nie“ formuliert, sondern nennt die Bedingungen der laufenden Teilnahme und des ausgeglichenen Kartenkontos sowie die Besonderheiten bei Zahlungsversäumnis und Kündigung.
 
-**Nächster Schritt:** offizielle Quelle verifizieren und in eine zentrale Programm-Faktenquelle überführen.
+## Ergebnis des ersten Risiko-Backlogs
 
-### Hoch: Amex Membership Rewards Verfallsregel
+Die fünf im ersten Audit gefundenen Lücken sind jetzt zentralisiert:
 
-`ratgeber/amex-punkte-verfallen.html` veröffentlicht die Aussage „ohne Verfallsdatum“. Die Seite ist aktuell geprüft, die Regel selbst ist aber noch nicht zentral modelliert.
+- Hotel-Transferverhältnisse: erledigt
+- Membership-Rewards-Gültigkeitsregel: erledigt
+- Miles-&-More-36-Monats-/Quartalsregel: erledigt
+- Platinum-Vorteilsmaxima für SIXT ride, Restaurant und LODENFREY: erledigt
+- PAYBACK-Auszahlungs-/Einlösungsminimum: erledigt
 
-**Nächster Schritt:** offizielle Programmbedingung als kanonischen Fakt erfassen.
-
-### Hoch: Miles & More 36-Monats-/Quartalsregel
-
-`ratgeber/miles-and-more-meilen-verfallen.html` enthält die konkrete 36-Monats- und Quartalsende-Regel. Diese gehört in eine zentrale Programmregelquelle statt nur in den Ratgeber.
-
-### Hoch: Platinum-Vorteilsmaxima
-
-`v24-benefit-optimizer.js` enthält neben dem bereits kanonisch abgesicherten Reiseguthaben weitere harte Maximalwerte für SIXT ride, Restaurantguthaben und LODENFREY. Sie sind aktuell noch nicht mit einer zentralen, verifizierten Benefit-Quelle verbunden.
-
-### Mittel: PAYBACK Auszahlungsminimum
-
-Der Ratgeber nennt die Auszahlung ab 200 Punkten. Das ist eine andere Provider-Regel als das bereits kanonisch hinterlegte Transferminimum zu Miles & More und muss separat zentralisiert werden.
+Der aktuelle `remediationBacklog` ist deshalb leer. Neue ungesicherte Fakten dürfen aber nicht stillschweigend entstehen: Sie müssen entweder sofort zentralisiert oder wieder explizit als Backlog eingetragen werden.
 
 ## Regel für jede künftige Änderung
 
@@ -65,14 +60,14 @@ Eine Änderung gilt erst als fertig, wenn diese Reihenfolge abgearbeitet ist:
 6. Regressionstests ausführen.
 7. Erst danach sichtbare UI freigeben.
 
-## Was bewusst noch nicht geändert wurde
+## Was bewusst nicht umgebaut wurde
 
 - Startseite
 - Kartencheck-Layout
 - Navigation
 - Optimierer-UI
-- Vorteile-UI
+- Vorteile-Layout
 - Affiliate-Darstellung
 - Analytics-Aktivierung in der Haupt-App
 
-Damit bleibt die aktuell funktionierende Oberfläche unangetastet, während die technische Sicherheitsbasis für die nächsten Verbesserungen entsteht.
+Damit bleibt die aktuell funktionierende Oberfläche unangetastet. Geändert wurden nur die fachliche Sicherheitsbasis und eine inhaltliche Präzisierung des Membership-Rewards-Verfallsratgebers.
