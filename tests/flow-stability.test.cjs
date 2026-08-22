@@ -39,15 +39,16 @@ assert(nav.includes("const RETURN_PARAM='vqReturn'"), 'navigation must recognize
 assert(nav.includes('if(!current){'), 'navigation must recover from a blank/no-active-view shell');
 assert(nav.includes('consumeReturnView()'), 'return signal must be consumed after navigation');
 
-// Card advisor: internal back already retains answers; refresh must retain an in-progress flow.
+// Card advisor: the core advisor owns the full five-question flow.
 assert(advisor.includes('session.step=Math.max(0,session.step-1);render();'), 'internal Back must keep the existing session answers');
-assert(index.includes('v33-card-flow-stability.js?v=3301'), 'card-flow stability layer must be loaded');
-assert(card.includes("const KEY='vayquo:cardAdvisorDraft'"), 'card flow needs a session-scoped draft');
-assert(card.includes('sessionStorage.setItem(KEY'), 'card draft must persist across a hard reload in the same tab');
-assert(card.includes('async function replay(d)'), 'card draft must replay to the saved step after reload');
-assert(card.includes("if(step===0&&d.answers.goal&&d.answers.goal!==value)"), 'changing the main card goal must invalidate dependent final answers');
-assert(card.includes("d.answers.ecosystem='';d.answers.freePriority=''"), 'stale Q5 semantics must be cleared when the main goal changes');
-assert(card.includes("if(ev.target?.closest?.('.v28ca-close')){clear();return;}"), 'explicit close must abandon the temporary draft');
+assert(index.includes('v33-card-flow-stability.js?v=3301'), 'disabled compatibility file remains loadable for the existing shell');
+assert(card.includes('Temporarily disabled'), 'card-flow stability layer must stay disabled until it can be rebuilt safely');
+assert(!card.includes('sessionStorage'), 'disabled card-flow layer must not persist or replay advisor answers');
+assert(!card.includes('MutationObserver'), 'disabled card-flow layer must not rewrite card advisor state');
+assert(!card.includes('data-v28ca-choice'), 'disabled card-flow layer must not touch card choices');
+assert(!card.includes('v28ca-next'), 'disabled card-flow layer must not touch the result button');
+assert(advisor.includes("qa('[data-v28ca-choice]',root).forEach(btn=>btn.addEventListener('click'"), 'core advisor must own answer selection');
+assert(advisor.includes("q('.v28ca-next',root)?.addEventListener('click'"), 'core advisor must own next/result progression');
 
 // 3-second clarity checks on the central user areas.
 assert(advisor.includes('Welche Kreditkarte lohnt sich für mich?'), 'card entry must say directly what it does');
@@ -58,4 +59,4 @@ assert(points.includes('<h2>Deine Bestände</h2>'), 'points page must name its f
 assert(points.includes('Diese Stände nutzt VAYQUO für deine Auswertungen.'), 'configured points page must explain why balances matter');
 assert(points.includes('Du hast noch kein Punkte- oder Meilenprogramm eingerichtet.'), 'fresh points page must explain its empty state in plain language');
 
-console.log('VAYQUO full-flow stability and clarity gates: OK');
+console.log('VAYQUO full-flow stability and core card-advisor ownership gates: OK');
