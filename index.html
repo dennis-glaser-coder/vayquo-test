@@ -91,6 +91,7 @@ html,body{margin:0;min-height:100%;background:#151617;color:#f8f4ed;font-family:
   const socialAuthAssets='<script src="v24-social-auth.js?v=2404"><\/script>';
   const authAssets='<script src="v24-auth.js?v=2403"><\/script>';
   const authPolishAssets='<script src="v24-auth-polish.js?v=2402"><\/script><style id="v24-auth-layout-stability">.v24a-forgot-wrap{height:18px!important;min-height:18px!important}</style>';
+  const cardResultOpenAssets='<script src="v40-card-result-open.js?v=4001"><\/script>';
   const legalAssets='<script src="v24-legal.js?v=2401"><\/script>';
   const ratgeberEntryAssets='<script src="v24-ratgeber-entry.js?v=2407"><\/script>';
   const integratedRatgeberAssets='<script src="v38-ratgeber-card-advisor.js?v=3801"><\/script>';
@@ -103,7 +104,7 @@ html,body{margin:0;min-height:100%;background:#151617;color:#f8f4ed;font-family:
   const visualPolishAssets='<link rel="stylesheet" href="v35-visual-polish.css?v=3502">';
   const nativeTabbarAssets='<link rel="stylesheet" href="v39-native-tabbar.css?v=3901">';
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+authGate+'</head>'):html+navFix+authGate;
-  const injected=step2Assets+checkClarityAssets+flightSearchControlsAssets+edgeAuthAssets+flightLiveAssets+flightOptimizerAssets+flightSourcePointsAssets+flightFeasibilityAssets+releaseCleanupAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+onboardingAssets+startFilterAssets+heroPersonalAssets+homeUspAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+benefitOptimizerAssets+benefitRecoGuardAssets+cardCatalogRuntimeAssets+analyticsAssets+cardCheckAssets+commercialPolicyAssets+v25CoreAssets+premiumAssets+offerContextAssets+dateShellAssets+socialAuthAssets+authAssets+authPolishAssets+legalAssets+ratgeberEntryAssets+integratedRatgeberAssets+navStabilityAssets+uiConsistencyAssets+pointsPageCleanupAssets+navigationStateAssets+cardFlowStabilityAssets+contextualSetupAssets+visualPolishAssets+nativeTabbarAssets;
+  const injected=step2Assets+checkClarityAssets+flightSearchControlsAssets+edgeAuthAssets+flightLiveAssets+flightOptimizerAssets+flightSourcePointsAssets+flightFeasibilityAssets+releaseCleanupAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+onboardingAssets+startFilterAssets+heroPersonalAssets+homeUspAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+benefitOptimizerAssets+benefitRecoGuardAssets+cardCatalogRuntimeAssets+analyticsAssets+cardCheckAssets+commercialPolicyAssets+v25CoreAssets+premiumAssets+offerContextAssets+dateShellAssets+socialAuthAssets+authAssets+authPolishAssets+cardResultOpenAssets+legalAssets+ratgeberEntryAssets+integratedRatgeberAssets+navStabilityAssets+uiConsistencyAssets+pointsPageCleanupAssets+navigationStateAssets+cardFlowStabilityAssets+contextualSetupAssets+visualPolishAssets+nativeTabbarAssets;
   patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',injected+'</body>'):patchedHtml+injected;
   const remaining=Math.max(0,1450-(Date.now()-introStarted));
   if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
