@@ -13,9 +13,9 @@ function addLinkStyle(){
  style.id='v24-ratgeber-link-style';
  style.textContent=`
  .v24-ratgeber-row{cursor:pointer}.v24-ratgeber-row *{pointer-events:none}
- .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px 0;padding:11px 13px;border:1px solid rgba(19,35,32,.12);border-radius:15px;background:linear-gradient(135deg,rgba(255,255,255,.68),rgba(248,249,248,.48));box-shadow:0 6px 18px rgba(18,22,21,.035);color:inherit;text-decoration:none;box-sizing:border-box}
- .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12px;line-height:1.3;color:#253330;font-weight:720}.v24-ratgeber-home-copy span{display:block;margin-top:3px;font-size:9.5px;line-height:1.4;color:#737f7b}
- .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:19px;line-height:1;color:#7f8986}
+ .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px;padding:12px 14px;border:1px solid rgba(19,35,32,.18);border-radius:15px;background:linear-gradient(135deg,rgba(255,255,255,.82),rgba(248,249,248,.62));box-shadow:0 8px 22px rgba(18,22,21,.055);color:inherit;text-decoration:none;box-sizing:border-box}
+ .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12.5px;line-height:1.3;color:#253330;font-weight:760}.v24-ratgeber-home-copy span{display:block;margin-top:3px;font-size:9.5px;line-height:1.4;color:#6f7b77}
+ .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:20px;line-height:1;color:#6f7b77}
  `;
  document.head.appendChild(style);
 }
@@ -37,17 +37,32 @@ function findStartHero(){
  }
  return null;
 }
+function findProgramsAnchor(hero){
+ const app=document.getElementById('app');if(!app||!hero)return null;
+ const programs=leaves(app).find(el=>text(el)==='Deine Programme');
+ if(!programs)return null;
+ const heroAncestors=new Set();
+ for(let n=hero;n;n=n.parentElement)heroAncestors.add(n);
+ let common=programs;
+ while(common&&!heroAncestors.has(common))common=common.parentElement;
+ if(!common)return null;
+ let branch=programs;
+ while(branch.parentElement&&branch.parentElement!==common)branch=branch.parentElement;
+ return branch.parentElement===common?{parent:common,before:branch}:null;
+}
 function mountStartRatgeber(){
  const existing=document.querySelector('.v24-ratgeber-home');
  if(!startActive()){existing?.remove();return;}
  if(existing)return;
- const hero=findStartHero();if(!hero||!hero.parentElement)return;
+ const hero=findStartHero();if(!hero)return;
  const link=document.createElement('a');
  link.className='v24-ratgeber-home';
  link.href='/ratgeber/';
  link.setAttribute('aria-label','Ratgeber öffnen');
  link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>PAYBACK: Geld oder Meilen?</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
- hero.parentElement.insertBefore(link,hero.nextSibling);
+ const anchor=findProgramsAnchor(hero);
+ if(anchor){anchor.parent.insertBefore(link,anchor.before);return;}
+ if(hero.parentElement)hero.parentElement.insertBefore(link,hero.nextSibling);
 }
 function mountRatgeberLink(){
  if(document.querySelector('.v24-ratgeber-row'))return;
