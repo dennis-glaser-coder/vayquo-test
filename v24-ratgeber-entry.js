@@ -13,9 +13,9 @@ function addLinkStyle(){
  style.id='v24-ratgeber-link-style';
  style.textContent=`
  .v24-ratgeber-row{cursor:pointer}.v24-ratgeber-row *{pointer-events:none}
- .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 2px 0;padding:10px 12px;border:1px solid rgba(19,35,32,.1);border-radius:14px;background:rgba(255,255,255,.55);color:inherit;text-decoration:none;box-sizing:border-box}
- .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12px;line-height:1.3;color:#253330}.v24-ratgeber-home-copy span{display:block;margin-top:2px;font-size:9px;line-height:1.4;color:#7c8783}
- .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:18px;line-height:1;color:#8b9491}
+ .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px 0;padding:11px 13px;border:1px solid rgba(19,35,32,.12);border-radius:15px;background:linear-gradient(135deg,rgba(255,255,255,.68),rgba(248,249,248,.48));box-shadow:0 6px 18px rgba(18,22,21,.035);color:inherit;text-decoration:none;box-sizing:border-box}
+ .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12px;line-height:1.3;color:#253330;font-weight:720}.v24-ratgeber-home-copy span{display:block;margin-top:3px;font-size:9.5px;line-height:1.4;color:#737f7b}
+ .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:19px;line-height:1;color:#7f8986}
  `;
  document.head.appendChild(style);
 }
@@ -45,8 +45,8 @@ function mountStartRatgeber(){
  const link=document.createElement('a');
  link.className='v24-ratgeber-home';
  link.href='/ratgeber/';
- link.setAttribute('aria-label','Ratgeber öffnen');
- link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>Punkte, Meilen &amp; Vorteile besser verstehen</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
+ link.setAttribute('aria-label','Kostenlose Ratgeber öffnen');
+ link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Kostenlose Ratgeber</strong><span>Neu: PAYBACK auszahlen oder in Meilen?</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
  hero.parentElement.insertBefore(link,hero.nextSibling);
 }
 function mountRatgeberLink(){
@@ -60,7 +60,7 @@ function mountRatgeberLink(){
  row.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
  row.setAttribute('role','button');row.setAttribute('tabindex','0');
  const textLeaves=leaves(row).filter(el=>(el.textContent||'').trim());
- if(textLeaves[0])textLeaves[0].textContent='Ratgeber';
+ if(textLeaves[0])textLeaves[0].textContent='Kostenlose Ratgeber';
  if(textLeaves[1])textLeaves[1].textContent='Punkte, Meilen und Vorteile besser nutzen.';
  for(let i=2;i<textLeaves.length;i++)textLeaves[i].textContent='';
  const svg=row.querySelector('svg');
