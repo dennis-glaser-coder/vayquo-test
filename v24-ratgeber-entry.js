@@ -13,9 +13,9 @@ function addLinkStyle(){
  style.id='v24-ratgeber-link-style';
  style.textContent=`
  .v24-ratgeber-row{cursor:pointer}.v24-ratgeber-row *{pointer-events:none}
- .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px;padding:12px 14px;border:1px solid rgba(19,35,32,.18);border-radius:15px;background:linear-gradient(135deg,rgba(255,255,255,.82),rgba(248,249,248,.62));box-shadow:0 8px 22px rgba(18,22,21,.055);color:inherit;text-decoration:none;box-sizing:border-box}
- .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12.5px;line-height:1.3;color:#253330;font-weight:760}.v24-ratgeber-home-copy span{display:block;margin-top:3px;font-size:9.5px;line-height:1.4;color:#6f7b77}
- .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:20px;line-height:1;color:#6f7b77}
+ .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 18px;padding:13px 14px;border:1px solid rgba(138,112,71,.24);border-radius:15px;background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(248,249,248,.68));box-shadow:0 8px 22px rgba(18,22,21,.055);color:inherit;text-decoration:none;box-sizing:border-box}
+ .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12.5px;line-height:1.3;color:#8a7047;font-weight:800;letter-spacing:.01em}.v24-ratgeber-home-copy span{display:block;margin-top:3px;font-size:10px;line-height:1.4;color:#53615d;font-weight:620}
+ .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:20px;line-height:1;color:#7d6a49}
  `;
  document.head.appendChild(style);
 }
@@ -25,14 +25,14 @@ function startActive(){
  if(active&&/^start$/i.test(text(active)))return true;
  return leaves(document.getElementById('app')||document).some(el=>text(el)==='Deine Programme');
 }
-function findSetupCard(){
- return document.querySelector('#app [data-v24hero-state]');
+function findCardAdvisor(){
+ return document.querySelector('#app #v28-card-advisor-entry');
 }
 function mountStartRatgeber(){
  let link=document.querySelector('.v24-ratgeber-home');
  if(!startActive()){link?.remove();return;}
- const setupCard=findSetupCard();
- if(!setupCard||!setupCard.parentElement)return;
+ const advisor=findCardAdvisor();
+ if(!advisor||!advisor.parentElement)return;
  if(!link){
   link=document.createElement('a');
   link.className='v24-ratgeber-home';
@@ -40,8 +40,8 @@ function mountStartRatgeber(){
   link.setAttribute('aria-label','Ratgeber öffnen');
   link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>PAYBACK: Geld oder Meilen?</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
  }
- const parent=setupCard.parentElement;
- if(link.parentElement!==parent||link.nextElementSibling!==setupCard)parent.insertBefore(link,setupCard);
+ const parent=advisor.parentElement;
+ if(link.parentElement!==parent||link.previousElementSibling!==advisor)parent.insertBefore(link,advisor.nextSibling);
 }
 function mountRatgeberLink(){
  if(document.querySelector('.v24-ratgeber-row'))return;
@@ -83,5 +83,6 @@ function boot(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 new MutationObserver(()=>setTimeout(()=>{mountRatgeberLink();mountStartRatgeber();},20)).observe(document.documentElement,{childList:true,subtree:true});
 document.addEventListener('click',()=>setTimeout(mountStartRatgeber,0));
-if(target){entryObserver=new MutationObserver(boot);entryObserver.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','aria-current','aria-selected']});document.addEventListener('vq-auth-ready',boot);window.addEventListener('pageshow',boot);}
+window.addEventListener('pageshow',()=>setTimeout(mountStartRatgeber,0));
+if(target){entryObserver=new MutationObserver(boot);entryObserver.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','aria-current','aria-selected']});document.addEventListener('vq-auth-ready',boot);}
 })();
