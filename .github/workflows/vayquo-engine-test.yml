@@ -44,6 +44,9 @@ on:
       - 'ratgeber/*.html'
       - 'v24-offer-context.js'
       - 'v24-benefit-optimizer.js'
+      - 'v36-anonymous-analytics.js'
+      - 'rechtliches.html'
+      - 'tests/anonymous-analytics.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   pull_request:
     branches: [main]
@@ -88,6 +91,9 @@ on:
       - 'ratgeber/*.html'
       - 'v24-offer-context.js'
       - 'v24-benefit-optimizer.js'
+      - 'v36-anonymous-analytics.js'
+      - 'rechtliches.html'
+      - 'tests/anonymous-analytics.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   workflow_dispatch:
 
@@ -117,6 +123,10 @@ jobs:
         run: node tests/award-release-gate.test.cjs
       - name: Check card advisor and UI syntax
         run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v31-card-advisor-unsure-ux.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js && node --check v34-card-catalog-runtime.js
+      - name: Check anonymous analytics syntax
+        run: node --check v36-anonymous-analytics.js
+      - name: Verify anonymous analytics privacy gate
+        run: node tests/anonymous-analytics.test.cjs
       - name: Verify instant card catalog runtime
         run: node tests/card-catalog-runtime.test.cjs
       - name: Verify cross-surface content fact consistency
