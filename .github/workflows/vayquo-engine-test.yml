@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'v24-auth.js'
+      - 'v40-card-result-open.js'
       - 'v24-onboarding.js'
       - 'v33-navigation-state.js'
       - 'v33-card-flow-stability.js'
@@ -54,6 +55,7 @@ on:
     paths:
       - 'index.html'
       - 'v24-auth.js'
+      - 'v40-card-result-open.js'
       - 'v24-onboarding.js'
       - 'v33-navigation-state.js'
       - 'v33-card-flow-stability.js'
@@ -116,7 +118,7 @@ jobs:
       - name: Check optimizer bridge syntax
         run: node --check v25-classic-engine-bridge.js
       - name: Check auth syntax
-        run: node --check v24-auth.js
+        run: node --check v24-auth.js && node --check v40-card-result-open.js
       - name: Verify deferred guest-to-decision auth
         run: node tests/deferred-auth.test.cjs
       - name: Check award gate syntax
