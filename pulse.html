@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VAYQUO PULSE – Kreditkarte im Blick behalten</title>
+<meta name="description" content="VAYQUO PULSE behält deine Kreditkarte im Blick: Ändern sich geprüfte Gebühren oder Leistungen, siehst du, was sich geändert hat und was das für deine Karte bedeutet.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<link rel="canonical" href="https://vayquo.de/pulse.html">
+<link rel="stylesheet" href="/ratgeber/ratgeber.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://vayquo.de/#organization","name":"VAYQUO","url":"https://vayquo.de/"},{"@type":"WebApplication","name":"VAYQUO PULSE","url":"https://vayquo.de/pulse.html","applicationCategory":"FinanceApplication","operatingSystem":"Web","isAccessibleForFree":true,"description":"Kreditkarten-Wächter für geprüfte Gebühren- und Leistungsänderungen.","publisher":{"@id":"https://vayquo.de/#organization"}}]}</script>
+<script src="/v36-anonymous-analytics.js?v=3602" defer></script>
+<style>
+.pulse-hero{margin:22px 0 28px;padding:28px;border-radius:26px;background:#17201e;color:#fff;box-shadow:0 20px 52px rgba(23,32,30,.14)}.pulse-brand{font-size:11px;font-weight:900;letter-spacing:.18em;color:#c8b27f}.pulse-hero h1{margin:9px 0 10px;color:#fff}.pulse-hero p{margin:0;color:#cbd4d1;line-height:1.6}.pulse-bam{margin-top:18px;padding:15px 16px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.05);font-weight:800;line-height:1.45}.watch{margin:26px 0;padding:24px;border:1px solid var(--line);border-radius:22px;background:#fff}.watch h2{margin-top:0}.watch label{display:block;margin:0 0 8px;font-weight:800;font-size:13px}.watch select{width:100%;height:52px;border:1px solid #d9d5cd;border-radius:14px;background:#fbfaf7;padding:0 12px;font:700 15px -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;color:var(--ink)}.watch-actions{display:flex;gap:10px;margin-top:14px}.watch button,.watch .button{min-height:48px;border:0;border-radius:14px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center;font:800 14px -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;text-decoration:none;cursor:pointer}.watch-primary{background:var(--brand);color:#fff}.watch-secondary{background:#f0ede5;color:var(--ink)}.status{display:none;margin-top:20px;padding:18px;border-radius:18px;background:#f4f1ea}.status.show{display:block}.status-kicker{font-size:10px;font-weight:900;letter-spacing:.12em;color:#8a7047}.status h3{margin:6px 0 6px}.status p{margin:0;color:#62706c}.delta{margin-top:14px;padding:14px;border-radius:14px;background:#17201e;color:#fff}.delta b{display:block;font-size:22px}.changes{display:grid;gap:8px;margin-top:12px}.change{padding:11px 12px;border-radius:12px;background:#fff;border:1px solid #e5e0d6;font-size:13px;line-height:1.45}.fine{margin-top:12px;color:#7c8885;font-size:12px;line-height:1.5}.explainer{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.explainer div{padding:18px;border:1px solid var(--line);border-radius:18px;background:#fff}.explainer b{display:block;margin-bottom:6px}.explainer span{font-size:13px;line-height:1.5;color:#67746f}@media(max-width:640px){.pulse-hero,.watch{padding:20px}.watch-actions{flex-direction:column}.watch-actions>*{width:100%;box-sizing:border-box}.explainer{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="/">VAYQUO</a></div></header>
+<main><div class="wrap">
+<a class="back" href="/">← Zurück zu VAYQUO</a>
+<section class="pulse-hero">
+<div class="pulse-brand">VAYQUO PULSE</div>
+<h1>Behält deine Kreditkarte für dich im Blick.</h1>
+<p>Ändern sich geprüfte Gebühren, Guthaben oder Vorteile, zeigt dir VAYQUO, <strong>was sich geändert hat, was es für deine Kosten bedeutet und ob du deine Karte neu prüfen solltest.</strong></p>
+<div class="pulse-bam">Deine Karte wird schlechter? Du sollst es sehen, bevor du einfach weiter dafür zahlst.</div>
+</section>
+<section class="watch" aria-labelledby="watch-title">
+<h2 id="watch-title">Welche Karte soll PULSE beobachten?</h2>
+<p>Wähle eine Karte aus der aktuell von VAYQUO geprüften deutschen Kartenbasis. Dein gespeicherter Stand bleibt auf diesem Gerät und wird beim nächsten Aufruf mit dem aktuellen VAYQUO-Datenstand verglichen.</p>
+<label for="card">Kreditkarte</label>
+<select id="card"><option value="">Karte auswählen …</option></select>
+<div class="watch-actions"><button class="watch-primary" id="watch" type="button">Diese Karte beobachten</button><button class="watch-secondary" id="stop" type="button">Beobachtung beenden</button></div>
+<div class="status" id="status" aria-live="polite"></div>
+<p class="fine">PULSE meldet nur Unterschiede im von VAYQUO geprüften Kartenstand. Anbieterbedingungen bleiben maßgeblich. Bei Leistungsänderungen wird kein persönlicher Euro-Wert erfunden; exakt berechnet werden nur quantifizierbare Änderungen wie Kartenentgelte.</p>
+</section>
+<section class="explainer">
+<div><b>1. Karte speichern</b><span>PULSE merkt sich den geprüften Stand deiner ausgewählten Karte.</span></div>
+<div><b>2. Änderungen erkennen</b><span>Beim nächsten Aufruf wird dein gespeicherter Stand mit dem aktuellen VAYQUO-Kartenstand verglichen.</span></div>
+<div><b>3. Entscheidung prüfen</b><span>Bei einer Änderung siehst du den Unterschied und kannst den Kartenwert oder Alternativen direkt neu prüfen.</span></div>
+</section>
+<div class="cta"><h2>Was kostet dich deine Karte wirklich?</h2><p>Berechne Jahresgebühr, genutzte Vorteile, Punkte/Cashback und weitere Kosten mit deinen eigenen Werten.</p><a class="button" href="/ratgeber/kreditkarten-kosten-nutzen-rechner.html">Kartenwert berechnen</a></div>
+<p class="meta">PULSE startet bewusst mit der bereits von VAYQUO geprüften Kartenbasis. Weitere Karten können ergänzt werden, sobald ihre wesentlichen Konditionen belastbar geprüft sind.</p>
+</div></main>
+<footer><div class="wrap">VAYQUO PULSE · Kreditkarten-Veränderungen verständlich machen · <a href="/rechtliches.html">Impressum & Datenschutz</a></div></footer>
+<script>
+(()=>{
+'use strict';
+const CATALOG='/config/vayquo-card-advisor.de.json?v=2801',KEY='vayquo:pulse:v1';
+const q=id=>document.getElementById(id),select=q('card'),status=q('status');let catalog=null;
+const euro=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(n);
+const clean=a=>Array.isArray(a)?[...a].map(String).sort():[];
+const snapshot=card=>({id:card.id,name:card.name,monthlyFeeEUR:Number(card.monthlyFeeEUR||0),facts:clean(card.facts),warnings:clean(card.warnings),features:clean(card.features)});
+const getSaved=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}};
+const setSaved=v=>{try{localStorage.setItem(KEY,JSON.stringify(v))}catch{}};
+const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+function compare(oldS,newS){const changes=[];const oldAnnual=oldS.monthlyFeeEUR*12,newAnnual=newS.monthlyFeeEUR*12;if(oldAnnual!==newAnnual)changes.push({type:'fee',text:`Kartenentgelt: ${euro(oldAnnual)} → ${euro(newAnnual)} pro Jahr`,delta:newAnnual-oldAnnual});const removed=oldS.facts.filter(x=>!newS.facts.includes(x)),added=newS.facts.filter(x=>!oldS.facts.includes(x));removed.forEach(x=>changes.push({type:'fact',text:`Nicht mehr im geprüften Stand: ${x}`}));added.forEach(x=>changes.push({type:'fact',text:`Neu im geprüften Stand: ${x}`}));if(!same(oldS.warnings,newS.warnings))changes.push({type:'warning',text:'Hinweise oder Gebührenwarnungen haben sich geändert.'});return changes;}
+function render(){const saved=getSaved();if(!saved){status.classList.remove('show');return;}const card=catalog?.cards?.find(c=>c.id===saved.cardId);if(!card){status.className='status show';status.innerHTML='<div class="status-kicker">PULSE</div><h3>Diese Karte ist aktuell nicht mehr im geprüften Set.</h3><p>Bitte wähle eine andere Karte oder prüfe die Karte neu.</p>';return;}select.value=card.id;const now=snapshot(card),changes=compare(saved.snapshot,now);status.className='status show';if(!changes.length){status.innerHTML=`<div class="status-kicker">PULSE AKTIV</div><h3>${card.name}</h3><p>Seit deinem gespeicherten Stand wurde in den von VAYQUO geprüften Kerndaten keine Änderung erkannt.</p><div class="fine">Gespeichert: ${new Date(saved.savedAt).toLocaleDateString('de-DE')} · aktueller Datenstand: ${catalog.checkedAt||'–'}</div>`;return;}const fee=changes.find(x=>x.type==='fee');status.innerHTML=`<div class="status-kicker">ÄNDERUNG ERKANNT</div><h3>${card.name}</h3><p>PULSE hat Unterschiede zwischen deinem gespeicherten Stand und dem aktuellen geprüften Kartenstand gefunden.</p>${fee?`<div class="delta"><span>Auswirkung auf das Kartenentgelt</span><b>${fee.delta>0?'+':''}${euro(fee.delta)} / Jahr</b></div>`:''}<div class="changes">${changes.map(c=>`<div class="change">${c.text}</div>`).join('')}</div><div class="watch-actions"><a class="button watch-primary" href="/ratgeber/kreditkarten-kosten-nutzen-rechner.html">Kartenwert neu prüfen</a></div>`;}
+async function boot(){try{const r=await fetch(CATALOG,{cache:'no-store'});if(!r.ok)throw new Error('catalog');catalog=await r.json();catalog.cards.forEach(card=>{const o=document.createElement('option');o.value=card.id;o.textContent=card.name;select.appendChild(o)});render();}catch{status.className='status show';status.innerHTML='<div class="status-kicker">PULSE</div><h3>Kartendaten gerade nicht verfügbar.</h3><p>VAYQUO zeigt lieber keinen Stand als einen unvollständigen.</p>';}}
+q('watch').addEventListener('click',()=>{if(!catalog)return;const card=catalog.cards.find(c=>c.id===select.value);if(!card){status.className='status show';status.innerHTML='<div class="status-kicker">PULSE</div><h3>Bitte zuerst eine Karte auswählen.</h3>';return;}setSaved({cardId:card.id,savedAt:new Date().toISOString(),catalogCheckedAt:catalog.checkedAt||null,snapshot:snapshot(card)});try{window.dispatchEvent(new CustomEvent('vayquo:pulse-watch',{detail:{cardId:card.id}}));}catch{}render();});
+q('stop').addEventListener('click',()=>{try{localStorage.removeItem(KEY)}catch{}select.value='';status.className='status show';status.innerHTML='<div class="status-kicker">PULSE</div><h3>Beobachtung beendet.</h3><p>Auf diesem Gerät ist aktuell keine Karte mehr gespeichert.</p>';});
+boot();
+})();
+</script>
+</body>
+</html>
