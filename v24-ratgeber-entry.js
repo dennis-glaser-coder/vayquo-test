@@ -41,7 +41,9 @@ function mountStartRatgeber(){
   link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>Punkte, Meilen &amp; Karten besser nutzen</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
  }
  const parent=advisor.parentElement;
- if(link.parentElement!==parent||link.previousElementSibling!==advisor)parent.insertBefore(link,advisor.nextSibling);
+ const pulse=parent.querySelector(':scope > .v46-pulse-home');
+ const anchor=pulse||advisor;
+ if(link.parentElement!==parent||link.previousElementSibling!==anchor)parent.insertBefore(link,anchor.nextSibling);
 }
 function mountRatgeberLink(){
  if(document.querySelector('.v24-ratgeber-row'))return;
