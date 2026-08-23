@@ -1,17 +1,18 @@
 const fs=require('fs');
 const assert=require('assert');
 
-const index=fs.readFileSync('index.html','utf8');
+const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 const moduleSource=fs.readFileSync('v44-home-visual-trust.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(index.includes('v44-home-visual-trust.js?v=4401'),'index must load the isolated homepage visual trust module');
+assert(homeUsp.includes('v44-home-visual-trust.js?v=4401'),'existing home USP module must load the isolated visual trust module');
+assert(homeUsp.includes("script.addEventListener('error'"),'V44 loader must fail softly without changing the existing home flow');
 assert(!moduleSource.includes('MutationObserver'),'homepage visual module must not use a global MutationObserver');
 assert(moduleSource.includes("#v28-card-advisor-entry .v28ca-entry-btn"),'card visual CTA must reuse the existing card-check entry');
 assert(moduleSource.includes("['benefits','card']"),'travel visual card must reuse the existing benefits/card navigation');
 assert(moduleSource.includes("['points','wallet']"),'points visual card must reuse the existing points/wallet navigation');
 
-for(const claim of ['Unabhängig gerechnet','Konditionen geprüft','Empfehlung vor Provision','Nur offizielle Anbieterquellen']){
+for(const claim of ['Unabhängig gerechnet','Konditionen geprüft','Empfehlung unabhängig von Provision','Nur offizielle Anbieterquellen']){
  assert(moduleSource.includes(claim),`missing honest trust claim: ${claim}`);
 }
 for(const forbidden of ['80.000','Trustpilot','4.7 von 5','4,7 von 5','100 % unabhängig']){
