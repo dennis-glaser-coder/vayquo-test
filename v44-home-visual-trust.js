@@ -23,7 +23,7 @@ function ensureStyle(){
  const style=document.createElement('style');
  style.id='v44-home-visual-trust-style';
  style.textContent=`
- #${ROOT_ID}{margin:8px 0 22px;color:#171918;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+ #${ROOT_ID}{margin:8px 0 18px;color:#171918;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
  .v44-home-entry-proxy{position:fixed!important;left:-10000px!important;top:0!important;width:1px!important;height:1px!important;min-width:1px!important;min-height:1px!important;margin:0!important;padding:0!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important;z-index:-1!important}
  .v44-hero{position:relative;min-height:194px;border-radius:22px;overflow:hidden;background:#1b1b1a;box-shadow:0 12px 32px rgba(23,23,22,.12);isolation:isolate}
  .v44-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 58%;display:block;z-index:-2;filter:saturate(.92) contrast(1.02)}
@@ -46,11 +46,6 @@ function ensureStyle(){
  .v44-card-art-card:after{content:"";position:absolute;right:8px;bottom:8px;width:16px;height:2px;border-radius:99px;background:rgba(214,186,126,.72)}
  .v44-card-body{padding:11px 9px 12px;min-height:128px;display:flex;flex-direction:column}
  .v44-card b{font-size:11px;line-height:1.2;letter-spacing:-.012em;text-wrap:balance}.v44-card span{display:block;margin-top:6px;color:#77756f;font-size:8.8px;line-height:1.4}.v44-card i{margin-top:auto;padding-top:9px;color:#9b7849;font-style:normal;font-size:16px;line-height:1}
- .v44-trust{margin-top:13px;padding:14px 10px;border:1px solid rgba(45,42,36,.10);border-radius:18px;background:#f6f0e7}
- .v44-trust-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .v44-trust-item{display:flex;align-items:center;gap:8px;min-height:38px;padding:5px 6px;border-radius:11px;background:rgba(255,250,243,.7)}
- .v44-trust-icon{width:25px;height:25px;border:1px solid rgba(152,122,77,.32);border-radius:50%;display:grid;place-items:center;color:#987a4d;font-size:11px;flex:0 0 auto}
- .v44-trust-item b{font-size:8.9px;line-height:1.25;color:#272624}
  @media(max-width:390px){.v44-hero{min-height:184px}.v44-hero-copy{max-width:76%;padding:19px 16px}.v44-hero h2{font-size:22px;line-height:1.05;word-spacing:.06em}.v44-grid{gap:6px}.v44-card-media{height:94px}.v44-card-body{padding:10px 7px 11px;min-height:132px}.v44-card b{font-size:10.3px}.v44-card span{font-size:8.2px}.v44-card-art-card{left:10px;bottom:10px;width:50px;height:31px}}
  @media(min-width:680px){#${ROOT_ID}{max-width:760px;margin-left:auto;margin-right:auto}.v44-hero{min-height:245px}.v44-card-media{height:150px}.v44-card-body{min-height:116px}}
  `;
@@ -111,7 +106,7 @@ function makeCard(image,title,copy,action,alt,kind){
 
 function build(){
  ensureStyle();
- const root=document.createElement('section');root.id=ROOT_ID;root.setAttribute('aria-label','VAYQUO Möglichkeiten und Vertrauen');
+ const root=document.createElement('section');root.id=ROOT_ID;root.setAttribute('aria-label','VAYQUO Möglichkeiten');
 
  const hero=document.createElement('div');hero.className='v44-hero';hero.appendChild(safeImage(IMAGES.hero,'Luxuriöser Urlaub am Pool mit Palmen','lazy'));
  const heroCopy=document.createElement('div');heroCopy.className='v44-hero-copy';
@@ -128,12 +123,6 @@ function build(){
   makeCard(IMAGES.points,'Mehr aus Punkten machen','Membership Rewards, PAYBACK und Miles & More smarter einsetzen',()=>clickExistingView(['points','wallet']),'Hochwertiger Urlaub am Pool','points')
  );
  root.appendChild(grid);
-
- const trust=document.createElement('div');trust.className='v44-trust';
- const trustGrid=document.createElement('div');trustGrid.className='v44-trust-grid';
- const items=[['◇','Unabhängig gerechnet'],['✓','Konditionen geprüft'],['↗','Empfehlung unabhängig von Provision'],['◎','Nur offizielle Anbieterquellen']];
- for(const [icon,label] of items){const item=document.createElement('div');item.className='v44-trust-item';const badge=document.createElement('span');badge.className='v44-trust-icon';badge.textContent=icon;const b=document.createElement('b');b.textContent=label;item.append(badge,b);trustGrid.appendChild(item);}
- trust.append(trustGrid);root.appendChild(trust);
  return root;
 }
 
