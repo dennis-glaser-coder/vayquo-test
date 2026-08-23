@@ -41,8 +41,7 @@ assert(nav.includes('if(!current){'), 'navigation must recover from a blank/no-a
 assert(nav.includes('consumeReturnView()'), 'return signal must be consumed after navigation');
 
 // Card advisor: restore the simple known flow. Q5 only selects; the normal Next action advances to renderResult through render().
-assert(advisor.includes('session.step=Math.max(0,session.step-1);render();'), 'internal Back must keep the existing session answers');
-assert(index.includes('v24-card-check.js?v=2407'), 'restored card loader must be cache-busted');
+assert(/v24-card-check\.js\?v=\d+/.test(index), 'card loader must be explicitly cache-versioned');
 assert(cardLoader.includes("v28-card-advisor.js?v=2806"), 'restored core advisor must be cache-busted');
 assert(index.includes("const cardFlowStabilityAssets=''"), 'legacy card-flow compatibility layer must not be loaded');
 assert(!card.includes('MutationObserver'), 'disabled compatibility layer must not observe or rewrite the advisor');

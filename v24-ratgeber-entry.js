@@ -25,26 +25,17 @@ function startActive(){
  if(active&&/^start$/i.test(text(active)))return true;
  return leaves(document.getElementById('app')||document).some(el=>text(el)==='Deine Programme');
 }
-function findCardAdvisor(){
- return document.querySelector('#app #v28-card-advisor-entry');
-}
-function mountStartRatgeber(){
+function ensureStartRatgeber(){
  let link=document.querySelector('.v24-ratgeber-home');
- if(!startActive()){link?.remove();return;}
- const advisor=findCardAdvisor();
- if(!advisor||!advisor.parentElement)return;
- const parent=advisor.parentElement;
- if(!link){
-  link=document.createElement('a');
-  link.className='v24-ratgeber-home';
-  link.href='/ratgeber/';
-  link.setAttribute('aria-label','Ratgeber öffnen');
-  link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>Punkte, Meilen &amp; Karten besser nutzen</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
- }
- if(link.parentElement===parent)return;
- const pulse=parent.querySelector(':scope > .v46-pulse-home');
- const anchor=pulse||advisor;
- parent.insertBefore(link,anchor.nextSibling);
+ if(!startActive()){link?.remove();return null;}
+ addLinkStyle();
+ if(link)return link;
+ link=document.createElement('a');
+ link.className='v24-ratgeber-home';
+ link.href='/ratgeber/';
+ link.setAttribute('aria-label','Ratgeber öffnen');
+ link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>Punkte, Meilen &amp; Karten besser nutzen</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
+ return link;
 }
 function mountRatgeberLink(){
  if(document.querySelector('.v24-ratgeber-row'))return;
@@ -67,13 +58,6 @@ function mountRatgeberLink(){
  row.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();open();}});
  legalRow.parentElement.insertBefore(row,legalRow);
 }
-function openStartRatgeber(ev){
- const link=ev.target?.closest?.('.v24-ratgeber-home');
- if(!link)return;
- if(ev.button>0||ev.metaKey||ev.ctrlKey||ev.shiftKey||ev.altKey)return;
- ev.preventDefault();
- location.assign('/ratgeber/');
-}
 function isVisible(el){if(!el)return false;const style=getComputedStyle(el);if(style.display==='none'||style.visibility==='hidden')return false;return !!(el.offsetWidth||el.offsetHeight||el.getClientRects().length);}
 function findTarget(){
  if(!target)return null;
@@ -87,13 +71,10 @@ function cleanEntryUrl(){const url=new URL(window.location.href);url.searchParam
 function finish(){if(completed)return;completed=true;entryObserver?.disconnect();cleanEntryUrl();}
 function route(){if(!target||completed)return;const el=findTarget();if(!el)return;if(isActive(el)){finish();return;}el.click();requestAnimationFrame(()=>requestAnimationFrame(finish));}
 function boot(){
- addLinkStyle();mountRatgeberLink();mountStartRatgeber();
+ addLinkStyle();mountRatgeberLink();
  if(target)requestAnimationFrame(()=>{try{route();}catch(e){console.warn('VAYQUO Ratgeber entry',e);}});
 }
+window.VAYQUO_RATGEBER_ENTRY={ensureHome:ensureStartRatgeber,ensureLegal:mountRatgeberLink};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
-new MutationObserver(()=>setTimeout(()=>{mountRatgeberLink();mountStartRatgeber();},20)).observe(document.documentElement,{childList:true,subtree:true});
-document.addEventListener('click',openStartRatgeber,true);
-document.addEventListener('click',()=>setTimeout(mountStartRatgeber,0));
-window.addEventListener('pageshow',()=>setTimeout(()=>{addLinkStyle();mountStartRatgeber();},0));
 if(target){entryObserver=new MutationObserver(boot);entryObserver.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','aria-current','aria-selected']});document.addEventListener('vq-auth-ready',boot);}
 })();

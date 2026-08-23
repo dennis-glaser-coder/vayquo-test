@@ -9,8 +9,10 @@ const loader=fs.readFileSync('v24-card-check.js','utf8');
 
 assert(loader.includes('v42-card-ecosystem-policy.js?v=4201'),'loader must load ecosystem policy before advisor UI');
 assert(loader.includes('v42-card-ecosystem-context.js?v=4201'),'loader must load ecosystem result explanation');
-assert(loader.indexOf('v42-card-ecosystem-policy.js?v=4201')<loader.indexOf('v28-card-advisor.js?v=2806'),'ecosystem policy must exist before advisor UI initializes');
-assert(loader.indexOf('v42-card-ecosystem-context.js?v=4201')<loader.indexOf('v28-card-advisor-provider-cta.js?v=2804'),'ecosystem explanation must initialize before provider CTA');
+assert(loader.includes("policy.addEventListener('load',loadTierPolicy,{once:true})"),'ecosystem policy must hand off to tier policy before advisor UI');
+assert(loader.includes("tierPolicy.addEventListener('load',loadUi,{once:true})"),'advisor UI must start only after the policy chain has loaded');
+assert(loader.includes("ecosystem.addEventListener('load',loadTierContext,{once:true})"),'ecosystem result explanation must hand off to tier context');
+assert(loader.includes("tier.addEventListener('load',loadCta,{once:true})"),'provider CTA must start only after ecosystem/tier context');
 assert(ui.includes('DEIN BESTEHENDES PROGRAMM'),'result must make the ecosystem check visible');
 assert(ui.includes('wurde mitgeprüft'),'result must explicitly say when another ecosystem was checked');
 assert(!ui.includes('MutationObserver'),'ecosystem explanation must not introduce another global mutation loop');
