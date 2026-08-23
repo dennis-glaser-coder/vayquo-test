@@ -1,0 +1,33 @@
+name: VAYQUO home visual trust tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'v34-home-usp.js'
+      - 'v44-home-visual-trust.js'
+      - 'config/vayquo-card-advisor.de.json'
+      - 'tests/home-visual-trust.test.cjs'
+      - '.github/workflows/home-visual-trust-test.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'v34-home-usp.js'
+      - 'v44-home-visual-trust.js'
+      - 'config/vayquo-card-advisor.de.json'
+      - 'tests/home-visual-trust.test.cjs'
+      - '.github/workflows/home-visual-trust-test.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check homepage visual module syntax
+        run: node --check v44-home-visual-trust.js && node --check v34-home-usp.js
+      - name: Verify isolated visual trust behavior
+        run: node tests/home-visual-trust.test.cjs
