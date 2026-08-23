@@ -25,6 +25,7 @@ function ensureStyle(){
  style.id='v44-home-visual-trust-style';
  style.textContent=`
  #${ROOT_ID}{margin:8px 0 22px;color:#171918;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+ .v44-home-entry-proxy{position:fixed!important;left:-10000px!important;top:0!important;width:1px!important;height:1px!important;min-width:1px!important;min-height:1px!important;margin:0!important;padding:0!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important;z-index:-1!important}
  .v44-hero{position:relative;min-height:194px;border-radius:22px;overflow:hidden;background:#1b1b1a;box-shadow:0 12px 32px rgba(23,23,22,.12);isolation:isolate}
  .v44-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 48%;display:block;z-index:-2}
  .v44-hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,18,17,.90) 0%,rgba(18,18,17,.67) 48%,rgba(18,18,17,.10) 100%)}
@@ -56,6 +57,25 @@ function safeImage(src,alt,loading='lazy'){
  img.src=src;img.alt=alt;img.loading=loading;img.decoding='async';img.referrerPolicy='no-referrer';
  img.addEventListener('error',()=>{img.hidden=true;},{once:true});
  return img;
+}
+
+function setHomeEntryCollapsed(active){
+ const entry=q('#v28-card-advisor-entry');
+ if(!entry)return;
+ entry.classList.toggle('v44-home-entry-proxy',!!active);
+ const button=q('.v28ca-entry-btn',entry);
+ if(active){
+  entry.setAttribute('aria-hidden','true');
+  if(button&&!button.hasAttribute('data-v44-prev-tabindex'))button.setAttribute('data-v44-prev-tabindex',button.getAttribute('tabindex')??'');
+  button?.setAttribute('tabindex','-1');
+ }else{
+  entry.removeAttribute('aria-hidden');
+  if(button?.hasAttribute('data-v44-prev-tabindex')){
+   const previous=button.getAttribute('data-v44-prev-tabindex')||'';
+   button.removeAttribute('data-v44-prev-tabindex');
+   if(previous)button.setAttribute('tabindex',previous);else button.removeAttribute('tabindex');
+  }
+ }
 }
 
 function clickExistingCardCheck(){
@@ -128,10 +148,15 @@ function build(){
 
 function mount(){
  const existing=q(`#${ROOT_ID}`);
- if(!startActive()){existing?.remove();return false;}
- if(existing)return true;
+ if(!startActive()){
+  setHomeEntryCollapsed(false);
+  existing?.remove();
+  return false;
+ }
  const anchor=q('#v28-card-advisor-entry');
  if(!anchor?.parentElement)return false;
+ setHomeEntryCollapsed(true);
+ if(existing)return true;
  anchor.insertAdjacentElement('afterend',build());
  return true;
 }
