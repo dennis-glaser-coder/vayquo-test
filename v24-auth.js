@@ -259,7 +259,6 @@ function observe(){
  document.addEventListener('change',ev=>{if(!ev.target.closest?.('#v24-auth'))syncSoon();},true);
  document.addEventListener('click',ev=>{if(!ev.target.closest?.('#v24-auth')){syncSoon();setTimeout(patchSettings,30);}},true);
  window.addEventListener('pagehide',()=>{void pushRemoteState(false);});
- window.addEventListener('vayquo:card-advisor-result',()=>decisionGate('card'));
  window.addEventListener('vayquo:decision-ready',ev=>decisionGate(String(ev?.detail?.kind||'decision')));
  new MutationObserver(()=>{setTimeout(patchSettings,0);detectOfferDecision();}).observe(document.documentElement,{childList:true,subtree:true});
 }
