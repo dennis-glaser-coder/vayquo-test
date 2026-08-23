@@ -13,7 +13,7 @@ function addLinkStyle(){
  style.id='v24-ratgeber-link-style';
  style.textContent=`
  .v24-ratgeber-row{cursor:pointer}.v24-ratgeber-row *{pointer-events:none}
- .v24-ratgeber-home{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 18px;padding:13px 14px;border:1px solid rgba(138,112,71,.24);border-radius:15px;background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(248,249,248,.68));box-shadow:0 8px 22px rgba(18,22,21,.055);color:inherit;text-decoration:none;box-sizing:border-box}
+ .v24-ratgeber-home{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 18px;padding:13px 14px;border:1px solid rgba(138,112,71,.24);border-radius:15px;background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(248,249,248,.68));box-shadow:0 8px 22px rgba(18,22,21,.055);color:inherit;text-decoration:none;box-sizing:border-box;pointer-events:auto;touch-action:manipulation}
  .v24-ratgeber-home-copy{min-width:0}.v24-ratgeber-home-copy strong{display:block;font-size:12.5px;line-height:1.3;color:#8a7047;font-weight:800;letter-spacing:.01em}.v24-ratgeber-home-copy span{display:block;margin-top:3px;font-size:10px;line-height:1.4;color:#53615d;font-weight:620}
  .v24-ratgeber-home-arrow{flex:0 0 auto;font-size:20px;line-height:1;color:#7d6a49}
  `;
@@ -33,6 +33,7 @@ function mountStartRatgeber(){
  if(!startActive()){link?.remove();return;}
  const advisor=findCardAdvisor();
  if(!advisor||!advisor.parentElement)return;
+ const parent=advisor.parentElement;
  if(!link){
   link=document.createElement('a');
   link.className='v24-ratgeber-home';
@@ -40,10 +41,10 @@ function mountStartRatgeber(){
   link.setAttribute('aria-label','Ratgeber öffnen');
   link.innerHTML='<span class="v24-ratgeber-home-copy"><strong>Ratgeber</strong><span>Punkte, Meilen &amp; Karten besser nutzen</span></span><span class="v24-ratgeber-home-arrow" aria-hidden="true">›</span>';
  }
- const parent=advisor.parentElement;
+ if(link.parentElement===parent)return;
  const pulse=parent.querySelector(':scope > .v46-pulse-home');
  const anchor=pulse||advisor;
- if(link.parentElement!==parent||link.previousElementSibling!==anchor)parent.insertBefore(link,anchor.nextSibling);
+ parent.insertBefore(link,anchor.nextSibling);
 }
 function mountRatgeberLink(){
  if(document.querySelector('.v24-ratgeber-row'))return;
@@ -61,10 +62,17 @@ function mountRatgeberLink(){
  for(let i=2;i<textLeaves.length;i++)textLeaves[i].textContent='';
  const svg=row.querySelector('svg');
  if(svg){svg.setAttribute('viewBox','0 0 24 24');svg.innerHTML='<path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v16H7.5A2.5 2.5 0 0 0 5 20.5v-16Zm2.5-.5A.5.5 0 0 0 7 4.5v12.55c.16-.03.33-.05.5-.05H18V4H7.5ZM5 20.5A1.5 1.5 0 0 1 6.5 19H20v3H6.5A1.5 1.5 0 0 1 5 20.5Z" fill="currentColor"/>';}
- const open=()=>{location.href='/ratgeber/';};
+ const open=()=>{location.assign('/ratgeber/');};
  row.addEventListener('click',open);
  row.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();open();}});
  legalRow.parentElement.insertBefore(row,legalRow);
+}
+function openStartRatgeber(ev){
+ const link=ev.target?.closest?.('.v24-ratgeber-home');
+ if(!link)return;
+ if(ev.button>0||ev.metaKey||ev.ctrlKey||ev.shiftKey||ev.altKey)return;
+ ev.preventDefault();
+ location.assign('/ratgeber/');
 }
 function isVisible(el){if(!el)return false;const style=getComputedStyle(el);if(style.display==='none'||style.visibility==='hidden')return false;return !!(el.offsetWidth||el.offsetHeight||el.getClientRects().length);}
 function findTarget(){
@@ -84,7 +92,8 @@ function boot(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 new MutationObserver(()=>setTimeout(()=>{mountRatgeberLink();mountStartRatgeber();},20)).observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener('click',openStartRatgeber,true);
 document.addEventListener('click',()=>setTimeout(mountStartRatgeber,0));
-window.addEventListener('pageshow',()=>setTimeout(mountStartRatgeber,0));
+window.addEventListener('pageshow',()=>setTimeout(()=>{addLinkStyle();mountStartRatgeber();},0));
 if(target){entryObserver=new MutationObserver(boot);entryObserver.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','aria-current','aria-selected']});document.addEventListener('vq-auth-ready',boot);}
 })();
