@@ -2,6 +2,7 @@
 'use strict';
 
 const ROOT_ID='v44-home-visual-trust';
+const CARD_ENTRY_PAINT_CLASS='v44-card-entry-pending';
 const IMAGES={
  hero:'https://images.unsplash.com/photo-1758192838598-a1de4da5dcaf?auto=format&fit=crop&w=1400&q=82',
  travel:'https://images.unsplash.com/photo-1772064901543-fb4a5d9f4736?auto=format&fit=crop&w=900&q=80',
@@ -16,6 +17,11 @@ function startActive(){
  const nav=q('#bottom [data-view="start"],.bottom [data-view="start"]');
  if(nav&&(nav.classList.contains('active')||nav.getAttribute('aria-current')==='page'))return true;
  return qa('#app *').some(el=>el.children.length===0&&(el.textContent||'').trim()==='Deine Programme');
+}
+
+function releaseCardEntryPaintGate(){
+ document.documentElement.classList.remove(CARD_ENTRY_PAINT_CLASS);
+ try{clearTimeout(window.__v44CardEntryPaintFallback);}catch{}
 }
 
 function ensureStyle(){
@@ -128,14 +134,16 @@ function build(){
 
 function mount(){
  const existing=q(`#${ROOT_ID}`);
- if(!startActive()){
-  setHomeEntryCollapsed(false);
-  existing?.remove();
-  return false;
- }
  const anchor=q('#v28-card-advisor-entry');
  if(!anchor?.parentElement)return false;
+ if(!startActive()){
+  setHomeEntryCollapsed(false);
+  releaseCardEntryPaintGate();
+  existing?.remove();
+  return true;
+ }
  setHomeEntryCollapsed(true);
+ releaseCardEntryPaintGate();
  if(existing)return true;
  anchor.insertAdjacentElement('afterend',build());
  return true;
