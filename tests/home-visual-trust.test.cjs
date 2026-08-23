@@ -5,7 +5,7 @@ const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 const moduleSource=fs.readFileSync('v44-home-visual-trust.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(homeUsp.includes('v44-home-visual-trust.js?v=4404'),'existing home USP module must load the isolated visual trust module');
+assert(homeUsp.includes('v44-home-visual-trust.js?v=4405'),'existing home USP module must load the isolated visual module');
 assert(homeUsp.includes("script.addEventListener('error'"),'V44 loader must fail softly without changing the existing home flow');
 assert(!moduleSource.includes('MutationObserver'),'homepage visual module must not use a global MutationObserver');
 assert(moduleSource.includes("#v28-card-advisor-entry .v28ca-entry-btn"),'card visual CTA must reuse the existing card-check entry');
@@ -18,15 +18,15 @@ assert(moduleSource.includes('setHomeEntryCollapsed(false)'),'leaving the home v
 assert(!moduleSource.includes("q('#v28-card-advisor-entry')?.remove"),'home cleanup must never delete the underlying card-check entry');
 assert(moduleSource.includes('button.click()'),'visible homepage CTAs must continue opening the existing card-check flow');
 
-for(const claim of ['Unabhängig gerechnet','Konditionen geprüft','Empfehlung unabhängig von Provision','Nur offizielle Anbieterquellen']){
- assert(moduleSource.includes(claim),`missing honest trust claim: ${claim}`);
+for(const removed of ['Unabhängig gerechnet','Konditionen geprüft','Empfehlung unabhängig von Provision','Nur offizielle Anbieterquellen','v44-trust-grid','v44-trust-item']){
+ assert(!moduleSource.includes(removed),`redundant homepage trust block must be removed: ${removed}`);
 }
 for(const forbidden of ['80.000','Trustpilot','4.7 von 5','4,7 von 5','100 % unabhängig']){
  assert(!moduleSource.includes(forbidden),`homepage must not contain invented social proof: ${forbidden}`);
 }
 
 assert.strictEqual(catalog.checkedAt,'2026-08-21','canonical audited card-catalog date changed; update test intentionally after a real recheck');
-assert(!moduleSource.includes('Kartenkonditionen zuletzt geprüft:'),'home trust panel must not show a maintenance date that looks stale between audits');
+assert(!moduleSource.includes('Kartenkonditionen zuletzt geprüft:'),'homepage must not show a maintenance date that looks stale between audits');
 assert(moduleSource.includes('#171918'),'new homepage visual layer must use VAYQUO black rather than a new green primary color');
 assert(!moduleSource.includes('#183b35'),'new homepage visual layer must not introduce the old green as its primary surface');
 
@@ -44,4 +44,4 @@ for(const dangerous of ['.v28ca-next','renderResult','VAYQUO_AUTH','decisionGate
 assert(moduleSource.includes("img.addEventListener('error'"),'image failures must fail softly without blocking the module');
 assert(!moduleSource.includes('await safeImage'),'images must never gate homepage mounting');
 
-console.log('VAYQUO home visual trust gates: OK (premium travel imagery; duplicate promo collapsed only on home; card-check flow preserved; honest trust)');
+console.log('VAYQUO home visual gates: OK (premium travel imagery; redundant trust block removed; duplicate promo collapsed only on home; card-check flow preserved)');
