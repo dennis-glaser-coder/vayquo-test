@@ -5,6 +5,24 @@ const q=(s,r=document)=>r.querySelector(s);
 const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const text=el=>(el?.textContent||'').replace(/\s+/g,' ').trim();
 const HEADER_COPY='VAYQUO zeigt dir, was sich bei Kreditkarten, Punkten, Meilen und Vorteilen wirklich lohnt.';
+const CARD_ENTRY_PAINT_CLASS='v44-card-entry-pending';
+
+function armCardEntryPaintGate(){
+  if(!q('#v44-card-entry-paint-gate')){
+    const style=document.createElement('style');
+    style.id='v44-card-entry-paint-gate';
+    style.textContent=`html.${CARD_ENTRY_PAINT_CLASS} #v28-card-advisor-entry{visibility:hidden!important}`;
+    document.head.appendChild(style);
+  }
+  document.documentElement.classList.add(CARD_ENTRY_PAINT_CLASS);
+  try{clearTimeout(window.__v44CardEntryPaintFallback);}catch{}
+  window.__v44CardEntryPaintFallback=setTimeout(()=>document.documentElement.classList.remove(CARD_ENTRY_PAINT_CLASS),3000);
+}
+
+function releaseCardEntryPaintGate(){
+  document.documentElement.classList.remove(CARD_ENTRY_PAINT_CLASS);
+  try{clearTimeout(window.__v44CardEntryPaintFallback);}catch{}
+}
 
 function ensureStyle(){
   if(q('#v34-home-usp-style'))return;
@@ -79,10 +97,10 @@ function apply(){
 function loadVisualTrust(){
   if(document.querySelector('script[data-vayquo-home-visual-trust-v44]'))return;
   const script=document.createElement('script');
-  script.src='v44-home-visual-trust.js?v=4405';
+  script.src='v44-home-visual-trust.js?v=4406';
   script.async=false;
   script.dataset.vayquoHomeVisualTrustV44='1';
-  script.addEventListener('error',()=>console.warn('VAYQUO Startseiten-Bildbereich konnte nicht geladen werden.'),{once:true});
+  script.addEventListener('error',()=>{releaseCardEntryPaintGate();console.warn('VAYQUO Startseiten-Bildbereich konnte nicht geladen werden.');},{once:true});
   document.head.appendChild(script);
 }
 
@@ -92,6 +110,7 @@ function schedule(){
   requestAnimationFrame(()=>{scheduled=false;try{apply();}catch(e){console.warn('VAYQUO header USP',e);}});
 }
 
+armCardEntryPaintGate();
 loadVisualTrust();
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 document.addEventListener('click',()=>setTimeout(schedule,0));
