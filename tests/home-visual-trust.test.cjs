@@ -5,12 +5,18 @@ const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 const moduleSource=fs.readFileSync('v44-home-visual-trust.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(homeUsp.includes('v44-home-visual-trust.js?v=4402'),'existing home USP module must load the isolated visual trust module');
+assert(homeUsp.includes('v44-home-visual-trust.js?v=4403'),'existing home USP module must load the isolated visual trust module');
 assert(homeUsp.includes("script.addEventListener('error'"),'V44 loader must fail softly without changing the existing home flow');
 assert(!moduleSource.includes('MutationObserver'),'homepage visual module must not use a global MutationObserver');
 assert(moduleSource.includes("#v28-card-advisor-entry .v28ca-entry-btn"),'card visual CTA must reuse the existing card-check entry');
 assert(moduleSource.includes("['benefits','card']"),'travel visual card must reuse the existing benefits/card navigation');
 assert(moduleSource.includes("['points','wallet']"),'points visual card must reuse the existing points/wallet navigation');
+
+assert(moduleSource.includes('v44-home-entry-proxy'),'duplicate card-check promo must be presentation-collapsed on the home view');
+assert(moduleSource.includes('setHomeEntryCollapsed(true)'),'home view must collapse the duplicate promo without deleting it');
+assert(moduleSource.includes('setHomeEntryCollapsed(false)'),'leaving the home view must restore the original card-check entry');
+assert(!moduleSource.includes("q('#v28-card-advisor-entry')?.remove"),'home cleanup must never delete the underlying card-check entry');
+assert(moduleSource.includes('button.click()'),'visible homepage CTAs must continue opening the existing card-check flow');
 
 for(const claim of ['Unabhängig gerechnet','Konditionen geprüft','Empfehlung unabhängig von Provision','Nur offizielle Anbieterquellen']){
  assert(moduleSource.includes(claim),`missing honest trust claim: ${claim}`);
@@ -38,4 +44,4 @@ for(const dangerous of ['.v28ca-next','renderResult','VAYQUO_AUTH','decisionGate
 assert(moduleSource.includes("img.addEventListener('error'"),'image failures must fail softly without blocking the module');
 assert(!moduleSource.includes('await safeImage'),'images must never gate homepage mounting');
 
-console.log('VAYQUO home visual trust gates: OK (isolated start-page module; honest trust; existing navigation only; no core-flow hooks)');
+console.log('VAYQUO home visual trust gates: OK (duplicate promo collapsed only on home; card-check flow preserved; honest trust; existing navigation only)');
