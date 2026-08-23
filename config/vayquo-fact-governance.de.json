@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "market": "DE",
-  "checkedAt": "2026-08-22",
+  "checkedAt": "2026-08-23",
   "purpose": "Inventory and guard mutable product facts before visible VAYQUO changes ship. Published surfaces must be classified and dynamic facts must be tied to a reviewed canonical source.",
   "policies": {
     "canonicalBeforeCopy": true,
@@ -23,7 +23,9 @@
     {"path":"ratgeber/amex-punkte-verfallen.html","classification":"guarded_dynamic","canonical":"programFacts"},
     {"path":"ratgeber/amex-punkte-wert.html","classification":"draft_noindex"},
     {"path":"ratgeber/amex-punkte-zu-miles-and-more.html","classification":"guarded_dynamic","canonical":"optimizerRules"},
+    {"path":"ratgeber/haeufige-fragen-punkte-meilen.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
     {"path":"ratgeber/kreditkarte-lohnt-sich.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/kreditkarten-kosten-nutzen-rechner.html","classification":"reviewed_stable"},
     {"path":"ratgeber/membership-rewards-transfer.html","classification":"reviewed_stable"},
     {"path":"ratgeber/membership-rewards-transferpartner.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
     {"path":"ratgeber/membership-rewards-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
@@ -33,6 +35,7 @@
     {"path":"ratgeber/payback-punkte-wert.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"},
     {"path":"ratgeber/payback-zu-miles-and-more.html","classification":"reviewed_stable"},
     {"path":"ratgeber/punkte-einloesen-oder-sammeln.html","classification":"reviewed_stable"},
+    {"path":"ratgeber/punkte-meilen-rechner.html","classification":"reviewed_stable"},
     {"path":"ratgeber/punkte-oder-geld.html","classification":"guarded_dynamic","canonical":"optimizerRules+programFacts"}
   ],
   "transferPartnerLabels": {
@@ -87,6 +90,7 @@
         "ratgeber/payback-punkte-wert.html",
         "ratgeber/payback-punkte-auszahlen-oder-meilen.html",
         "ratgeber/punkte-oder-geld.html",
+        "ratgeber/haeufige-fragen-punkte-meilen.html",
         "v24-offer-context.js"
       ]
     },
