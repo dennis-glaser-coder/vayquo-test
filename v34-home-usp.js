@@ -95,9 +95,14 @@ function apply(){
 }
 
 function loadVisualTrust(){
-  if(document.querySelector('script[data-vayquo-home-visual-trust-v44]'))return;
+  const existing=document.querySelector('script[data-vayquo-home-visual-trust-v44]');
+  const wanted='v44-home-visual-trust.js?v=4408';
+  if(existing&&String(existing.getAttribute('src')||'').includes('v=4408'))return;
+  existing?.remove();
+  const oldRoot=q('#v44-home-visual-trust');
+  oldRoot?.remove();
   const script=document.createElement('script');
-  script.src='v44-home-visual-trust.js?v=4407';
+  script.src=wanted;
   script.async=false;
   script.dataset.vayquoHomeVisualTrustV44='1';
   script.addEventListener('error',()=>{releaseCardEntryPaintGate();console.warn('VAYQUO Startseiten-Bildbereich konnte nicht geladen werden.');},{once:true});
