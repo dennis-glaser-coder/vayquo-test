@@ -5,16 +5,22 @@ const engine=require('../v28-card-advisor-engine.js');
 const ui=fs.readFileSync('v28-card-advisor.js','utf8');
 const unsureUx=fs.readFileSync('v31-card-advisor-unsure-ux.js','utf8');
 const abroadUx=fs.readFileSync('v28-card-advisor-abroad-ux.js','utf8');
+const ecosystemPolicy=fs.readFileSync('v42-card-ecosystem-policy.js','utf8');
+const ecosystemContext=fs.readFileSync('v42-card-ecosystem-context.js','utf8');
 const providerCta=fs.readFileSync('v28-card-advisor-provider-cta.js','utf8');
 const loader=fs.readFileSync('v24-card-check.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
 assert(loader.includes('v28-card-advisor-engine.js?v=2803'),'loader must load guided V28 decision engine');
-assert(loader.includes('v28-card-advisor.js?v=2803'),'loader must load refreshed V28 advisor UI');
+assert(loader.includes('v42-card-ecosystem-policy.js?v=4201'),'loader must load ecosystem policy');
+assert(loader.includes('v28-card-advisor.js?v=2806'),'loader must load current V28 advisor UI');
 assert(loader.includes('v31-card-advisor-unsure-ux.js?v=3101'),'loader must load guided unsure UX after advisor UI');
 assert(loader.indexOf('v31-card-advisor-unsure-ux.js?v=3101')<loader.indexOf('v28-card-advisor-abroad-ux.js?v=2802'),'unsure UX must initialize before abroad UX');
 assert(loader.includes('v28-card-advisor-abroad-ux.js?v=2802'),'loader must load abroad UX after advisor UI');
-assert(loader.includes('v28-card-advisor-provider-cta.js?v=2803'),'loader must load conversion-safe provider CTA after abroad UX');
+assert(loader.includes('v42-card-ecosystem-context.js?v=4201'),'loader must load ecosystem explanation after advisor UX');
+assert(loader.includes('v28-card-advisor-provider-cta.js?v=2804'),'loader must load current conversion-safe provider CTA');
+assert(loader.indexOf('v42-card-ecosystem-policy.js?v=4201')<loader.indexOf('v28-card-advisor.js?v=2806'),'ecosystem policy must exist before advisor UI');
+assert(loader.indexOf('v42-card-ecosystem-context.js?v=4201')<loader.indexOf('v28-card-advisor-provider-cta.js?v=2804'),'ecosystem explanation must initialize before provider CTA');
 assert(loader.includes('[data-view="start"]'),'loader must recognize the real start nav directly');
 assert(loader.includes('v28-card-advisor-start-marker'),'loader must maintain a start marker');
 assert(ui.includes('const STEP_COUNT=5'),'advisor must stay short and simple');
@@ -32,6 +38,9 @@ assert(abroadUx.includes('Auch Bargeld im Ausland möglichst günstig abheben'),
 assert(abroadUx.includes('Eine Reiseversicherung ist mir wichtig'),'abroad UX must offer an insurance priority');
 assert(abroadUx.includes("next.disabled=true"),'abroad UX must force a fresh final choice instead of reusing a stale ecosystem answer');
 assert(abroadUx.includes("fetch('config/vayquo-card-advisor.de.json?v=2802'"),'abroad result reasons must come from the audited catalog');
+assert(ecosystemPolicy.includes('primary_goal_wins'),'ecosystem policy must preserve the explicit primary goal when a program challenger misses it');
+assert(ecosystemContext.includes('DEIN BESTEHENDES PROGRAMM'),'result must visibly explain how the existing program affected the decision');
+assert(!ecosystemContext.includes('MutationObserver'),'ecosystem explanation must not introduce a result mutation loop');
 assert(providerCta.includes("closest?.('.v28ca-select')"),'primary card CTA must be captured');
 assert(providerCta.includes("closest?.('.v28ca-provider[href]')"),'secondary provider detail link must also be captured');
 assert(providerCta.includes('ev.preventDefault()'),'secondary provider link must not bypass the provider guard');
@@ -46,6 +55,8 @@ assert(providerCta.includes('Passende Karte beim Anbieter prüfen'),'primary CTA
 assert(providerCta.includes('Für dich bleibt VAYQUO kostenlos.'),'commercial disclosure must explain the user benefit when a partner link is active');
 assert(providerCta.includes('Deine Empfehlung bleibt davon unabhängig.'),'commercial disclosure must explicitly preserve recommendation independence');
 assert(providerCta.includes('[data-vq-commercial="1"]'),'affiliate disclosure must appear only on an actually marked commercial link');
+assert(providerCta.includes('primary.textContent!==PRIMARY_LABEL'),'provider CTA decoration must be idempotent and must not recreate the Safari mutation loop');
+assert(providerCta.includes('detail.textContent!==DETAIL_LABEL'),'provider detail label must also be idempotent');
 assert(!providerCta.includes('commissionScore'),'provider CTA must never introduce commission-weighted ranking');
 assert(!ui.includes('planningReference'),'commission planning data must not enter recommendation logic');
 assert.strictEqual(catalog.checkedAt,'2026-08-21');
@@ -180,4 +191,4 @@ for(const card of catalog.cards){
  for(const url of card.sourceUrls)assert(/^https:\/\//.test(url),`${card.id} audit source must be https`);
 }
 
-console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; guided unsure path; value-forward CTA; ${catalog.cards.length} audited cards; both provider CTAs guarded)`);
+console.log(`VAYQUO card advisor gates: OK (${checked} decision combinations checked; guided unsure path; ecosystem challenge context; value-forward CTA; ${catalog.cards.length} audited cards; both provider CTAs guarded)`);
