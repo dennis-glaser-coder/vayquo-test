@@ -26,12 +26,15 @@ on:
       - 'v28-card-advisor.js'
       - 'v28-card-advisor-abroad-ux.js'
       - 'v28-card-advisor-provider-cta.js'
+      - 'v42-card-ecosystem-policy.js'
+      - 'v42-card-ecosystem-context.js'
       - 'v29-ui-consistency.js'
       - 'v30-points-page-cleanup.js'
       - 'v31-card-advisor-unsure-ux.js'
       - 'config/vayquo-card-advisor.de.json'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
+      - 'tests/card-ecosystem-context.test.cjs'
       - 'tests/ui-consistency.test.cjs'
       - 'tests/points-page-cleanup.test.cjs'
       - 'v25-engine-v2.js'
@@ -75,12 +78,15 @@ on:
       - 'v28-card-advisor.js'
       - 'v28-card-advisor-abroad-ux.js'
       - 'v28-card-advisor-provider-cta.js'
+      - 'v42-card-ecosystem-policy.js'
+      - 'v42-card-ecosystem-context.js'
       - 'v29-ui-consistency.js'
       - 'v30-points-page-cleanup.js'
       - 'v31-card-advisor-unsure-ux.js'
       - 'config/vayquo-card-advisor.de.json'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
+      - 'tests/card-ecosystem-context.test.cjs'
       - 'tests/ui-consistency.test.cjs'
       - 'tests/points-page-cleanup.test.cjs'
       - 'v25-engine-v2.js'
@@ -126,7 +132,7 @@ jobs:
       - name: Verify public award release gate
         run: node tests/award-release-gate.test.cjs
       - name: Check card advisor and UI syntax
-        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v31-card-advisor-unsure-ux.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js && node --check v34-card-catalog-runtime.js
+        run: node --check v28-card-advisor-engine.js && node --check v28-card-advisor.js && node --check v28-card-advisor-abroad-ux.js && node --check v28-card-advisor-provider-cta.js && node --check v42-card-ecosystem-policy.js && node --check v42-card-ecosystem-context.js && node --check v31-card-advisor-unsure-ux.js && node --check v29-ui-consistency.js && node --check v30-points-page-cleanup.js && node --check v24-points-balance.js && node --check v24-card-check.js && node --check v34-card-catalog-runtime.js
       - name: Check anonymous analytics syntax
         run: node --check v36-anonymous-analytics.js
       - name: Verify anonymous analytics privacy gate
@@ -139,6 +145,8 @@ jobs:
         run: node tests/card-advisor.test.cjs
       - name: Verify refined card advisor matrix
         run: node tests/card-advisor-v29.test.cjs
+      - name: Verify ecosystem challenge context
+        run: node tests/card-ecosystem-context.test.cjs
       - name: Verify UI order and theme consistency
         run: node tests/ui-consistency.test.cjs
       - name: Verify points page hierarchy and deduplication
