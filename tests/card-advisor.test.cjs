@@ -21,7 +21,8 @@ assert(loader.includes('v42-card-ecosystem-context.js?v=4201'),'loader must load
 assert(loader.includes('v28-card-advisor-provider-cta.js?v=2804'),'loader must load current conversion-safe provider CTA');
 assert(loader.includes("tierPolicy.addEventListener('load',loadUi,{once:true})"),'ecosystem/tier policy chain must finish before advisor UI starts');
 assert(loader.includes("policy.addEventListener('load',loadTierPolicy,{once:true})"),'ecosystem policy must hand off to tier policy before advisor UI');
-assert(loader.indexOf('v42-card-ecosystem-context.js?v=4201')<loader.indexOf('v28-card-advisor-provider-cta.js?v=2804'),'ecosystem explanation must initialize before provider CTA');
+assert(loader.includes("ecosystem.addEventListener('load',loadTierContext,{once:true})"),'ecosystem explanation must hand off to tier context');
+assert(loader.includes("tier.addEventListener('load',loadCta,{once:true})"),'provider CTA must start only after tier context has loaded');
 assert(loader.includes('[data-view="start"]'),'loader must recognize the real start nav directly');
 assert(loader.includes('v28-card-advisor-start-marker'),'loader must maintain a start marker');
 assert(ui.includes('const STEP_COUNT=5'),'advisor must stay short and simple');
