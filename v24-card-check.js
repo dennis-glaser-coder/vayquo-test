@@ -61,12 +61,21 @@ engine.addEventListener('load',()=>{
       cta.addEventListener('error',()=>console.warn('VAYQUO Kartenanbieter-Weiterleitung konnte nicht geladen werden.'));
       document.head.appendChild(cta);
      };
+     const loadTierContext=()=>{
+      const tier=document.createElement('script');
+      tier.src='v43-card-tier-context.js?v=4301';
+      tier.dataset.vayquoCardTierContextV43='1';
+      tier.async=false;
+      tier.addEventListener('load',loadCta,{once:true});
+      tier.addEventListener('error',()=>{console.warn('VAYQUO Karten-Gebührenstufen-Erklärung konnte nicht geladen werden.');loadCta();},{once:true});
+      document.head.appendChild(tier);
+     };
      const ecosystem=document.createElement('script');
      ecosystem.src='v42-card-ecosystem-context.js?v=4201';
      ecosystem.dataset.vayquoCardEcosystemContextV42='1';
      ecosystem.async=false;
-     ecosystem.addEventListener('load',loadCta,{once:true});
-     ecosystem.addEventListener('error',()=>{console.warn('VAYQUO Karten-Ökosystem-Erklärung konnte nicht geladen werden.');loadCta();},{once:true});
+     ecosystem.addEventListener('load',loadTierContext,{once:true});
+     ecosystem.addEventListener('error',()=>{console.warn('VAYQUO Karten-Ökosystem-Erklärung konnte nicht geladen werden.');loadTierContext();},{once:true});
      document.head.appendChild(ecosystem);
     });
     document.head.appendChild(abroad);
@@ -75,12 +84,21 @@ engine.addEventListener('load',()=>{
   });
   document.head.appendChild(ui);
  };
+ const loadTierPolicy=()=>{
+  const tierPolicy=document.createElement('script');
+  tierPolicy.src='v43-card-tier-policy.js?v=4301';
+  tierPolicy.dataset.vayquoCardTierPolicyV43='1';
+  tierPolicy.async=false;
+  tierPolicy.addEventListener('load',loadUi,{once:true});
+  tierPolicy.addEventListener('error',()=>{console.warn('VAYQUO Karten-Gebührenstufen-Policy konnte nicht geladen werden.');loadUi();},{once:true});
+  document.head.appendChild(tierPolicy);
+ };
  const policy=document.createElement('script');
  policy.src='v42-card-ecosystem-policy.js?v=4201';
  policy.dataset.vayquoCardEcosystemPolicyV42='1';
  policy.async=false;
- policy.addEventListener('load',loadUi,{once:true});
- policy.addEventListener('error',()=>{console.warn('VAYQUO Karten-Ökosystem-Policy konnte nicht geladen werden.');loadUi();},{once:true});
+ policy.addEventListener('load',loadTierPolicy,{once:true});
+ policy.addEventListener('error',()=>{console.warn('VAYQUO Karten-Ökosystem-Policy konnte nicht geladen werden.');loadTierPolicy();},{once:true});
  document.head.appendChild(policy);
 });
 document.head.appendChild(engine);
