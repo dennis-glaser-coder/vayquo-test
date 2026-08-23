@@ -5,7 +5,7 @@ const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 const moduleSource=fs.readFileSync('v44-home-visual-trust.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(homeUsp.includes('v44-home-visual-trust.js?v=4401'),'existing home USP module must load the isolated visual trust module');
+assert(homeUsp.includes('v44-home-visual-trust.js?v=4402'),'existing home USP module must load the isolated visual trust module');
 assert(homeUsp.includes("script.addEventListener('error'"),'V44 loader must fail softly without changing the existing home flow');
 assert(!moduleSource.includes('MutationObserver'),'homepage visual module must not use a global MutationObserver');
 assert(moduleSource.includes("#v28-card-advisor-entry .v28ca-entry-btn"),'card visual CTA must reuse the existing card-check entry');
