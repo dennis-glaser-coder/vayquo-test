@@ -79,7 +79,7 @@ function apply(){
 function loadVisualTrust(){
   if(document.querySelector('script[data-vayquo-home-visual-trust-v44]'))return;
   const script=document.createElement('script');
-  script.src='v44-home-visual-trust.js?v=4401';
+  script.src='v44-home-visual-trust.js?v=4402';
   script.async=false;
   script.dataset.vayquoHomeVisualTrustV44='1';
   script.addEventListener('error',()=>console.warn('VAYQUO Startseiten-Bildbereich konnte nicht geladen werden.'),{once:true});
