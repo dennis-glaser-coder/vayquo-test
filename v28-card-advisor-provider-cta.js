@@ -8,6 +8,8 @@ const ALLOWED_PROVIDER_HOSTS=new Set([
  'www.hanseaticbank.de',
  'tfbank.de'
 ]);
+const PRIMARY_LABEL='Passende Karte beim Anbieter prüfen →';
+const DETAIL_LABEL='Alle Details & Konditionen ansehen';
 
 function validProviderUrl(value){
  try{
@@ -61,8 +63,8 @@ function decorateRecommendation(){
  }
  const primary=actions.querySelector('.v28ca-select');
  const detail=actions.querySelector('.v28ca-provider');
- if(primary&&!primary.disabled)primary.textContent='Passende Karte beim Anbieter prüfen →';
- if(detail)detail.textContent='Alle Details & Konditionen ansehen';
+ if(primary&&!primary.disabled&&primary.textContent!==PRIMARY_LABEL)primary.textContent=PRIMARY_LABEL;
+ if(detail&&detail.textContent!==DETAIL_LABEL)detail.textContent=DETAIL_LABEL;
  syncCommercialDisclosure(root);
 }
 function goToProvider(href){
