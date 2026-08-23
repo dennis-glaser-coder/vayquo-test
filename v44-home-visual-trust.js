@@ -118,7 +118,7 @@ function build(){
 
  const trust=document.createElement('div');trust.className='v44-trust';
  const trustGrid=document.createElement('div');trustGrid.className='v44-trust-grid';
- const items=[['◇','Unabhängig gerechnet'],['✓','Konditionen geprüft'],['↗','Empfehlung vor Provision'],['◎','Nur offizielle Anbieterquellen']];
+ const items=[['◇','Unabhängig gerechnet'],['✓','Konditionen geprüft'],['↗','Empfehlung unabhängig von Provision'],['◎','Nur offizielle Anbieterquellen']];
  for(const [icon,label] of items){const item=document.createElement('div');item.className='v44-trust-item';const badge=document.createElement('span');badge.className='v44-trust-icon';badge.textContent=icon;const b=document.createElement('b');b.textContent=label;item.append(badge,b);trustGrid.appendChild(item);}
  const checked=document.createElement('p');checked.className='v44-checked';checked.innerHTML='Kartenkonditionen zuletzt geprüft: <strong data-v44-checked>21.08.2026</strong>';
  trust.append(trustGrid,checked);root.appendChild(trust);
