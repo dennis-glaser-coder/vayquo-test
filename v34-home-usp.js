@@ -76,12 +76,23 @@ function apply(){
   if(anchor.previousElementSibling!==line)anchor.insertAdjacentElement('beforebegin',line);
 }
 
+function loadVisualTrust(){
+  if(document.querySelector('script[data-vayquo-home-visual-trust-v44]'))return;
+  const script=document.createElement('script');
+  script.src='v44-home-visual-trust.js?v=4401';
+  script.async=false;
+  script.dataset.vayquoHomeVisualTrustV44='1';
+  script.addEventListener('error',()=>console.warn('VAYQUO Startseiten-Bildbereich konnte nicht geladen werden.'),{once:true});
+  document.head.appendChild(script);
+}
+
 let scheduled=false;
 function schedule(){
   if(scheduled)return;scheduled=true;
   requestAnimationFrame(()=>{scheduled=false;try{apply();}catch(e){console.warn('VAYQUO header USP',e);}});
 }
 
+loadVisualTrust();
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 document.addEventListener('click',()=>setTimeout(schedule,0));
 document.addEventListener('change',()=>setTimeout(schedule,0));
