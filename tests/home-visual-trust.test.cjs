@@ -5,7 +5,7 @@ const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 const moduleSource=fs.readFileSync('v44-home-visual-trust.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(homeUsp.includes('v44-home-visual-trust.js?v=4406'),'existing home USP module must load the isolated visual module');
+assert(homeUsp.includes('v44-home-visual-trust.js?v=4407'),'existing home USP module must load the isolated visual module');
 assert(homeUsp.includes('v44-card-entry-pending'),'legacy card-check entry must be paint-gated before the visual home module resolves the route');
 assert(homeUsp.includes("script.addEventListener('error'"),'V44 loader must fail softly without changing the existing home flow');
 assert(!moduleSource.includes('MutationObserver'),'homepage visual module must not use a global MutationObserver');
@@ -37,7 +37,9 @@ for(const url of [
  'https://images.unsplash.com/photo-1772064901543-fb4a5d9f4736',
  'https://images.unsplash.com/photo-1762280251209-f4c2cddeb53f'
 ]) assert(moduleSource.includes(url),`missing expected premium travel visual ${url}`);
-assert(moduleSource.includes('v44-card-art-card'),'card tile must preserve a clear card cue over the travel visual');
+assert(moduleSource.includes("const CARD_IMAGE='data:image/webp;base64,"),'card tile must use the approved embedded premium wallet image');
+assert(!moduleSource.includes('v44-card-art-card'),'synthetic overlay card must be removed once the real card image is used');
+assert(moduleSource.includes('Elegantes Wallet mit Premium-Karte im luxuriösen Urlaubsambiente'),'card tile must describe the approved natural card image');
 assert(!/american\s*express/i.test(moduleSource),'visual image layer must not depend on branded American Express imagery');
 
 for(const dangerous of ['.v28ca-next','renderResult','VAYQUO_AUTH','decisionGate','commissionScore']){
@@ -46,4 +48,4 @@ for(const dangerous of ['.v28ca-next','renderResult','VAYQUO_AUTH','decisionGate
 assert(moduleSource.includes("img.addEventListener('error'"),'image failures must fail softly without blocking the module');
 assert(!moduleSource.includes('await safeImage'),'images must never gate homepage mounting');
 
-console.log('VAYQUO home visual gates: OK (premium travel imagery; redundant trust block removed; legacy entry paint-gated; card-check flow preserved)');
+console.log('VAYQUO home visual gates: OK (approved wallet image; no synthetic card overlay; legacy entry paint-gated; card-check flow preserved)');
