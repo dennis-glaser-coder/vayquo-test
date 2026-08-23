@@ -4,6 +4,8 @@ VAYQUO hilft dabei, Kreditkarten, Punkte, Meilen und Vorteile sinnvoll zu vergle
 
 **Live:** https://vayquo.de/
 
+**Kostenloser Punkte- & Meilenwert-Rechner:** https://vayquo.de/ratgeber/punkte-meilen-rechner.html
+
 **Ratgeber:** https://vayquo.de/ratgeber/
 
 **Häufige Fragen zu Punkten & Meilen:** https://vayquo.de/ratgeber/haeufige-fragen-punkte-meilen.html
