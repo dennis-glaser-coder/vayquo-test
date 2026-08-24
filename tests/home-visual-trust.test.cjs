@@ -5,7 +5,7 @@ const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 const moduleSource=fs.readFileSync('v44-home-visual-trust.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('config/vayquo-card-advisor.de.json','utf8'));
 
-assert(homeUsp.includes('v44-home-visual-trust.js?v=4411'),'existing home USP module must load the current personalized visual module');
+assert(homeUsp.includes('v44-home-visual-trust.js?v=4412'),'existing home USP module must load the header-safe personalized visual module');
 assert(homeUsp.includes('v44-card-entry-pending'),'legacy card-check entry must be paint-gated before the visual home module resolves the route');
 assert(homeUsp.includes("script.addEventListener('error'"),'V44 loader must fail softly without changing the existing home flow');
 assert(!moduleSource.includes('MutationObserver'),'homepage visual module must not use a global MutationObserver');
