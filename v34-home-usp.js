@@ -61,8 +61,6 @@ function greetingRow(greeting){
 
 function findLoggedOutAnchor(){
   const app=q('#app');if(!app)return null;
-  // Guests have no "Hallo …" row. Anchor the USP to the first real home section,
-  // not to the card advisor that the central layout intentionally moves lower down.
   const visual=q('#v44-home-visual-trust',app);
   if(visual&&visible(visual))return visual;
   const cardCheck=q('#v28-card-advisor-entry',app);
@@ -115,14 +113,17 @@ function loadVisualTrust(){
 
 function loadHeaderActions(){
   const existing=document.querySelector('script[data-vayquo-header-actions-v48]');
-  const wanted='v48-header-actions.js?v=4801';
-  if(existing&&String(existing.getAttribute('src')||'').includes('v=4801'))return;
+  const wanted='v48-header-actions.js?v=4802';
+  if(existing&&String(existing.getAttribute('src')||'').includes('v=4802'))return;
   existing?.remove();
+  const old=document.getElementById('v48-header-actions');
+  if(old)old.remove();
+  document.getElementById('v48-header-menu')?.remove();
   const script=document.createElement('script');
   script.src=wanted;
   script.async=false;
   script.dataset.vayquoHeaderActionsV48='1';
-  script.addEventListener('error',()=>console.warn('VAYQUO Header-Aktionen konnten nicht geladen werden.'),{once:true});
+  script.addEventListener('error',()=>console.warn('VAYQUO Konto-Button konnte nicht geladen werden.'),{once:true});
   document.head.appendChild(script);
 }
 
