@@ -180,12 +180,18 @@ function setHomeEntryCollapsed(active){
 
 function findPersonalHero(){
  const app=q('#app');if(!app)return null;
+ const title=qa('h1,h2,h3',app).find(el=>!el.closest(`#${ROOT_ID}`)&&text(el)==='Nicht einfach Punkte haben. Das Maximum daraus machen.');
  const primary=qa('button,a,[role="button"]',app).find(el=>!el.closest(`#${ROOT_ID}`)&&text(el)==='Beste Nutzung finden');
- if(!primary)return null;
- let node=primary.parentElement;
- for(let i=0;i<8&&node&&node!==app;i++,node=node.parentElement){
-  const own=text(node);
-  if(/Beste Nutzung finden/.test(own)&&/Warum\?/.test(own)&&/Maximum daraus machen/i.test(own))return node;
+ const why=qa('button,a,[role="button"]',app).find(el=>!el.closest(`#${ROOT_ID}`)&&/^Warum\?$/i.test(text(el)));
+ if(!title||!primary||!why)return null;
+ let node=title.parentElement;
+ while(node&&node!==app){
+  if(node.contains(primary)&&node.contains(why)){
+   const containsGreeting=qa('*',node).some(el=>el.children.length===0&&/^Hallo\b/i.test(text(el)));
+   if(containsGreeting||node.querySelector('.v34usp-headerline')||node.querySelector(`#${ROOT_ID}`))return null;
+   return node;
+  }
+  node=node.parentElement;
  }
  return null;
 }
@@ -218,8 +224,8 @@ function clickExistingCardCheck(){
  return false;
 }
 function clickExistingPersonal(){
- const hero=findPersonalHero();
- const button=hero&&qa('button,a,[role="button"]',hero).find(el=>text(el)==='Beste Nutzung finden');
+ const app=q('#app');if(!app)return false;
+ const button=qa('button,a,[role="button"]',app).find(el=>!el.closest(`#${ROOT_ID}`)&&text(el)==='Beste Nutzung finden');
  if(button){button.click();return true;}
  return false;
 }
