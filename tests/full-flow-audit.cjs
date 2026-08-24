@@ -23,11 +23,6 @@ assert(core.includes("if(view==='card')renderCard()"),'core must render Vorteile
 assert(core.includes('function go(v,t=null)'),'core must support programmatic main navigation');
 assert(core.includes('function openModal(')&&core.includes('function closeModal()'),'core modal open/close contract must remain available');
 
-for(const needle of ['const KEY=','let KEY=','var KEY=','CARD_OPTIONS=[']){
- const at=core.indexOf(needle);
- if(at!==-1)console.log(`CORE_PULSE_CONTRACT ${needle}:`,core.slice(Math.max(0,at-180),Math.min(core.length,at+1800)).replace(/\s+/g,' '));
-}
-
 // The legacy compressed core has no browser-history contract of its own.
 // v33-navigation-state.js intentionally supplies that layer without rewriting the core bundle.
 assert(!core.includes('history.pushState'),'legacy core unexpectedly gained its own History API; review v33 integration before changing this gate');
