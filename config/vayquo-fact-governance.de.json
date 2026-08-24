@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "market": "DE",
-  "checkedAt": "2026-08-23",
+  "checkedAt": "2026-08-24",
   "purpose": "Inventory and guard mutable product facts before visible VAYQUO changes ship. Published surfaces must be classified and dynamic facts must be tied to a reviewed canonical source.",
   "policies": {
     "canonicalBeforeCopy": true,
@@ -13,6 +13,7 @@
   },
   "canonicalSources": {
     "cardCatalog": "config/vayquo-card-advisor.de.json",
+    "cardMoment": "config/vayquo-card-moment.de.json",
     "optimizerRules": "config/vayquo-optimizer-rules.de.json",
     "programFacts": "config/vayquo-program-facts.de.json",
     "cardCatalogRuntimeMirror": "v34-card-catalog-runtime.js"
@@ -101,6 +102,13 @@
         "config/vayquo-card-advisor.de.json",
         "config/vayquo-optimizer-rules.de.json",
         "v24-benefit-optimizer.js"
+      ]
+    },
+    {
+      "id": "card_moment_offer_timing",
+      "canonical": "cardMoment",
+      "surfaces": [
+        "moment.html"
       ]
     }
   ],

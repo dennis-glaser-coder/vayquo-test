@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "market": "DE",
+  "checkedAt": "2026-08-24",
+  "purpose": "Verified current welcome-bonus facts and observed historical references for VAYQUO MOMENT. Current offers require an official provider source. Historical comparisons are public observed references, not a claim of complete all-time history.",
+  "principles": {
+    "currentOfferNeedsOfficialProviderSource": true,
+    "historicalReferenceIsObservedNotExhaustive": true,
+    "noAllTimeClaimWithoutCompleteHistory": true,
+    "userSpendIsSelfReported": true,
+    "doNotEncourageExtraSpendingToReachBonus": true,
+    "providerTermsWin": true
+  },
+  "cards": [
+    {
+      "id": "amex_platinum",
+      "name": "American Express Platinum Card",
+      "provider": "American Express",
+      "officialUrl": "https://www.amex-kreditkarten.de/angebot-platinum-mr/",
+      "current": {
+        "audience": "new_customer",
+        "bonusPoints": 85000,
+        "spendRequirementEUR": 10000,
+        "periodMonths": 6,
+        "tiers": [
+          {"bonusPoints": 40000, "spendRequirementEUR": 6000},
+          {"bonusPoints": 45000, "additionalSpendRequirementEUR": 4000}
+        ],
+        "validUntil": null,
+        "eligibilitySummary": "Willkommensbonus nur nach den aktuellen American-Express-Neukundenbedingungen; insbesondere gelten Mindestumsatz, Kartenführung und Haltebedingungen.",
+        "sourceUrl": "https://www.amex-kreditkarten.de/angebot-platinum-mr/",
+        "sourceNote": "American Express Deutschland, geprüft 24.08.2026"
+      },
+      "reference": {
+        "label": "Beobachtete öffentliche Neukundenaktion 2025",
+        "bonusPoints": 75000,
+        "spendRequirementEUR": 13000,
+        "periodMonths": 6,
+        "sourceUrl": "https://www.n-tv.de/shopping-und-service/Membership-Rewards-Punkte-einloesen-Die-besten-Optionen-article25537681.html",
+        "sourceNote": "Öffentliche Aktion im April 2025; 75.000 Punkte wurden damals als Rekordhöhe beschrieben. Diese Referenz ist keine vollständige Allzeit-Historie."
+      },
+      "strength": "very_strong",
+      "strengthLabel": "Historisch sehr stark",
+      "rationale": "Das aktuell geprüfte Neukundenangebot liegt über der beobachteten 75.000-Punkte-Aktion aus 2025 und verlangt zugleich weniger Kartenumsatz für den Maximalbonus."
+    },
+    {
+      "id": "amex_gold",
+      "name": "American Express Gold Card",
+      "provider": "American Express",
+      "officialUrl": "https://www.amex-kreditkarten.de/angebot-gold-mr/",
+      "current": {
+        "audience": "new_customer",
+        "bonusPoints": 50000,
+        "spendRequirementEUR": 5000,
+        "periodMonths": 6,
+        "tiers": [
+          {"bonusPoints": 20000, "spendRequirementEUR": 3000},
+          {"bonusPoints": 30000, "additionalSpendRequirementEUR": 2000}
+        ],
+        "validUntil": null,
+        "eligibilitySummary": "Willkommensbonus nur nach den aktuellen American-Express-Neukundenbedingungen; insbesondere gelten Mindestumsatz, Kartenführung und Haltebedingungen.",
+        "sourceUrl": "https://www.amex-kreditkarten.de/angebot-gold-mr/",
+        "sourceNote": "American Express Deutschland, geprüft 24.08.2026"
+      },
+      "reference": {
+        "label": "Beobachtete öffentliche Neukundenaktion 2025",
+        "bonusPoints": 40000,
+        "spendRequirementEUR": 6000,
+        "periodMonths": 6,
+        "sourceUrl": "https://www.ftd.de/finanzen/konto-und-zinsen/kreditkarten/willkommensbonus-amex-gold-card/?p=73469",
+        "sourceNote": "Öffentliche 40.000-Punkte-Aktion 2025. Diese Referenz ist keine vollständige Allzeit-Historie."
+      },
+      "strength": "very_strong",
+      "strengthLabel": "Historisch sehr stark",
+      "rationale": "Das aktuell geprüfte Angebot liegt über der beobachteten 40.000-Punkte-Aktion aus 2025 und verlangt zugleich weniger Kartenumsatz für den Maximalbonus."
+    }
+  ]
+}
