@@ -35,10 +35,11 @@ assert(!ui.includes('button{background'),'theme pass must not recolor every butt
 
 // Mobile main-tab motion must stay purely visual and layout-safe.
 assert(tabbar.includes('@media (max-width:679px) and (prefers-reduced-motion:no-preference)'),'tab motion must respect reduced-motion preferences');
-for(const view of ['today','wallet','optimize','card']){
+for(const view of ['today','wallet','card']){
   assert(tabbar.includes(`[data-view="${view}"]`),`tab motion missing existing main view ${view}`);
   assert(tabbar.includes(`@keyframes v39-enter-${view}{from{opacity:.965}to{opacity:1}}`),`tab motion for ${view} must be opacity-only`);
 }
+assert(!tabbar.includes('v39-enter-optimize'),'Optimieren must stay free of the added tab fade to avoid visual jank during its own content update');
 assert(tabbar.includes('animation:v39-enter-today .15s cubic-bezier(.2,.8,.2,1)'),'tab motion must stay short and restrained');
 assert(!tabbar.includes('pointer-events'),'tab motion must never block or reroute input');
 
@@ -90,4 +91,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (fast intro; subtle mobile tab motion; stable paint; single home-layout owner; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (fast intro; subtle mobile tab motion excluding Optimieren; stable paint; single home-layout owner; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');
