@@ -9,6 +9,7 @@ const optimizer=fs.readFileSync('v24-optimizer-polish.js','utf8');
 const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 const visual=fs.readFileSync('v44-home-visual-trust.js','utf8');
 const tabbar=fs.readFileSync('v39-native-tabbar.css','utf8');
+const pullRefresh=fs.readFileSync('v48-pull-refresh.js','utf8');
 
 // Syntax gates for the modules that share the home lifecycle.
 new Function(ui);
@@ -16,11 +17,13 @@ new Function(ratgeber);
 new Function(pulse);
 new Function(homeUsp);
 new Function(visual);
+new Function(pullRefresh);
 
 assert(index.includes('v29-ui-consistency.js?v=2903'),'index must load the centralized home-layout pass');
 assert(index.includes('v24-ratgeber-entry.js?v=2411'),'Ratgeber entry must be cache-busted after lifecycle repair');
 assert(index.includes('v46-pulse-entry.js?v=4604'),'compact card-tools entry must remain explicitly cache-versioned');
 assert(index.includes('v34-home-usp.js?v=3417'),'home USP loader must be cache-busted for the header-safe personal action fix');
+assert(index.includes('v48-pull-refresh.js?v=4801'),'pull-to-refresh must be loaded as an isolated cache-versioned UX layer');
 assert(index.includes("const integratedRatgeberAssets=''"),'obsolete v38 Ratgeber integration must stay disabled');
 assert(/v24-card-check\.js\?v=\d+/.test(index),'card loader must remain explicitly cache-versioned');
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the Ratgeber provider');
@@ -44,6 +47,21 @@ for(const view of ['today','wallet','card']){
 assert(!tabbar.includes('v39-enter-optimize'),'Optimieren must stay free of the added tab fade to avoid visual jank during its own content update');
 assert(tabbar.includes('animation:v39-enter-today .15s cubic-bezier(.2,.8,.2,1)'),'tab motion must stay short and restrained');
 assert(!tabbar.includes('pointer-events'),'tab motion must never block or reroute input');
+
+// Pull-to-refresh must be a non-invasive mobile UX layer.
+assert(pullRefresh.includes('const THRESHOLD=72'),'refresh must require a deliberate downward pull');
+assert(pullRefresh.includes("return document.scrollingElement||document.documentElement"),'refresh must support normal browser scrolling as a fallback');
+assert(pullRefresh.includes("/auto|scroll/.test(style.overflowY)"),'refresh must also recognize an internal vertical scroll container');
+assert(pullRefresh.includes('Number(node.scrollTop||0)<=1'),'refresh may only arm at the top of the active scroller');
+assert(pullRefresh.includes("setTimeout(()=>window.location.reload(),80)"),'completed pull must use a normal page reload');
+assert(pullRefresh.includes("document.addEventListener('touchstart',onStart,{passive:true})"),'touch start listener must stay passive');
+assert(pullRefresh.includes("document.addEventListener('touchmove',onMove,{passive:true})"),'touch move listener must stay passive');
+assert(pullRefresh.includes("document.addEventListener('touchend',onEnd,{passive:true})"),'touch end listener must stay passive');
+assert(pullRefresh.includes('pointer-events:none'),'refresh indicator must never intercept taps');
+assert(pullRefresh.includes('prefers-reduced-motion:reduce'),'refresh indicator must respect reduced-motion preferences');
+for(const forbidden of ['preventDefault','stopPropagation','stopImmediatePropagation','localStorage.setItem','history.pushState','history.replaceState']){
+  assert(!pullRefresh.includes(forbidden),`pull-to-refresh must not interfere with app logic or navigation: ${forbidden}`);
+}
 
 // Guest USP must stay at the top of Start instead of following the card advisor lower down.
 assert(homeUsp.includes("const visual=q('#v44-home-visual-trust',app)"),'guest USP must recognize the visual home section as its primary anchor');
@@ -136,4 +154,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (personal next action; header-safe legacy collapse; known-user hierarchy; central lifecycle unchanged; fast intro; native MOMENT/PULSE links; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (personal next action; header-safe legacy collapse; pull-to-refresh isolated; known-user hierarchy; central lifecycle unchanged; native MOMENT/PULSE links; Safari return lifecycle)');
