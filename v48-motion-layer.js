@@ -36,8 +36,8 @@ function animateContent(){
   try{currentAnimation?.cancel();}catch{}
   try{
     currentAnimation=content.animate([
-      {opacity:.965,transform:'translate3d(0,2px,0)'},
-      {opacity:1,transform:'translate3d(0,0,0)'}
+      {opacity:.955},
+      {opacity:1}
     ],{
       duration:DURATION,
       easing:EASING,
