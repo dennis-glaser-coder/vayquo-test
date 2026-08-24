@@ -52,6 +52,15 @@ engine.addEventListener('load',()=>{
     abroad.addEventListener('error',()=>console.warn('VAYQUO Ausland-Kartenlogik konnte nicht geladen werden.'));
     abroad.addEventListener('load',()=>{
      let ctaStarted=false;
+     const loadMoment=()=>{
+      if(document.querySelector('script[data-vayquo-card-moment-v49]'))return;
+      const moment=document.createElement('script');
+      moment.src='v49-card-moment-entry.js?v=4901';
+      moment.dataset.vayquoCardMomentV49='1';
+      moment.async=false;
+      moment.addEventListener('error',()=>console.warn('VAYQUO MOMENT konnte nicht geladen werden.'));
+      document.head.appendChild(moment);
+     };
      const loadCta=()=>{
       if(ctaStarted)return;ctaStarted=true;
       const cta=document.createElement('script');
@@ -60,6 +69,7 @@ engine.addEventListener('load',()=>{
       cta.async=false;
       cta.addEventListener('error',()=>console.warn('VAYQUO Kartenanbieter-Weiterleitung konnte nicht geladen werden.'));
       document.head.appendChild(cta);
+      loadMoment();
      };
      const loadTierContext=()=>{
       const tier=document.createElement('script');
