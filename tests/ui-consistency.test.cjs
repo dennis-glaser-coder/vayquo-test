@@ -7,6 +7,7 @@ const ratgeber=fs.readFileSync('v24-ratgeber-entry.js','utf8');
 const pulse=fs.readFileSync('v46-pulse-entry.js','utf8');
 const optimizer=fs.readFileSync('v24-optimizer-polish.js','utf8');
 const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
+const tabbar=fs.readFileSync('v39-native-tabbar.css','utf8');
 
 // Syntax gates for the modules that share the home lifecycle.
 new Function(ui);
@@ -19,7 +20,7 @@ assert(index.includes('v24-ratgeber-entry.js?v=2411'),'Ratgeber entry must be ca
 assert(index.includes('v46-pulse-entry.js?v=4604'),'compact card-tools entry must remain explicitly cache-versioned');
 assert(index.includes('v34-home-usp.js?v=3414'),'home USP must be cache-busted after the guest anchor fix');
 assert(index.includes("const integratedRatgeberAssets=''"),'obsolete v38 Ratgeber integration must stay disabled');
-assert(/v24-card-check\.js\?v=\d+/.test(index),'card-check loader must remain explicitly cache-versioned');
+assert(/v24-card-check\.js\?v=\d+/.test(index),'card loader must remain explicitly cache-versioned');
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the Ratgeber provider');
 assert(index.indexOf('pulseAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the card-tools provider');
 assert(index.includes('vq-home-layout-ready'),'initial reveal must wait for the finalized home order');
@@ -31,6 +32,15 @@ assert(ui.includes('--vqp-accent:#171918!important'),'modern VAYQUO accent token
 assert(ui.includes('.v28ca-entry-btn,.v28ca-next,.v28ca-select'),'card-advisor primary actions must use the common dark CTA treatment');
 assert(ui.includes('.v24premium-primary'),'premium-system primary actions must inherit the same dark treatment');
 assert(!ui.includes('button{background'),'theme pass must not recolor every button or semantic state globally');
+
+// Mobile main-tab motion must stay purely visual and layout-safe.
+assert(tabbar.includes('@media (max-width:679px) and (prefers-reduced-motion:no-preference)'),'tab motion must respect reduced-motion preferences');
+for(const view of ['today','wallet','optimize','card']){
+  assert(tabbar.includes(`[data-view="${view}"]`),`tab motion missing existing main view ${view}`);
+  assert(tabbar.includes(`@keyframes v39-enter-${view}{from{opacity:.965}to{opacity:1}}`),`tab motion for ${view} must be opacity-only`);
+}
+assert(tabbar.includes('animation:v39-enter-today .15s cubic-bezier(.2,.8,.2,1)'),'tab motion must stay short and restrained');
+assert(!tabbar.includes('pointer-events'),'tab motion must never block or reroute input');
 
 // Guest USP must stay at the top of Start instead of following the card advisor lower down.
 assert(homeUsp.includes("const visual=q('#v44-home-visual-trust',app)"),'guest USP must recognize the visual home section as its primary anchor');
@@ -80,4 +90,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (fast intro; stable paint; single home-layout owner; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (fast intro; subtle mobile tab motion; stable paint; single home-layout owner; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');

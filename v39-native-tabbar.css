@@ -65,3 +65,25 @@
     bottom:calc(76px + env(safe-area-inset-bottom))!important;
   }
 }
+
+/* A tab change should feel softer, but must never move layout or intercept input.
+   Distinct animation names make CSS restart the same subtle fade for each main view. */
+@media (max-width:679px) and (prefers-reduced-motion:no-preference){
+  body:has(.bottom [data-view="today"]:is(.active,[aria-current="page"])) main{
+    animation:v39-enter-today .15s cubic-bezier(.2,.8,.2,1);
+  }
+  body:has(.bottom [data-view="wallet"]:is(.active,[aria-current="page"])) main{
+    animation:v39-enter-wallet .15s cubic-bezier(.2,.8,.2,1);
+  }
+  body:has(.bottom [data-view="optimize"]:is(.active,[aria-current="page"])) main{
+    animation:v39-enter-optimize .15s cubic-bezier(.2,.8,.2,1);
+  }
+  body:has(.bottom [data-view="card"]:is(.active,[aria-current="page"])) main{
+    animation:v39-enter-card .15s cubic-bezier(.2,.8,.2,1);
+  }
+
+  @keyframes v39-enter-today{from{opacity:.965}to{opacity:1}}
+  @keyframes v39-enter-wallet{from{opacity:.965}to{opacity:1}}
+  @keyframes v39-enter-optimize{from{opacity:.965}to{opacity:1}}
+  @keyframes v39-enter-card{from{opacity:.965}to{opacity:1}}
+}
