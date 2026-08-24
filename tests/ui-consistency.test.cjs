@@ -6,15 +6,18 @@ const ui=fs.readFileSync('v29-ui-consistency.js','utf8');
 const ratgeber=fs.readFileSync('v24-ratgeber-entry.js','utf8');
 const pulse=fs.readFileSync('v46-pulse-entry.js','utf8');
 const optimizer=fs.readFileSync('v24-optimizer-polish.js','utf8');
+const homeUsp=fs.readFileSync('v34-home-usp.js','utf8');
 
-// Syntax gates for the three modules that now share one home lifecycle.
+// Syntax gates for the modules that share the home lifecycle.
 new Function(ui);
 new Function(ratgeber);
 new Function(pulse);
+new Function(homeUsp);
 
 assert(index.includes('v29-ui-consistency.js?v=2903'),'index must load the centralized home-layout pass');
 assert(index.includes('v24-ratgeber-entry.js?v=2411'),'Ratgeber entry must be cache-busted after lifecycle repair');
 assert(index.includes('v46-pulse-entry.js?v=4604'),'compact card-tools entry must remain explicitly cache-versioned');
+assert(index.includes('v34-home-usp.js?v=3414'),'home USP must be cache-busted after the guest anchor fix');
 assert(index.includes("const integratedRatgeberAssets=''"),'obsolete v38 Ratgeber integration must stay disabled');
 assert(/v24-card-check\.js\?v=\d+/.test(index),'card-check loader must remain explicitly cache-versioned');
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the Ratgeber provider');
@@ -25,6 +28,14 @@ assert(ui.includes('--vqp-accent:#171918!important'),'modern VAYQUO accent token
 assert(ui.includes('.v28ca-entry-btn,.v28ca-next,.v28ca-select'),'card-advisor primary actions must use the common dark CTA treatment');
 assert(ui.includes('.v24premium-primary'),'premium-system primary actions must inherit the same dark treatment');
 assert(!ui.includes('button{background'),'theme pass must not recolor every button or semantic state globally');
+
+// Guest USP must stay at the top of Start instead of following the card advisor lower down.
+assert(homeUsp.includes("const visual=q('#v44-home-visual-trust',app)"),'guest USP must recognize the visual home section as its primary anchor');
+assert(homeUsp.includes('if(visual&&visible(visual))return visual'),'guest USP must anchor above the visible home section when it is ready');
+assert(homeUsp.indexOf("q('#v44-home-visual-trust',app)")<homeUsp.indexOf("q('#v28-card-advisor-entry',app)"),'visual home section must be preferred before the lower card-advisor fallback');
+assert(homeUsp.includes("anchor.insertAdjacentElement('beforebegin',line)"),'USP placement must remain a simple sibling insertion without replacing home content');
+assert(!homeUsp.includes('stopPropagation'),'USP placement must not interfere with existing clicks');
+assert(!homeUsp.includes('stopImmediatePropagation'),'USP placement must not block existing click handlers');
 
 // One owner controls home ordering. Providers create elements but must not reposition themselves.
 assert(ratgeber.includes("link.href='/ratgeber/'"),'Ratgeber must remain a native link');
@@ -66,4 +77,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (single home-layout owner; native MOMENT/PULSE links; lightweight visuals; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (single home-layout owner; guest USP top anchor; native MOMENT/PULSE links; lightweight visuals; Safari return lifecycle)');

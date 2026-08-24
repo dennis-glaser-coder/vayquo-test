@@ -61,6 +61,10 @@ function greetingRow(greeting){
 
 function findLoggedOutAnchor(){
   const app=q('#app');if(!app)return null;
+  // Guests have no "Hallo …" row. Anchor the USP to the first real home section,
+  // not to the card advisor that the central layout intentionally moves lower down.
+  const visual=q('#v44-home-visual-trust',app);
+  if(visual&&visible(visual))return visual;
   const cardCheck=q('#v28-card-advisor-entry',app);
   if(cardCheck&&visible(cardCheck))return cardCheck;
   return null;
