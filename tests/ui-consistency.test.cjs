@@ -14,7 +14,7 @@ new Function(pulse);
 
 assert(index.includes('v29-ui-consistency.js?v=2903'),'index must load the centralized home-layout pass');
 assert(index.includes('v24-ratgeber-entry.js?v=2411'),'Ratgeber entry must be cache-busted after lifecycle repair');
-assert(index.includes('v46-pulse-entry.js?v=4604'),'compact card-tools entry must be cache-busted explicitly');
+assert(index.includes('v46-pulse-entry.js?v=4604'),'compact card-tools entry must remain explicitly cache-versioned');
 assert(index.includes("const integratedRatgeberAssets=''"),'obsolete v38 Ratgeber integration must stay disabled');
 assert(/v24-card-check\.js\?v=\d+/.test(index),'card-check loader must remain explicitly cache-versioned');
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the Ratgeber provider');
@@ -36,6 +36,11 @@ assert(pulse.includes('href="/moment.html"'),'MOMENT must be a normal home link'
 assert(pulse.includes('href="/pulse.html"'),'PULSE must remain a normal home link');
 assert(pulse.includes('Ist das Angebot gerade wirklich gut?'),'MOMENT must lead with the user question rather than a sales CTA');
 assert(pulse.includes('Lohnt sich deine Karte noch?'),'PULSE must lead with the user question');
+assert(pulse.includes('v46-moment-visual'),'MOMENT must have its lightweight contextual visual');
+assert(pulse.includes('v46-pulse-visual'),'PULSE must have its lightweight monitoring visual');
+assert(pulse.includes('v46-mini-card'),'both visuals must use the shared generic card motif');
+assert(pulse.includes('aria-hidden="true"'),'decorative visuals must stay outside the accessibility meaning of the links');
+assert(!pulse.includes('<img'),'home card visuals must not depend on external raster image assets');
 assert(!pulse.includes('preventDefault'),'card tools must not intercept native links');
 assert(!pulse.includes('stopPropagation'),'card tools must not block click propagation');
 assert(!pulse.includes('stopImmediatePropagation'),'card tools must not block existing click behavior');
@@ -61,4 +66,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (single home-layout owner; native MOMENT/PULSE links; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (single home-layout owner; native MOMENT/PULSE links; lightweight visuals; Safari return lifecycle)');
