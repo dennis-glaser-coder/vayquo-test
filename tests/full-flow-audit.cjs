@@ -23,12 +23,9 @@ assert(core.includes("if(view==='card')renderCard()"),'core must render Vorteile
 assert(core.includes('function go(v,t=null)'),'core must support programmatic main navigation');
 assert(core.includes('function openModal(')&&core.includes('function closeModal()'),'core modal open/close contract must remain available');
 
-for(const needle of ['state.card','card===','card ===','card:']){
- let from=0,count=0;
- while((from=core.indexOf(needle,from))!==-1&&count<12){
-  console.log(`CORE_CARD_SNIPPET ${needle} #${count+1}:`,core.slice(Math.max(0,from-220),Math.min(core.length,from+420)).replace(/\s+/g,' '));
-  from+=needle.length;count++;
- }
+for(const needle of ['const KEY=','let KEY=','var KEY=','CARD_OPTIONS=[']){
+ const at=core.indexOf(needle);
+ if(at!==-1)console.log(`CORE_PULSE_CONTRACT ${needle}:`,core.slice(Math.max(0,at-180),Math.min(core.length,at+1800)).replace(/\s+/g,' '));
 }
 
 // The legacy compressed core has no browser-history contract of its own.
