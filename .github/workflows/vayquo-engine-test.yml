@@ -34,6 +34,8 @@ on:
       - 'v30-points-page-cleanup.js'
       - 'v31-card-advisor-unsure-ux.js'
       - 'config/vayquo-card-advisor.de.json'
+      - 'pulse.html'
+      - 'tests/pulse-card-state.test.cjs'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
       - 'tests/card-ecosystem-context.test.cjs'
@@ -89,6 +91,8 @@ on:
       - 'v30-points-page-cleanup.js'
       - 'v31-card-advisor-unsure-ux.js'
       - 'config/vayquo-card-advisor.de.json'
+      - 'pulse.html'
+      - 'tests/pulse-card-state.test.cjs'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
       - 'tests/card-ecosystem-context.test.cjs'
@@ -145,6 +149,8 @@ jobs:
         run: node tests/anonymous-analytics.test.cjs
       - name: Verify instant card catalog runtime
         run: node tests/card-catalog-runtime.test.cjs
+      - name: Verify PULSE owned-card bridge
+        run: node tests/pulse-card-state.test.cjs
       - name: Verify cross-surface content fact consistency
         run: node tests/content-fact-consistency.test.cjs
       - name: Verify existing card advisor decision matrix
