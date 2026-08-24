@@ -20,7 +20,7 @@ new Function(visual);
 assert(index.includes('v29-ui-consistency.js?v=2903'),'index must load the centralized home-layout pass');
 assert(index.includes('v24-ratgeber-entry.js?v=2411'),'Ratgeber entry must be cache-busted after lifecycle repair');
 assert(index.includes('v46-pulse-entry.js?v=4604'),'compact card-tools entry must remain explicitly cache-versioned');
-assert(index.includes('v34-home-usp.js?v=3415'),'home USP loader must be cache-busted for the clarified home hierarchy');
+assert(index.includes('v34-home-usp.js?v=3416'),'home USP loader must be cache-busted for the personalized next action');
 assert(index.includes("const integratedRatgeberAssets=''"),'obsolete v38 Ratgeber integration must stay disabled');
 assert(/v24-card-check\.js\?v=\d+/.test(index),'card loader must remain explicitly cache-versioned');
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the Ratgeber provider');
@@ -50,23 +50,44 @@ assert(homeUsp.includes("const visual=q('#v44-home-visual-trust',app)"),'guest U
 assert(homeUsp.includes('if(visual&&visible(visual))return visual'),'guest USP must anchor above the visible home section when it is ready');
 assert(homeUsp.indexOf("q('#v44-home-visual-trust',app)")<homeUsp.indexOf("q('#v28-card-advisor-entry',app)"),'visual home section must be preferred before the lower card-advisor fallback');
 assert(homeUsp.includes("anchor.insertAdjacentElement('beforebegin',line)"),'USP placement must remain a simple sibling insertion without replacing home content');
-assert(homeUsp.includes("v44-home-visual-trust.js?v=4410"),'home hierarchy asset must have an explicit fresh cache version');
+assert(homeUsp.includes("v44-home-visual-trust.js?v=4411"),'personalized home asset must have an explicit fresh cache version');
 assert(!homeUsp.includes('stopPropagation'),'USP placement must not interfere with existing clicks');
 assert(!homeUsp.includes('stopImmediatePropagation'),'USP placement must not block existing click handlers');
 
-// The visible upper home hierarchy must be instantly understandable without changing lifecycle ownership.
+// The visible upper home hierarchy must stay understandable while known users get one next-best action first.
 assert(visual.includes('Welche Karte passt wirklich zu dir?'),'large home hero must clearly own the credit-card decision');
-assert(visual.includes('PUNKTE, MEILEN & VORTEILE'),'secondary home area must clearly name the other core VAYQUO worlds');
 assert(visual.includes("makeCard(IMAGES.points,'Punkte & Meilen'"),'points and miles must be a visible first-class home area');
 assert(visual.includes("makeCard(IMAGES.travel,'Vorteile'"),'benefits must be a visible first-class home area');
 assert(visual.includes('.v44-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))'),'visible secondary choices must use two equal columns');
 assert(visual.includes('.v44-card[data-v44-kind="card"]{display:none!important}'),'duplicate credit-card choice must stay visually hidden while preserving lifecycle compatibility');
-assert(visual.includes('FÜR DICH JETZT'),'personalized next-best-action area must be introduced before the existing optimizer block');
-assert(visual.includes('Was lohnt sich bei deinem Setup?'),'personalized area must explain why the following optimizer block matters');
+assert(visual.includes('FÜR DICH JETZT'),'personalized next-best-action card must remain clearly labelled');
+assert(visual.includes("desired=action.hasSetup?[hero,card,head,grid]:[hero,head,grid,card]"),'known users must see the personal action before secondary areas while new users keep orientation first');
+assert(visual.includes('WEITERE MÖGLICHKEITEN'),'known-user secondary choices must be visually demoted after the personal action');
 assert(visual.includes("clickExistingView(['points','wallet'])"),'points area must keep the existing points navigation path');
 assert(visual.includes("clickExistingView(['benefits','card'])"),'benefits area must keep the existing benefits navigation path');
 
-// One owner controls home ordering. Providers create elements but must not reposition themselves.
+// Next-best-action logic may only read existing setup data and reuse existing actions.
+assert(visual.includes("CORE_STATE_KEY='vayquo-v1-state'"),'personal action must read the canonical local VAYQUO state');
+assert(visual.includes("BALANCE_META_KEY='vayquo:balanceMeta'"),'personal action must reuse the existing balance-known metadata');
+assert(visual.includes('function personalAction()'),'personal action must be derived locally from existing setup state');
+assert(visual.includes('Noch kein persönliches Setup'),'empty setup must produce an honest setup action');
+assert(visual.includes('Stand fehlt noch.'),'one missing balance must be surfaced explicitly');
+assert(visual.includes('Stände – dann ist dein Setup vollständig.'),'multiple missing balances must be surfaced without a fake percentage');
+assert(visual.includes('Deine Auswertung ist bereit.'),'complete multi-program setup must lead to the existing evaluation');
+assert(visual.includes("if(action.kind==='setup')return clickProgramsChange()"),'setup CTA must reuse the existing Programme Ändern control');
+assert(visual.includes("if(action.kind==='points')return clickExistingView(['points','wallet'])"),'zero-balance state must reuse the existing points view');
+assert(visual.includes('return clickExistingPersonal()'),'all evaluation states must reuse the existing Beste Nutzung flow');
+assert(visual.includes("text(el)==='Beste Nutzung finden'"),'personal proxy must target the existing optimizer CTA rather than recreate its logic');
+assert(visual.includes('v44-personal-proxy'),'old generic personal hero must be presentation-collapsed, not deleted');
+assert(visual.includes('setPersonalHeroCollapsed(true)'),'home view must collapse the old generic personal hero after the new action is ready');
+assert(visual.includes('setPersonalHeroCollapsed(false)'),'leaving Start must restore the original personal hero');
+assert(!visual.includes('localStorage.setItem'),'personalized home layer must never write user state');
+assert(!visual.includes('localStorage.removeItem'),'personalized home layer must never delete user state');
+assert(!visual.includes('MutationObserver'),'personalized visual layer must not introduce another global lifecycle observer');
+assert(!visual.includes('preventDefault'),'personalized visual layer must not intercept existing navigation events');
+assert(!visual.includes('stopImmediatePropagation'),'personalized visual layer must not block existing handlers');
+
+// One owner controls home ordering outside the isolated visual section. Providers create elements but must not reposition themselves.
 assert(ratgeber.includes("link.href='/ratgeber/'"),'Ratgeber must remain a native link');
 assert(ratgeber.includes('window.VAYQUO_RATGEBER_ENTRY={ensureHome:ensureStartRatgeber,ensureLegal:mountRatgeberLink}'),'Ratgeber must expose a passive provider API');
 assert(!ratgeber.includes('new MutationObserver(()=>setTimeout(()=>{mountRatgeberLink();mountStartRatgeber();}'),'Ratgeber must not globally fight for Start-page position');
@@ -97,7 +118,7 @@ assert(ui.includes("window.addEventListener('pageshow',schedule)"),'Safari page 
 assert(ui.includes("window.addEventListener('popstate',schedule)"),'browser Back must rerun the same central layout pass');
 assert(ui.includes("HOME_READY_CLASS='vq-home-layout-ready'"),'central owner must publish a final-layout readiness signal');
 
-assert(ui.includes("text(el)==='Beste Nutzung finden'"),'stable card placement must anchor to the visible optimizer CTA');
+assert(ui.includes("text(el)==='Beste Nutzung finden'"),'stable card placement must anchor to the existing optimizer CTA');
 assert(ui.includes("q('#v28-card-advisor-entry')"),'stable ordering must reuse the existing card-check entry instead of creating a duplicate');
 assert(ui.includes("optimizer.insertAdjacentElement('beforebegin',entry)"),'card check must be moved directly before the optimizer hero');
 assert(ui.includes("if(optimizer.previousElementSibling===entry)return"),'ordering guard must be idempotent and avoid render loops');
@@ -106,4 +127,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (clear home hierarchy; central lifecycle unchanged; fast intro; subtle mobile tab motion excluding Optimieren; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (personal next action; known-user hierarchy; central lifecycle unchanged; fast intro; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');
