@@ -48,7 +48,7 @@ assert(!page.includes("localStorage.removeItem(APP_STATE_KEY"),'MOMENT must neve
 assert(page.includes("WATCH_KEY='vayquo:moment:v1'"),'MOMENT comparison memory needs its own isolated key');
 assert(page.includes('Keine Push- oder E-Mail-Benachrichtigung'),'local comparison memory must not pretend to be a background notification');
 assert(page.includes('Zusätzliche Ausgaben nur für den Bonus wären kein sinnvoller Grund abzuschließen.'),'MOMENT must reject spend-for-bonus pressure');
-assert(!/allzeit|rekordhöhe|nie[^<]{0,30}größer/i.test(page),'visible MOMENT copy must not claim a complete all-time record');
+assert(!/allzeit[- ]?rekord|rekordhöhe|nie[^<]{0,30}größer|höchster[^<]{0,30}aller zeiten/i.test(page),'visible MOMENT copy must not claim a complete all-time record');
 
 assert(enhancer.includes("return 'amex_platinum'"));
 assert(enhancer.includes("return 'amex_gold'"));
