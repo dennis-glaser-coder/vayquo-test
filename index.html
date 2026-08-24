@@ -32,7 +32,7 @@
 <title>VAYQUO – Punkte, Meilen & Vorteile sinnvoll nutzen</title>
 <style>
 html,body{margin:0;min-height:100%;background:#151617;color:#f8f4ed;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
-.loading{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;box-sizing:border-box;background:radial-gradient(120% 90% at 50% 38%,#202421 0,#171918 48%,#121413 100%);opacity:1;transform:scale(1);transition:opacity .24s ease,transform .24s ease}
+.loading{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;box-sizing:border-box;background:radial-gradient(120% 90% at 50% 38%,#202421 0,#171918 48%,#121413 100%);opacity:1;transform:scale(1);transition:opacity .16s ease,transform .16s ease}
 .loading.leaving{opacity:0;transform:scale(.985)}
 .loading b{display:block;font-size:17px;font-weight:760;letter-spacing:.27em}
 .loading .claim{display:block;margin-top:20px;color:#f8f4ed;font-size:18px;line-height:1.38;font-weight:620;letter-spacing:-.02em}
@@ -110,10 +110,10 @@ html,body{margin:0;min-height:100%;background:#151617;color:#f8f4ed;font-family:
   let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+authGate+stablePaintGate+'</head>'):html+navFix+authGate+stablePaintGate;
   const injected=step2Assets+checkClarityAssets+flightSearchControlsAssets+edgeAuthAssets+flightLiveAssets+flightOptimizerAssets+flightSourcePointsAssets+flightFeasibilityAssets+releaseCleanupAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+onboardingAssets+startFilterAssets+heroPersonalAssets+homeUspAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+benefitOptimizerAssets+benefitRecoGuardAssets+cardCatalogRuntimeAssets+analyticsAssets+cardCheckAssets+cardDiagnosticsAssets+commercialPolicyAssets+v25CoreAssets+premiumAssets+offerContextAssets+dateShellAssets+socialAuthAssets+authAssets+authPolishAssets+cardResultOpenAssets+legalAssets+ratgeberEntryAssets+integratedRatgeberAssets+pulseAssets+navStabilityAssets+uiConsistencyAssets+pointsPageCleanupAssets+navigationStateAssets+cardFlowStabilityAssets+contextualSetupAssets+visualPolishAssets+nativeTabbarAssets+stableRevealAssets;
   patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',injected+'</body>'):patchedHtml+injected;
-  const remaining=Math.max(0,1450-(Date.now()-introStarted));
+  const remaining=Math.max(0,850-(Date.now()-introStarted));
   if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
   document.getElementById('loading')?.classList.add('leaving');
-  await new Promise(resolve=>setTimeout(resolve,240));
+  await new Promise(resolve=>setTimeout(resolve,160));
   document.open();document.write(patchedHtml);document.close();
  }catch(error){console.error(error);document.getElementById('loading').innerHTML='<div><b>VAYQUO</b><small>Die App konnte nicht geladen werden.<br>Bitte die Seite neu laden oder einen aktuellen Browser verwenden.</small></div>';}
 })();
