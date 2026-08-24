@@ -20,7 +20,7 @@ new Function(visual);
 assert(index.includes('v29-ui-consistency.js?v=2903'),'index must load the centralized home-layout pass');
 assert(index.includes('v24-ratgeber-entry.js?v=2411'),'Ratgeber entry must be cache-busted after lifecycle repair');
 assert(index.includes('v46-pulse-entry.js?v=4604'),'compact card-tools entry must remain explicitly cache-versioned');
-assert(index.includes('v34-home-usp.js?v=3416'),'home USP loader must be cache-busted for the personalized next action');
+assert(index.includes('v34-home-usp.js?v=3417'),'home USP loader must be cache-busted for the header-safe personal action fix');
 assert(index.includes("const integratedRatgeberAssets=''"),'obsolete v38 Ratgeber integration must stay disabled');
 assert(/v24-card-check\.js\?v=\d+/.test(index),'card loader must remain explicitly cache-versioned');
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the Ratgeber provider');
@@ -50,7 +50,7 @@ assert(homeUsp.includes("const visual=q('#v44-home-visual-trust',app)"),'guest U
 assert(homeUsp.includes('if(visual&&visible(visual))return visual'),'guest USP must anchor above the visible home section when it is ready');
 assert(homeUsp.indexOf("q('#v44-home-visual-trust',app)")<homeUsp.indexOf("q('#v28-card-advisor-entry',app)"),'visual home section must be preferred before the lower card-advisor fallback');
 assert(homeUsp.includes("anchor.insertAdjacentElement('beforebegin',line)"),'USP placement must remain a simple sibling insertion without replacing home content');
-assert(homeUsp.includes("v44-home-visual-trust.js?v=4411"),'personalized home asset must have an explicit fresh cache version');
+assert(homeUsp.includes("v44-home-visual-trust.js?v=4412"),'header-safe personalized home asset must have an explicit fresh cache version');
 assert(!homeUsp.includes('stopPropagation'),'USP placement must not interfere with existing clicks');
 assert(!homeUsp.includes('stopImmediatePropagation'),'USP placement must not block existing click handlers');
 
@@ -81,6 +81,15 @@ assert(visual.includes("text(el)==='Beste Nutzung finden'"),'personal proxy must
 assert(visual.includes('v44-personal-proxy'),'old generic personal hero must be presentation-collapsed, not deleted');
 assert(visual.includes('setPersonalHeroCollapsed(true)'),'home view must collapse the old generic personal hero after the new action is ready');
 assert(visual.includes('setPersonalHeroCollapsed(false)'),'leaving Start must restore the original personal hero');
+
+// The legacy personal-card collapse must never include greeting, USP or the V44 section itself.
+assert(visual.includes("text(el)==='Nicht einfach Punkte haben. Das Maximum daraus machen.'"),'legacy personal card must be anchored by its exact title');
+assert(visual.includes('node.contains(primary)&&node.contains(why)'),'collapse candidate must be the smallest shared ancestor of the legacy card controls');
+assert(visual.includes("/^Hallo\\b/i.test(text(el))"),'collapse guard must recognize the greeting');
+assert(visual.includes("node.querySelector('.v34usp-headerline')"),'collapse guard must protect the visible USP');
+assert(visual.includes('node.querySelector(`#${ROOT_ID}`)'),'collapse guard must protect the new home visual section');
+assert(visual.includes('if(containsGreeting||node.querySelector'), 'unsafe candidates must not be presentation-collapsed');
+
 assert(!visual.includes('localStorage.setItem'),'personalized home layer must never write user state');
 assert(!visual.includes('localStorage.removeItem'),'personalized home layer must never delete user state');
 assert(!visual.includes('MutationObserver'),'personalized visual layer must not introduce another global lifecycle observer');
@@ -127,4 +136,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (personal next action; known-user hierarchy; central lifecycle unchanged; fast intro; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (personal next action; header-safe legacy collapse; known-user hierarchy; central lifecycle unchanged; fast intro; native MOMENT/PULSE links; Safari return lifecycle)');
