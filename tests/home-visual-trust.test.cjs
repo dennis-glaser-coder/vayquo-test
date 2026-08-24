@@ -51,6 +51,16 @@ assert(moduleSource.includes('return clickExistingPersonal()'),'evaluation actio
 assert(moduleSource.includes('v44-personal-proxy'),'old generic personal hero must stay in DOM as a reversible presentation proxy');
 assert(moduleSource.includes('setPersonalHeroCollapsed(true)'),'home must collapse the old generic personal hero once the personalized card is present');
 assert(moduleSource.includes('setPersonalHeroCollapsed(false)'),'leaving home must restore the original personal hero');
+
+// Collapse targeting must never swallow the greeting/USP/header container.
+assert(moduleSource.includes("text(el)==='Nicht einfach Punkte haben. Das Maximum daraus machen.'"),'legacy hero lookup must anchor on its exact title');
+assert(moduleSource.includes('node.contains(primary)&&node.contains(why)'),'legacy hero lookup must choose the smallest ancestor containing its own controls');
+assert(moduleSource.includes("/^Hallo\\b/i.test(text(el))"),'collapse guard must detect a greeting inside an over-broad candidate');
+assert(moduleSource.includes("node.querySelector('.v34usp-headerline')"),'collapse guard must protect the homepage USP');
+assert(moduleSource.includes('node.querySelector(`#${ROOT_ID}`)'),'collapse guard must never hide the new visual home area');
+assert(moduleSource.includes('if(containsGreeting||node.querySelector'), 'unsafe broad candidates must fail closed instead of being hidden');
+assert(moduleSource.includes("!el.closest(`#${ROOT_ID}`)&&text(el)==='Beste Nutzung finden'"),'existing evaluation CTA lookup must stay outside the new personal card');
+
 assert(!moduleSource.includes('localStorage.setItem'),'visual personalization must never write user state');
 assert(!moduleSource.includes('localStorage.removeItem'),'visual personalization must never delete user state');
 assert(!moduleSource.includes('preventDefault'),'visual personalization must not intercept native navigation events');
@@ -60,4 +70,4 @@ assert(!/american\s*express/i.test(moduleSource),'visual image layer must not de
 for(const dangerous of ['.v28ca-next','renderResult','VAYQUO_AUTH','decisionGate','commissionScore'])assert(!moduleSource.includes(dangerous),`isolated homepage module must not touch core flow internals: ${dangerous}`);
 assert(moduleSource.includes("img.addEventListener('error'"),'image failures must fail softly without blocking the module');
 assert(!moduleSource.includes('await safeImage'),'images must never gate homepage mounting');
-console.log('VAYQUO home visual gates: OK (personal next action; read-only setup state; reversible old hero; existing product flows preserved)');
+console.log('VAYQUO home visual gates: OK (personal next action; header-safe legacy collapse; read-only setup state; existing product flows preserved)');
