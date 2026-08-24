@@ -113,6 +113,19 @@ function loadVisualTrust(){
   document.head.appendChild(script);
 }
 
+function loadHeaderActions(){
+  const existing=document.querySelector('script[data-vayquo-header-actions-v48]');
+  const wanted='v48-header-actions.js?v=4801';
+  if(existing&&String(existing.getAttribute('src')||'').includes('v=4801'))return;
+  existing?.remove();
+  const script=document.createElement('script');
+  script.src=wanted;
+  script.async=false;
+  script.dataset.vayquoHeaderActionsV48='1';
+  script.addEventListener('error',()=>console.warn('VAYQUO Header-Aktionen konnten nicht geladen werden.'),{once:true});
+  document.head.appendChild(script);
+}
+
 let scheduled=false;
 function schedule(){
   if(scheduled)return;scheduled=true;
@@ -121,6 +134,7 @@ function schedule(){
 
 armCardEntryPaintGate();
 loadVisualTrust();
+loadHeaderActions();
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
 document.addEventListener('click',()=>setTimeout(schedule,0));
 document.addEventListener('change',()=>setTimeout(schedule,0));
