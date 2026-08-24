@@ -23,6 +23,9 @@ assert(/v24-card-check\.js\?v=\d+/.test(index),'card-check loader must remain ex
 assert(index.indexOf('ratgeberEntryAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the Ratgeber provider');
 assert(index.indexOf('pulseAssets')<index.lastIndexOf('uiConsistencyAssets'),'central UI pass must run after the card-tools provider');
 assert(index.includes('vq-home-layout-ready'),'initial reveal must wait for the finalized home order');
+assert(index.includes('Math.max(0,850-(Date.now()-introStarted))'),'fast intro must remove the old artificial 1.45s minimum wait');
+assert(index.includes('setTimeout(resolve,160)'),'intro fade must stay short while still allowing a clean transition');
+assert(index.includes('setTimeout(reveal,1800)'),'stable paint fallback must remain unchanged while intro timing is optimized');
 
 assert(ui.includes('--vqp-accent:#171918!important'),'modern VAYQUO accent token must use anthracite instead of green');
 assert(ui.includes('.v28ca-entry-btn,.v28ca-next,.v28ca-select'),'card-advisor primary actions must use the common dark CTA treatment');
@@ -77,4 +80,4 @@ assert(optimizer.includes("q('[data-v24os-offer]',screen)"),'the main offer inte
 assert(ui.includes('.v24os-landing .v24os-offer-late{display:none!important}'),'duplicate offer card must be hidden on the optimizer landing only');
 assert(ui.includes("duplicate.setAttribute('aria-hidden','true')"),'hidden duplicate must also be removed from accessibility flow');
 
-console.log('VAYQUO UI consistency gates: OK (single home-layout owner; guest USP top anchor; native MOMENT/PULSE links; lightweight visuals; Safari return lifecycle)');
+console.log('VAYQUO UI consistency gates: OK (fast intro; stable paint; single home-layout owner; guest USP top anchor; native MOMENT/PULSE links; Safari return lifecycle)');
