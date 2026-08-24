@@ -100,8 +100,8 @@ function apply(){
 
 function loadVisualTrust(){
   const existing=document.querySelector('script[data-vayquo-home-visual-trust-v44]');
-  const wanted='v44-home-visual-trust.js?v=4409';
-  if(existing&&String(existing.getAttribute('src')||'').includes('v=4409'))return;
+  const wanted='v44-home-visual-trust.js?v=4410';
+  if(existing&&String(existing.getAttribute('src')||'').includes('v=4410'))return;
   existing?.remove();
   const oldRoot=q('#v44-home-visual-trust');
   oldRoot?.remove();
