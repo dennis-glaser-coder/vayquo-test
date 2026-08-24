@@ -73,6 +73,14 @@ footer a{color:var(--ink);font-weight:700}
 .hub-cta p{max-width:610px;color:#c7ccc8}
 .hub-cta .button{background:#f8f4ed;color:#181a19}
 
+/* Calculator pages contain a small amount of page-local legacy styling.
+   These high-specificity overrides keep their logic untouched while matching the current VAYQUO visual system. */
+.calc{border-color:var(--line)!important;background:var(--surface)!important;box-shadow:0 10px 30px rgba(18,31,28,.045)!important}
+.field input:focus{border-color:var(--line-strong)!important;box-shadow:0 0 0 4px rgba(23,25,24,.055)!important}
+.primary,.next-step .button{background:var(--ink)!important;color:#fff!important}
+.result{background:var(--ink)!important}
+.tool-links a{color:var(--ink)!important}
+
 @media(max-width:640px){
   main{padding-top:36px}
   .grid{grid-template-columns:1fr}
