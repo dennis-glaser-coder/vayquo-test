@@ -36,6 +36,11 @@ on:
       - 'config/vayquo-card-advisor.de.json'
       - 'pulse.html'
       - 'tests/pulse-card-state.test.cjs'
+      - 'moment.html'
+      - 'v49-card-moment-entry.js'
+      - 'config/vayquo-card-moment.de.json'
+      - 'tests/card-moment.test.cjs'
+      - 'sitemap.xml'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
       - 'tests/card-ecosystem-context.test.cjs'
@@ -93,6 +98,11 @@ on:
       - 'config/vayquo-card-advisor.de.json'
       - 'pulse.html'
       - 'tests/pulse-card-state.test.cjs'
+      - 'moment.html'
+      - 'v49-card-moment-entry.js'
+      - 'config/vayquo-card-moment.de.json'
+      - 'tests/card-moment.test.cjs'
+      - 'sitemap.xml'
       - 'tests/card-advisor.test.cjs'
       - 'tests/card-advisor-v29.test.cjs'
       - 'tests/card-ecosystem-context.test.cjs'
@@ -151,6 +161,8 @@ jobs:
         run: node tests/card-catalog-runtime.test.cjs
       - name: Verify PULSE owned-card bridge
         run: node tests/pulse-card-state.test.cjs
+      - name: Verify MOMENT offer timing and safe card integration
+        run: node --check v49-card-moment-entry.js && node tests/card-moment.test.cjs
       - name: Verify cross-surface content fact consistency
         run: node tests/content-fact-consistency.test.cjs
       - name: Verify existing card advisor decision matrix
