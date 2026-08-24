@@ -104,7 +104,7 @@ function personalAction(){
   hasSetup:true,kind:'evaluation',meta,
   title:'Deine Auswertung ist bereit.',
   body:'VAYQUO führt deine hinterlegten Punkte, Meilen und Vorteile zusammen und zeigt dir die sinnvollsten nächsten Möglichkeiten.',
-  cta:'Beste Nutzung finden'
+  cta:'Auswertung öffnen'
  };
 }
 
@@ -180,16 +180,14 @@ function setHomeEntryCollapsed(active){
 
 function findPersonalHero(){
  const app=q('#app');if(!app)return null;
- const primary=qa('button,a,[role="button"]',app).find(el=>text(el)==='Beste Nutzung finden');
+ const primary=qa('button,a,[role="button"]',app).find(el=>!el.closest(`#${ROOT_ID}`)&&text(el)==='Beste Nutzung finden');
  if(!primary)return null;
  let node=primary.parentElement;
- let fallback=primary.parentElement;
  for(let i=0;i<8&&node&&node!==app;i++,node=node.parentElement){
   const own=text(node);
-  if(/Beste Nutzung finden/.test(own)&&/Maximum daraus machen/i.test(own))fallback=node;
   if(/Beste Nutzung finden/.test(own)&&/Warum\?/.test(own)&&/Maximum daraus machen/i.test(own))return node;
  }
- return fallback&&fallback!==app?fallback:null;
+ return null;
 }
 function setPersonalHeroCollapsed(active){
  const hero=findPersonalHero();
