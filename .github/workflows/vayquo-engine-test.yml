@@ -5,9 +5,19 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'kunde.html'
       - 'partner.html'
+      - 'partner-portal.html'
+      - 'rechtliches.html'
+      - 'bad/index.html'
       - 'assets/vayquo-machine.js'
       - 'assets/vayquo-machine.css'
+      - 'assets/vayquo-smart-result.js'
+      - 'assets/vayquo-smart-result.css'
+      - 'assets/vayquo-customer.js'
+      - 'assets/vayquo-customer.css'
+      - 'assets/vayquo-portal.js'
+      - 'assets/vayquo-portal.css'
       - 'assets/vayquo-marketplace-bridge.js'
       - 'assets/vayquo-partner.js'
       - 'assets/vayquo-partner.css'
@@ -19,9 +29,19 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'kunde.html'
       - 'partner.html'
+      - 'partner-portal.html'
+      - 'rechtliches.html'
+      - 'bad/index.html'
       - 'assets/vayquo-machine.js'
       - 'assets/vayquo-machine.css'
+      - 'assets/vayquo-smart-result.js'
+      - 'assets/vayquo-smart-result.css'
+      - 'assets/vayquo-customer.js'
+      - 'assets/vayquo-customer.css'
+      - 'assets/vayquo-portal.js'
+      - 'assets/vayquo-portal.css'
       - 'assets/vayquo-marketplace-bridge.js'
       - 'assets/vayquo-partner.js'
       - 'assets/vayquo-partner.css'
@@ -40,6 +60,6 @@ jobs:
         with:
           node-version: '22'
       - name: Check product JavaScript syntax
-        run: node --check assets/vayquo-machine.js && node --check assets/vayquo-marketplace-bridge.js && node --check assets/vayquo-partner.js && node --check v36-anonymous-analytics.js
-      - name: Verify marketplace and revenue contract
+        run: node --check assets/vayquo-machine.js && node --check assets/vayquo-smart-result.js && node --check assets/vayquo-customer.js && node --check assets/vayquo-portal.js && node --check assets/vayquo-marketplace-bridge.js && node --check assets/vayquo-partner.js && node --check v36-anonymous-analytics.js
+      - name: Verify instant-check and structured-comparison contract
         run: node tests/setup-contract.test.cjs
