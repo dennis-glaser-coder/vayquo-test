@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4f5f7">
-<meta name="description" content="Einmal Projekt angeben, Angebotsvorschau sehen und bis zu 3 passende Fachangebote anfordern – kostenlos, unverbindlich und ohne Telefonlawine.">
+<meta name="description" content="Projekt einmal beschreiben, erste Einordnung sehen und passende Anbieter anonymisiert reagieren lassen. Kontaktdaten werden erst nach deiner eigenen Freigabe sichtbar.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="https://vayquo.de/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="VAYQUO"><meta property="og:locale" content="de_DE"><meta property="og:url" content="https://vayquo.de/">
-<meta property="og:title" content="VAYQUO – Einmal anfragen. Passende Angebote bekommen."><meta property="og:description" content="Du beschreibst dein Projekt einmal. VAYQUO bringt deine Anfrage zu bis zu 3 passenden Fachbetrieben.">
-<title>VAYQUO – Einmal anfragen. Passende Angebote bekommen.</title>
+<meta property="og:title" content="VAYQUO – Einmal anfragen. Selbst entscheiden."><meta property="og:description" content="Dein Projekt wird anonymisiert gematcht. Deine Kontaktdaten bekommt nur ein Betrieb, den du selbst freigibst.">
+<title>VAYQUO – Einmal anfragen. Selbst entscheiden.</title>
 <link rel="stylesheet" href="assets/vayquo-machine.css?v=924">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"VAYQUO","url":"https://vayquo.de/","description":"VAYQUO strukturiert Projektanfragen und vermittelt sie mit Einwilligung an bis zu drei passende Fachbetriebe."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"VAYQUO","url":"https://vayquo.de/","description":"VAYQUO strukturiert Projektanfragen, zeigt sie passenden Fachbetrieben zunächst anonymisiert und gibt Kontaktdaten erst nach aktiver Auswahl durch den Nutzer frei."}</script>
 </head>
 <body>
 <main class="vq-app" id="top">
@@ -22,14 +22,14 @@
 
   <section class="vq-start" id="vqStart">
     <div class="vq-start-copy">
-      <span class="vq-eyebrow">1 ANFRAGE · BIS ZU 3 PASSENDE ANGEBOTE</span>
-      <h1>Einmal anfragen.<br>Passende Angebote bekommen.<br>Fertig.</h1>
-      <p>Du beschreibst dein Projekt einmal. VAYQUO bringt deine Anfrage zu bis zu 3 passenden Fachbetrieben.</p>
+      <span class="vq-eyebrow">PREISRAHMEN ZUERST · KONTAKT NUR MIT DEINER FREIGABE</span>
+      <h1>Einmal anfragen.<br>Passende Anbieter sehen.<br>Selbst entscheiden.</h1>
+      <p>Dein Projekt wird passenden Fachbetrieben zunächst anonymisiert gezeigt. Deine Kontaktdaten bekommt nur ein Betrieb, den du später selbst freigibst.</p>
       <div class="vq-trustbar" aria-label="Vorteile">
         <span><b>✓</b>Kostenlos</span>
         <span><b>✓</b>Unverbindlich</span>
-        <span><b>✓</b>Max. 3 Anbieter</span>
-        <span><b>✓</b>Keine Telefonlawine</span>
+        <span><b>✓</b>Kontakt bleibt gesperrt</span>
+        <span><b>✓</b>Max. 3 Freigaben</span>
       </div>
     </div>
 
@@ -49,7 +49,7 @@
     </div>
 
     <div class="vq-start-foot">
-      <span>Kontaktdaten fragen wir erst, nachdem du deine Angebotsvorschau gesehen hast.</span>
+      <span>Kontaktdaten sehen Fachbetriebe erst, wenn du einen Betrieb selbst freigibst.</span>
       <a href="photovoltaik/">Photovoltaik</a><a href="partner.html">Für Anbieter</a><a href="rechtliches.html">Datenschutz</a>
     </div>
   </section>
@@ -78,7 +78,7 @@
         <p>Die PLZ reicht. Kontaktdaten brauchen wir an dieser Stelle noch nicht.</p>
         <form id="vqPostcodeForm" novalidate>
           <label class="vq-big-field"><span>Postleitzahl</span><input id="vqPostcode" name="postcode" autocomplete="postal-code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" placeholder="z. B. 33100" required></label>
-          <button class="vq-submit" type="submit">Angebotsvorschau ansehen <b>→</b></button>
+          <button class="vq-submit" type="submit">Einordnung ansehen <b>→</b></button>
           <p class="vq-form-status" id="vqPostcodeStatus" aria-live="polite"></p>
         </form>
         <div class="vq-mini-trust"><span>Keine Registrierung</span><span>Noch keine Kontaktdaten</span></div>
@@ -87,56 +87,56 @@
 
     <div class="vq-result-screen" id="vqResultScreen" hidden>
       <div class="vq-result-wrap">
-        <span class="vq-step-label">DEINE ANGEBOTSVORSCHAU</span>
+        <span class="vq-step-label">DEINE ERSTE EINORDNUNG</span>
         <h2 id="vqResultTitle">Deine erste Einschätzung ist bereit.</h2>
-        <p class="vq-result-lead" id="vqResultLead">VAYQUO hat dein Vorhaben strukturiert. Auf dieser Basis können passende Fachbetriebe konkrete Preise und Leistungen kalkulieren.</p>
+        <p class="vq-result-lead" id="vqResultLead">VAYQUO hat dein Vorhaben strukturiert.</p>
         <div class="vq-profile-card" id="vqProfileSummary"></div>
 
         <div class="vq-offer-preview" aria-label="Deine erste Einordnung">
           <span class="vq-offer-label" id="vqOfferLabel">DAS BEKOMMST DU</span>
           <div class="vq-offer-grid">
-            <div><b id="vqEstimatePrice">Bis zu 3</b><span id="vqEstimatePriceLabel">passende Fachangebote</span></div>
-            <div><b id="vqEstimateSecond">Vergleichbar</b><span id="vqEstimateSecondLabel">Leistungen &amp; Konditionen</span></div>
+            <div><b id="vqEstimatePrice">Bis zu 3</b><span id="vqEstimatePriceLabel">Anbieter-Rückmeldungen</span></div>
+            <div><b id="vqEstimateSecond">Du entscheidest</b><span id="vqEstimateSecondLabel">wer deinen Kontakt bekommt</span></div>
             <div><b id="vqEstimateThird">0 €</b><span id="vqEstimateThirdLabel">kostenlos &amp; unverbindlich</span></div>
           </div>
-          <p id="vqEstimateNote"><strong>Noch kein verbindlicher Preis:</strong> Erst der jeweilige Fachbetrieb kann dein Projekt nach Prüfung verbindlich kalkulieren.</p>
+          <p id="vqEstimateNote"><strong>Deine Kontaktdaten bleiben zunächst gesperrt:</strong> Fachbetriebe sehen dein Projekt anonymisiert. Erst du gibst einen Betrieb später aktiv frei.</p>
         </div>
 
-        <button class="vq-result-cta" id="vqCheckProviders" type="button">Bis zu 3 Angebote anfordern <b>→</b></button>
-        <div class="vq-trust-row vq-result-trust"><span>Kostenlos</span><span>Unverbindlich</span><span>Keine Verpflichtung</span></div>
+        <button class="vq-result-cta" id="vqCheckProviders" type="button">Anbieter-Rückmeldungen anfordern <b>→</b></button>
+        <div class="vq-trust-row vq-result-trust"><span>Kostenlos</span><span>Unverbindlich</span><span>Kontakt bleibt gesperrt</span></div>
       </div>
     </div>
 
     <div class="vq-contact-screen" id="vqContactScreen" hidden>
       <div class="vq-contact-wrap">
         <span class="vq-step-label">LETZTER SCHRITT</span>
-        <h2>Wohin dürfen die Angebote?</h2>
-        <p>Jetzt brauchen wir deine Kontaktdaten, damit passende Fachbetriebe dein Projekt prüfen und dich erreichen können. Dein Vorname bleibt optional.</p>
+        <h2>Dein privates Projekt sichern.</h2>
+        <p>Für dein privates Projekt brauchen wir E-Mail und Telefon. Fachbetriebe sehen diese Daten noch nicht. Erst du gibst später einen Betrieb aktiv frei. Dein Vorname bleibt optional.</p>
         <form id="vqContactForm" novalidate>
           <label><span>E-Mail</span><input id="vqEmail" name="email" type="email" autocomplete="email" maxlength="200" placeholder="deine@email.de" required></label>
           <label><span>Vorname <em>optional</em></span><input id="vqFirstName" name="first_name" autocomplete="given-name" maxlength="80" placeholder="Wie dürfen wir dich ansprechen?"></label>
-          <label class="vq-phone-field"><span>Telefon</span><input id="vqPhone" name="phone" type="tel" autocomplete="tel" maxlength="60" placeholder="Für Rückfragen und Angebote" required></label>
+          <label class="vq-phone-field"><span>Telefon</span><input id="vqPhone" name="phone" type="tel" autocomplete="tel" maxlength="60" placeholder="Für spätere, von dir freigegebene Kontakte" required></label>
           <input class="vq-hp" id="vqWebsiteConfirm" name="website_confirm" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <label class="vq-consent"><input id="vqConsent" type="checkbox" required><span>Ich möchte passende Angebote erhalten und stimme zu, dass VAYQUO meine Projekt- und Kontaktdaten zur Angebotserstellung an bis zu 3 passende Fachbetriebe übermitteln darf. Details im <a href="rechtliches.html" target="_blank" rel="noopener">Datenschutz</a>.</span></label>
-          <button class="vq-submit" id="vqSubmit" type="submit">Angebote anfordern <b>→</b></button>
+          <label class="vq-consent"><input id="vqConsent" type="checkbox" required><span>Ich möchte passende Anbieter-Rückmeldungen erhalten. VAYQUO darf meine Projektdaten zunächst anonymisiert passenden Fachbetrieben zeigen. Meine Kontaktdaten werden erst an von mir später aktiv freigegebene Fachbetriebe (max. 3) übermittelt. Details im <a href="rechtliches.html" target="_blank" rel="noopener">Datenschutz</a>.</span></label>
+          <button class="vq-submit" id="vqSubmit" type="submit">Projektanfrage starten <b>→</b></button>
           <p class="vq-form-status" id="vqFormStatus" aria-live="polite"></p>
         </form>
-        <div class="vq-trust-row"><span>Kostenlos</span><span>Unverbindlich</span><span>Max. 3 Anbieter</span></div>
+        <div class="vq-trust-row"><span>Kostenlos</span><span>Kontaktdaten gesperrt</span><span>Du entscheidest</span></div>
       </div>
     </div>
 
     <div class="vq-success-screen" id="vqSuccess" hidden>
       <div class="vq-success-card">
         <span class="vq-success-mark">✓</span>
-        <span class="vq-step-label">ANFRAGE ERHALTEN</span>
+        <span class="vq-step-label">PROJEKT GESTARTET</span>
         <h2>Dein Projekt ist bei VAYQUO.</h2>
-        <p>Wir prüfen jetzt die Angaben und passende Optionen. Du musst nichts weiter tun.</p>
+        <p>Passende Fachbetriebe können jetzt anonymisiert reagieren. Speichere deinen privaten Projektlink: Dort siehst du Rückmeldungen und entscheidest selbst über jede Kontaktfreigabe.</p>
         <button id="vqNewProject" type="button">Neues Projekt starten</button>
       </div>
     </div>
   </section>
 </main>
-<script src="assets/vayquo-machine.js?v=928"></script>
+<script src="assets/vayquo-machine.js?v=929"></script>
 <script src="v36-anonymous-analytics.js?v=921"></script>
 </body>
 </html>
