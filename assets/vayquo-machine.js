@@ -64,5 +64,7 @@ $$('[data-project]').forEach(btn=>btn.addEventListener('click',()=>{state.projec
 $('#vqPostcodeForm').addEventListener('submit',submitPostcode);
 $('#vqCheckProviders').addEventListener('click',()=>{emit('revenue_primary_click');showContact()});
 $('#vqClose').addEventListener('click',closeWizard);$('#vqBack').addEventListener('click',back);$('#vqContactForm').addEventListener('submit',submitRequest);$('#vqNewProject').addEventListener('click',closeWizard);
-if(!location.hash){try{history.scrollRestoration='manual'}catch{}requestAnimationFrame(()=>window.scrollTo(0,0))}
+const initialProject=(()=>{try{return new URLSearchParams(location.search).get('project')}catch{return null}})();
+if(initialProject&&PROJECTS[initialProject]){requestAnimationFrame(()=>{state.project=initialProject;emit('revenue_intent');openProject(initialProject)})}
+else if(!location.hash){try{history.scrollRestoration='manual'}catch{}requestAnimationFrame(()=>window.scrollTo(0,0))}
 })();
