@@ -5,18 +5,28 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'partner.html'
       - 'assets/vayquo-machine.js'
       - 'assets/vayquo-machine.css'
+      - 'assets/vayquo-marketplace-bridge.js'
+      - 'assets/vayquo-partner.js'
+      - 'assets/vayquo-partner.css'
       - 'v36-anonymous-analytics.js'
+      - 'config/vayquo-revenue-priority-2026-09.json'
       - 'tests/setup-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   pull_request:
     branches: [main]
     paths:
       - 'index.html'
+      - 'partner.html'
       - 'assets/vayquo-machine.js'
       - 'assets/vayquo-machine.css'
+      - 'assets/vayquo-marketplace-bridge.js'
+      - 'assets/vayquo-partner.js'
+      - 'assets/vayquo-partner.css'
       - 'v36-anonymous-analytics.js'
+      - 'config/vayquo-revenue-priority-2026-09.json'
       - 'tests/setup-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   workflow_dispatch:
@@ -30,6 +40,6 @@ jobs:
         with:
           node-version: '22'
       - name: Check product JavaScript syntax
-        run: node --check assets/vayquo-machine.js && node --check v36-anonymous-analytics.js
-      - name: Verify setup product contract
+        run: node --check assets/vayquo-machine.js && node --check assets/vayquo-marketplace-bridge.js && node --check assets/vayquo-partner.js && node --check v36-anonymous-analytics.js
+      - name: Verify marketplace and revenue contract
         run: node tests/setup-contract.test.cjs
