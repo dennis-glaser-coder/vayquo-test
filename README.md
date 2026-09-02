@@ -1,24 +1,28 @@
 # VAYQUO
 
-VAYQUO hilft dabei, Kreditkarten, Punkte, Meilen und Vorteile sinnvoll zu vergleichen und bessere Entscheidungen zu treffen.
+**Dein Budget. Das beste Setup.**
+
+VAYQUO ist ein browserbasierter Setup- und Budget-Optimierer. Nutzer wählen aus, was sie aufbauen möchten, geben Budget, Ziele, vorhandene Ausstattung und Rahmenbedingungen an und erhalten daraus einen priorisierten Einkaufsplan.
 
 **Live:** https://vayquo.de/
 
-**Kostenloser Kreditkarten Kosten-Nutzen-Rechner:** https://vayquo.de/ratgeber/kreditkarten-kosten-nutzen-rechner.html
+## Aktueller MVP
 
-**Kostenloser Punkte- & Meilenwert-Rechner:** https://vayquo.de/ratgeber/punkte-meilen-rechner.html
+- Werkstatt / DIY
+- Home Gym
+- Schrauber-Garage
+- Erste Wohnung (Beta)
+- Budgetoptimierung mit drei Qualitätsstufen
+- vorhandene Ausstattung berücksichtigen
+- kontextabhängige Empfehlungen, z. B. Akkusystem oder Platz
+- priorisierte Kaufreihenfolge
+- Budget, geplante Ausgaben und Reserve
+- teilbare Setup-Links
 
-**Ratgeber:** https://vayquo.de/ratgeber/
+## Monetarisierung
 
-**Häufige Fragen zu Punkten & Meilen:** https://vayquo.de/ratgeber/haeufige-fragen-punkte-meilen.html
+Der aktuelle MVP nutzt noch keine Affiliate-Tags. Produktbuttons führen derzeit auf neutrale Produktsuchen. Geplant ist eine transparente Anbindung geeigneter Partnerprogramme und Händlerfeeds, sodass VAYQUO später Preise und passende Bezugsquellen vergleichen kann.
 
-Themen im VAYQUO Ratgeber:
-- Kreditkarten Kosten-Nutzen und persönlicher Jahreswert
-- Membership Rewards Wert und Einlösung
-- PAYBACK Punkte und Miles & More
-- Meilenwert und Meilenverfall
-- Punkte oder Geld zahlen
-- Kreditkarten sinnvoll vergleichen
-- Häufige Fragen zu Punkten, Meilen und Transfers
+## Positionierung
 
-VAYQUO: https://vayquo.de/
+VAYQUO soll nicht einfach einzelne Produkte empfehlen. Der Kern ist die Optimierung eines kompletten Vorhabens: Was wird wirklich benötigt, was ist bereits vorhanden, was ist kompatibel und welcher nächste Kauf bringt innerhalb des Budgets den größten Nutzen?
