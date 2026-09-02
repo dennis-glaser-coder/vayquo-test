@@ -14,7 +14,8 @@ function setStatus(text,ok=false){status.textContent=text;status.className='vp-s
 async function loadPortal(){
  const {data:{session}}=await client.auth.getSession();
  if(!session){login.classList.remove('vp-hidden');dash.classList.add('vp-hidden');return}
- const {data:partner,error:pErr}=await client.from('vayquo_partners').select('company_name,email,categories,postcode_prefixes,price_per_lead_cents,status').maybeSingle();
+ const {data:profiles,error:pErr}=await client.rpc('vayquo_my_partner_profile');
+ const partner=Array.isArray(profiles)?profiles[0]:profiles;
  if(pErr||!partner){login.classList.add('vp-hidden');dash.classList.remove('vp-hidden');$('#vpCompany').textContent='Zugang noch nicht freigeschaltet';$('#vpCompanyText').textContent='Dieses bestätigte Konto ist noch keinem aktiven VAYQUO-Partner zugeordnet.';$('#vpPartnerMeta').innerHTML='<span class="vp-chip">Noch keine Lead-Freigabe</span>';$('#vpLeads').innerHTML='<div class="vp-empty">Bitte nutze dieselbe E-Mail-Adresse wie bei deiner freigeschalteten Partnervereinbarung. Kundendaten sind hier nicht sichtbar.</div>';return}
  login.classList.add('vp-hidden');dash.classList.remove('vp-hidden');$('#vpCompany').textContent=partner.company_name;$('#vpCompanyText').textContent='Anonymisierte Projekte, die zu deinen hinterlegten Kriterien passen.';$('#vpPartnerMeta').innerHTML=`<span class="vp-chip">${esc((partner.categories||[]).map(projectName).join(' · '))}</span><span class="vp-chip">Region ${esc((partner.postcode_prefixes||[]).join(', '))}</span><span class="vp-chip">${money(partner.price_per_lead_cents)} / Lead</span>`;
  const {data:leads,error}=await client.rpc('vayquo_my_leads');
