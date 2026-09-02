@@ -7,9 +7,9 @@ const partner=fs.readFileSync('partner.html','utf8');
 const partnerJs=fs.readFileSync('assets/vayquo-partner.js','utf8');
 for(const id of ['top','vqStart','vqWizard','vqQuestionScreen','vqQuestion','vqOptions','vqPostcodeScreen','vqPostcodeForm','vqPostcode','vqResultScreen','vqProfileSummary','vqCheckProviders','vqContactScreen','vqContactForm','vqFirstName','vqEmail','vqPhone','vqConsent','vqSubmit','vqSuccess']) assert(html.includes(`id="${id}"`),`missing #${id}`);
 for(const project of ['pv','heating','kitchen','bath']) assert(html.includes(`data-project="${project}"`),`missing project ${project}`);
-assert(html.includes('Du planst groß.<br>VAYQUO macht’s klar.'),'brand-led consumer promise missing');
-assert(html.includes('GROSSE PROJEKTE. KLARE ENTSCHEIDUNGEN.'),'VAYQUO slogan missing');
-for(const trust of ['Kostenlos','Unverbindlich','Max. 3 Anbieter','Keine Registrierung']) assert(html.includes(trust),`trust signal missing: ${trust}`);
+assert(html.includes('Einmal anfragen.<br>Passende Angebote bekommen.<br>Fertig.'),'one-request consumer USP missing');
+assert(html.includes('1 ANFRAGE · BIS ZU 3 PASSENDE ANGEBOTE'),'supporting USP line missing');
+for(const trust of ['Kostenlos','Unverbindlich','Max. 3 Anbieter','Keine Telefonlawine']) assert(html.includes(trust),`trust signal missing: ${trust}`);
 assert((html.match(/images\.unsplash\.com/g)||[]).length>=4,'project photography missing');
 assert(html.includes('Kontaktdaten fragen wir erst, nachdem du deine Angebotsvorschau gesehen hast.'),'offer-preview-before-contact promise missing');
 assert(html.includes('DEINE ANGEBOTSVORSCHAU'),'offer preview heading missing');
@@ -40,4 +40,4 @@ assert(js.includes("emit('revenue_request_success')"),'successful lead conversio
 for(const event of ['revenue_intent','revenue_flow_start','revenue_result','revenue_primary_click','revenue_request_success']) assert(analytics.includes(event),`analytics missing ${event}`);
 assert(partner.includes('id="partnerForm"'),'separate provider acquisition page missing');
 assert(partnerJs.includes('vayquo_partner_interest'),'partner database endpoint missing');
-console.log('VAYQUO offer-preview high-ticket funnel contract: OK');
+console.log('VAYQUO one-request offer funnel contract: OK');
