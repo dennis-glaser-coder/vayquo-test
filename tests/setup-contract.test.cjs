@@ -10,7 +10,10 @@ for(const project of ['pv','heating','kitchen','bath']) assert(html.includes(`da
 assert(html.includes('Was steht<br>bei dir an?'),'focused consumer promise missing');
 for(const trust of ['Kostenlos','Unverbindlich','Max. 3 Anbieter','Keine Registrierung']) assert(html.includes(trust),`trust signal missing: ${trust}`);
 assert((html.match(/images\.unsplash\.com/g)||[]).length>=4,'project photography missing');
-assert(html.includes('Kontaktdaten fragen wir erst, nachdem du dein Projektprofil gesehen hast.'),'value-before-contact promise missing');
+assert(html.includes('Kontaktdaten fragen wir erst, nachdem du deine Angebotsvorschau gesehen hast.'),'offer-preview-before-contact promise missing');
+assert(html.includes('DEINE ANGEBOTSVORSCHAU'),'offer preview heading missing');
+assert(html.includes('Bis zu 3 Angebote anfordern'),'offer CTA missing');
+assert(html.includes('Noch kein verbindlicher Preis'),'transparent non-fake pricing disclosure missing');
 assert(html.includes('Vorname <em>optional</em>'),'first name must be optional in the low-friction contact step');
 assert(html.indexOf('id="vqEmail"')<html.indexOf('id="vqPhone"'),'email must be requested before phone');
 assert(html.includes('bis zu 3 passende Fachbetriebe'),'consumer sharing consent missing');
@@ -22,11 +25,12 @@ assert(css.includes('overflow:hidden'),'homepage must avoid info-scroll behavior
 assert(css.includes('.vq-trustbar'),'trust bar styling missing');
 assert(css.includes('background-image:var(--photo)'),'image-led project cards missing');
 assert(css.includes('.vq-profile-card'),'project profile value reveal styling missing');
+assert(css.includes('.vq-offer-preview'),'offer preview styling missing');
 assert(js.includes("const PROJECTS={"),'project question engine missing');
 for(const project of ['pv:{label:','heating:{label:','kitchen:{label:','bath:{label:']) assert(js.includes(project),`question config missing ${project}`);
 assert(js.includes('function showPostcode()'),'postcode-before-contact step missing');
-assert(js.includes('function showResult()'),'project profile value reveal missing');
-assert(js.includes("$('#vqCheckProviders').addEventListener('click'"),'provider check gate missing');
+assert(js.includes('function showResult()'),'offer preview value reveal missing');
+assert(js.includes("$('#vqCheckProviders').addEventListener('click'"),'offer request gate missing');
 assert(js.includes("first_name:$('#vqFirstName').value.trim()||null"),'optional first name persistence missing');
 assert(js.includes('async function submitRequest'),'qualified request submission missing');
 assert(js.includes('vayquo_project_requests'),'project request database endpoint missing');
@@ -35,4 +39,4 @@ assert(js.includes("emit('revenue_request_success')"),'successful lead conversio
 for(const event of ['revenue_intent','revenue_flow_start','revenue_result','revenue_primary_click','revenue_request_success']) assert(analytics.includes(event),`analytics missing ${event}`);
 assert(partner.includes('id="partnerForm"'),'separate provider acquisition page missing');
 assert(partnerJs.includes('vayquo_partner_interest'),'partner database endpoint missing');
-console.log('VAYQUO value-first high-ticket funnel contract: OK');
+console.log('VAYQUO offer-preview high-ticket funnel contract: OK');
