@@ -1,0 +1,37 @@
+(()=>{
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const PRESETS={
+ apartment:{label:'Wohnen',prompt:'Wohnzimmer, 8.000 €, warm-modern, Sofa vorhanden',title:'Dein kompletter Wohnraum',image:'https://images.unsplash.com/photo-1748679767437-00b5c0327b1a?auto=format&fit=crop&fm=jpg&q=88&w=1800',budget:8000,scope:'1 Raum',context:'warm · modern',items:[['Sitzmöbel',.28],['Tisch & Ablage',.15],['Licht',.09],['Teppich & Textilien',.12],['Stauraum',.17],['Details & Reserve',.12]]},
+ workshop:{label:'Werkstatt',prompt:'18 m² Werkstatt, 8.000 €, Makita vorhanden, Möbelbau',title:'Deine komplette Werkstatt',image:'https://images.unsplash.com/photo-1773325076569-c166714c4097?auto=format&fit=crop&fm=jpg&q=88&w=1800',budget:8000,scope:'18 m²',context:'Makita · Möbelbau',items:[['Werkbank & Stauraum',.22],['Akkusystem & Handwerkzeug',.25],['Sägen & Bearbeitung',.19],['Absaugung',.11],['Messen & Sicherheit',.08],['Reserve / Ausbau',.08]]},
+ gym:{label:'Home Gym',prompt:'Home Gym, 5.000 €, 12 m², Muskelaufbau und Kraft',title:'Dein komplettes Home Gym',image:'https://images.unsplash.com/photo-1778731660302-cfbe94f73683?auto=format&fit=crop&fm=jpg&q=88&w=1800',budget:5000,scope:'12 m²',context:'Kraft · Muskelaufbau',items:[['Rack & Sicherheit',.23],['Bank',.09],['Hantel & Gewichte',.25],['Kurzhanteln',.17],['Boden',.08],['Reserve / Ausbau',.11]]},
+ garage:{label:'Garage',prompt:'Schrauber-Garage, 6.000 €, 24 m², Wartung und Räder',title:'Deine komplette Schrauber-Garage',image:'https://images.unsplash.com/photo-1769641241150-26c44a98e17a?auto=format&fit=crop&fm=jpg&q=88&w=1800',budget:6000,scope:'24 m²',context:'Service · Räder',items:[['Werkzeugwagen',.21],['Heben & Sichern',.19],['Schrauben & Drehmoment',.18],['Diagnose & Licht',.11],['Verbrauch & Ordnung',.10],['Reserve / Ausbau',.14]]}
+};
+const state={cat:'apartment',budget:8000,width:4.8,depth:4.2,owned:'Sofa vorhanden',mode:'value',photo:null,step:1};
+const euro=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Math.max(0,Math.round(n)));
+function parse(text=''){
+ const t=text.toLowerCase();let cat=state.cat;
+ if(/werkstatt|heimwerk|holz|möbelbau|renovier/.test(t))cat='workshop';else if(/garage|auto|schraub|reifen|räder|obd/.test(t))cat='garage';else if(/gym|fitness|kraft|muskel|hantel/.test(t))cat='gym';else if(/wohn|zimmer|sofa|küche|schlaf|einricht/.test(t))cat='apartment';
+ const m=t.match(/(\d{1,3}(?:[\.\s]\d{3})+|\d+)\s*(?:€|eur)/i);const budget=m?Number(m[1].replace(/[\.\s]/g,'')):PRESETS[cat].budget;
+ const d=t.match(/(\d+(?:[\.,]\d+)?)\s*[x×]\s*(\d+(?:[\.,]\d+)?)\s*m?/i);if(d){state.width=Number(d[1].replace(',','.'));state.depth=Number(d[2].replace(',','.'))}
+ return {cat,budget};
+}
+function setStage(cat){const p=PRESETS[cat]||PRESETS.apartment;state.cat=cat;$('#vqStageBg').style.backgroundImage=`url("${p.image}")`;$('#vqStageType').textContent=p.label;$('#vqStageTitle').textContent=p.title;$('#vqStageBudget').textContent=euro(p.budget);$('#vqStageScope').textContent=p.scope;$('#vqStageContext').textContent=p.context;$('#vqStageCount').textContent=`${p.items.length + 7} Positionen`;}
+function openFlow(text){const meta=parse(text||$('#vqIntent')?.value||'');state.cat=meta.cat;state.budget=meta.budget||PRESETS[state.cat].budget;$('#vqFlow').classList.add('open');document.body.style.overflow='hidden';$$('[data-cat-choice]').forEach(b=>b.classList.toggle('selected',b.dataset.catChoice===state.cat));$('#vqBudget').value=String(state.budget);$('#vqWidth').value=state.width;$('#vqDepth').value=state.depth;$('#vqOwned').value=state.owned||'';go(1)}
+function closeFlow(){$('#vqFlow').classList.remove('open');document.body.style.overflow=''}
+function go(n){state.step=n;$$('.vq-step').forEach(s=>s.classList.toggle('active',Number(s.dataset.step)===n));$('#vqProgress').style.width=`${Math.min(100,n*20)}%`;if(n===5)renderResult();window.scrollTo(0,0)}
+function renderResult(){const p=PRESETS[state.cat],planned=Math.round(state.budget*(state.mode==='save'?.84:state.mode==='premium'?.98:.92)),reserve=state.budget-planned;$('#vqResultTitle').textContent=p.title;$('#vqResultBudget').textContent=euro(state.budget);$('#vqResultPlan').textContent=euro(planned);$('#vqResultReserve').textContent=euro(reserve);$('#vqResultRoom').textContent=`${state.width} × ${state.depth} m`;const visual=$('#vqResultVisual');visual.style.backgroundImage=state.photo?`url("${state.photo}")`:`url("${p.image}")`;$('#vqResultVisualTitle').textContent=state.photo?'Dein Raum als Planungsbasis':p.title;$('#vqResultVisualSub').textContent=state.photo?'Raumfoto geladen · Produkte werden im echten Commerce-Layer maßbasiert zugeordnet.':'Beispielansicht · Raum, Budget und Bestand bestimmen den Kaufplan.';const factor=planned/state.budget;$('#vqStack').innerHTML=p.items.map((x,i)=>`<div class="vq-stack-row"><span class="vq-stack-thumb">${String(i+1).padStart(2,'0')}</span><span><b>${x[0]}</b><small>${i<2?'Priorität A':i<4?'Priorität B':'Später / Reserve'}</small></span><strong>${euro(state.budget*x[1]*factor)}</strong></div>`).join('')}
+$$('[data-example]').forEach(b=>b.addEventListener('click',()=>{$('#vqIntent').value=PRESETS[b.dataset.example].prompt;setStage(b.dataset.example)}));
+$('#vqStageNext')?.addEventListener('click',()=>{const keys=Object.keys(PRESETS),i=keys.indexOf(state.cat);setStage(keys[(i+1)%keys.length])});
+$('#vqStart')?.addEventListener('click',()=>openFlow($('#vqIntent').value));$('#vqIntent')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();openFlow(e.currentTarget.value)}});$$('[data-open-flow]').forEach(b=>b.addEventListener('click',()=>openFlow($('#vqIntent')?.value||PRESETS.apartment.prompt)));$('#vqFlowClose')?.addEventListener('click',closeFlow);
+$$('[data-cat-choice]').forEach(b=>b.addEventListener('click',()=>{state.cat=b.dataset.catChoice;$$('[data-cat-choice]').forEach(x=>x.classList.toggle('selected',x===b));setTimeout(()=>go(2),160)}));
+$$('[data-budget]').forEach(b=>b.addEventListener('click',()=>{$('#vqBudget').value=b.dataset.budget}));
+$$('[data-mode]').forEach(b=>b.addEventListener('click',()=>{state.mode=b.dataset.mode;$$('[data-mode]').forEach(x=>x.classList.toggle('selected',x===b))}));
+$$('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(state.step===2)state.budget=Math.max(250,Number(String($('#vqBudget').value).replace(/[^0-9]/g,''))||PRESETS[state.cat].budget);if(state.step===3){state.width=Math.max(1.5,Number($('#vqWidth').value)||4.2);state.depth=Math.max(1.5,Number($('#vqDepth').value)||3.6)}if(state.step===4)state.owned=$('#vqOwned').value.trim();go(Math.min(5,state.step+1))}));
+$$('[data-back]').forEach(b=>b.addEventListener('click',()=>go(Math.max(1,state.step-1))));
+$('#vqPhoto')?.addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;if(state.photo)URL.revokeObjectURL(state.photo);state.photo=URL.createObjectURL(f);$('#vqPhotoName').textContent=f.name});
+$('#vqResultRestart')?.addEventListener('click',()=>go(1));
+setStage('apartment');
+let auto=setInterval(()=>{if($('#vqFlow').classList.contains('open')||document.activeElement===$('#vqIntent'))return;const keys=Object.keys(PRESETS),i=keys.indexOf(state.cat);setStage(keys[(i+1)%keys.length])},5200);
+window.addEventListener('beforeunload',()=>clearInterval(auto));
+})();
