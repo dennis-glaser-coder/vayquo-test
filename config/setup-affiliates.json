@@ -1,0 +1,52 @@
+{
+  "updated": "2026-09-02",
+  "mode": "prelaunch",
+  "disclosureRequiredWhenEnabled": true,
+  "providers": {
+    "amazon_de": {
+      "enabled": false,
+      "status": "account_required",
+      "categories": ["workshop", "garage", "apartment", "gym"],
+      "trackingId": "",
+      "commissionReference": {
+        "workshop": "5% standard category reference for Baumarkt / Elektro- & Handwerkzeuge",
+        "garage": "5% standard category reference for Auto & Motorrad",
+        "apartment": "5% standard category reference for Wohnen / Möbel / Küche & Esszimmer",
+        "gym": "4% standard category reference for Sport & Fitness"
+      },
+      "notes": "Do not activate until PartnerNet account and tracking ID exist. Final program review requires qualifying sales and original content."
+    },
+    "contorion": {
+      "enabled": false,
+      "status": "application_required",
+      "categories": ["workshop", "garage"],
+      "publisherId": "",
+      "reference": "up to 5% commission; 30-day cookie; CSV product list available",
+      "notes": "Preferred specialist merchant for tools once approved."
+    },
+    "decathlon_awin": {
+      "enabled": false,
+      "status": "awin_and_advertiser_approval_required",
+      "categories": ["gym"],
+      "publisherId": "",
+      "advertiserId": "",
+      "reference": "30-day cookie; current program available through AWIN",
+      "notes": "Useful broad fitness catalog and product feed after approval."
+    },
+    "homefitnesscode": {
+      "enabled": false,
+      "status": "application_required",
+      "categories": ["gym"],
+      "affiliateId": "",
+      "reference": "10% commission; 15-day cookie",
+      "notes": "Potential higher-margin specialist option for selected home-gym products."
+    }
+  },
+  "routingPolicy": [
+    "Recommendation quality comes before commission rate.",
+    "Only route to a merchant when the recommended product/category is relevant.",
+    "Clearly label affiliate links before enabling any tracking.",
+    "Do not display unverified live prices.",
+    "Prefer a specialist merchant when assortment, compatibility or value is better for the user."
+  ]
+}
