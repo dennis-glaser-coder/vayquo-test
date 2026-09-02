@@ -1,72 +1,60 @@
 (()=>{
 'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const PRESETS={
- workshop:{label:'Werkstatt',route:'commerce',prompt:'18 m² Werkstatt, 8.000 €, Makita vorhanden, Möbelbau',title:'Deine komplette Werkstatt.',type:'Produkt-Setup',value:'Ein Plan statt 30 Tabs.',budget:8000,scope:'18 m²',items:[['Werkbank & Stauraum',.22],['Akkusystem & Handwerkzeug',.25],['Sägen & Bearbeitung',.19],['Absaugung',.11],['Messen & Sicherheit',.08],['Reserve / Ausbau',.08]],image:'https://images.unsplash.com/photo-1773325076569-c166714c4097?auto=format&fit=crop&fm=jpg&q=88&w=1800'},
- gym:{label:'Home Gym',route:'commerce',prompt:'Home Gym, 5.000 €, 12 m², Muskelaufbau und Kraft',title:'Dein komplettes Home Gym.',type:'Produkt-Setup',value:'Passt zu Raum und Budget.',budget:5000,scope:'12 m²',items:[['Rack & Sicherheit',.23],['Bank',.09],['Hantel & Gewichte',.25],['Kurzhanteln',.17],['Boden',.08],['Reserve / Ausbau',.11]],image:'https://images.unsplash.com/photo-1778731660302-cfbe94f73683?auto=format&fit=crop&fm=jpg&q=88&w=1800'},
- garage:{label:'Garage',route:'commerce',prompt:'Schrauber-Garage, 6.000 €, 24 m², Wartung und Räder',title:'Deine komplette Schrauber-Garage.',type:'Produkt-Setup',value:'Kompatibel statt zusammengewürfelt.',budget:6000,scope:'24 m²',items:[['Werkzeugwagen',.21],['Heben & Sichern',.19],['Schrauben & Drehmoment',.18],['Diagnose & Licht',.11],['Verbrauch & Ordnung',.10],['Reserve / Ausbau',.14]],image:'https://images.unsplash.com/photo-1769641241150-26c44a98e17a?auto=format&fit=crop&fm=jpg&q=88&w=1800'},
- room:{label:'Wohnen',route:'commerce',prompt:'Wohnzimmer, 8.000 €, warm-modern, Sofa vorhanden',title:'Dein kompletter Wohnraum.',type:'Produkt-Setup',value:'Raum und Einkauf in einem Plan.',budget:8000,scope:'1 Raum',items:[['Sitzmöbel',.28],['Tisch & Ablage',.15],['Licht',.09],['Teppich & Textilien',.12],['Stauraum',.17],['Details & Reserve',.12]],image:'https://images.unsplash.com/photo-1748679767437-00b5c0327b1a?auto=format&fit=crop&fm=jpg&q=88&w=1800'},
- kitchen:{label:'Küche',route:'lead',prompt:'Neue Küche, 15.000 €, 12 m², modern, komplett geplant und eingebaut',title:'Deine neue Küche.',type:'Fachprojekt',value:'Planen, qualifizieren, Angebote vergleichen.',budget:15000,scope:'12 m²',items:[['Anforderungen & Stil',0],['Raum & Anschlüsse',0],['Budgetrahmen',0],['Geräte & Ausstattung',0],['Montage & Ausführung',0],['Passende Fachangebote',0]],image:'https://images.unsplash.com/photo-1556912167-f556f1f39fdf?auto=format&fit=crop&fm=jpg&q=88&w=1800'},
- bath:{label:'Bad',route:'lead',prompt:'Bad komplett sanieren, 20.000 €, 8 m², bodengleiche Dusche',title:'Dein neues Bad.',type:'Fachprojekt',value:'Vom Wunsch zum qualifizierten Projekt.',budget:20000,scope:'8 m²',items:[['Bestand & Rückbau',0],['Sanitär & Armaturen',0],['Fliesen & Oberflächen',0],['Elektro & Licht',0],['Ausführung',0],['Passende Fachangebote',0]],image:'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&fm=jpg&q=88&w=1800'},
- pv:{label:'Photovoltaik',route:'lead',prompt:'Photovoltaik mit Speicher, Einfamilienhaus, Budget 18.000 €',title:'Deine PV-Lösung.',type:'Fachprojekt',value:'Bedarf qualifizieren, Angebote vergleichen.',budget:18000,scope:'Haus',items:[['Strombedarf',0],['Dach & Fläche',0],['Anlagengröße',0],['Speicher',0],['Montage',0],['Passende Fachangebote',0]],image:'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&fm=jpg&q=88&w=1800'},
- heating:{label:'Heizung',route:'lead',prompt:'Wärmepumpe für Einfamilienhaus, Budget 35.000 €',title:'Deine neue Heizung.',type:'Fachprojekt',value:'Hausdaten rein, passende Angebote raus.',budget:35000,scope:'Haus',items:[['Gebäude & Heizlast',0],['Bestandsanlage',0],['Wärmequelle',0],['Speicher & Hydraulik',0],['Installation',0],['Passende Fachangebote',0]],image:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&fm=jpg&q=88&w=1800'}
+const ENDPOINT='https://fcvffslhnaqlwitaeers.supabase.co/rest/v1/vayquo_project_requests';
+const API_KEY='sb_publishable_GwUiLouKIRUOpDpp6BaZIQ_o1uRQTl8';
+const CONSENT_VERSION='2026-09-02-v1';
+
+const PROJECTS={
+ pv:{label:'Photovoltaik',questions:[
+  {id:'property',title:'Auf was soll die Anlage?',hint:'Damit können wir die Größenordnung besser einordnen.',options:[['detached','Freistehendes Haus'],['semi_row','Doppel- oder Reihenhaus'],['multi','Mehrfamilienhaus'],['commercial','Gewerbegebäude']]},
+  {id:'ownership',title:'Gehört dir die Immobilie?',hint:'Für Planung und Umsetzung ist das entscheidend.',options:[['owner','Ja, ich bin Eigentümer:in'],['co_owner','Miteigentum / WEG'],['tenant','Nein'],['other','Anders']]},
+  {id:'roof',title:'Welche Dachform hast du?',hint:'Wenn du unsicher bist, ist das völlig okay.',options:[['pitched','Satteldach'],['flat','Flachdach'],['hipped','Walmdach'],['unknown','Weiß ich nicht']]},
+  {id:'storage',title:'Soll ein Stromspeicher dazu?',hint:'Das beeinflusst Investition und Eigenverbrauch deutlich.',options:[['yes','Ja'],['no','Nein'],['unsure','Noch offen']]},
+  {id:'model',title:'Kaufen oder mieten?',hint:'VAYQUO berücksichtigt deinen bevorzugten Weg.',options:[['buy','Kaufen'],['rent','Mieten / Pachten'],['unsure','Noch offen']]},
+  {id:'timeframe',title:'Wann soll die Anlage kommen?',hint:'So können wir nur passende Kapazitäten berücksichtigen.',options:[['now','So schnell wie möglich'],['1_3m','In 1–3 Monaten'],['3_6m','In 3–6 Monaten'],['later','Später']]}
+ ]},
+ heating:{label:'Heizung',questions:[
+  {id:'future_heating',title:'Was möchtest du künftig?',hint:'Falls du noch unsicher bist, reicht auch das.',options:[['heatpump','Wärmepumpe'],['pellet','Pellet / Holz'],['other','Andere Heizung'],['unsure','Beratung gewünscht']]},
+  {id:'current_heating',title:'Womit heizt du aktuell?',hint:'Das bestimmt den Aufwand beim Umstieg.',options:[['gas','Gas'],['oil','Öl'],['electric','Strom'],['wood','Holz / Pellet'],['new','Neubau / Erstinstallation'],['other','Andere']]},
+  {id:'property',title:'Um welche Immobilie geht es?',hint:'Eine grobe Einordnung reicht.',options:[['detached','Einfamilienhaus'],['semi_row','Doppel- / Reihenhaus'],['multi','Mehrfamilienhaus'],['commercial','Gewerbe']]},
+  {id:'area',title:'Wie viel Fläche wird beheizt?',hint:'Bitte die ungefähr beheizte Wohnfläche wählen.',options:[['under120','Unter 120 m²'],['120_180','120–180 m²'],['180_250','180–250 m²'],['over250','Über 250 m²']]},
+  {id:'emitters',title:'Wie wird die Wärme verteilt?',hint:'Heizkörper und Fußbodenheizung stellen unterschiedliche Anforderungen.',options:[['radiators','Heizkörper'],['floor','Fußbodenheizung'],['mixed','Beides'],['unknown','Weiß ich nicht']]},
+  {id:'timeframe',title:'Wann soll modernisiert werden?',hint:'So können wir passend zur Entscheidungsreife matchen.',options:[['now','So schnell wie möglich'],['1_3m','In 1–3 Monaten'],['3_6m','In 3–6 Monaten'],['later','Später']]}
+ ]},
+ kitchen:{label:'Küche',questions:[
+  {id:'shape',title:'Welche Küchenform stellst du dir vor?',hint:'Wenn du noch offen bist, wähle einfach „Noch offen“.',options:[['line','Küchenzeile'],['l','L-Küche'],['u','U-Küche'],['island','Küche mit Insel'],['open','Noch offen']]},
+  {id:'style',title:'Welcher Stil passt zu dir?',hint:'Das hilft bei der Auswahl geeigneter Küchenstudios.',options:[['modern','Modern'],['classic','Klassisch'],['country','Landhaus'],['open','Noch offen']]},
+  {id:'appliances',title:'Sollen Geräte enthalten sein?',hint:'Das verändert den Gesamtwert des Projekts deutlich.',options:[['yes','Ja, komplett'],['partial','Teilweise'],['no','Nein'],['unsure','Noch offen']]},
+  {id:'budget',title:'Welches Budget planst du?',hint:'Eine grobe Spanne reicht vollkommen.',options:[['under10','Unter 10.000 €'],['10_15','10.000–15.000 €'],['15_25','15.000–25.000 €'],['25plus','Über 25.000 €']]},
+  {id:'timeframe',title:'Wann soll die Küche stehen?',hint:'So berücksichtigen wir nur sinnvolle Optionen.',options:[['now','So schnell wie möglich'],['1_3m','In 1–3 Monaten'],['3_6m','In 3–6 Monaten'],['later','Später']]}
+ ]},
+ bath:{label:'Bad',questions:[
+  {id:'scope',title:'Was soll im Bad passieren?',hint:'Damit lässt sich der Projektumfang direkt einordnen.',options:[['full','Komplettsanierung'],['partial','Teilsanierung'],['shower','Dusche / Wanne umbauen'],['new','Neubau']]},
+  {id:'size',title:'Wie groß ist das Bad ungefähr?',hint:'Eine grobe Spanne genügt.',options:[['under6','Unter 6 m²'],['6_10','6–10 m²'],['10_15','10–15 m²'],['15plus','Über 15 m²']]},
+  {id:'accessible',title:'Ist Barrierefreiheit wichtig?',hint:'Zum Beispiel bodengleiche Dusche oder breitere Bewegungsflächen.',options:[['yes','Ja'],['no','Nein'],['maybe','Vielleicht / teilweise']]},
+  {id:'budget',title:'Welches Budget planst du?',hint:'Eine grobe Spanne reicht.',options:[['under15','Unter 15.000 €'],['15_25','15.000–25.000 €'],['25_40','25.000–40.000 €'],['40plus','Über 40.000 €']]},
+  {id:'timeframe',title:'Wann soll es losgehen?',hint:'So berücksichtigen wir die passende Projektphase.',options:[['now','So schnell wie möglich'],['1_3m','In 1–3 Monaten'],['3_6m','In 3–6 Monaten'],['later','Später']]}
+ ]}
 };
-const state={cat:null,route:null,budget:0,width:4.8,depth:4.2,owned:'',mode:'value',photo:null,step:1,area:'',postcode:'',timeframe:'soon'};
-const euro=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Math.max(0,Math.round(n||0)));
-let intentTimer=null,lastIntentKey='';
-function emitRevenue(name,m={}){window.dispatchEvent(new CustomEvent('vayquo:revenue',{detail:{name,category:m.cat||state.cat||'',route:m.route||state.route||'',budget:m.budget||state.budget||0}}))}
-function parse(text=''){
- const raw=String(text||''),t=raw.toLowerCase().trim();
- if(!t)return {cat:null,route:null,budget:0,area:'',dims:null,owned:'–'};
- let cat='workshop';
- if(/photovoltaik|\bpv\b|solar/.test(t))cat='pv';
- else if(/wärmepumpe|waermepumpe|heizung|heizsystem/.test(t))cat='heating';
- else if(/badezimmer|\bbad\b|dusche|badsanier/.test(t))cat='bath';
- else if(/küche|kueche|einbauküche|einbaukueche/.test(t))cat='kitchen';
- else if(/gym|fitness|kraft|muskel|hantel/.test(t))cat='gym';
- else if(/garage|auto|schraub|reifen|räder|raeder|obd/.test(t))cat='garage';
- else if(/wohn|zimmer|sofa|schlaf|einricht|möblier|moeblier/.test(t)&&!/möbelbau|moebelbau/.test(t))cat='room';
- else if(/werkstatt|heimwerk|holz|möbelbau|moebelbau|renovier|makita|bosch|dewalt|milwaukee/.test(t))cat='workshop';
- const bm=t.match(/(?:budget\s*)?(\d{1,3}(?:[\.\s]\d{3})+|\d+)\s*(?:€|eur)/i);const budget=bm?Number(bm[1].replace(/[\.\s]/g,'')):PRESETS[cat].budget;
- const areaMatch=t.match(/(\d+(?:[\.,]\d+)?)\s*m²/i);const area=areaMatch?`${areaMatch[1].replace('.',',')} m²`:PRESETS[cat].scope;
- const dm=t.match(/(\d+(?:[\.,]\d+)?)\s*[x×]\s*(\d+(?:[\.,]\d+)?)\s*m?/i);const dims=dm?[Number(dm[1].replace(',','.')),Number(dm[2].replace(',','.'))]:null;
- let owned='–';const brands=['makita','bosch','dewalt','milwaukee','einhell','festool','hilti'];const brand=brands.find(x=>t.includes(x));if(brand)owned=brand[0].toUpperCase()+brand.slice(1);else{const om=raw.match(/([^,.]{2,35})\s+(?:vorhanden|ist schon da|bleibt)/i);if(om)owned=om[1].trim()}
- return {cat,route:PRESETS[cat].route,budget,area,dims,owned};
-}
-function renderNeutral(){
- $('#vqDetectProject').textContent='Dein Vorhaben';$('#vqDetectBudget').textContent='–';$('#vqDetectRoom').textContent='–';$('#vqDetectOwned').textContent='–';
- $('#vqPromiseTitle').textContent='Deinen kompletten Plan.';$('#vqPromiseType').textContent='Projekt-Engine';$('#vqPromiseValue').textContent='Ein Vorhaben. Eine Entscheidung.';
-}
-function updateUnderstanding(text,{track=true}={}){
- const m=parse(text);if(!m.cat){renderNeutral();return m}
- const p=PRESETS[m.cat];$('#vqDetectProject').textContent=p.label;$('#vqDetectBudget').textContent=euro(m.budget);$('#vqDetectRoom').textContent=m.area||p.scope;$('#vqDetectOwned').textContent=m.owned;$('#vqPromiseTitle').textContent=p.title;$('#vqPromiseType').textContent=p.type;$('#vqPromiseValue').textContent=p.value;
- if(track){clearTimeout(intentTimer);intentTimer=setTimeout(()=>{const key=`${m.cat}:${m.route}:${m.budget}`;if(key!==lastIntentKey){lastIntentKey=key;emitRevenue('revenue_intent',m)}},650)}
- return m;
-}
-function openFlow(text){
- const raw=String(text||$('#vqIntent')?.value||'').trim();if(raw.length<3){$('#vqIntent')?.focus();return}
- const m=updateUnderstanding(raw,{track:false});if(!m.cat)return;
- state.cat=m.cat;state.route=m.route;state.budget=m.budget;state.area=m.area;state.owned=m.owned==='–'?'':`${m.owned} vorhanden`;if(m.dims){state.width=m.dims[0];state.depth=m.dims[1]}
- $('#vqProjectText').value=PRESETS[state.cat].label;$('#vqBudget').value=String(state.budget);$('#vqWidth').value=state.width;$('#vqDepth').value=state.depth;$('#vqOwned').value=state.owned;$('#vqConfirmTitle').textContent=`${PRESETS[state.cat].label}.`;$('#vqCommerceContext').hidden=state.route!=='commerce';$('#vqLeadContext').hidden=state.route!=='lead';$('#vqFlow').classList.add('open');document.body.style.overflow='hidden';emitRevenue('revenue_flow_start',m);go(1)
-}
-function closeFlow(){$('#vqFlow').classList.remove('open');document.body.style.overflow=''}
-function go(n){state.step=n;$$('.vq-step').forEach(s=>s.classList.toggle('active',Number(s.dataset.step)===n));$('#vqProgress').style.width=`${Math.min(100,n*25)}%`;$('#vqProgressCopy').textContent=`${String(n).padStart(2,'0')} / 04`;if(n===4)renderResult();const flow=$('#vqFlow');if(flow)flow.scrollTop=0}
-function renderResult(){
- const p=PRESETS[state.cat],planned=Math.round(state.budget*(state.mode==='save'?.84:state.mode==='premium'?.98:.92)),reserve=state.budget-planned;
- $('#vqResultTitle').textContent=p.title;$('#vqResultBudget').textContent=euro(state.budget);$('#vqResultPlan').textContent=state.route==='commerce'?euro(planned):'Projekt';$('#vqResultReserve').textContent=state.route==='commerce'?euro(reserve):'–';$('#vqResultType').textContent=state.route==='commerce'?'Shopping':'Fachprojekt';$('#vqResultRoute').textContent=state.route==='commerce'?'SHOPPING PLAN':'QUALIFIED PROJECT';
- const visual=$('#vqResultVisual');visual.style.backgroundImage=state.photo?`url("${state.photo}")`:`url("${p.image}")`;$('#vqResultVisualTitle').textContent=state.photo?'Dein Raum':p.title;$('#vqResultVisualSub').textContent=state.route==='commerce'?'Raum, Bestand und Budget bestimmen die Auswahl.':'VAYQUO strukturiert dein Projekt für passende Fachangebote.';
- if(state.route==='commerce'){
-   $('#vqStack').innerHTML=p.items.map((x,i)=>`<div class="vq-stack-row"><span>${String(i+1).padStart(2,'0')}</span><span><b>${x[0]}</b><small>${i<2?'Priorität A':i<4?'Priorität B':'Reserve / später'}</small></span><strong>${euro(state.budget*x[1]*(planned/state.budget))}</strong></div>`).join('');
-   $('#vqResultPrimary').textContent='Produkte & Preise vergleichen →';$('#vqResultNote').textContent='Der Commerce-Layer ist für offizielle Händlerfeeds und Affiliate-Routing vorbereitet. Nur verifizierte Preise werden als live gekennzeichnet.';
- }else{
-   $('#vqStack').innerHTML=p.items.map((x,i)=>`<div class="vq-stack-row"><span>${String(i+1).padStart(2,'0')}</span><span><b>${x[0]}</b><small>${i<3?'Projektprofil':'Vermittlungsrelevant'}</small></span><strong>✓</strong></div>`).join('');
-   $('#vqResultPrimary').textContent='Passende Angebote anfragen →';$('#vqResultNote').textContent='Noch werden keine Kontaktdaten übertragen. Die Vermittlung wird erst mit aktiver Partneranbindung und ausdrücklicher Einwilligung freigeschaltet.';
- }
- emitRevenue('revenue_result',{cat:state.cat,route:state.route,budget:state.budget});
-}
-function applyExample(key){const p=PRESETS[key];if(!p)return;$('#vqIntent').value=p.prompt;updateUnderstanding(p.prompt)}
-$('#vqIntent')?.addEventListener('input',e=>updateUnderstanding(e.currentTarget.value));$('#vqIntent')?.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){e.preventDefault();openFlow(e.currentTarget.value)}});$('#vqStart')?.addEventListener('click',()=>openFlow($('#vqIntent').value));$$('[data-open-flow]').forEach(b=>b.addEventListener('click',()=>{const value=$('#vqIntent')?.value.trim();if(value)openFlow(value);else $('#vqIntent')?.focus()}));$$('[data-example]').forEach(b=>b.addEventListener('click',()=>applyExample(b.dataset.example)));$('#vqFlowClose')?.addEventListener('click',closeFlow);
-$$('[data-budget]').forEach(b=>b.addEventListener('click',()=>{$('#vqBudget').value=b.dataset.budget}));$$('[data-mode]').forEach(b=>b.addEventListener('click',()=>{state.mode=b.dataset.mode;$$('[data-mode]').forEach(x=>x.classList.toggle('selected',x===b))}));$$('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(state.step===1){state.budget=Math.max(250,Number(String($('#vqBudget').value).replace(/[^0-9]/g,''))||PRESETS[state.cat].budget)}if(state.step===2){if(state.route==='commerce'){state.width=Math.max(1.5,Number($('#vqWidth').value)||4.8);state.depth=Math.max(1.5,Number($('#vqDepth').value)||4.2)}else{state.postcode=$('#vqPostcode')?.value.trim()||'';state.timeframe=$('#vqTimeframe')?.value||'soon'}state.owned=$('#vqOwned').value.trim()}go(Math.min(4,state.step+1))}));$$('[data-back]').forEach(b=>b.addEventListener('click',()=>go(Math.max(1,state.step-1))));$('#vqPhoto')?.addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;if(state.photo)URL.revokeObjectURL(state.photo);state.photo=URL.createObjectURL(f);$('#vqPhotoName').textContent=f.name});$('#vqResultRestart')?.addEventListener('click',()=>go(1));$('#vqResultPrimary')?.addEventListener('click',()=>{emitRevenue('revenue_primary_click',{cat:state.cat,route:state.route,budget:state.budget});if(state.route==='commerce')go(2);else $('#vqResultNote').textContent='Interesse gemessen. Sobald die Partneranbindung aktiv ist, startet hier die qualifizierte Angebotsanfrage.'});
+
+const state={project:null,index:0,answers:{},submitted:false};
+const wizard=$('#vqWizard');
+function emit(name){window.dispatchEvent(new CustomEvent('vayquo:revenue',{detail:{name,category:state.project||'',route:'lead',budget:budgetNumber()}}))}
+function source(){try{const p=new URLSearchParams(location.search);return (p.get('utm_source')||p.get('source')||document.referrer||'direct').slice(0,120)}catch{return'direct'}}
+function budgetNumber(){const b=state.answers.budget||'';return ({under10:9000,'10_15':12500,'15_25':20000,'25plus':30000,under15:12000,'25_40':32500,'40plus':45000})[b]||0}
+function currentQuestions(){return state.project?PROJECTS[state.project].questions:[]}
+function setScreen(mode){$('#vqQuestionScreen').hidden=mode!=='question';$('#vqContactScreen').hidden=mode!=='contact';$('#vqSuccess').hidden=mode!=='success'}
+function progress(){const total=currentQuestions().length+1;const pos=Math.min(total,state.index+1);$('#vqProgressBar').style.width=`${Math.round(pos/total*100)}%`}
+function renderQuestion(){const qs=currentQuestions(),q=qs[state.index];if(!q){showContact();return}setScreen('question');$('#vqStepLabel').textContent=`${String(state.index+1).padStart(2,'0')} · ${PROJECTS[state.project].label.toUpperCase()}`;$('#vqQuestion').textContent=q.title;$('#vqQuestionHint').textContent=q.hint||'';$('#vqOptions').innerHTML=q.options.map(([value,label])=>`<button class="vq-option" type="button" data-answer="${value}"><span>${label}</span></button>`).join('');$$('[data-answer]',$('#vqOptions')).forEach(btn=>btn.addEventListener('click',()=>{state.answers[q.id]=btn.dataset.answer;state.index++;renderQuestion()}));progress();$('#vqBack').style.visibility=state.index===0?'visible':'visible'}
+function openProject(project){if(!PROJECTS[project])return;state.project=project;state.index=0;state.answers={};state.submitted=false;wizard.classList.add('open');wizard.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';emit('revenue_flow_start');renderQuestion()}
+function closeWizard(){wizard.classList.remove('open');wizard.setAttribute('aria-hidden','true');document.body.style.overflow='hidden';state.project=null;state.index=0;state.answers={};setScreen('question')}
+function showContact(){setScreen('contact');progress();$('#vqFirstName').focus({preventScroll:true});emit('revenue_result')}
+function back(){if($('#vqSuccess').hidden===false){closeWizard();return}if($('#vqContactScreen').hidden===false){state.index=Math.max(0,currentQuestions().length-1);renderQuestion();return}if(state.index>0){state.index--;renderQuestion()}else closeWizard()}
+function validateContact(){const first=$('#vqFirstName').value.trim(),postcode=$('#vqPostcode').value.trim(),email=$('#vqEmail').value.trim(),phone=$('#vqPhone').value.trim(),consent=$('#vqConsent').checked;if(!first)return'Bitte deinen Vornamen eingeben.';if(!/^\d{5}$/.test(postcode))return'Bitte eine gültige 5-stellige PLZ eingeben.';if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return'Bitte eine gültige E-Mail-Adresse eingeben.';if(phone.replace(/\D/g,'').length<6)return'Bitte eine gültige Telefonnummer eingeben.';if(!consent)return'Bitte der Vermittlung an passende Fachbetriebe zustimmen.';return''}
+async function submitRequest(e){e.preventDefault();if(state.submitted)return;const status=$('#vqFormStatus'),error=validateContact();if(error){status.textContent=error;return}if($('#vqWebsiteConfirm').value){status.textContent='';return}const btn=$('#vqSubmit');btn.disabled=true;status.textContent='';emit('revenue_primary_click');const payload={project_type:state.project,postcode:$('#vqPostcode').value.trim(),first_name:$('#vqFirstName').value.trim(),email:$('#vqEmail').value.trim(),phone:$('#vqPhone').value.trim(),answers:state.answers,budget_bucket:state.answers.budget||null,timeframe:state.answers.timeframe||null,consent_share:true,consent_version:CONSENT_VERSION,source:source(),status:'new'};try{const res=await fetch(ENDPOINT,{method:'POST',headers:{apikey:API_KEY,Authorization:`Bearer ${API_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});if(!res.ok)throw new Error(`HTTP ${res.status}`);state.submitted=true;setScreen('success');$('#vqProgressBar').style.width='100%';emit('revenue_request_success')}catch(err){console.error('VAYQUO request failed',err);status.textContent='Das hat gerade nicht geklappt. Bitte versuche es noch einmal.';btn.disabled=false}}
+
+$$('[data-project]').forEach(btn=>btn.addEventListener('click',()=>{state.project=btn.dataset.project;emit('revenue_intent');openProject(btn.dataset.project)}));
+$('#vqClose').addEventListener('click',closeWizard);$('#vqBack').addEventListener('click',back);$('#vqContactForm').addEventListener('submit',submitRequest);$('#vqNewProject').addEventListener('click',()=>{closeWizard()});
 if(!location.hash){try{history.scrollRestoration='manual'}catch{}requestAnimationFrame(()=>window.scrollTo(0,0))}
-renderNeutral();
 })();
