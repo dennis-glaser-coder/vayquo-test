@@ -10,7 +10,7 @@
 <meta property="og:type" content="website"><meta property="og:site_name" content="VAYQUO"><meta property="og:locale" content="de_DE"><meta property="og:url" content="https://vayquo.de/">
 <meta property="og:title" content="VAYQUO – Sag, was fertig werden soll."><meta property="og:description" content="Ein Satz rein. Ein kompletter Projektplan raus.">
 <title>VAYQUO – Was soll fertig werden?</title>
-<link rel="stylesheet" href="assets/vayquo-machine.css?v=900">
+<link rel="stylesheet" href="assets/vayquo-machine.css?v=902">
 </head>
 <body>
 <div class="vq-home">
@@ -23,40 +23,40 @@
     <section class="vq-copy">
       <div class="vq-kicker"><i></i> PROJECT ENGINE</div>
       <h1>Was soll <span>fertig</span> werden?</h1>
-      <p class="vq-sub">Sag es VAYQUO in einem Satz.</p>
+      <p class="vq-sub">Beschreib dein Vorhaben. VAYQUO entscheidet, was du brauchst, was zusammenpasst und wie daraus der sinnvollste Kauf- oder Angebotsplan wird.</p>
 
       <div class="vq-command">
-        <textarea id="vqIntent" rows="2" aria-label="Beschreibe dein Vorhaben">18 m² Werkstatt, 8.000 €, Makita vorhanden, Möbelbau</textarea>
+        <textarea id="vqIntent" rows="2" aria-label="Beschreibe dein Vorhaben" placeholder="z. B. Neue Küche, 15.000 €, 12 m², modern – oder: Werkstatt, 8.000 €, Makita vorhanden"></textarea>
         <button id="vqStart" type="button" aria-label="Projekt planen">→</button>
       </div>
 
       <div class="vq-understood" aria-live="polite">
         <span class="vq-understood-label">VAYQUO versteht</span>
         <div class="vq-understood-values">
-          <span><small>Projekt</small><b id="vqDetectProject">Werkstatt</b></span>
-          <span><small>Budget</small><b id="vqDetectBudget">8.000 €</b></span>
-          <span><small>Raum</small><b id="vqDetectRoom">18 m²</b></span>
-          <span><small>Bestand</small><b id="vqDetectOwned">Makita</b></span>
+          <span><small>Projekt</small><b id="vqDetectProject">Dein Vorhaben</b></span>
+          <span><small>Budget</small><b id="vqDetectBudget">–</b></span>
+          <span><small>Raum</small><b id="vqDetectRoom">–</b></span>
+          <span><small>Bestand</small><b id="vqDetectOwned">–</b></span>
         </div>
       </div>
 
-      <div class="vq-examples"><button type="button" data-example="workshop">Werkstatt</button><button type="button" data-example="kitchen">Küche</button><button type="button" data-example="bath">Bad</button><button type="button" data-example="gym">Home Gym</button></div>
+      <div class="vq-examples"><button type="button" data-example="kitchen">Küche</button><button type="button" data-example="pv">Photovoltaik</button><button type="button" data-example="workshop">Werkstatt</button><button type="button" data-example="gym">Home Gym</button></div>
     </section>
 
     <aside class="vq-promise">
       <div class="vq-promise-top"><span>Aus deinem Satz</span><span class="vq-live"><i></i> live</span></div>
       <div class="vq-promise-main">
         <small>VAYQUO baut daraus</small>
-        <h2 id="vqPromiseTitle">Deine komplette Werkstatt.</h2>
+        <h2 id="vqPromiseTitle">Deinen kompletten Plan.</h2>
       </div>
       <div class="vq-promise-flow">
-        <span><b>01</b>Verstehen</span><span><b>02</b>Planen</span><span><b>03</b>Vergleichen</span><span><b>04</b>Kaufen</span>
+        <span><b>01</b>Verstehen</span><span><b>02</b>Planen</span><span><b>03</b>Vergleichen</span><span><b>04</b>Abschließen</span>
       </div>
-      <div class="vq-promise-bottom"><span id="vqPromiseType">Produkt-Setup</span><b id="vqPromiseValue">Ein Plan statt 30 Tabs.</b></div>
+      <div class="vq-promise-bottom"><span id="vqPromiseType">Projekt-Engine</span><b id="vqPromiseValue">Ein Vorhaben. Eine Entscheidung.</b></div>
     </aside>
   </main>
 
-  <div class="vq-home-foot"><span>Planen · Visualisieren · Preise vergleichen · Kaufen oder Angebote erhalten</span><span><a href="rechtliches.html">Rechtliches</a> · <a href="mailto:webmaster@vayquo.de">Kontakt</a></span></div>
+  <div class="vq-home-foot"><span>Produkte kaufen oder passende Fachangebote erhalten — je nachdem, was dein Projekt wirklich braucht.</span><span><a href="rechtliches.html">Rechtliches</a> · <a href="mailto:webmaster@vayquo.de">Kontakt</a></span></div>
 </div>
 
 <section class="vq-flow" id="vqFlow" aria-label="VAYQUO Projektplaner">
@@ -64,10 +64,10 @@
 
   <div class="vq-step active" data-step="1">
     <small class="vq-stepno">01 · Verstanden</small>
-    <h2 id="vqConfirmTitle">Werkstatt.</h2>
+    <h2 id="vqConfirmTitle">Dein Vorhaben.</h2>
     <p id="vqConfirmText">VAYQUO hat dein Vorhaben erkannt. Ändere nur, was nicht stimmt.</p>
     <div class="vq-confirm-card">
-      <label><span>Vorhaben</span><input id="vqProjectText" value="Werkstatt"></label>
+      <label><span>Vorhaben</span><input id="vqProjectText" value=""></label>
       <label><span>Budget</span><input id="vqBudget" inputmode="numeric" value="8000"><b>€</b></label>
     </div>
     <div class="vq-budget-pills"><button type="button" data-budget="3000">3.000 €</button><button type="button" data-budget="5000">5.000 €</button><button type="button" data-budget="10000">10.000 €</button><button type="button" data-budget="25000">25.000 €</button><button type="button" data-budget="50000">50.000 €</button></div>
@@ -103,7 +103,7 @@
   </div>
 </section>
 
-<script src="assets/vayquo-machine.js?v=900"></script>
-<script src="v36-anonymous-analytics.js?v=901"></script>
+<script src="assets/vayquo-machine.js?v=903"></script>
+<script src="v36-anonymous-analytics.js?v=903"></script>
 </body>
 </html>
