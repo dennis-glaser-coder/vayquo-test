@@ -3,81 +3,107 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f4f2ed">
-<meta name="description" content="VAYQUO macht aus Ziel, Raum, Budget und vorhandener Ausstattung einen kompletten Kaufplan – statt endloser Produktsuche.">
+<meta name="theme-color" content="#0b0b0a">
+<meta name="description" content="VAYQUO macht aus einem Vorhaben einen kompletten Plan: Budget, Raum, Bestand, Produkte und passende Angebote.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="https://vayquo.de/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="VAYQUO"><meta property="og:locale" content="de_DE"><meta property="og:url" content="https://vayquo.de/">
-<meta property="og:title" content="VAYQUO – Sag, was fertig werden soll."><meta property="og:description" content="Raum, Budget, Bestand und Ziel rein. Ein kompletter Kaufplan raus.">
-<title>VAYQUO – Komplette Kaufpläne statt Produktsuche</title>
-<link rel="stylesheet" href="assets/vayquo-machine.css?v=800">
+<meta property="og:title" content="VAYQUO – Sag, was fertig werden soll."><meta property="og:description" content="Ein Satz rein. Ein kompletter Projektplan raus.">
+<title>VAYQUO – Was soll fertig werden?</title>
+<link rel="stylesheet" href="assets/vayquo-machine.css?v=900">
 </head>
 <body>
-<header class="vq-nav">
-  <a class="vq-brand" href="./" aria-label="VAYQUO Startseite"><span class="vq-mark">V</span><span>VAYQUO</span></a>
-  <div class="vq-nav-right"><a href="#why">Warum VAYQUO</a><a href="#system">So funktioniert’s</a><button class="vq-nav-cta" type="button" data-open-flow>Projekt starten</button></div>
-</header>
+<div class="vq-home">
+  <header class="vq-nav">
+    <a class="vq-brand" href="./" aria-label="VAYQUO Startseite"><span class="vq-mark">V</span><span>VAYQUO</span></a>
+    <button class="vq-nav-cta" type="button" data-open-flow>Starten</button>
+  </header>
 
-<main>
-<section class="vq-hero" id="top">
-  <div class="vq-copy">
-    <div class="vq-kicker"><i></i> VAYQUO · COMPLETE PROJECT SHOPPING</div>
-    <h1>Sag, was fertig werden soll. <span>VAYQUO baut den Kaufplan.</span></h1>
-    <p class="vq-sub">Ziel, Raum, Budget und vorhandene Dinge rein. Passende Produkte, Prioritäten, Alternativen und ein möglichst kurzer Weg zum Kauf raus.</p>
-    <div class="vq-command">
-      <input id="vqIntent" aria-label="Beschreibe dein Vorhaben" value="Wohnzimmer, 8.000 €, warm-modern, Sofa vorhanden">
-      <button id="vqStart" type="button">Plan bauen →</button>
-    </div>
-    <div class="vq-examples"><span>Beispiele</span><button type="button" data-example="apartment">Wohnraum</button><button type="button" data-example="workshop">Werkstatt</button><button type="button" data-example="gym">Home Gym</button><button type="button" data-example="garage">Garage</button></div>
-    <div class="vq-proofline"><span>Budget wird eingehalten</span><span>Vorhandenes wird berücksichtigt</span><span>Raum-Fit statt Bestsellerlisten</span></div>
-  </div>
+  <main class="vq-hero" id="top">
+    <section class="vq-copy">
+      <div class="vq-kicker"><i></i> PROJECT ENGINE</div>
+      <h1>Was soll <span>fertig</span> werden?</h1>
+      <p class="vq-sub">Sag es VAYQUO in einem Satz.</p>
 
-  <div class="vq-stage" aria-label="VAYQUO Beispielplan">
-    <div class="vq-stage-bg" id="vqStageBg"></div>
-    <div class="vq-stage-top"><span class="vq-stage-label">Wohnen · Werkstatt · Gym · Garage</span><span class="vq-stage-demo" id="vqStageType">Wohnen</span></div>
-    <button class="vq-stage-arrow" id="vqStageNext" type="button" aria-label="Nächstes Beispiel">→</button>
-    <div class="vq-stage-card">
-      <small>VAYQUO · Beispielplan</small>
-      <h2 id="vqStageTitle">Dein kompletter Wohnraum</h2>
-      <div class="vq-stage-grid"><span><small>Budget</small><b id="vqStageBudget">8.000 €</b></span><span><small>Rahmen</small><b id="vqStageScope">1 Raum</b></span><span><small>Kontext</small><b id="vqStageContext">warm · modern</b></span><span><small>Plan</small><b id="vqStageCount">13 Positionen</b></span></div>
-    </div>
-  </div>
-</section>
+      <div class="vq-command">
+        <textarea id="vqIntent" rows="2" aria-label="Beschreibe dein Vorhaben">18 m² Werkstatt, 8.000 €, Makita vorhanden, Möbelbau</textarea>
+        <button id="vqStart" type="button" aria-label="Projekt planen">→</button>
+      </div>
 
-<section class="vq-section" id="why">
-  <div class="vq-section-head"><span>Warum das anders ist</span><h2>Nicht noch ein Shop. Eine Entscheidungsschicht vor allen Shops.</h2></div>
-  <div class="vq-principles">
-    <div class="vq-principle"><span>01</span><b>Ergebnis statt Einzelprodukt.</b><p>Du beschreibst, was am Ende fertig sein soll. VAYQUO denkt vom Gesamtprojekt rückwärts und baut daraus die Einkaufsliste.</p></div>
-    <div class="vq-principle"><span>02</span><b>Dein Kontext verändert die Auswahl.</b><p>Raum, Budget, vorhandene Dinge, Kompatibilität und Priorität sind Teil der Entscheidung – nicht nur Sterne und Bestseller.</p></div>
-    <div class="vq-principle"><span>03</span><b>Vom Plan direkt zum Kauf.</b><p>Der eigentliche Wert entsteht, wenn verifizierte Händlerdaten, Alternativen und Warenkörbe zu einem klaren Abschlussweg zusammenlaufen.</p></div>
-  </div>
-</section>
+      <div class="vq-understood" aria-live="polite">
+        <span class="vq-understood-label">VAYQUO versteht</span>
+        <div class="vq-understood-values">
+          <span><small>Projekt</small><b id="vqDetectProject">Werkstatt</b></span>
+          <span><small>Budget</small><b id="vqDetectBudget">8.000 €</b></span>
+          <span><small>Raum</small><b id="vqDetectRoom">18 m²</b></span>
+          <span><small>Bestand</small><b id="vqDetectOwned">Makita</b></span>
+        </div>
+      </div>
 
-<section class="vq-dark" id="system">
-  <div class="vq-dark-inner">
-    <div class="vq-dark-copy"><small>Ein Satz genügt zum Start</small><h2>Das Ganze denken. Nicht 30 Tabs öffnen.</h2><p>VAYQUO soll die Arbeit übernehmen, die heute zwischen Inspiration, Recherche, Kompatibilitätsprüfung, Preisvergleich und Warenkorb hängen bleibt.</p><button type="button" data-open-flow>Eigenes Projekt starten →</button></div>
-    <div class="vq-flow-demo"><div><strong>01</strong><b>Was soll fertig werden?</b><span>Ziel</span></div><div><strong>02</strong><b>Wie viel willst du ausgeben?</b><span>Budget</span></div><div><strong>03</strong><b>Was passt wirklich?</b><span>Raum + Bestand</span></div><div><strong>04</strong><b>Was ist die beste Kombination?</b><span>Plan</span></div><div><strong>05</strong><b>Wo kaufst du es?</b><span>Commerce</span></div></div>
-  </div>
-</section>
-</main>
+      <div class="vq-examples"><button type="button" data-example="workshop">Werkstatt</button><button type="button" data-example="kitchen">Küche</button><button type="button" data-example="bath">Bad</button><button type="button" data-example="gym">Home Gym</button></div>
+    </section>
 
-<footer class="vq-footer"><span>© VAYQUO · Komplette Kaufpläne</span><span><a href="rechtliches.html">Impressum & Datenschutz</a> · <a href="mailto:webmaster@vayquo.de">Kontakt</a></span></footer>
+    <aside class="vq-promise">
+      <div class="vq-promise-top"><span>Aus deinem Satz</span><span class="vq-live"><i></i> live</span></div>
+      <div class="vq-promise-main">
+        <small>VAYQUO baut daraus</small>
+        <h2 id="vqPromiseTitle">Deine komplette Werkstatt.</h2>
+      </div>
+      <div class="vq-promise-flow">
+        <span><b>01</b>Verstehen</span><span><b>02</b>Planen</span><span><b>03</b>Vergleichen</span><span><b>04</b>Kaufen</span>
+      </div>
+      <div class="vq-promise-bottom"><span id="vqPromiseType">Produkt-Setup</span><b id="vqPromiseValue">Ein Plan statt 30 Tabs.</b></div>
+    </aside>
+  </main>
+
+  <div class="vq-home-foot"><span>Planen · Visualisieren · Preise vergleichen · Kaufen oder Angebote erhalten</span><span><a href="rechtliches.html">Rechtliches</a> · <a href="mailto:webmaster@vayquo.de">Kontakt</a></span></div>
+</div>
 
 <section class="vq-flow" id="vqFlow" aria-label="VAYQUO Projektplaner">
-  <div class="vq-flow-nav"><span class="vq-flow-brand">VAYQUO / PROJECT PLAN</span><button class="vq-flow-close" id="vqFlowClose" type="button" aria-label="Planer schließen">×</button><span class="vq-progress" id="vqProgress"></span></div>
+  <div class="vq-flow-nav"><span class="vq-flow-brand">VAYQUO</span><span class="vq-progress-copy" id="vqProgressCopy">01 / 04</span><button class="vq-flow-close" id="vqFlowClose" type="button" aria-label="Planer schließen">×</button><span class="vq-progress" id="vqProgress"></span></div>
 
-  <div class="vq-step active" data-step="1"><small class="vq-stepno">01 · Projekt</small><h2>Was willst du fertig haben?</h2><p>Ein Bereich. Ein Ergebnis. Danach fragt VAYQUO nur noch nach dem, was die Kaufentscheidung wirklich verändert.</p><div class="vq-choice-grid"><button class="vq-choice" type="button" data-cat-choice="apartment"><b>Wohnen & Raum</b><span>Wohnzimmer, Schlafzimmer, Küche ausstatten, ganze Wohnung</span></button><button class="vq-choice" type="button" data-cat-choice="workshop"><b>Werkstatt</b><span>DIY, Renovierung, Holz, Akkusysteme</span></button><button class="vq-choice" type="button" data-cat-choice="gym"><b>Home Gym</b><span>Kraft, Fitness, Platz und Ausbau</span></button><button class="vq-choice" type="button" data-cat-choice="garage"><b>Garage</b><span>Wartung, Räder, Diagnose und Werkzeug</span></button></div></div>
+  <div class="vq-step active" data-step="1">
+    <small class="vq-stepno">01 · Verstanden</small>
+    <h2 id="vqConfirmTitle">Werkstatt.</h2>
+    <p id="vqConfirmText">VAYQUO hat dein Vorhaben erkannt. Ändere nur, was nicht stimmt.</p>
+    <div class="vq-confirm-card">
+      <label><span>Vorhaben</span><input id="vqProjectText" value="Werkstatt"></label>
+      <label><span>Budget</span><input id="vqBudget" inputmode="numeric" value="8000"><b>€</b></label>
+    </div>
+    <div class="vq-budget-pills"><button type="button" data-budget="3000">3.000 €</button><button type="button" data-budget="5000">5.000 €</button><button type="button" data-budget="10000">10.000 €</button><button type="button" data-budget="25000">25.000 €</button><button type="button" data-budget="50000">50.000 €</button></div>
+    <div class="vq-nextrow"><span></span><button class="vq-next" type="button" data-next>Weiter →</button></div>
+  </div>
 
-  <div class="vq-step" data-step="2"><small class="vq-stepno">02 · Budget</small><h2>Wie viel darf das Ergebnis kosten?</h2><p>VAYQUO priorisiert innerhalb dieses Rahmens. Mehr Budget soll bessere Entscheidungen ermöglichen – nicht einfach mehr Produkte.</p><input class="vq-budget" id="vqBudget" inputmode="numeric" value="8000" aria-label="Budget in Euro"><div class="vq-budget-pills"><button type="button" data-budget="1500">1.500 €</button><button type="button" data-budget="3000">3.000 €</button><button type="button" data-budget="5000">5.000 €</button><button type="button" data-budget="10000">10.000 €</button><button type="button" data-budget="25000">25.000 €</button></div><div class="vq-nextrow"><button class="vq-back" type="button" data-back>← Zurück</button><button class="vq-next" type="button" data-next>Weiter →</button></div></div>
+  <div class="vq-step" data-step="2">
+    <small class="vq-stepno">02 · Kontext</small>
+    <h2>Was verändert die Entscheidung?</h2>
+    <p>Nur Angaben, die Auswahl, Preis oder Machbarkeit wirklich beeinflussen.</p>
+    <div id="vqCommerceContext">
+      <div class="vq-room-row"><label class="vq-room-field"><span>Breite in m</span><input id="vqWidth" type="number" min="1.5" max="30" step="0.1" value="4.8"></label><label class="vq-room-field"><span>Tiefe in m</span><input id="vqDepth" type="number" min="1.5" max="30" step="0.1" value="4.2"></label></div>
+      <label class="vq-upload"><input id="vqPhoto" type="file" accept="image/jpeg,image/png,image/webp"><span><b>Raumfoto</b><span id="vqPhotoName">optional · bleibt auf deinem Gerät</span></span><b>Hinzufügen</b></label>
+    </div>
+    <div id="vqLeadContext" hidden>
+      <div class="vq-room-row"><label class="vq-room-field"><span>PLZ</span><input id="vqPostcode" inputmode="numeric" maxlength="5" placeholder="33154"></label><label class="vq-room-field"><span>Zeitraum</span><select id="vqTimeframe"><option value="soon">So bald wie möglich</option><option value="3m">In 1–3 Monaten</option><option value="6m">In 3–6 Monaten</option><option value="later">Später</option></select></label></div>
+      <p class="vq-context-note">Bei hochpreisigen Projekten kann VAYQUO statt eines Warenkorbs passende Fachangebote vorbereiten.</p>
+    </div>
+    <textarea class="vq-textarea" id="vqOwned" placeholder="Was ist schon vorhanden oder zwingend wichtig? z. B. Makita LXT vorhanden · Sofa bleibt · schwarze Armaturen"></textarea>
+    <div class="vq-nextrow"><button class="vq-back" type="button" data-back>← Zurück</button><button class="vq-next" type="button" data-next>Weiter →</button></div>
+  </div>
 
-  <div class="vq-step" data-step="3"><small class="vq-stepno">03 · Raum</small><h2>Wo muss es funktionieren?</h2><p>Maße schlagen Bauchgefühl. Ein Raumfoto kann zusätzlich als visuelle Planungsbasis dienen.</p><div class="vq-room-row"><label class="vq-room-field"><span>Breite in m</span><input id="vqWidth" type="number" min="1.5" max="30" step="0.1" value="4.8"></label><label class="vq-room-field"><span>Tiefe in m</span><input id="vqDepth" type="number" min="1.5" max="30" step="0.1" value="4.2"></label></div><label class="vq-upload"><input id="vqPhoto" type="file" accept="image/jpeg,image/png,image/webp"><span><b>Raumfoto hinzufügen</b><span id="vqPhotoName">optional · bleibt auf deinem Gerät</span></span><b>Foto wählen</b></label><div class="vq-nextrow"><button class="vq-back" type="button" data-back>← Zurück</button><button class="vq-next" type="button" data-next>Weiter →</button></div></div>
+  <div class="vq-step" data-step="3">
+    <small class="vq-stepno">03 · Priorität</small>
+    <h2>Wie soll VAYQUO entscheiden?</h2>
+    <div class="vq-mode-list"><button class="vq-mode" type="button" data-mode="save"><span>01</span><b>Smart sparen</b><small>Funktion zuerst. Budget maximal effizient.</small></button><button class="vq-mode selected" type="button" data-mode="value"><span>02</span><b>Beste Balance</b><small>Preis, Qualität und Langlebigkeit zusammen.</small></button><button class="vq-mode" type="button" data-mode="premium"><span>03</span><b>Einmal richtig</b><small>Qualität zuerst, ohne unnötigen Luxus.</small></button></div>
+    <div class="vq-nextrow"><button class="vq-back" type="button" data-back>← Zurück</button><button class="vq-next" type="button" data-next>Plan bauen →</button></div>
+  </div>
 
-  <div class="vq-step" data-step="4"><small class="vq-stepno">04 · Bestand & Priorität</small><h2>Was muss VAYQUO wissen, bevor es entscheidet?</h2><p>Vorhandene Dinge, Marken, Akkusysteme oder harte Wünsche gehören hier rein.</p><textarea class="vq-textarea" id="vqOwned" placeholder="z. B. Sofa ist schon da · Makita LXT vorhanden · schwarze Geräte vermeiden"></textarea><div class="vq-choice-grid" style="margin-top:12px"><button class="vq-choice" type="button" data-mode="save"><b>Smart sparen</b><span>Funktion zuerst</span></button><button class="vq-choice selected" type="button" data-mode="value"><b>Beste Balance</b><span>Preis / Leistung</span></button><button class="vq-choice" type="button" data-mode="premium"><b>Einmal richtig</b><span>Qualität zuerst</span></button></div><div class="vq-nextrow"><button class="vq-back" type="button" data-back>← Zurück</button><button class="vq-next" type="button" data-next>Plan bauen →</button></div></div>
-
-  <div class="vq-step vq-result" data-step="5"><div class="vq-result-head"><div><small class="vq-stepno">05 · Dein Plan</small><h2 id="vqResultTitle">Dein kompletter Kaufplan</h2></div><span class="vq-result-badge">VAYQUO · PROJECT FIT</span></div><div class="vq-result-grid"><div class="vq-result-visual" id="vqResultVisual"><div class="vq-result-overlay"><small id="vqResultVisualSub">Planungsansicht</small><b id="vqResultVisualTitle">Dein Raum</b></div></div><aside class="vq-result-panel"><div class="vq-result-metrics"><div class="vq-result-metric"><small>Budget</small><b id="vqResultBudget">–</b></div><div class="vq-result-metric"><small>Planwert</small><b id="vqResultPlan">–</b></div><div class="vq-result-metric"><small>Reserve</small><b id="vqResultReserve">–</b></div><div class="vq-result-metric"><small>Raum</small><b id="vqResultRoom">–</b></div></div><div class="vq-stack" id="vqStack"></div><button class="vq-result-cta" id="vqResultRestart" type="button">Plan anpassen →</button><div class="vq-result-note">Beim echten Kaufplan werden Preise, Verfügbarkeit und konkrete Produkte erst aus verbundenen Händlerdaten als verifiziert ausgewiesen.</div></aside></div></div>
+  <div class="vq-step vq-result" data-step="4">
+    <div class="vq-result-head"><div><small class="vq-stepno">04 · Ergebnis</small><h2 id="vqResultTitle">Dein VAYQUO Plan</h2></div><span class="vq-result-badge" id="vqResultRoute">SHOPPING PLAN</span></div>
+    <div class="vq-result-grid"><div class="vq-result-visual" id="vqResultVisual"><div class="vq-result-overlay"><small id="vqResultVisualSub">Projektplan</small><b id="vqResultVisualTitle">Dein Ergebnis</b></div></div><aside class="vq-result-panel"><div class="vq-result-metrics"><div class="vq-result-metric"><small>Budget</small><b id="vqResultBudget">–</b></div><div class="vq-result-metric"><small>Planwert</small><b id="vqResultPlan">–</b></div><div class="vq-result-metric"><small>Reserve</small><b id="vqResultReserve">–</b></div><div class="vq-result-metric"><small>Typ</small><b id="vqResultType">–</b></div></div><div class="vq-stack" id="vqStack"></div><button class="vq-result-cta" id="vqResultPrimary" type="button">Plan weiterführen →</button><button class="vq-result-secondary" id="vqResultRestart" type="button">Angaben ändern</button><div class="vq-result-note" id="vqResultNote">Verifizierte Preise und Händlerdaten werden nur angezeigt, wenn sie belastbar angebunden sind.</div></aside></div>
+  </div>
 </section>
 
-<script src="assets/vayquo-machine.js?v=800"></script>
-<script src="v36-anonymous-analytics.js?v=801"></script>
+<script src="assets/vayquo-machine.js?v=900"></script>
+<script src="v36-anonymous-analytics.js?v=901"></script>
 </body>
 </html>
