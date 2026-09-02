@@ -2,121 +2,156 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#151617">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="VAYQUO">
-<meta name="description" content="VAYQUO hilft dir zu entscheiden, wie du Punkte, Meilen und Kartenvorteile sinnvoll einsetzt – klar, persönlich und ohne Fantasiewerte.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111311">
+<meta name="description" content="VAYQUO baut das sinnvollste Setup für dein Budget – passend zu Ziel, Platz und dem, was du bereits besitzt.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="https://vayquo.de/">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://vayquo.de/#organization","name":"VAYQUO","url":"https://vayquo.de/","logo":{"@type":"ImageObject","url":"https://vayquo.de/vayquo-whatsapp-thumb.jpg","width":240,"height":240}},{"@type":"WebSite","@id":"https://vayquo.de/#website","url":"https://vayquo.de/","name":"VAYQUO","description":"VAYQUO hilft bei Entscheidungen rund um Kreditkarten, Punkten, Meilen und Vorteilen.","inLanguage":"de-DE","publisher":{"@id":"https://vayquo.de/#organization"}},{"@type":"WebApplication","@id":"https://vayquo.de/#app","name":"VAYQUO","url":"https://vayquo.de/","applicationCategory":"FinanceApplication","operatingSystem":"Web","isAccessibleForFree":true,"description":"Web-App zum Vergleichen und Einordnen von Kreditkarten, Punkten, Meilen und Vorteilen.","publisher":{"@id":"https://vayquo.de/#organization"}}]}
-</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="VAYQUO">
 <meta property="og:locale" content="de_DE">
 <meta property="og:url" content="https://vayquo.de/">
-<meta property="og:title" content="VAYQUO – Karten, Punkte & Meilen clever nutzen">
-<meta property="og:description" content="VAYQUO zeigt dir, was du nutzen solltest – und was du besser behältst.">
-<meta property="og:image" content="https://vayquo.de/vayquo-whatsapp-thumb.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="240">
-<meta property="og:image:height" content="240">
-<meta property="og:image:alt" content="VAYQUO">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="VAYQUO – Karten, Punkte & Meilen clever nutzen">
-<meta name="twitter:description" content="VAYQUO zeigt dir, was du nutzen solltest – und was du besser behältst.">
-<meta name="twitter:image" content="https://vayquo.de/vayquo-whatsapp-thumb.jpg">
-<meta name="twitter:image:alt" content="VAYQUO">
-<title>VAYQUO – Punkte, Meilen & Vorteile sinnvoll nutzen</title>
+<meta property="og:title" content="VAYQUO – Dein Budget. Das beste Setup.">
+<meta property="og:description" content="Sag uns dein Ziel, dein Budget und was du schon besitzt. VAYQUO baut daraus deinen sinnvollsten Einkaufsplan.">
+<title>VAYQUO – Dein Budget. Das beste Setup.</title>
 <style>
-html,body{margin:0;min-height:100%;background:#151617;color:#f8f4ed;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
-.loading{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;box-sizing:border-box;background:radial-gradient(120% 90% at 50% 38%,#202421 0,#171918 48%,#121413 100%);opacity:1;transform:scale(1);transition:opacity .16s ease,transform .16s ease}
-.loading.leaving{opacity:0;transform:scale(.985)}
-.loading b{display:block;font-size:17px;font-weight:760;letter-spacing:.27em}
-.loading .claim{display:block;margin-top:20px;color:#f8f4ed;font-size:18px;line-height:1.38;font-weight:620;letter-spacing:-.02em}
-.loading small{display:block;margin-top:13px;color:#a4aaa6;font-size:11px;line-height:1.5;letter-spacing:.035em}
+:root{--bg:#111311;--panel:#191c19;--panel2:#202420;--text:#f6f2e9;--muted:#aeb5ad;--line:#303630;--accent:#d9ff6a;--accent2:#b9e94b;--danger:#ff897d;--shadow:0 22px 60px rgba(0,0,0,.28)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(900px 520px at 50% -100px,#283025 0,#151815 55%,#101210 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}.top{height:72px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:850;letter-spacing:.24em;font-size:15px}.beta{font-size:10px;letter-spacing:.12em;color:#161a13;background:var(--accent);padding:6px 9px;border-radius:999px;margin-left:8px}.top a{color:var(--muted);text-decoration:none;font-size:13px}.hero{padding:58px 0 34px;text-align:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:999px;padding:8px 12px;color:#d4dacd;font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px rgba(217,255,106,.7)}h1{font-size:clamp(42px,7vw,82px);line-height:.96;letter-spacing:-.055em;margin:22px auto 18px;max-width:900px}.accent{color:var(--accent)}.hero p{max-width:660px;margin:0 auto;color:var(--muted);font-size:clamp(16px,2vw,20px);line-height:1.55}.proof{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:24px;color:#c9d0c6;font-size:12px}.proof span:before{content:"✓";color:var(--accent);margin-right:6px}.section-title{margin:42px 0 14px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#8f978e}.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.cat{appearance:none;border:1px solid var(--line);background:linear-gradient(145deg,#1b1f1b,#151815);color:var(--text);text-align:left;padding:20px;border-radius:22px;min-height:172px;transition:.18s ease;position:relative;overflow:hidden}.cat:hover,.cat.active{transform:translateY(-2px);border-color:#697c48;box-shadow:0 14px 34px rgba(0,0,0,.22)}.cat.active{background:linear-gradient(145deg,#232a1f,#171b16)}.cat .icon{font-size:34px;display:block;margin-bottom:18px}.cat b{font-size:18px;display:block}.cat small{display:block;color:var(--muted);line-height:1.45;margin-top:7px}.cat .status{position:absolute;right:14px;top:14px;font-size:9px;text-transform:uppercase;letter-spacing:.12em;background:#2b312a;color:#d5ddd1;padding:5px 7px;border-radius:999px}.builder{margin:18px 0 52px;border:1px solid var(--line);background:rgba(24,27,24,.94);border-radius:26px;box-shadow:var(--shadow);overflow:hidden;display:none}.builder.show{display:block}.builder-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}.builder-head b{font-size:20px}.builder-head span{color:var(--muted);font-size:12px}.steps{padding:22px 24px}.step{padding:18px 0;border-bottom:1px solid var(--line)}.step:last-child{border-bottom:0}.step h3{margin:0 0 13px;font-size:14px}.budget-row{display:grid;grid-template-columns:1fr 126px;gap:12px;align-items:center}.budget-row input[type=range]{width:100%;accent-color:var(--accent)}.money{background:#111411;color:var(--text);border:1px solid var(--line);border-radius:13px;padding:12px;text-align:center;font-weight:800}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);background:#131613;color:#c9d0c6;border-radius:999px;padding:10px 13px;font-size:12px}.chip.on{background:var(--accent);border-color:var(--accent);color:#161a13;font-weight:750}.owned{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.check{display:flex;gap:9px;align-items:center;background:#131613;border:1px solid var(--line);border-radius:14px;padding:11px 12px;color:#cbd1c8;font-size:12px}.check input{accent-color:var(--accent)}.select{width:100%;background:#111411;color:var(--text);border:1px solid var(--line);border-radius:13px;padding:12px}.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mode{border:1px solid var(--line);background:#131613;color:var(--text);border-radius:15px;padding:13px;text-align:left}.mode b{display:block;font-size:13px}.mode small{color:var(--muted);font-size:11px}.mode.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}.actions{display:flex;gap:10px;padding-top:20px}.primary{border:0;background:var(--accent);color:#171a13;border-radius:15px;padding:14px 18px;font-weight:850}.primary:hover{background:var(--accent2)}.secondary{border:1px solid var(--line);background:#151815;color:#dce2d8;border-radius:15px;padding:14px 18px}.results{display:none;margin:18px 0 80px}.results.show{display:block}.result-hero{border:1px solid #566443;background:linear-gradient(145deg,#21281e,#171b16);border-radius:26px;padding:24px;display:grid;grid-template-columns:1.3fr .7fr;gap:18px}.result-hero h2{font-size:clamp(30px,5vw,48px);letter-spacing:-.04em;margin:7px 0 10px}.result-hero p{color:var(--muted);line-height:1.5;margin:0}.scorebox{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{background:#121512;border:1px solid var(--line);border-radius:16px;padding:14px}.metric small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em}.metric b{display:block;font-size:23px;margin-top:5px}.result-actions{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}.list{margin-top:14px;border:1px solid var(--line);border-radius:22px;overflow:hidden}.item{display:grid;grid-template-columns:38px 1fr auto auto;gap:12px;align-items:center;padding:14px 16px;background:#171a17;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.num{width:30px;height:30px;border-radius:10px;background:#252b24;display:grid;place-items:center;font-size:11px;color:#d4dbd0}.item b{font-size:13px}.item small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.price{font-weight:850;font-size:13px;white-space:nowrap}.shop{border:1px solid var(--line);background:#111411;color:#dce2d8;border-radius:11px;padding:9px 10px;font-size:11px;text-decoration:none;white-space:nowrap}.next{margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:20px;background:#161916}.next h3{margin:0 0 10px;font-size:14px}.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.next-card{background:#111411;border:1px solid var(--line);border-radius:14px;padding:12px}.next-card b{font-size:12px}.next-card small{display:block;color:var(--muted);font-size:11px;margin-top:5px}.disclaimer{margin:18px 0;color:#8f978e;font-size:10px;line-height:1.55}.footer{border-top:1px solid var(--line);padding:28px 0 42px;color:#889087;font-size:11px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer a{color:#aeb5ad;text-decoration:none}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#f1f4eb;color:#111;border-radius:12px;padding:11px 14px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
+@media(max-width:820px){.categories{grid-template-columns:1fr 1fr}.owned{grid-template-columns:1fr 1fr}.result-hero{grid-template-columns:1fr}.item{grid-template-columns:34px 1fr auto}.shop{grid-column:2/4;width:max-content}.next-grid{grid-template-columns:1fr}.hero{padding-top:36px}}
+@media(max-width:520px){.wrap{width:min(100% - 20px,1120px)}.top{height:60px}.categories{grid-template-columns:1fr 1fr;gap:8px}.cat{padding:15px;min-height:145px;border-radius:18px}.cat .icon{font-size:28px;margin-bottom:12px}.cat b{font-size:15px}.cat small{font-size:10px}.steps,.builder-head{padding-left:15px;padding-right:15px}.budget-row{grid-template-columns:1fr 100px}.owned{grid-template-columns:1fr}.mode-grid{grid-template-columns:1fr}.actions{flex-direction:column}.primary,.secondary{width:100%}.result-hero{padding:18px}.item{padding:12px 10px;gap:8px}.price{font-size:12px}}
 </style>
 </head>
 <body>
-<div class="loading" id="loading"><div><b>VAYQUO</b><span class="claim">Kreditkarten, Punkte & Meilen.<br>Einfach besser nutzen.</span><small>Vergleichen · Optimieren · Vorteile nutzen</small></div></div>
+<div class="wrap">
+<header class="top"><div><span class="brand">VAYQUO</span><span class="beta">BETA</span></div><a href="#builder">Setup bauen ↓</a></header>
+<section class="hero">
+<div class="eyebrow"><span class="dot"></span> Budget-Optimierer für komplette Setups</div>
+<h1>Dein Budget.<br><span class="accent">Das beste Setup.</span></h1>
+<p>Sag uns, was du vorhast, was du schon besitzt und wie viel du ausgeben willst. VAYQUO baut daraus einen sinnvollen Einkaufsplan – statt dir einfach Produkte hinzuklatschen.</p>
+<div class="proof"><span>berücksichtigt vorhandene Ausstattung</span><span>priorisiert nach Nutzen</span><span>bleibt im Budget</span></div>
+</section>
+<div class="section-title">Was willst du aufbauen?</div>
+<section class="categories" id="categories">
+<button class="cat" data-cat="workshop"><span class="status">Live</span><span class="icon">🔨</span><b>Werkstatt</b><small>Heimwerken, Möbelbau, Renovierung und Werkzeug-Systeme.</small></button>
+<button class="cat" data-cat="gym"><span class="status">Live</span><span class="icon">🏋️</span><b>Home Gym</b><small>Muskelaufbau, Kraft und Fitness passend zu Platz und Budget.</small></button>
+<button class="cat" data-cat="garage"><span class="status">Live</span><span class="icon">🚗</span><b>Schrauber-Garage</b><small>Wartung, Räder, Bremsen, Diagnose und Pflege.</small></button>
+<button class="cat" data-cat="apartment"><span class="status">Beta</span><span class="icon">🏠</span><b>Erste Wohnung</b><small>Schlafen, Küche, Reinigung und die Dinge, die zuerst Sinn machen.</small></button>
+</section>
+
+<section class="builder" id="builder">
+<div class="builder-head"><div><b id="builderTitle">Dein Setup</b><br><span>4 kurze Angaben. Danach rechnen wir.</span></div><span id="stepHint">MVP · Beispielpreise</span></div>
+<div class="steps">
+<div class="step"><h3>1 · Wie viel willst du maximal ausgeben?</h3><div class="budget-row"><input id="budget" type="range" min="250" max="5000" step="50" value="1000"><input id="budgetMoney" class="money" type="text" value="1.000 €" inputmode="numeric"></div></div>
+<div class="step"><h3>2 · Was ist dir wichtig?</h3><div class="chips" id="goals"></div></div>
+<div class="step" id="contextStep"><h3 id="contextTitle">3 · Rahmen</h3><select id="context" class="select"></select></div>
+<div class="step"><h3>4 · Was besitzt du bereits?</h3><div class="owned" id="owned"></div></div>
+<div class="step"><h3>5 · Wie sollen wir priorisieren?</h3><div class="mode-grid"><button class="mode" data-mode="save"><b>Maximal sparen</b><small>Funktion zuerst, weniger Premium.</small></button><button class="mode on" data-mode="value"><b>Preis / Leistung</b><small>Unser Standard für die meisten.</small></button><button class="mode" data-mode="premium"><b>Einmal richtig</b><small>Mehr Qualität, wo sie langfristig zählt.</small></button></div><div class="actions"><button id="build" class="primary">Mein Setup berechnen →</button><button id="reset" class="secondary">Zurücksetzen</button></div></div>
+</div>
+</section>
+
+<section class="results" id="results">
+<div class="result-hero"><div><div class="eyebrow"><span class="dot"></span><span id="resultLabel">Dein VAYQUO Setup</span></div><h2 id="resultTitle">Dein Setup</h2><p id="resultText"></p><div class="result-actions"><button class="primary" id="share">Setup teilen</button><button class="secondary" id="edit">Angaben ändern</button></div></div><div class="scorebox"><div class="metric"><small>Budget</small><b id="mBudget">–</b></div><div class="metric"><small>Geplant</small><b id="mSpent">–</b></div><div class="metric"><small>Reserve</small><b id="mReserve">–</b></div><div class="metric"><small>Budget-Fit</small><b id="mFit">–</b></div></div></div>
+<div class="section-title">Deine Reihenfolge</div><div class="list" id="resultList"></div>
+<div class="next"><h3>Danach als Nächstes</h3><div class="next-grid" id="nextGrid"></div></div>
+<p class="disclaimer">MVP-Hinweis: Die Preise sind derzeit gerundete Beispielwerte zur Budgetplanung und keine Live-Shoppreise. „Preis prüfen“ öffnet aktuell eine neutrale Amazon-Produktsuche ohne Affiliate-Tracking. Vor einer Kaufentscheidung bitte Preis, Lieferumfang, Kompatibilität, Maße und Sicherheitsanforderungen beim Händler prüfen. Sobald Partnerprogramme angebunden sind, werden Partnerlinks transparent gekennzeichnet.</p>
+</section>
+<footer class="footer"><span>VAYQUO · bessere Entscheidungen für dein Budget</span><span><a href="rechtliches.html">Impressum & Datenschutz</a> · <a href="mailto:webmaster@vayquo.de">Kontakt</a></span></footer>
+</div><div class="toast" id="toast">Link kopiert</div>
 <script>
-(async()=>{
- const introStarted=Date.now();
- try{
-  if(typeof DecompressionStream==='undefined') throw new Error('Browser unterstützt Dekomprimierung nicht');
-  const files=["assets/data-01.txt", "assets/data-02.txt", "assets/data-03.txt", "assets/data-04.txt", "assets/data-05.txt", "assets/data-06.txt", "assets/data-07.txt"];
-  const parts=await Promise.all(files.map(async file=>{const response=await fetch(file,{cache:'no-store'});if(!response.ok)throw new Error('Fehlende App-Datei: '+file);return (await response.text()).trim();}));
-  const binary=atob(parts.join(''));
-  const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));
-  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-  const html=await new Response(stream).text();
-  const navFix='<style id="v23-nav-fix">@media(max-width:679px){.bottom{bottom:max(4px,calc(var(--safe-bottom) - 8px))!important;height:60px!important;width:min(calc(100% - 18px),442px)!important;padding:5px!important;border-radius:19px!important;box-shadow:0 10px 26px rgba(18,18,18,.09)!important}.nav{font-size:9px!important;gap:3px!important;border-radius:14px!important}.nav svg{width:20px!important;height:20px!important}main{padding-bottom:calc(122px + var(--safe-bottom))!important}.toast{bottom:calc(76px + var(--safe-bottom))!important}}</style>';
-  const authGate='<style id="v24-auth-gate">html.vq-auth-pending #app,html.vq-auth-pending .bottom{visibility:hidden!important}</style><script>try{if(localStorage.getItem("vayquo:authSession"))document.documentElement.classList.add("vq-auth-pending")}catch{}<\/script>';
-  const stablePaintGate='<style id="v47-stable-paint">#app,.bottom{opacity:0!important;pointer-events:none!important}</style>';
-  const step2Assets='<link rel="stylesheet" href="v24-step2.css?v=2411"><script src="v24-step2.js?v=2406"><\/script>';
-  const checkClarityAssets='<script src="v24-check-clarity.js?v=2402"><\/script>';
-  const flightSearchControlsAssets='<script src="v24-flight-search-controls.js?v=2402"><\/script>';
-  const edgeAuthAssets='<script src="v24-edge-auth.js?v=2401"><\/script>';
-  const flightLiveAssets='<script src="v24-flight-live.js?v=2407"><\/script>';
-  const flightOptimizerAssets='<script src="v26-award-coming-soon.js?v=2601"><\/script>';
-  const flightSourcePointsAssets='<script src="v24-flight-source-points.js?v=2401"><\/script>';
-  const flightFeasibilityAssets='<script src="v24-flight-feasibility.js?v=2402"><\/script>';
-  const releaseCleanupAssets='<script src="v24-release-cleanup.js?v=2402"><\/script>';
-  const step3Assets='<link rel="stylesheet" href="v24-step3.css?v=2402"><script src="v24-step3.js?v=2405"><\/script>';
-  const mrSeparationAssets='<script src="v24-mr-separation.js?v=2402"><\/script>';
-  const step35Assets='<link rel="stylesheet" href="v24-step35.css?v=2445"><script src="v24-step35.js?v=2446"><\/script>';
-  const pointsBalanceAssets='<link rel="stylesheet" href="v24-points-balance.css?v=2401"><script src="v24-points-balance.js?v=2404"><\/script>';
-  const pointsValidationAssets='<script src="v24-points-validation.js?v=2401"><\/script>';
-  const onboardingAssets='<script src="v24-onboarding.js?v=2402" data-v24ob-loader="1"><\/script>';
-  const startFilterAssets='<script src="v24-start-filter.js?v=2403"><\/script>';
-  const heroPersonalAssets='<script src="v24-hero-personal.js?v=2401"><\/script>';
-  const homeUspAssets='<script src="v34-home-usp.js?v=3419"><\/script>';
-  const startCleanupAssets='<script src="v24-start-cleanup.js?v=2401"><\/script>';
-  const platinumClarityAssets='<script src="v24-platinum-clarity.js?v=2401"><\/script>';
-  const loungeDirectAssets='<script src="v24-lounge-direct.js?v=2405"><\/script>';
-  const restaurantDirectAssets='<script src="v24-restaurant-direct.js?v=2405"><\/script>';
-  const travelCreditAssets='<script src="v24-travel-credit.js?v=2401"><\/script>';
-  const benefitActionsAssets='<script src="v24-benefit-actions.js?v=2401"><\/script>';
-  const benefitOptimizerAssets='<script src="v24-benefit-optimizer.js?v=2402"><\/script>';
-  const benefitRecoGuardAssets='<script src="v24-benefit-reco-guard.js?v=2402"><\/script>';
-  const cardCatalogRuntimeAssets='<script src="v34-card-catalog-runtime.js?v=3401"><\/script>';
-  const analyticsAssets='<script src="v36-anonymous-analytics.js?v=3602"><\/script>';
-  const cardCheckAssets='<script src="v24-card-check.js?v=2411"><\/script>';
-  const cardDiagnosticsAssets='';
-  const commercialPolicyAssets='<script src="v24-commercial-policy.js?v=2401"><\/script>';
-  const v25CoreAssets='<script src="v25-engine-v2.js?v=2502"><\/script><script src="v25-engine-selftest-v2.js?v=2502"><\/script><script src="v25-classic-engine-bridge.js?v=2502"><\/script>';
-  const premiumAssets='<link rel="stylesheet" href="v24-premium-system.css?v=2402"><script src="v24-premium-system.js?v=2403"><\/script><script src="v24-optimizer-polish.js?v=2407"><\/script>';
-  const offerContextAssets='<script src="v24-offer-context.js?v=2402"><\/script>';
-  const dateShellAssets='<script src="v24-date-shell.js?v=2401"><\/script>';
-  const socialAuthAssets='<script src="v24-social-auth.js?v=2404"><\/script>';
-  const authAssets='<script src="v24-auth.js?v=2404"><\/script>';
-  const authPolishAssets='<script src="v24-auth-polish.js?v=2402"><\/script><style id="v24-auth-layout-stability">.v24a-forgot-wrap{height:18px!important;min-height:18px!important}</style>';
-  const cardResultOpenAssets='';
-  const legalAssets='<script src="v24-legal.js?v=2401"><\/script>';
-  const ratgeberEntryAssets='<script src="v24-ratgeber-entry.js?v=2411"><\/script>';
-  const integratedRatgeberAssets='';
-  const pulseAssets='<script src="v46-pulse-entry.js?v=4604"><\/script>';
-  const navStabilityAssets='<style id="v24-nav-stability">@media(max-width:679px){.bottom{position:fixed!important;left:12px!important;right:12px!important;max-width:442px!important;width:auto!important;margin-left:auto!important;margin-right:auto!important;transform:none!important;bottom:max(8px,env(safe-area-inset-bottom))!important;height:62px!important;animation:none!important}.bottom .nav,.nav{flex:1 1 0!important;width:auto!important;height:48px!important;min-height:48px!important;transform:none!important;transition:none!important;animation:none!important}.bottom .nav:active,.nav:active,.bottom .nav.active,.nav.active{transform:none!important}}</style>';
-  const uiConsistencyAssets='<script src="v29-ui-consistency.js?v=2903"><\/script>';
-  const pointsPageCleanupAssets='<script src="v30-points-page-cleanup.js?v=3001"><\/script>';
-  const navigationStateAssets='<script src="v33-navigation-state.js?v=3301"><\/script>';
-  const cardFlowStabilityAssets='';
-  const contextualSetupAssets='<script src="v33-contextual-setup.js?v=3301"><\/script>';
-  const visualPolishAssets='<link rel="stylesheet" href="v35-visual-polish.css?v=3502">';
-  const nativeTabbarAssets='<link rel="stylesheet" href="v39-native-tabbar.css?v=3901">';
-  const stableRevealAssets='<script id="v47-stable-reveal">(()=>{let tries=0,done=false;const reveal=()=>{if(done)return;done=true;document.getElementById("v47-stable-paint")?.remove();};const startActive=()=>{const active=document.querySelector("#bottom [data-view].active,.bottom [data-view].active,#bottom [aria-current=page],.bottom [aria-current=page]");const v=String(active?.dataset?.view||active?.textContent||"").trim().toLowerCase();return v==="start"||v==="today"||document.body.textContent.includes("Deine Programme");};const settle=()=>{if(done)return;const app=document.getElementById("app");const homeReady=!startActive()||document.documentElement.classList.contains("vq-home-layout-ready");if(app&&homeReady){requestAnimationFrame(()=>requestAnimationFrame(reveal));return;}if(++tries<36)setTimeout(settle,40);else reveal();};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",settle,{once:true});else settle();setTimeout(reveal,1800);})();<\/script>';
-  let patchedHtml=html.includes('</head>')?html.replace('</head>',navFix+authGate+stablePaintGate+'</head>'):html+navFix+authGate+stablePaintGate;
-  const injected=step2Assets+checkClarityAssets+flightSearchControlsAssets+edgeAuthAssets+flightLiveAssets+flightOptimizerAssets+flightSourcePointsAssets+flightFeasibilityAssets+releaseCleanupAssets+step3Assets+mrSeparationAssets+step35Assets+pointsBalanceAssets+pointsValidationAssets+onboardingAssets+startFilterAssets+heroPersonalAssets+homeUspAssets+startCleanupAssets+platinumClarityAssets+loungeDirectAssets+restaurantDirectAssets+travelCreditAssets+benefitActionsAssets+benefitOptimizerAssets+benefitRecoGuardAssets+cardCatalogRuntimeAssets+analyticsAssets+cardCheckAssets+cardDiagnosticsAssets+commercialPolicyAssets+v25CoreAssets+premiumAssets+offerContextAssets+dateShellAssets+socialAuthAssets+authAssets+authPolishAssets+cardResultOpenAssets+legalAssets+ratgeberEntryAssets+integratedRatgeberAssets+pulseAssets+navStabilityAssets+uiConsistencyAssets+pointsPageCleanupAssets+navigationStateAssets+cardFlowStabilityAssets+contextualSetupAssets+visualPolishAssets+nativeTabbarAssets+stableRevealAssets;
-  patchedHtml=patchedHtml.includes('</body>')?patchedHtml.replace('</body>',injected+'</body>'):patchedHtml+injected;
-  const remaining=Math.max(0,850-(Date.now()-introStarted));
-  if(remaining) await new Promise(resolve=>setTimeout(resolve,remaining));
-  document.getElementById('loading')?.classList.add('leaving');
-  await new Promise(resolve=>setTimeout(resolve,160));
-  document.open();document.write(patchedHtml);document.close();
- }catch(error){console.error(error);document.getElementById('loading').innerHTML='<div><b>VAYQUO</b><small>Die App konnte nicht geladen werden.<br>Bitte die Seite neu laden oder einen aktuellen Browser verwenden.</small></div>';}
-})();
+const DATA={
+workshop:{name:'Werkstatt',icon:'🔨',budget:[250,5000,1000],goals:[['allround','Allgemein heimwerken'],['furniture','Möbel bauen'],['renovate','Renovieren'],['wood','Holzbearbeitung']],context:{title:'3 · Welches Akkusystem nutzt du schon?',options:[['none','Noch keines'],['makita','Makita LXT 18V'],['boschpro','Bosch Professional 18V'],['dewalt','DeWalt XR 18V'],['einhell','Einhell Power X-Change'],['milwaukee','Milwaukee M18']]},items:[
+{id:'driver',name:'18V Akkuschrauber',price:[75,145,230],must:1,score:98,tags:['allround','furniture','renovate','wood'],search:'18V Akkuschrauber',why:'Basis für Bohren und Schrauben',battery:1},
+{id:'bits',name:'Bit- & Bohrer-Set',price:[28,48,80],must:1,score:94,tags:['allround','furniture','renovate','wood'],search:'Bit Bohrer Set',why:'macht den Akkuschrauber erst vielseitig'},
+{id:'measure',name:'Messen & Anzeichnen',price:[22,45,85],must:1,score:93,tags:['allround','furniture','renovate','wood'],search:'Wasserwaage Winkel Maßband Set',why:'Fehler vermeiden, bevor Material verschnitten wird'},
+{id:'safety',name:'Schutzbrille, Gehör- & Atemschutz',price:[28,52,95],must:1,score:100,tags:['allround','furniture','renovate','wood'],search:'Arbeitsschutz Set Schutzbrille Gehörschutz Atemschutz',why:'Sicherheit hat Vorrang'},
+{id:'clamps',name:'Zwingen-Set',price:[35,70,130],must:0,score:88,tags:['furniture','wood'],search:'Schraubzwingen Set',why:'entscheidend für saubere Verleimung und Montage'},
+{id:'circular',name:'Handkreissäge',price:[75,155,260],must:0,score:92,tags:['furniture','renovate','wood'],search:'18V Handkreissäge',why:'gerade Zuschnitte bringen den größten Sprung',battery:1},
+{id:'rail',name:'Führungsschiene / Anschlag',price:[35,70,130],must:0,score:82,tags:['furniture','wood'],search:'Führungsschiene Handkreissäge',why:'macht Zuschnitte deutlich präziser'},
+{id:'sander',name:'Exzenterschleifer',price:[55,105,175],must:0,score:81,tags:['furniture','renovate','wood'],search:'Exzenterschleifer',why:'spart viel Zeit beim Oberflächenfinish'},
+{id:'vac',name:'Nass-/Trockensauger',price:[70,135,240],must:0,score:84,tags:['renovate','wood','furniture'],search:'Werkstattsauger Nass Trockensauger',why:'Staubmanagement verbessert Arbeit und Gesundheit'},
+{id:'jigsaw',name:'Stichsäge',price:[55,110,185],must:0,score:76,tags:['allround','furniture','renovate','wood'],search:'18V Stichsäge',why:'für Kurven und flexible Ausschnitte',battery:1},
+{id:'bench',name:'Stabile Werkbank',price:[95,210,390],must:0,score:77,tags:['allround','furniture','wood'],search:'Werkbank stabil',why:'eine feste Arbeitsfläche macht fast jede Arbeit besser'},
+{id:'multi',name:'Multitool',price:[55,105,180],must:0,score:75,tags:['renovate','allround'],search:'18V Multitool',why:'stark bei Reparaturen und schwer zugänglichen Stellen',battery:1},
+{id:'socket',name:'Handwerkzeug-Grundset',price:[65,125,220],must:0,score:80,tags:['allround','renovate'],search:'Handwerkzeug Set Zangen Schraubendreher',why:'deckt viele kleine Arbeiten ohne Elektrowerkzeug ab'},
+{id:'light',name:'Arbeitsbeleuchtung',price:[28,65,120],must:0,score:68,tags:['allround','renovate','wood'],search:'LED Arbeitsleuchte Werkstatt',why:'gute Sicht verbessert Präzision'},
+{id:'router',name:'Oberfräse',price:[75,160,285],must:0,score:70,tags:['furniture','wood'],search:'Oberfräse',why:'lohnt sich, wenn Kanten und Verbindungen wichtiger werden'}]},
+gym:{name:'Home Gym',icon:'🏋️',budget:[250,5000,1200],goals:[['muscle','Muskelaufbau'],['strength','Kraft'],['general','Allgemeine Fitness'],['compact','Maximal kompakt']],context:{title:'3 · Wie viel Platz hast du?',options:[['small','Bis 6 m²'],['medium','6–12 m²'],['large','Mehr als 12 m²']]},items:[
+{id:'floor',name:'Bodenschutz',price:[45,95,180],must:1,score:98,tags:['muscle','strength','general','compact'],search:'Gym Bodenmatten Gummimatten',why:'schützt Boden, Equipment und dämpft Geräusche'},
+{id:'bench',name:'Verstellbare Trainingsbank',price:[90,180,330],must:1,score:95,tags:['muscle','strength','general'],search:'verstellbare Hantelbank stabil',why:'Basis für viele freie Übungen'},
+{id:'dumbbells',name:'Verstellbare Kurzhanteln / Set',price:[120,260,520],must:1,score:96,tags:['muscle','strength','general','compact'],search:'verstellbare Kurzhanteln Set',why:'sehr viele Übungen auf wenig Fläche'},
+{id:'rack',name:'Rack / Half Rack',price:[180,350,650],must:0,score:94,tags:['muscle','strength'],search:'Power Rack Half Rack Home Gym',why:'macht schwere Grundübungen sicherer'},
+{id:'bar',name:'50-mm-Langhantel',price:[90,170,290],must:0,score:92,tags:['muscle','strength'],search:'Olympia Langhantel 50mm',why:'Standardbasis für langfristigen Kraftaufbau'},
+{id:'plates',name:'50-mm-Hantelscheiben',price:[160,320,620],must:0,score:93,tags:['muscle','strength'],search:'Hantelscheiben 50mm Set',why:'Gewichtsreserve ist für Progression entscheidend'},
+{id:'bands',name:'Widerstandsbänder',price:[20,40,70],must:0,score:83,tags:['muscle','strength','general','compact'],search:'Resistance Bands Set',why:'günstig, vielseitig und ideal für Zubehörübungen'},
+{id:'pullup',name:'Klimmzuglösung',price:[35,90,170],must:0,score:88,tags:['muscle','strength','general','compact'],search:'Klimmzugstange Home Gym',why:'starker Rückenreiz mit wenig Zusatzkosten'},
+{id:'storage',name:'Gewichts-/Equipment-Aufbewahrung',price:[45,110,220],must:0,score:64,tags:['muscle','strength','general'],search:'Hantelständer Aufbewahrung Home Gym',why:'Ordnung spart Platz und reduziert Stolperstellen'},
+{id:'cardio',name:'Cardio-Option',price:[80,220,650],must:0,score:68,tags:['general'],search:'Heimtrainer kompakt Fitness',why:'ergänzt Kondition, wenn sie wirklich Priorität hat'},
+{id:'cable',name:'Kabelzug-Erweiterung',price:[90,220,480],must:0,score:76,tags:['muscle'],search:'Kabelzug Home Gym',why:'bringt neue Bewegungswinkel für Muskelaufbau'},
+{id:'collars',name:'Verschlüsse & Kleinzubehör',price:[18,35,65],must:0,score:80,tags:['strength','muscle'],search:'Olympia Verschlüsse 50mm',why:'kleine Ausgabe mit direktem Sicherheitsnutzen'},
+{id:'mirror',name:'Spiegel / Technikcheck',price:[45,95,180],must:0,score:45,tags:['general','muscle'],search:'Wandspiegel Fitnessraum',why:'hilft bei Technik und Raumgefühl'},
+{id:'mat',name:'Trainingsmatte',price:[20,40,75],must:0,score:72,tags:['general','compact'],search:'Trainingsmatte Fitness dick',why:'sinnvoll für Bodenübungen und Mobility'},
+{id:'fan',name:'Ventilator',price:[25,55,110],must:0,score:42,tags:['general','strength','muscle'],search:'Ventilator leise Fitnessraum',why:'Komfort erhöht die Nutzungswahrscheinlichkeit'}]},
+garage:{name:'Schrauber-Garage',icon:'🚗',budget:[250,5000,1000],goals:[['service','Wartung & Service'],['wheels','Räder'],['brakes','Bremsen/Fahrwerk'],['diagnostic','Diagnose']],context:{title:'3 · Wie intensiv schraubst du?',options:[['basic','Gelegentlich'],['regular','Regelmäßig'],['heavy','Ambitioniert / mehrere Fahrzeuge']]},items:[
+{id:'socket',name:'Steckschlüssel-/Knarrenkasten',price:[70,150,280],must:1,score:98,tags:['service','wheels','brakes','diagnostic'],search:'Steckschlüsselsatz Knarrenkasten Auto',why:'Grundlage für fast jede mechanische Arbeit'},
+{id:'torque',name:'Drehmomentschlüssel',price:[45,95,180],must:1,score:99,tags:['service','wheels','brakes'],search:'Drehmomentschlüssel Auto',why:'wichtige Verschraubungen brauchen korrektes Drehmoment'},
+{id:'light',name:'Arbeits-/Motorraumleuchte',price:[25,60,120],must:1,score:90,tags:['service','wheels','brakes','diagnostic'],search:'LED Motorraumleuchte Werkstatt',why:'gute Sicht spart Zeit und Fehler'},
+{id:'jack',name:'Rangierwagenheber',price:[70,145,280],must:0,score:95,tags:['wheels','brakes','service'],search:'Rangierwagenheber flach 3t',why:'schneller und sicherer Zugang unter das Fahrzeug'},
+{id:'stands',name:'Unterstellböcke',price:[35,75,140],must:0,score:100,tags:['wheels','brakes','service'],search:'Unterstellböcke Auto Set',why:'ein Wagenheber allein ist keine sichere Abstützung'},
+{id:'breaker',name:'Knebel / Breaker Bar',price:[25,55,100],must:0,score:82,tags:['wheels','brakes'],search:'Breaker Bar Gelenkgriff 1/2',why:'hilft bei festsitzenden Verschraubungen'},
+{id:'impact',name:'Akku-Schlagschrauber',price:[90,180,320],must:0,score:88,tags:['wheels','brakes','service'],search:'Akku Schlagschrauber Auto 1/2',why:'spart bei Rad- und Fahrwerksarbeiten viel Zeit'},
+{id:'obd',name:'OBD-Diagnose',price:[35,110,300],must:0,score:92,tags:['diagnostic','service'],search:'OBD Diagnosegerät Auto',why:'Fehler lesen, bevor Teile auf Verdacht getauscht werden'},
+{id:'pliers',name:'Zangen-/Schraubendreher-Set',price:[45,90,160],must:0,score:80,tags:['service','brakes','diagnostic'],search:'Zangen Schraubendreher Set Werkstatt Auto',why:'deckt viele Nebenarbeiten ab'},
+{id:'fluid',name:'Auffangwanne & Trichter',price:[22,45,80],must:0,score:78,tags:['service'],search:'Ölauffangwanne Trichter Auto',why:'sauberer Flüssigkeitsservice ohne Improvisation'},
+{id:'brake',name:'Bremsen-Werkzeugbasis',price:[35,85,170],must:0,score:86,tags:['brakes'],search:'Bremskolbenrücksteller Bremsen Werkzeug Set',why:'für typische Bremsenarbeiten sehr hilfreich'},
+{id:'creeper',name:'Rollbrett / Werkstattliege',price:[35,80,150],must:0,score:58,tags:['service','brakes'],search:'Werkstattliege Rollbrett Auto',why:'mehr Komfort bei Arbeiten unter dem Fahrzeug'},
+{id:'charger',name:'Batterieladegerät',price:[35,80,160],must:0,score:70,tags:['service','diagnostic'],search:'Autobatterie Ladegerät intelligent',why:'hilfreich bei Standzeiten und Diagnose'},
+{id:'clean',name:'Teilereinigung / Chemie-Basis',price:[35,75,130],must:0,score:62,tags:['service','brakes'],search:'Bremsenreiniger Werkstatt Reinigung Set',why:'saubere Teile erleichtern Kontrolle und Montage'},
+{id:'cart',name:'Werkzeugwagen / Organisation',price:[120,260,520],must:0,score:54,tags:['service','wheels','brakes','diagnostic'],search:'Werkzeugwagen leer stabil',why:'lohnt sich, sobald der Werkzeugbestand wächst'}]},
+apartment:{name:'Erste Wohnung',icon:'🏠',budget:[250,5000,1500],goals:[['essential','Nur das Wichtigste'],['kitchen','Küche zuerst'],['comfort','Schnell wohnlich'],['quality','Langlebig kaufen']],context:{title:'3 · Welche Situation passt?',options:[['studio','1-Zimmer / Studio'],['small','2-Zimmer'],['shared','WG / teilweise ausgestattet']]},items:[
+{id:'bed',name:'Schlafen: Bett/Matratze-Basis',price:[220,450,850],must:1,score:100,tags:['essential','comfort','quality'],search:'Matratze Bett 140x200 Set',why:'guter Schlaf hat täglich den größten Nutzen'},
+{id:'bedding',name:'Bettdecke, Kissen & Bezüge',price:[60,120,220],must:1,score:95,tags:['essential','comfort'],search:'Bettdecke Kissen Bettwäsche Set',why:'sofort nötig und leicht zu vergessen'},
+{id:'cook',name:'Topf-/Pfannen-Grundset',price:[65,140,260],must:1,score:96,tags:['essential','kitchen','quality'],search:'Topf Pfannen Set Induktion',why:'deckt die meisten Alltagsgerichte ab'},
+{id:'dishes',name:'Geschirr, Besteck & Gläser',price:[45,90,170],must:1,score:90,tags:['essential','kitchen'],search:'Geschirr Besteck Gläser Starter Set',why:'Alltagsbasis ohne unnötig große Sets'},
+{id:'clean',name:'Reinigungs-Grundausstattung',price:[55,110,220],must:1,score:97,tags:['essential','comfort'],search:'Reinigungsset Haushalt Staubsauger Wischer',why:'vom Einzugstag an nötig'},
+{id:'light',name:'Grundbeleuchtung',price:[35,80,160],must:0,score:82,tags:['essential','comfort'],search:'LED Deckenleuchte Wohnung Set',why:'macht Räume sofort nutzbar'},
+{id:'table',name:'Tisch / Essplatz',price:[70,160,320],must:0,score:75,tags:['comfort','essential'],search:'Esstisch klein Wohnung',why:'Essen, Arbeiten und Ablage an einem Ort'},
+{id:'chairs',name:'2–4 Stühle',price:[70,150,300],must:0,score:70,tags:['comfort'],search:'Esszimmerstühle Set 2 4',why:'sinnvoll, sobald ein Tisch vorhanden ist'},
+{id:'storage',name:'Kleider-/Stauraumlösung',price:[80,190,380],must:0,score:85,tags:['essential','comfort'],search:'Kleiderschrank Stauraum Wohnung',why:'reduziert Chaos direkt nach dem Einzug'},
+{id:'tools',name:'Haushalts-Werkzeugset',price:[35,75,140],must:0,score:78,tags:['essential','quality'],search:'Werkzeugkoffer Haushalt',why:'für Aufbau, Dübel und kleine Reparaturen'},
+{id:'kettle',name:'Kleine Küchengeräte',price:[45,110,240],must:0,score:62,tags:['kitchen','comfort'],search:'Wasserkocher Toaster Set',why:'nur sinnvoll, wenn du sie wirklich täglich nutzt'},
+{id:'sofa',name:'Sitzmöbel',price:[180,420,850],must:0,score:58,tags:['comfort'],search:'kleines Sofa 2 Sitzer',why:'Komfort-Upgrade nach den Basics'},
+{id:'curtains',name:'Sichtschutz / Vorhänge',price:[45,110,230],must:0,score:76,tags:['essential','comfort'],search:'Verdunkelungsvorhang Set',why:'Privatsphäre und Schlafqualität'},
+{id:'laundry',name:'Wäsche-Basis',price:[30,70,130],must:0,score:72,tags:['essential'],search:'Wäschekorb Wäscheständer Set',why:'kleine Ausgabe mit hohem Alltagsnutzen'},
+{id:'desk',name:'Schreibtisch / Arbeitsplatz',price:[85,190,380],must:0,score:60,tags:['quality','comfort'],search:'Schreibtisch kompakt stabil',why:'priorisieren, wenn regelmäßig zuhause gearbeitet wird'}]}}
+;
+let state={cat:null,goals:[],mode:'value',owned:new Set(),context:null};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const euro=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+const budget=$('#budget'),budgetMoney=$('#budgetMoney');
+function parseMoney(v){return Math.max(100,Math.min(10000,Number(String(v).replace(/[^0-9]/g,''))||1000))}
+function syncBudget(v){budget.value=Math.min(Number(budget.max),Math.max(Number(budget.min),v));budgetMoney.value=euro(Number(budget.value))}
+budget.addEventListener('input',()=>syncBudget(Number(budget.value)));
+budgetMoney.addEventListener('change',()=>syncBudget(parseMoney(budgetMoney.value)));
+function selectCat(key){state.cat=key;state.goals=[];state.owned=new Set();const d=DATA[key];$$('.cat').forEach(x=>x.classList.toggle('active',x.dataset.cat===key));$('#builder').classList.add('show');$('#builderTitle').textContent=d.icon+' '+d.name+' konfigurieren';budget.min=d.budget[0];budget.max=d.budget[1];syncBudget(d.budget[2]);$('#goals').innerHTML=d.goals.map(([id,t])=>`<button class="chip" data-goal="${id}">${t}</button>`).join('');$('#owned').innerHTML=d.items.slice(0,12).map(i=>`<label class="check"><input type="checkbox" value="${i.id}"><span>${i.name}</span></label>`).join('');$('#contextTitle').textContent=d.context.title;$('#context').innerHTML=d.context.options.map(([id,t])=>`<option value="${id}">${t}</option>`).join('');state.context=d.context.options[0][0];$('#context').value=state.context;$('#results').classList.remove('show');setTimeout(()=>$('#builder').scrollIntoView({behavior:'smooth',block:'start'}),50)}
+$$('.cat').forEach(b=>b.addEventListener('click',()=>selectCat(b.dataset.cat)));
+$('#goals').addEventListener('click',e=>{const b=e.target.closest('[data-goal]');if(!b)return;const g=b.dataset.goal;b.classList.toggle('on');state.goals=b.classList.contains('on')?[...new Set([...state.goals,g])]:state.goals.filter(x=>x!==g)});
+$('#owned').addEventListener('change',e=>{if(e.target.matches('input[type=checkbox]'))e.target.checked?state.owned.add(e.target.value):state.owned.delete(e.target.value)});
+$('#context').addEventListener('change',e=>state.context=e.target.value);
+$$('.mode').forEach(b=>b.addEventListener('click',()=>{$$('.mode').forEach(x=>x.classList.remove('on'));b.classList.add('on');state.mode=b.dataset.mode}));
+function variantIndex(){return state.mode==='save'?0:state.mode==='premium'?2:1}
+function scoreItem(i){let s=i.score+(i.must?350:0);const matches=i.tags.filter(t=>state.goals.includes(t)).length;s+=matches*85;if(!state.goals.length)s+=i.tags.length?15:0;return s}
+function adjustedPrice(i){let p=i.price[variantIndex()];if(state.cat==='gym'&&state.context==='small'&&['rack','bar','plates','storage','cardio'].includes(i.id))p=Math.round(p*1.06);return p}
+function searchQuery(i){let q=i.search;if(state.cat==='workshop'&&i.battery&&state.context&&state.context!=='none'){const brand={makita:'Makita LXT',boschpro:'Bosch Professional 18V',dewalt:'DeWalt XR',einhell:'Einhell Power X-Change',milwaukee:'Milwaukee M18'}[state.context];q=brand+' '+i.search}return q}
+function shopUrl(i){return 'https://www.amazon.de/s?k='+encodeURIComponent(searchQuery(i))}
+function build(){if(!state.cat)return;const d=DATA[state.cat];if(!state.goals.length)state.goals=[d.goals[0][0]];const max=Number(budget.value);const candidates=d.items.filter(i=>!state.owned.has(i.id)).map(i=>({...i,p:adjustedPrice(i),s:scoreItem(i)})).sort((a,b)=>b.s-a.s||a.p-b.p);let spent=0,chosen=[];for(const i of candidates){if(spent+i.p<=max){chosen.push(i);spent+=i.p}}if(!chosen.length&&candidates.length){const cheapest=[...candidates].sort((a,b)=>a.p-b.p)[0];chosen=[cheapest];spent=cheapest.p}const skipped=candidates.filter(i=>!chosen.some(c=>c.id===i.id)).slice(0,3);render(d,max,spent,chosen,skipped);saveShare();}
+function contextText(){const d=DATA[state.cat];return d.context.options.find(x=>x[0]===state.context)?.[1]||''}
+function render(d,max,spent,chosen,skipped){const reserve=max-spent;const fit=Math.max(0,Math.min(100,Math.round((spent/max)*100)));$('#resultLabel').textContent=d.icon+' '+d.name;$('#resultTitle').textContent=`${d.name} für ${euro(max)}`;const goalNames=d.goals.filter(x=>state.goals.includes(x[0])).map(x=>x[1]).join(', ');$('#resultText').textContent=`Fokus: ${goalNames}. Rahmen: ${contextText()}. ${state.owned.size?state.owned.size+' vorhandene Positionen wurden nicht erneut eingeplant.':'Wir starten ohne vorhandene Ausstattung.'}`;$('#mBudget').textContent=euro(max);$('#mSpent').textContent=euro(spent);$('#mReserve').textContent=euro(reserve);$('#mFit').textContent=fit+' %';$('#resultList').innerHTML=chosen.map((i,n)=>`<div class="item"><div class="num">${n+1}</div><div><b>${i.name}</b><small>${i.why}</small></div><div class="price">${euro(i.p)}</div><a class="shop" target="_blank" rel="noopener" href="${shopUrl(i)}">Preis prüfen ↗</a></div>`).join('');$('#nextGrid').innerHTML=(skipped.length?skipped.map(i=>`<div class="next-card"><b>${i.name} · ca. ${euro(i.p)}</b><small>${i.why}</small></div>`):'<div class="next-card"><b>Setup vollständig</b><small>Für dieses Budget sind aktuell alle priorisierten Punkte enthalten.</small></div>').join('');$('#results').classList.add('show');setTimeout(()=>$('#results').scrollIntoView({behavior:'smooth',block:'start'}),80)}
+function sharePayload(){return {c:state.cat,g:state.goals,m:state.mode,o:[...state.owned],x:state.context,b:Number(budget.value)}}
+function saveShare(){try{history.replaceState(null,'',location.pathname+'#setup='+btoa(unescape(encodeURIComponent(JSON.stringify(sharePayload())))))}catch{}}
+function loadShare(){const m=location.hash.match(/^#setup=(.+)$/);if(!m)return;try{const p=JSON.parse(decodeURIComponent(escape(atob(m[1]))));if(!DATA[p.c])return;selectCat(p.c);state.goals=Array.isArray(p.g)?p.g:[];state.mode=p.m||'value';state.owned=new Set(p.o||[]);state.context=p.x||DATA[p.c].context.options[0][0];syncBudget(p.b||DATA[p.c].budget[2]);$$('[data-goal]').forEach(x=>x.classList.toggle('on',state.goals.includes(x.dataset.goal)));$$('#owned input').forEach(x=>x.checked=state.owned.has(x.value));$$('.mode').forEach(x=>x.classList.toggle('on',x.dataset.mode===state.mode));$('#context').value=state.context;build()}catch(e){console.warn(e)}}
+$('#build').addEventListener('click',build);$('#edit').addEventListener('click',()=>$('#builder').scrollIntoView({behavior:'smooth'}));$('#reset').addEventListener('click',()=>state.cat&&selectCat(state.cat));
+$('#share').addEventListener('click',async()=>{saveShare();const url=location.href;try{if(navigator.share){await navigator.share({title:'Mein VAYQUO Setup',text:'Mein Budget-Setup von VAYQUO',url})}else{await navigator.clipboard.writeText(url);toast('Link kopiert')}}catch{try{await navigator.clipboard.writeText(url);toast('Link kopiert')}catch{}}});
+function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1600)}
+loadShare();
 </script>
-</body>
-</html>
+</body></html>
