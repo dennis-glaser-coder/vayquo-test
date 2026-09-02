@@ -1,5 +1,13 @@
 (()=>{
 'use strict';
+if(!location.hash){
+  try{history.scrollRestoration='manual'}catch{}
+  const forceTop=()=>{try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch{window.scrollTo(0,0)}};
+  forceTop();
+  requestAnimationFrame(forceTop);
+  window.addEventListener('DOMContentLoaded',forceTop,{once:true});
+  window.addEventListener('pageshow',()=>{forceTop();setTimeout(forceTop,0);setTimeout(forceTop,120)},{once:true});
+}
 if(window.__VAYQUO_ANONYMOUS_ANALYTICS__)return;
 window.__VAYQUO_ANONYMOUS_ANALYTICS__=true;
 const ENDPOINT='https://fcvffslhnaqlwitaeers.supabase.co/rest/v1/vayquo_events';
