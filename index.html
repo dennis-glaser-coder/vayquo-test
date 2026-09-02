@@ -79,7 +79,7 @@
         <form id="vqPostcodeForm" novalidate>
           <label class="vq-big-field"><span>Postleitzahl</span><input id="vqPostcode" name="postcode" autocomplete="postal-code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" placeholder="z. B. 33100" required></label>
           <button class="vq-submit" type="submit">Angebotsvorschau ansehen <b>→</b></button>
-          <p class="vq-form-status" id="vqPostcodeStatus" aria-live="polite"></p>
+          <p class="vq-form-status" id="vqPostcodeStatus" aria-live="polpolite"></p>
         </form>
         <div class="vq-mini-trust"><span>Keine Registrierung</span><span>Noch keine Kontaktdaten</span></div>
       </div>
@@ -89,17 +89,17 @@
       <div class="vq-result-wrap">
         <span class="vq-step-label">DEINE ANGEBOTSVORSCHAU</span>
         <h2 id="vqResultTitle">Deine erste Einschätzung ist bereit.</h2>
-        <p class="vq-result-lead">VAYQUO hat dein Vorhaben strukturiert. Auf dieser Basis können passende Fachbetriebe konkrete Preise und Leistungen kalkulieren.</p>
+        <p class="vq-result-lead" id="vqResultLead">VAYQUO hat dein Vorhaben strukturiert. Auf dieser Basis können passende Fachbetriebe konkrete Preise und Leistungen kalkulieren.</p>
         <div class="vq-profile-card" id="vqProfileSummary"></div>
 
-        <div class="vq-offer-preview" aria-label="Das bekommst du">
-          <span class="vq-offer-label">DAS BEKOMMST DU</span>
+        <div class="vq-offer-preview" aria-label="Deine erste Einordnung">
+          <span class="vq-offer-label" id="vqOfferLabel">DAS BEKOMMST DU</span>
           <div class="vq-offer-grid">
-            <div><b>Bis zu 3</b><span>passende Fachangebote</span></div>
-            <div><b>Vergleichbar</b><span>Leistungen &amp; Konditionen</span></div>
-            <div><b>0 €</b><span>kostenlos &amp; unverbindlich</span></div>
+            <div><b id="vqEstimatePrice">Bis zu 3</b><span id="vqEstimatePriceLabel">passende Fachangebote</span></div>
+            <div><b id="vqEstimateSecond">Vergleichbar</b><span id="vqEstimateSecondLabel">Leistungen &amp; Konditionen</span></div>
+            <div><b id="vqEstimateThird">0 €</b><span id="vqEstimateThirdLabel">kostenlos &amp; unverbindlich</span></div>
           </div>
-          <p><strong>Noch kein verbindlicher Preis:</strong> Erst der jeweilige Fachbetrieb kann dein Projekt nach Prüfung verbindlich kalkulieren.</p>
+          <p id="vqEstimateNote"><strong>Noch kein verbindlicher Preis:</strong> Erst der jeweilige Fachbetrieb kann dein Projekt nach Prüfung verbindlich kalkulieren.</p>
         </div>
 
         <button class="vq-result-cta" id="vqCheckProviders" type="button">Bis zu 3 Angebote anfordern <b>→</b></button>
@@ -136,7 +136,7 @@
     </div>
   </section>
 </main>
-<script src="assets/vayquo-machine.js?v=926"></script>
+<script src="assets/vayquo-machine.js?v=927"></script>
 <script src="v36-anonymous-analytics.js?v=920"></script>
 </body>
 </html>
