@@ -1,0 +1,62 @@
+{
+  "version": "2026-09-02",
+  "north_star": "Maximize verified revenue per qualified user while preserving trust and long-term repeatability.",
+  "priority_routes": [
+    {
+      "rank": 1,
+      "id": "high_ticket_home_projects",
+      "categories": ["kitchen", "bath", "pv", "heating"],
+      "business_model": "qualified_lead_revenue_share",
+      "first_partner_target": "Aroundhome",
+      "why": [
+        "Five-figure project budgets are common.",
+        "One qualified project can be materially more valuable than a low-ticket affiliate click.",
+        "Aroundhome publicly supports affiliate lead delivery, including API-based lead transfer, and revenue-share compensation."
+      ],
+      "public_partner_facts_checked": "2026-09-02",
+      "activation_gate": "Do not transmit personal lead data until a partner agreement, consent language, privacy flow and API credentials are active."
+    },
+    {
+      "rank": 2,
+      "id": "workshop_diy_commerce",
+      "categories": ["workshop", "garage"],
+      "business_model": "affiliate_commerce",
+      "first_partner_targets": ["Contorion", "ManoMano"],
+      "why": [
+        "High multi-item basket potential.",
+        "Compatibility logic creates a defensible recommendation layer.",
+        "Contorion publicly offers up to 5% commission, a 30-day cookie and CSV product data.",
+        "ManoMano publicly offers up to 7% commission depending on partnership conditions."
+      ],
+      "public_partner_facts_checked": "2026-09-02",
+      "activation_gate": "Use official feeds and tracking links only after publisher approval."
+    },
+    {
+      "rank": 3,
+      "id": "visual_acquisition_commerce",
+      "categories": ["gym", "room"],
+      "business_model": "affiliate_commerce_plus_acquisition",
+      "why": [
+        "Highly visual before/after content can acquire traffic and generate shares.",
+        "Keep as acquisition and secondary commerce until revenue per visitor proves stronger than routes 1 and 2."
+      ],
+      "activation_gate": "Do not scale paid acquisition until tracked revenue per visitor and conversion are known."
+    }
+  ],
+  "kill_rules": {
+    "design_without_revenue_hypothesis": "reject",
+    "new_category_without_partner_or_clear_monetization_path": "reject",
+    "fake_live_prices_or_fake_savings": "reject",
+    "paid_traffic_before_conversion_measurement": "reject"
+  },
+  "decision_metrics": [
+    "qualified_intent_rate",
+    "flow_start_rate",
+    "result_completion_rate",
+    "primary_cta_rate",
+    "verified_revenue_per_session",
+    "verified_revenue_per_qualified_intent",
+    "repeat_visit_rate",
+    "share_rate"
+  ]
+}
