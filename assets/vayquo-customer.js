@@ -1,0 +1,18 @@
+(()=>{
+'use strict';
+const URL='https://fcvffslhnaqlwitaeers.supabase.co';
+const KEY='sb_publishable_GwUiLouKIRUOpDpp6BaZIQ_o1uRQTl8';
+const client=window.supabase.createClient(URL,KEY);
+const $=s=>document.querySelector(s);
+const token=decodeURIComponent((location.hash||'').slice(1)).trim();
+const offers=$('#vcOffers'),status=$('#vcStatus');
+const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const money=c=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format((c||0)/100);
+const projectName=v=>({pv:'Photovoltaik',heating:'Heizung',kitchen:'Küche',bath:'Bad'})[v]||v;
+function priceText(o){if(o.provider_price_min_cents!=null&&o.provider_price_max_cents!=null)return `${money(o.provider_price_min_cents)} – ${money(o.provider_price_max_cents)}`;if(o.provider_price_min_cents!=null)return `ab ${money(o.provider_price_min_cents)}`;if(o.provider_price_max_cents!=null)return `bis ${money(o.provider_price_max_cents)}`;return'Noch ohne Preisindikation'}
+function validToken(){return /^[A-Za-z0-9_-]{32,100}$/.test(token)}
+async function load(){if(!validToken()){status.textContent='Dieser Projektlink ist ungültig oder unvollständig.';offers.innerHTML='';return}status.textContent='Rückmeldungen werden geladen …';const {data,error}=await client.rpc('vayquo_customer_matches',{p_token:token});if(error){status.textContent='Die Rückmeldungen konnten gerade nicht geladen werden.';return}const rows=data||[];if(!rows.length){status.textContent='Noch keine Anbieter-Rückmeldung. Dein Kontakt bleibt vollständig gesperrt, bis du später selbst einen Betrieb auswählst.';offers.innerHTML='<div class="vc-empty">Sobald ein passender Fachbetrieb reagiert, erscheint seine Rückmeldung hier. Du kannst diese Seite später mit demselben privaten Link erneut öffnen.</div>';return}status.textContent=`${rows.length} Rückmeldung${rows.length===1?'':'en'} für dein Projekt.`;offers.innerHTML=rows.map(o=>`<article class="vc-offer"><div class="vc-offer-top"><div><small>${esc(projectName(o.project_type))} · ${esc(o.region)}</small><h3>${esc(o.company_name)}</h3></div><span>${o.selected?'FREIGEGEBEN':'ANONYM'}</span></div><div class="vc-price"><small>ERSTE PREISINDIKATION</small><b>${esc(priceText(o))}</b></div>${o.provider_note?`<p>${esc(o.provider_note)}</p>`:'<p>Der Betrieb hat Interesse an deinem Projekt gemeldet.</p>'}<div class="vc-offer-foot">${o.selected?'<div class="vc-selected">✓ Du hast diesen Betrieb freigegeben. Nur dieser ausgewählte Betrieb kann jetzt deinen Kontakt öffnen.</div>':`<button data-select="${esc(o.match_id)}" type="button">Diesen Betrieb freigeben →</button><small>Mit dem Klick erlaubst du diesem Betrieb, deine bereits hinterlegten Kontaktdaten für dieses Projekt zu öffnen.</small>`}</div></article>`).join('');offers.querySelectorAll('[data-select]').forEach(btn=>btn.addEventListener('click',()=>selectPartner(btn)))}
+async function selectPartner(btn){if(!validToken())return;btn.disabled=true;const old=btn.textContent;btn.textContent='Wird freigegeben …';const {data,error}=await client.rpc('vayquo_customer_select_partner',{p_token:token,p_match_id:btn.dataset.select});if(error||!data){btn.disabled=false;btn.textContent=old;alert('Die Freigabe konnte gerade nicht gespeichert werden. Bitte versuche es erneut.');return}await load()}
+$('#vcRefresh').addEventListener('click',load);
+load();
+})();
