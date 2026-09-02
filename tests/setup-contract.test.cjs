@@ -45,6 +45,9 @@ assert(js.includes('vayquo_project_requests'),'project request database endpoint
 assert(js.includes("consent_share:true"),'explicit share consent persistence missing');
 assert(js.includes("emit('revenue_request_success')"),'successful lead conversion event missing');
 assert(js.includes("get('project')"),'SEO landing pages must deep-link directly into the requested funnel');
+assert(js.includes('function marketingAttribution()'),'lead attribution engine missing');
+for(const key of ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','msclkid','landing_path']) assert(js.includes(key),`marketing attribution missing ${key}`);
+assert(js.includes('marketing_attribution:marketingAttribution()'),'lead request must persist marketing attribution');
 for(const event of ['revenue_intent','revenue_flow_start','revenue_result','revenue_primary_click','revenue_request_success']) assert(analytics.includes(event),`analytics missing ${event}`);
 assert(partner.includes('id="partnerForm"'),'separate provider acquisition page missing');
 assert(partner.includes('So sieht eine VAYQUO-Anfrage aus.'),'partner must see concrete lead value before signup');
@@ -52,6 +55,8 @@ assert(partner.includes('49 € / Anfrage'),'pilot economics must be visible to 
 assert(partnerJs.includes('vayquo_partner_interest'),'partner database endpoint missing');
 assert(pv.includes('PV planen, ohne fünfmal alles zu erklären.'),'PV hub value proposition missing');
 assert(pv.includes('?project=pv&source='),'PV hub must deep-link into PV funnel');
+assert(pv.includes('speicher.html'),'PV hub must link storage intent page');
+assert(pv.includes('einspeiseverguetung.html'),'PV hub must link EEG intent page');
 assert(pvCost.includes('Was kostet Photovoltaik 2026?'),'high-intent PV cost page missing');
 assert(pvCost.includes('6.500–14.000 €'),'current PV cost orientation missing');
 assert(pvStorage.includes('Was kostet ein PV-Speicher 2026?'),'high-intent PV storage page missing');
