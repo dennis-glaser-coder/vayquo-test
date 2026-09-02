@@ -15,7 +15,7 @@ const API_KEY='sb_publishable_GwUiLouKIRUOpDpp6BaZIQ_o1uRQTl8';
 const EVENT_SCHEMAS=Object.freeze({
   page_view:[],
   setup_category_select:['category'],setup_build:['category','budget_bucket','mode','goal_count','owned_count'],setup_share:['category','budget_bucket'],setup_shop_click:['category','target_host'],preset_open:['preset'],outbound_click:['target_host'],
-  revenue_intent:['category','route','budget_bucket'],revenue_flow_start:['category','route','budget_bucket'],revenue_result:['category','route','budget_bucket'],revenue_primary_click:['category','route','budget_bucket'],partner_interest:['category']
+  revenue_intent:['category','route','budget_bucket'],revenue_flow_start:['category','route','budget_bucket'],revenue_result:['category','route','budget_bucket'],revenue_primary_click:['category','route','budget_bucket'],revenue_request_success:['category','route','budget_bucket']
 });
 const sessionId=(globalThis.crypto?.randomUUID?.()||`vq-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,12)}`).slice(0,80);
 const clean=(value,max=120)=>String(value??'').replace(/[\r\n\t]/g,' ').trim().slice(0,max);
@@ -37,7 +37,6 @@ function setupSnapshot(){return{category:activeCategory(),budget_bucket:budgetBu
 propagateAttribution();
 document.addEventListener('click',event=>{const target=event.target instanceof Element?event.target.closest('a,button,[role="button"]'):null;if(!target)return;if(target.matches('.cat[data-cat]'))send('setup_category_select',{category:safeToken(target.dataset.cat,40)});if(target.matches('#build'))send('setup_build',setupSnapshot());if(target.matches('#share'))send('setup_share',{category:activeCategory(),budget_bucket:budgetBucket()});if(target instanceof HTMLAnchorElement){try{const u=new URL(target.href,location.href);if(target.matches('.shop')&&u.origin!==location.origin)send('setup_shop_click',{category:activeCategory(),target_host:u.hostname.slice(0,120)});else if(u.origin!==location.origin&&/^https?:$/.test(u.protocol))send('outbound_click',{target_host:u.hostname.slice(0,120)})}catch{}}},true);
 window.addEventListener('vayquo:revenue',event=>{const d=event.detail||{},name=safeToken(d.name,60);if(!EVENT_SCHEMAS[name])return;send(name,{category:safeToken(d.category,40),route:safeToken(d.route,30),budget_bucket:makeBudgetBucket(d.budget)})});
-window.addEventListener('vayquo:partner_interest',event=>{const d=event.detail||{};send('partner_interest',{category:safeToken(d.categories||'multi',100)})});
 send('page_view');
 const preset=presetName();if(preset)send('preset_open',{preset});
 if(/^#setup=/.test(location.hash))setTimeout(()=>{if(activeCategory())send('setup_build',setupSnapshot())},80);
