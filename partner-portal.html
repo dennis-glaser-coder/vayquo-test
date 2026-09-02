@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f4f5f7">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="VAYQUO Partnerportal für freigeschaltete Fachbetriebe.">
+<title>VAYQUO Partnerportal</title>
+<link rel="stylesheet" href="assets/vayquo-portal.css?v=1">
+</head>
+<body>
+<header class="vp-nav"><a class="vp-brand" href="./"><span>V</span>VAYQUO PARTNER</a><div class="vp-nav-links"><a href="partner.html">Pilotpartner werden</a><button class="vp-linkbtn" id="vpSignOut" type="button">Abmelden</button></div></header>
+<main class="vp-shell">
+<section class="vp-hero">
+  <div><span class="vp-kicker">PARTNERPORTAL · ANONYMISIERTE PROJEKTE</span><h1>Nur Projekte,<br>die zu Ihnen passen.</h1><p>Aktivierte VAYQUO-Partner sehen hier passende Projektanfragen zunächst ohne Name, E-Mail oder Telefonnummer. Erst die tatsächliche Lead-Übernahme wird separat bestätigt.</p></div>
+  <section class="vp-login" id="vpLogin">
+    <h2>Partnerzugang</h2><p>Einloggen oder einen bereits freigeschalteten Pilotzugang mit derselben E-Mail-Adresse aktivieren.</p>
+    <div class="vp-fields"><label>E-Mail<input id="vpEmail" type="email" autocomplete="email" placeholder="kontakt@betrieb.de"></label><label>Passwort<input id="vpPassword" type="password" autocomplete="current-password" minlength="8" placeholder="Mindestens 8 Zeichen"></label></div>
+    <div class="vp-actions"><button class="vp-btn primary" id="vpSignIn" type="button">Einloggen</button><button class="vp-btn secondary" id="vpActivate" type="button">Zugang aktivieren</button></div>
+    <p class="vp-status" id="vpStatus" aria-live="polite"></p>
+    <div class="vp-note">Die Aktivierung funktioniert nur für E-Mail-Adressen, die VAYQUO zuvor als aktiven Partner freigeschaltet hat. Kundendaten werden auf dieser Seite nicht öffentlich ausgegeben.</div>
+  </section>
+</section>
+
+<section class="vp-dashboard vp-hidden" id="vpDashboard">
+  <div class="vp-account"><div><h2 id="vpCompany">Partnerkonto</h2><p id="vpCompanyText">Passende Projekte werden geladen.</p></div><div class="vp-account-meta" id="vpPartnerMeta"></div></div>
+  <div class="vp-section-head"><div><h2>Passende Projekte</h2><p>Anonymisiert bis zur bestätigten Übernahme.</p></div><p>Preis und Kriterien stammen aus Ihrer vereinbarten Partnerkonfiguration.</p></div>
+  <div class="vp-leads" id="vpLeads"><div class="vp-empty">Projekte werden geladen …</div></div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/vayquo-portal.js?v=1"></script>
+</body>
+</html>
