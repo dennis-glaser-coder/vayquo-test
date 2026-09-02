@@ -5,13 +5,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
-      - 'assets/setup-v2.js'
-      - 'assets/setup-v2.css'
-      - 'assets/premium-studio.js'
-      - 'assets/homegym-live.js'
-      - 'assets/homegym-live.css'
-      - 'assets/flagship-homegym.js'
-      - 'assets/flagship-homegym.css'
+      - 'assets/vayquo-machine.js'
+      - 'assets/vayquo-machine.css'
       - 'v36-anonymous-analytics.js'
       - 'tests/setup-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
@@ -19,13 +14,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
-      - 'assets/setup-v2.js'
-      - 'assets/setup-v2.css'
-      - 'assets/premium-studio.js'
-      - 'assets/homegym-live.js'
-      - 'assets/homegym-live.css'
-      - 'assets/flagship-homegym.js'
-      - 'assets/flagship-homegym.css'
+      - 'assets/vayquo-machine.js'
+      - 'assets/vayquo-machine.css'
       - 'v36-anonymous-analytics.js'
       - 'tests/setup-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
@@ -40,6 +30,6 @@ jobs:
         with:
           node-version: '22'
       - name: Check product JavaScript syntax
-        run: node --check assets/setup-v2.js && node --check assets/premium-studio.js && node --check assets/homegym-live.js && node --check assets/flagship-homegym.js && node --check v36-anonymous-analytics.js
+        run: node --check assets/vayquo-machine.js && node --check v36-anonymous-analytics.js
       - name: Verify setup product contract
         run: node tests/setup-contract.test.cjs
