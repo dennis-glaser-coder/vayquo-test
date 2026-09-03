@@ -6,9 +6,11 @@
 - [x] Isolierte SPIELMATCH-MVP-Oberfläche erstellen (`spielmatch-mvp/`), ohne VAYQUO `main` anzufassen
 - [x] Datenmodell für Märkte, Anbieter, Spiele, Lizenzen, Offers und Zahlarten definieren
 - [ ] 10 priorisierte DE-Partner nur mit Primärquellenstatus erfassen
+  - [x] NOVOLINE Primärquelle erneut verifiziert: GGL-lizenziertes Angebot; eigenes/Tradedoubler-Partnerprogramm; öffentlich bis 75 EUR CPA; Registrierung + erste Einzahlung als Qualifikation; bis 30 Tage Cookie (03.09.2026)
+  - [ ] 9 weitere Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
 - [x] Deutsche Werbezeit-/Affiliate-Grundregeln technisch/konzeptionell abbilden
 - [x] DE-CPA-Annahme korrigieren: nicht automatisch zulässig; konkrete Vergütung braucht dokumentierte Prüfung/Freigabe
-- [ ] Offer-Schema um `legal_review_status`, `approved_at`, `approval_evidence` erweitern
+- [x] Offer-Schema um `legal_review_status`, `approved_at`, `approval_evidence` erweitern; DB-Constraint verhindert 'approved' ohne Evidenz
 
 ## P1
 - [x] Finder-Fragen im UI auf minimale Reibung reduzieren (erste MVP-Fassung)
