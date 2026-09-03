@@ -18,6 +18,7 @@ form.addEventListener('submit',async e=>{
    const res=await fetch(ENDPOINT,{method:'POST',headers:{apikey:API_KEY,Authorization:`Bearer ${API_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload),credentials:'omit'});
    if(!res.ok)throw new Error('save_failed');
    form.reset();status.className='p-status ok';status.textContent='Danke. Ihre Pilotanfrage ist gespeichert. Vor dem kostenpflichtigen Start stimmen wir Kategorien, Gebiet, Kriterien und Konditionen mit Ihnen ab.';btn.textContent='Pilotanfrage gespeichert ✓';
+   window.VAYQUO_ANALYTICS?.track('partner_interest_success',{category:categories.join('.'),route:'partner'});
    window.dispatchEvent(new CustomEvent('vayquo:partner_interest',{detail:{categories:categories.join('.'),offer:'multi_category_pilot_49'}}));
    setTimeout(()=>{btn.disabled=false;btn.textContent='Pilotpartnerschaft anfragen →'},3000);
  }catch{
