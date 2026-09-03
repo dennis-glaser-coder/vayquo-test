@@ -21,7 +21,9 @@
 - [x] Ergebnisansicht mit 3 Demo-Matches
 - [ ] Echte Ergebnisse erst nach verifizierter Datenbasis aktivieren
 - [x] SEO-URL-Struktur inkl. DE-Terminologie- und Verifikationsregeln in `SEO.md` definieren
-- [ ] SEO-Templates technisch im isolierten MVP vorbereiten; Live-/Index-Freigabe erst mit verifizierten Daten
+- [x] SEO-Spieltemplate technisch vorbereiten (`spielmatch-mvp/seo/render-page.mjs`): Index nur bei verifiziertem DE-Anbieterstatus + verifizierter Spiel→Anbieter-Verfügbarkeit; sonst `noindex,follow` und neutrale Claims
+- [x] SEO-Gate automatisiert testen (`render-page.test.mjs`): verified/pending/falscher Markt/fehlende Pflichtfelder; Testlauf bestanden (03.09.2026)
+- [ ] Anbieter-SEO-Template mit identischem Verification-Gate ergänzen
 - [ ] Funnel-Events
 - [ ] 18+/Spielerschutz-/Hilfebereich für Live-Konzept definieren
 
