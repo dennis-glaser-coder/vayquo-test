@@ -1,28 +1,38 @@
 # VAYQUO
 
-**Dein Budget. Das beste Setup.**
-
-VAYQUO ist ein browserbasierter Setup- und Budget-Optimierer. Nutzer wählen aus, was sie aufbauen möchten, geben Budget, Ziele, vorhandene Ausstattung und Rahmenbedingungen an und erhalten daraus einen priorisierten Einkaufsplan.
+VAYQUO ist eine browserbasierte Plattform für große Hausprojekte wie **Photovoltaik, Heizung, Küche und Bad**.
 
 **Live:** https://vayquo.de/
 
-## Aktueller MVP
+## Produkt
 
-- Werkstatt / DIY
-- Home Gym
-- Schrauber-Garage
-- Erste Wohnung (Beta)
-- Budgetoptimierung mit drei Qualitätsstufen
-- vorhandene Ausstattung berücksichtigen
-- kontextabhängige Empfehlungen, z. B. Akkusystem oder Platz
-- priorisierte Kaufreihenfolge
-- Budget, geplante Ausgaben und Reserve
-- teilbare Setup-Links
+Der aktuelle Kundenflow ist bewusst wertorientiert:
 
-## Monetarisierung
+1. Projekt in wenigen Fragen einordnen.
+2. Sofort eine Markt-, Budget- oder Eignungseinordnung sehen.
+3. Optional ein anonymisiertes Projekt für passende Fachbetriebe freigeben.
+4. Bis zu drei passende Betriebe können strukturierte Rückmeldungen abgeben.
+5. Persönliche Kontaktdaten werden erst abgefragt, wenn der Kunde einen konkreten Betrieb aktiv auswählt.
 
-Der aktuelle MVP nutzt noch keine Affiliate-Tags. Produktbuttons führen derzeit auf neutrale Produktsuchen. Geplant ist eine transparente Anbindung geeigneter Partnerprogramme und Händlerfeeds, sodass VAYQUO später Preise und passende Bezugsquellen vergleichen kann.
+Die erste Einordnung ist **kein verbindliches Fachangebot**. Verbindliche Preise und Leistungen entstehen erst durch den jeweiligen Anbieter.
 
-## Positionierung
+## Anbieter-Modell
 
-VAYQUO soll nicht einfach einzelne Produkte empfehlen. Der Kern ist die Optimierung eines kompletten Vorhabens: Was wird wirklich benötigt, was ist bereits vorhanden, was ist kompatibel und welcher nächste Kauf bringt innerhalb des Budgets den größten Nutzen?
+VAYQUO zeigt freigeschalteten Partnerbetrieben zunächst nur anonymisierte Projektdaten und eine grobe Region. Anbieter antworten strukturiert mit Preisindikation, Kernleistung, enthaltenen Arbeiten und Verfügbarkeit. Ein Kontakt wird erst nach aktiver Kundenauswahl freigegeben.
+
+Der aktuelle Pilot sieht **49 € je freigegebenem Kontakt** vor, ohne Grundgebühr. Vor einem kostenpflichtigen Start werden Gebiet, Kriterien und Konditionen mit dem Partner ausdrücklich abgestimmt.
+
+## Technik
+
+- statisches Frontend auf GitHub Pages
+- Supabase für Projektanfragen, Matching, Partnerzugänge, Kundenlinks und cookielose Funnel-Events
+- Row Level Security und begrenzte RPC-Funktionen für öffentliche bzw. authentifizierte Zugriffe
+- private Kunden- und Partnerseiten sind `noindex`
+
+## Aktueller Fokus
+
+Nicht weitere Feature-Breite, sondern der Beweis des Geschäftsmodells:
+
+**erste reale Projektanfrage → passender aktiver Fachbetrieb → Kundenfreigabe → erster bezahlter Kontakt → wiederholbare Unit Economics.**
+
+Historische VAYQUO-Versionen sind nicht Teil des aktuellen Produkts und bleiben nur über Sicherungsstände/Branches nachvollziehbar.
