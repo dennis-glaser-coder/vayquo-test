@@ -7,10 +7,13 @@
 - [x] Datenmodell für Märkte, Anbieter, Spiele, Lizenzen, Offers und Zahlarten definieren
 - [ ] 10 priorisierte DE-Partner nur mit Primärquellenstatus erfassen
   - [x] NOVOLINE Primärquelle erneut verifiziert: GGL-lizenziertes Angebot; eigenes/Tradedoubler-Partnerprogramm; öffentlich bis 75 EUR CPA; Registrierung + erste Einzahlung als Qualifikation; bis 30 Tage Cookie (03.09.2026)
-  - [ ] 9 weitere Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
+  - [x] Jokerstar Primärquellenstatus aktualisiert: GGL-Whitelist `jokerstar.de` / Jokerstar GmbH verifiziert; Affiliate-AGB 75 EUR pro definierter Aktion, Cookie i. d. R. 30 Tage, Medium-Freigabe erforderlich; `legal_review_status = pending` (04.09.2026)
+  - [ ] 8 weitere Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
 - [x] Deutsche Werbezeit-/Affiliate-Grundregeln technisch/konzeptionell abbilden
 - [x] DE-CPA-Annahme korrigieren: nicht automatisch zulässig; konkrete Vergütung braucht dokumentierte Prüfung/Freigabe
 - [x] Offer-Schema um `legal_review_status`, `approved_at`, `approval_evidence` erweitern; DB-Constraint verhindert 'approved' ohne Evidenz
+- [x] Provider-Seed um marktbezogene Affiliate-Metadaten + `legal_review_status` für Jokerstar erweitern
+- [ ] Seed-Validator ergänzen: Markt, Primärquellen, Datumsfelder und Affiliate-Aktivierungsgates automatisiert prüfen
 
 ## P1
 - [x] Finder-Fragen im UI auf minimale Reibung reduzieren (erste MVP-Fassung)
