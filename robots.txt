@@ -1,8 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /beta.html
-Disallow: /beta2.html
-Disallow: /beta3.html
 Disallow: /tests/
 
 Sitemap: https://vayquo.de/sitemap.xml
