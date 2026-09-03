@@ -10,8 +10,8 @@ for(const id of ['vqStart','vqWizard','vqQuestionScreen','vqPostcodeScreen','vqR
 for(const project of ['pv','heating','kitchen','bath'])assert(html.includes(`data-project="${project}"`),`missing project ${project}`);
 assert(html.includes('Große Entscheidung.<br> Erst prüfen, dann kaufen.'),'trust-first USP missing');
 for(const p of ['WAS DU VOR EINEM ANGEBOT WISSEN SOLLTEST','Marktspanne statt Lockpreis','Was enthalten sein sollte','Was oft vergessen wird','Quellen und Grenzen werden im Ergebnis offengelegt'])assert(html.includes(p),`homepage proof missing ${p}`);
-for(const p of ['Preisrahmen','Keine Registrierung','Angebote optional','Anonym passende Rückmeldungen starten.','Keine E-Mail. Keine Telefonnummer.'])assert(html.includes(p),`main copy missing ${p}`);
-assert(homeTrust.includes('.vq-decision-proof')&&homeTrust.includes('grid-template-areas:"copy projects"')&&homeTrust.includes('display:block!important'),'trust homepage styling missing');
+for(const p of ['Preisrahmen','Ohne Kontaktdaten','Angebote optional','Anonym passende Rückmeldungen starten.','Keine E-Mail. Keine Telefonnummer.'])assert(html.includes(p),`main copy missing ${p}`);
+assert(homeTrust.includes('.vq-decision-proof')&&homeTrust.includes('grid-template-columns:repeat(4,minmax(0,1fr))')&&homeTrust.includes('display:block!important'),'desktop/mobile homepage styling missing');
 assert(!html.includes('id="vqEmail"')&&!html.includes('id="vqPhone"')&&!html.includes('id="vqFirstName"'),'main funnel captures PII too early');
 assert(html.includes('bis zu 3 passenden Fachbetrieben'),'3-provider consent cap missing');
 assert((html.match(/images\.unsplash\.com/g)||[]).length>=4,'project photography missing');
