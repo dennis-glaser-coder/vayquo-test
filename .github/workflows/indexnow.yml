@@ -5,7 +5,14 @@ on:
     branches: [main]
     paths:
       - 'index.html'
-      - 'ratgeber/**'
+      - 'ueber-vayquo.html'
+      - 'rechtliches.html'
+      - 'partner.html'
+      - 'partner/**'
+      - 'photovoltaik/**'
+      - 'heizung/**'
+      - 'kueche/**'
+      - 'bad/**'
       - 'sitemap.xml'
       - '7e725d49c6290673cd88a900e0b569ffbea65a3b207e4784a8080f7889a2a761.txt'
       - '.github/workflows/indexnow.yml'
@@ -52,6 +59,16 @@ jobs:
           before = os.environ.get('BEFORE_SHA', '')
           current = os.environ.get('CURRENT_SHA', 'HEAD')
 
+          legacy_removed = {
+              f'{base}/beta.html',
+              f'{base}/beta2.html',
+              f'{base}/beta3.html',
+              f'{base}/moment.html',
+              f'{base}/pulse.html',
+              f'{base}/ratgeber/',
+              f'{base}/setups/',
+          }
+
           def all_sitemap_urls():
               root = ET.parse('sitemap.xml').getroot()
               ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
@@ -73,16 +90,23 @@ jobs:
               for p in changed
           )
 
+          def public_url(path):
+              if path == 'index.html':
+                  return base + '/'
+              if path.endswith('/index.html'):
+                  return base + '/' + path[:-10]
+              if path.endswith('.html'):
+                  return base + '/' + path
+              return None
+
           if bootstrap:
               urls.update(all_sitemap_urls())
+              urls.update(legacy_removed)
           else:
               for path in changed:
-                  if path == 'index.html':
-                      urls.add(base + '/')
-                  elif path == 'ratgeber/index.html':
-                      urls.add(base + '/ratgeber/')
-                  elif path.startswith('ratgeber/') and path.endswith('.html'):
-                      urls.add(base + '/' + path)
+                  url = public_url(path)
+                  if url and not path.startswith(('kunde.html','partner-portal.html')):
+                      urls.add(url)
               if 'sitemap.xml' in changed and not urls:
                   urls.update(all_sitemap_urls())
 
