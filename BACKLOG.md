@@ -16,7 +16,8 @@
 - [x] Finder-Fragen im UI auf minimale Reibung reduzieren (erste MVP-Fassung)
 - [x] Match-Score transparent definieren (`MATCHING.md`): Nutzerkriterien + Datenvertrauen, keine Affiliate-Vergütung
 - [x] Match-Score v1 im MVP sichtbar berechnen und pro Ergebnis erklären
-- [ ] Spielsuche mit Autocomplete
+- [x] Spielsuche mit Autocomplete (MVP: 15 Titel, Prefix/Substring/Wortanfang, Tastatursteuerung, max. 8 Vorschläge)
+- [ ] Autocomplete auf verifizierte Spiele-Datenbank statt Demo-Titel umstellen
 - [x] Ergebnisansicht mit 3 Demo-Matches
 - [ ] Echte Ergebnisse erst nach verifizierter Datenbasis aktivieren
 - [ ] SEO-URL-Struktur inkl. DE-Terminologie-Regeln
