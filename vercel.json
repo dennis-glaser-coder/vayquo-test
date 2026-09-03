@@ -13,13 +13,25 @@
       ]
     },
     {
-      "source": "/v34-home-usp.js",
+      "source": "/kunde.html",
       "headers": [
         { "key": "Cache-Control", "value": "no-store, max-age=0" }
       ]
     },
     {
-      "source": "/v44-home-visual-trust.js",
+      "source": "/partner-portal.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    },
+    {
+      "source": "/assets/vayquo-machine.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    },
+    {
+      "source": "/assets/vayquo-portal.js",
       "headers": [
         { "key": "Cache-Control", "value": "no-store, max-age=0" }
       ]
