@@ -20,3 +20,6 @@ Optimierung über Relevanz, geringe Reibung, klare Vergleiche, Intent-Personalis
 
 ## D-007 – Erklärbarer Match-Score
 Der Match-Score wird ausschließlich aus vom Nutzer gewählten Kriterien und Datenvertrauen berechnet. Nicht gewählte Kriterien werden aus dem Nenner entfernt. Affiliate-Vergütung bleibt vollständig außerhalb des Rankings. Vor jeder Wertung greifen harte Markt-/Lizenz-/Freigabe-Gates. Details stehen in `MATCHING.md`.
+
+## D-008 – Anbieter-SEO nur mit vollständiger Evidenz
+Eine DE-Anbieterseite darf nur indexiert und als geprüft bezeichnet werden, wenn Markt, Anbieterstatus und Lizenzstatus verifiziert sind, ein dokumentierter HTTPS-Primärquellenbeleg vorliegt und alle auf der Seite genannten Spiele eine separat verifizierte Spiel→Anbieter-Verfügbarkeit mit Prüfdatum besitzen. Fehlt eines dieser Elemente, wird die Seite automatisch `noindex,follow` und neutral formuliert. Affiliate-Konditionen sind weder SEO-Gate noch Rankingfaktor.
