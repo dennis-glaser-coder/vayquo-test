@@ -14,7 +14,8 @@
 
 ## P1
 - [x] Finder-Fragen im UI auf minimale Reibung reduzieren (erste MVP-Fassung)
-- [ ] Match-Score transparent definieren
+- [x] Match-Score transparent definieren (`MATCHING.md`): Nutzerkriterien + Datenvertrauen, keine Affiliate-Vergütung
+- [ ] Match-Score v1 im MVP sichtbar berechnen und pro Ergebnis erklären
 - [ ] Spielsuche mit Autocomplete
 - [x] Ergebnisansicht mit 3 Demo-Matches
 - [ ] Echte Ergebnisse erst nach verifizierter Datenbasis aktivieren
