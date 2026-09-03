@@ -23,3 +23,6 @@ Der Match-Score wird ausschließlich aus vom Nutzer gewählten Kriterien und Dat
 
 ## D-008 – Anbieter-SEO nur mit vollständiger Evidenz
 Eine DE-Anbieterseite darf nur indexiert und als geprüft bezeichnet werden, wenn Markt, Anbieterstatus und Lizenzstatus verifiziert sind, ein dokumentierter HTTPS-Primärquellenbeleg vorliegt und alle auf der Seite genannten Spiele eine separat verifizierte Spiel→Anbieter-Verfügbarkeit mit Prüfdatum besitzen. Fehlt eines dieser Elemente, wird die Seite automatisch `noindex,follow` und neutral formuliert. Affiliate-Konditionen sind weder SEO-Gate noch Rankingfaktor.
+
+## D-009 – Öffentliche Affiliate-Kondition ≠ Freigabe
+Ein öffentlich sichtbares Affiliate-Programm oder eine öffentlich genannte CPA-Vergütung darf in SPIELMATCH nur als recherchierte Kondition gespeichert werden. Aktivierbare Trackinglinks benötigen zusätzlich mindestens: verifizierten Markt-/Lizenzstatus, Annahme unseres konkreten Mediums durch den Partner, dokumentierte aktuelle Konditionen und `legal_review_status = approved`. Bis dahin bleibt der Offer technisch nicht aktivierbar. Jokerstar ist der erste nach diesem Muster erfasste Anbieter (Primärquellenprüfung 04.09.2026).
