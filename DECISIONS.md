@@ -17,3 +17,6 @@ Der frühe Prototyp enthält keine aktiven Glücksspiel-Affiliate-Links. Erst na
 
 ## D-006 – Conversion ohne Dark Patterns
 Optimierung über Relevanz, geringe Reibung, klare Vergleiche, Intent-Personalisierung und Tests; nicht über künstliche Knappheit, Verlustjagd oder irreführende Gewinnversprechen.
+
+## D-007 – Erklärbarer Match-Score
+Der Match-Score wird ausschließlich aus vom Nutzer gewählten Kriterien und Datenvertrauen berechnet. Nicht gewählte Kriterien werden aus dem Nenner entfernt. Affiliate-Vergütung bleibt vollständig außerhalb des Rankings. Vor jeder Wertung greifen harte Markt-/Lizenz-/Freigabe-Gates. Details stehen in `MATCHING.md`.
