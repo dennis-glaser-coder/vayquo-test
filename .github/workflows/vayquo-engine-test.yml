@@ -22,6 +22,7 @@ on:
       - 'assets/vayquo-customer.css'
       - 'assets/vayquo-portal.js'
       - 'assets/vayquo-portal.css'
+      - 'assets/vayquo-payments.js'
       - 'assets/vayquo-partner.js'
       - 'assets/vayquo-partner.css'
       - 'v36-anonymous-analytics.js'
@@ -29,6 +30,7 @@ on:
       - 'robots.txt'
       - 'README.md'
       - 'tests/setup-contract.test.cjs'
+      - 'tests/stripe-payment-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   pull_request:
     branches: [main]
@@ -51,6 +53,7 @@ on:
       - 'assets/vayquo-customer.css'
       - 'assets/vayquo-portal.js'
       - 'assets/vayquo-portal.css'
+      - 'assets/vayquo-payments.js'
       - 'assets/vayquo-partner.js'
       - 'assets/vayquo-partner.css'
       - 'v36-anonymous-analytics.js'
@@ -58,6 +61,7 @@ on:
       - 'robots.txt'
       - 'README.md'
       - 'tests/setup-contract.test.cjs'
+      - 'tests/stripe-payment-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   workflow_dispatch:
 
@@ -75,7 +79,10 @@ jobs:
           node --check assets/vayquo-smart-result.js
           node --check assets/vayquo-customer.js
           node --check assets/vayquo-portal.js
+          node --check assets/vayquo-payments.js
           node --check assets/vayquo-partner.js
           node --check v36-anonymous-analytics.js
       - name: Verify current house-project product contract
         run: node tests/setup-contract.test.cjs
+      - name: Verify Stripe partner payment gate
+        run: node tests/stripe-payment-contract.test.cjs
