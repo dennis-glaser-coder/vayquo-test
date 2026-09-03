@@ -15,7 +15,7 @@ const API_KEY='sb_publishable_GwUiLouKIRUOpDpp6BaZIQ_o1uRQTl8';
 const EVENT_SCHEMAS=Object.freeze({
   page_view:[],
   setup_category_select:['category'],setup_build:['category','budget_bucket','mode','goal_count','owned_count'],setup_share:['category','budget_bucket'],setup_shop_click:['category','target_host'],preset_open:['preset'],outbound_click:['target_host'],
-  revenue_intent:['category','route','budget_bucket'],revenue_flow_start:['category','route','budget_bucket'],revenue_result:['category','route','budget_bucket'],revenue_primary_click:['category','route','budget_bucket'],revenue_request_success:['category','route','budget_bucket'],
+  revenue_intent:['category','route','budget_bucket'],revenue_flow_start:['category','route','budget_bucket'],revenue_result:['category','route','budget_bucket'],revenue_primary_click:['category','route','budget_bucket'],revenue_contact_view:['category','route','budget_bucket'],revenue_submit_attempt:['category','route','budget_bucket'],revenue_submit_blocked:['category','route','budget_bucket','reason'],revenue_submit_error:['category','route','budget_bucket','reason'],revenue_request_success:['category','route','budget_bucket'],
   pv_estimate_view:['category','route','storage','consumption','property','price_band'],pv_estimate_cta:['category','route','storage','consumption','property','price_band']
 });
 const sessionId=(globalThis.crypto?.randomUUID?.()||`vq-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,12)}`).slice(0,80);
@@ -31,13 +31,45 @@ const ownedCount=()=>String(document.querySelectorAll('#owned input:checked').le
 function referrerHost(){try{return document.referrer?new URL(document.referrer).hostname.slice(0,120):null}catch{return null}}
 function attribution(){const p=params(),utm={};for(const key of ['utm_source','utm_medium','utm_campaign']){const value=safeToken(p.get(key),100);if(value)utm[key.replace('utm_','')]=value}const explicit=safeToken(p.get('source'),80),ref=referrerHost();return{source:clean(utm.source||explicit||ref||'direct',80),referrer_host:ref,utm}}
 function propagateAttribution(){const p=params(),keys=['utm_source','utm_medium','utm_campaign'];if(!keys.some(k=>p.get(k)))return;for(const a of document.querySelectorAll('a.cta')){try{const u=new URL(a.href,location.href);if(u.origin!==location.origin)continue;for(const k of keys){const v=safeToken(p.get(k),100);if(v)u.searchParams.set(k,v)}a.href=u.href}catch{}}}
-function sanitize(eventName,properties={}){const allowed=EVENT_SCHEMAS[eventName];if(!allowed)return null;const out={};for(const key of allowed){let value=clean(properties?.[key],120);if(!value)continue;if(['category','route','budget_bucket','mode','goal_count','owned_count','preset','storage','consumption','property','price_band'].includes(key)&&!/^[A-Za-z0-9._-]+$/.test(value))continue;if(key==='target_host'&&!/^[A-Za-z0-9.-]+$/.test(value))continue;out[key]=value}return out}
+function sanitize(eventName,properties={}){const allowed=EVENT_SCHEMAS[eventName];if(!allowed)return null;const out={};for(const key of allowed){let value=clean(properties?.[key],120);if(!value)continue;if(['category','route','budget_bucket','mode','goal_count','owned_count','preset','storage','consumption','property','price_band','reason'].includes(key)&&!/^[A-Za-z0-9._-]+$/.test(value))continue;if(key==='target_host'&&!/^[A-Za-z0-9.-]+$/.test(value))continue;out[key]=value}return out}
 function send(eventName,properties={}){try{const safeProperties=sanitize(eventName,properties);if(!safeProperties)return;const a=attribution(),payload={session_id:sessionId,event_name:eventName,path:clean(location.pathname||'/',240)||'/',source:a.source,referrer_host:a.referrer_host,utm:a.utm,properties:safeProperties,user_id:null};fetch(ENDPOINT,{method:'POST',headers:{apikey:API_KEY,Authorization:`Bearer ${API_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload),keepalive:true,credentials:'omit'}).catch(()=>{})}catch{}}
 function presetName(){const p=location.pathname.replace(/\/+$/,''),m=p.match(/\/setups\/([a-z0-9-]+)\.html$/i);return m?safeToken(m[1],80):''}
 function setupSnapshot(){return{category:activeCategory(),budget_bucket:budgetBucket(),mode:currentMode(),goal_count:goalCount(),owned_count:ownedCount()}}
+
+/* Revenue funnel v2: track actual progress, not merely opening the wizard. */
+let revenueContext={category:'',route:'lead',budget:0},funnelSeen=new Set();
+const revenueProps=(extra={})=>({category:safeToken(revenueContext.category,40),route:safeToken(revenueContext.route||'lead',30),budget_bucket:makeBudgetBucket(revenueContext.budget),...extra});
+function beginFunnel(detail={}){revenueContext={category:safeToken(detail.category,40),route:safeToken(detail.route||'lead',30)||'lead',budget:Number(detail.budget||0)};funnelSeen=new Set()}
+function updateRevenueContext(detail={}){if(detail.category)revenueContext.category=safeToken(detail.category,40);if(detail.route)revenueContext.route=safeToken(detail.route,30)||'lead';if(Number(detail.budget||0)>0)revenueContext.budget=Number(detail.budget||0)}
+function sendRevenueOnce(name,extra={}){const key=`${name}:${revenueContext.category||'unknown'}`;if(funnelSeen.has(key))return;funnelSeen.add(key);send(name,revenueProps(extra))}
+
 propagateAttribution();
-document.addEventListener('click',event=>{const target=event.target instanceof Element?event.target.closest('a,button,[role="button"]'):null;if(!target)return;if(target.matches('.cat[data-cat]'))send('setup_category_select',{category:safeToken(target.dataset.cat,40)});if(target.matches('#build'))send('setup_build',setupSnapshot());if(target.matches('#share'))send('setup_share',{category:activeCategory(),budget_bucket:budgetBucket()});if(target instanceof HTMLAnchorElement){try{const u=new URL(target.href,location.href);if(target.matches('.shop')&&u.origin!==location.origin)send('setup_shop_click',{category:activeCategory(),target_host:u.hostname.slice(0,120)});else if(u.origin!==location.origin&&/^https?:$/.test(u.protocol))send('outbound_click',{target_host:u.hostname.slice(0,120)})}catch{}}},true);
-window.addEventListener('vayquo:revenue',event=>{const d=event.detail||{},name=safeToken(d.name,60);if(!EVENT_SCHEMAS[name])return;send(name,{category:safeToken(d.category,40),route:safeToken(d.route,30),budget_bucket:makeBudgetBucket(d.budget),storage:safeToken(d.storage,30),consumption:safeToken(d.consumption,40),property:safeToken(d.property,40),price_band:safeToken(d.price_band,60)})});
+document.addEventListener('click',event=>{
+  const target=event.target instanceof Element?event.target.closest('a,button,[role="button"]'):null;if(!target)return;
+  if(target.matches('.cat[data-cat]'))send('setup_category_select',{category:safeToken(target.dataset.cat,40)});
+  if(target.matches('#build'))send('setup_build',setupSnapshot());
+  if(target.matches('#share'))send('setup_share',{category:activeCategory(),budget_bucket:budgetBucket()});
+  if(target.matches('.vq-option[data-answer]'))sendRevenueOnce('revenue_flow_start');
+  if(target.matches('#vqCheckProviders'))sendRevenueOnce('revenue_contact_view');
+  if(target.matches('#vqClose,#vqNewProject'))setTimeout(()=>{document.body.style.overflow=''},0);
+  if(target instanceof HTMLAnchorElement){try{const u=new URL(target.href,location.href);if(target.matches('.shop')&&u.origin!==location.origin)send('setup_shop_click',{category:activeCategory(),target_host:u.hostname.slice(0,120)});else if(u.origin!==location.origin&&/^https?:$/.test(u.protocol))send('outbound_click',{target_host:u.hostname.slice(0,120)})}catch{}}
+},true);
+document.addEventListener('submit',event=>{
+  if(!(event.target instanceof HTMLFormElement)||event.target.id!=='vqContactForm')return;
+  const consent=document.getElementById('vqConsent');
+  if(!consent?.checked)sendRevenueOnce('revenue_submit_blocked',{reason:'consent'});
+  else sendRevenueOnce('revenue_submit_attempt');
+},true);
+const formStatus=document.getElementById('vqFormStatus');
+if(formStatus){new MutationObserver(()=>{if(/nicht geklappt/i.test(formStatus.textContent||''))sendRevenueOnce('revenue_submit_error',{reason:'request_failed'})}).observe(formStatus,{childList:true,subtree:true,characterData:true})}
+window.addEventListener('vayquo:revenue',event=>{
+  const d=event.detail||{},name=safeToken(d.name,60);if(!EVENT_SCHEMAS[name])return;
+  if(name==='revenue_intent'){beginFunnel(d);sendRevenueOnce(name);return}
+  updateRevenueContext(d);
+  if(name==='revenue_flow_start')return;
+  if(name.startsWith('revenue_')){sendRevenueOnce(name);return}
+  send(name,{category:safeToken(d.category,40),route:safeToken(d.route,30),budget_bucket:makeBudgetBucket(d.budget),storage:safeToken(d.storage,30),consumption:safeToken(d.consumption,40),property:safeToken(d.property,40),price_band:safeToken(d.price_band,60)})
+});
 send('page_view');
 const preset=presetName();if(preset)send('preset_open',{preset});
 if(/^#setup=/.test(location.hash))setTimeout(()=>{if(activeCategory())send('setup_build',setupSnapshot())},80);
