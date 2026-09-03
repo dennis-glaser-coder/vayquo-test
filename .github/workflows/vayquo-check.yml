@@ -30,7 +30,6 @@ jobs:
           test -s partner-portal.html
           test -s rechtliches.html
           test -s ueber-vayquo.html
-          test -s photovoltaic_placeholder 2>/dev/null || true
           test -s photovoltaik/index.html
           test -s heizung/index.html
           test -s kueche/index.html
