@@ -1,0 +1,77 @@
+/* Mobile conversion hierarchy: keep premium impact, reveal the product sooner */
+@media (max-width: 600px){
+  .vq-app{grid-template-rows:64px 1fr}
+  .vq-topbar{height:64px;padding:0 16px}
+  .vq-logo{width:34px;height:34px;border-radius:11px;font-size:14px}
+  .vq-brand{gap:10px;font-size:12px;letter-spacing:.16em}
+  .vq-top-note{font-size:8.5px;padding:6px 8px}
+
+  .vq-start{padding:14px 16px 24px}
+  .vq-start-copy{max-width:100%}
+  .vq-eyebrow{padding:7px 9px;font-size:7px;letter-spacing:.12em;gap:7px;white-space:nowrap;max-width:100%}
+  .vq-eyebrow:before{width:6px;height:6px;box-shadow:0 0 0 4px rgba(117,144,255,.11),0 0 14px rgba(117,144,255,.55)}
+
+  .vq-start-copy h1{
+    font-size:clamp(39px,11.6vw,50px);
+    line-height:.96;
+    letter-spacing:-.055em;
+    margin:13px 0 12px;
+    max-width:100%;
+    text-wrap:pretty;
+  }
+  .vq-start-copy h1 br{display:none}
+  .vq-start-copy p{
+    font-size:13.5px;
+    line-height:1.46;
+    max-width:96%;
+    margin:0;
+  }
+
+  .vq-trustbar{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    margin-top:14px;
+  }
+  .vq-trustbar span{min-height:34px;padding:6px 8px;font-size:8.5px;gap:6px}
+  .vq-trustbar b{width:15px;height:15px;font-size:8px;flex:0 0 15px}
+
+  .vq-project-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:27px;
+    transform:none;
+  }
+  .vq-project-grid:before{top:-19px;left:2px;font-size:7px;letter-spacing:.16em}
+  .vq-project-card{min-height:138px;border-radius:20px}
+  .vq-project-copy{left:13px;right:40px;bottom:13px}
+  .vq-project-card small{font-size:7px}
+  .vq-project-card b{font-size:17px;line-height:1.04}
+  .vq-project-card>i{width:28px;height:28px;right:10px;bottom:10px;font-size:14px}
+  .vq-project-featured:after{top:9px;right:9px;font-size:6px;padding:5px 6px}
+
+  .vq-start-foot{margin-top:14px;padding-top:12px;font-size:8px;gap:8px}
+
+  .vq-question-wrap,.vq-postcode-wrap,.vq-result-wrap,.vq-contact-wrap,.vq-success-card{padding-top:34px}
+  .vq-question-wrap h2,.vq-postcode-wrap h2,.vq-result-wrap h2,.vq-contact-wrap h2,.vq-success-card h2{
+    font-size:clamp(36px,10.5vw,46px);
+    line-height:.99;
+    letter-spacing:-.05em;
+  }
+}
+
+@media (max-width: 390px){
+  .vq-start-copy h1{font-size:38px}
+  .vq-start-copy p{font-size:13px}
+  .vq-top-note{display:none}
+  .vq-project-card{min-height:132px}
+}
+
+@media (max-height: 740px) and (max-width: 600px){
+  .vq-start-copy h1{font-size:37px;margin:10px 0 9px}
+  .vq-start-copy p{font-size:12.5px;line-height:1.4}
+  .vq-trustbar{margin-top:11px}
+  .vq-trustbar span{min-height:31px;padding:5px 7px}
+  .vq-project-grid{margin-top:24px}
+  .vq-project-card{min-height:126px}
+}
