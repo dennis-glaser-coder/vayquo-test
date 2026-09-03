@@ -17,16 +17,17 @@
     <div class="vp-fields"><label>E-Mail<input id="vpEmail" type="email" autocomplete="email" placeholder="kontakt@betrieb.de"></label><label>Passwort<input id="vpPassword" type="password" autocomplete="current-password" minlength="12" placeholder="Neues Konto: mindestens 12 Zeichen"></label></div>
     <div class="vp-actions"><button class="vp-btn primary" id="vpSignIn" type="button">Einloggen</button><button class="vp-btn secondary" id="vpActivate" type="button">Partnerkonto anlegen</button></div>
     <p class="vp-status" id="vpStatus" aria-live="polite"></p>
-    <div class="vp-note">Ein Konto allein gibt keinen Zugriff auf Projekte oder Kundendaten. Die Freigabe erfolgt ausschließlich serverseitig für zuvor aktivierte Partner. Name, E-Mail und Telefonnummer des Kunden bleiben zusätzlich gesperrt, bis der Kunde Ihren Betrieb ausdrücklich auswählt.</div>
+    <div class="vp-note">Ein Konto allein gibt keinen Zugriff auf Projekte oder Kundendaten. Die Freigabe erfolgt ausschließlich serverseitig für zuvor aktivierte Partner. Name, E-Mail und Telefonnummer des Kunden bleiben zusätzlich gesperrt, bis der Kunde Ihren Betrieb ausdrücklich auswählt und die Kontaktfreigabe bezahlt wurde.</div>
   </section>
 </section>
 <section class="vp-dashboard vp-hidden" id="vpDashboard">
   <div class="vp-account"><div><h2 id="vpCompany">Partnerkonto</h2><p id="vpCompanyText">Passende Projekte werden geladen.</p></div><div class="vp-account-meta" id="vpPartnerMeta"></div></div>
-  <div class="vp-section-head"><div><h2>Passende Projekte</h2><p>Projekt zuerst. Strukturierte Rückmeldung. Kontakt erst nach Kundenfreigabe.</p></div><p>Der Pilotpreis wird erst fällig, wenn ein vom Kunden freigegebener Kontakt geöffnet wird.</p></div>
+  <div class="vp-section-head"><div><h2>Passende Projekte</h2><p>Projekt zuerst. Strukturierte Rückmeldung. Kontakt erst nach Kundenfreigabe und Zahlung.</p></div><p>49 € Pilotpreis einmalig je freigegebenem Kontakt. Kein Abo, keine Grundgebühr. Sichere Zahlung über Stripe.</p></div>
   <div class="vp-leads" id="vpLeads"><div class="vp-empty">Projekte werden geladen …</div></div>
 </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/vayquo-portal.js?v=6"></script>
+<script src="assets/vayquo-payments.js?v=1"></script>
 </body>
 </html>
