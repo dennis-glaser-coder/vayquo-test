@@ -9,7 +9,11 @@ on:
       - 'partner.html'
       - 'partner-portal.html'
       - 'rechtliches.html'
-      - 'bad/index.html'
+      - 'ueber-vayquo.html'
+      - 'photovoltaik/**'
+      - 'heizung/**'
+      - 'kueche/**'
+      - 'bad/**'
       - 'assets/vayquo-machine.js'
       - 'assets/vayquo-machine.css'
       - 'assets/vayquo-smart-result.js'
@@ -18,11 +22,12 @@ on:
       - 'assets/vayquo-customer.css'
       - 'assets/vayquo-portal.js'
       - 'assets/vayquo-portal.css'
-      - 'assets/vayquo-marketplace-bridge.js'
       - 'assets/vayquo-partner.js'
       - 'assets/vayquo-partner.css'
       - 'v36-anonymous-analytics.js'
-      - 'config/vayquo-revenue-priority-2026-09.json'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - 'README.md'
       - 'tests/setup-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   pull_request:
@@ -33,7 +38,11 @@ on:
       - 'partner.html'
       - 'partner-portal.html'
       - 'rechtliches.html'
-      - 'bad/index.html'
+      - 'ueber-vayquo.html'
+      - 'photovoltaik/**'
+      - 'heizung/**'
+      - 'kueche/**'
+      - 'bad/**'
       - 'assets/vayquo-machine.js'
       - 'assets/vayquo-machine.css'
       - 'assets/vayquo-smart-result.js'
@@ -42,11 +51,12 @@ on:
       - 'assets/vayquo-customer.css'
       - 'assets/vayquo-portal.js'
       - 'assets/vayquo-portal.css'
-      - 'assets/vayquo-marketplace-bridge.js'
       - 'assets/vayquo-partner.js'
       - 'assets/vayquo-partner.css'
       - 'v36-anonymous-analytics.js'
-      - 'config/vayquo-revenue-priority-2026-09.json'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - 'README.md'
       - 'tests/setup-contract.test.cjs'
       - '.github/workflows/vayquo-engine-test.yml'
   workflow_dispatch:
@@ -59,7 +69,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check product JavaScript syntax
-        run: node --check assets/vayquo-machine.js && node --check assets/vayquo-smart-result.js && node --check assets/vayquo-customer.js && node --check assets/vayquo-portal.js && node --check assets/vayquo-marketplace-bridge.js && node --check assets/vayquo-partner.js && node --check v36-anonymous-analytics.js
-      - name: Verify instant-check and structured-comparison contract
+      - name: Check current product JavaScript syntax
+        run: |
+          node --check assets/vayquo-machine.js
+          node --check assets/vayquo-smart-result.js
+          node --check assets/vayquo-customer.js
+          node --check assets/vayquo-portal.js
+          node --check assets/vayquo-partner.js
+          node --check v36-anonymous-analytics.js
+      - name: Verify current house-project product contract
         run: node tests/setup-contract.test.cjs
