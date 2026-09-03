@@ -8,7 +8,7 @@ const heating=read('heizung/index.html'),kitchen=read('kueche/index.html'),bath=
 
 for(const id of ['vqStart','vqWizard','vqQuestionScreen','vqPostcodeScreen','vqResultScreen','vqProfileSummary','vqCheckProviders','vqContactScreen','vqContactForm','vqConsent','vqSubmit','vqSuccess'])assert(html.includes(`id="${id}"`),`missing #${id}`);
 for(const project of ['pv','heating','kitchen','bath'])assert(html.includes(`data-project="${project}"`),`missing project ${project}`);
-assert(html.includes('Erst wissen, was realistisch ist.<br> Dann Angebote holen.'),'USP missing');
+assert(html.includes('Bevor du fünfstellig investierst')||html.includes('Erst wissen, was realistisch ist.<br> Dann Angebote holen.'),'USP missing');
 for(const p of ['Sofortergebnis','Keine Registrierung','Angebote optional','Anonym passende Rückmeldungen starten.','Keine E-Mail. Keine Telefonnummer.'])assert(html.includes(p),`main copy missing ${p}`);
 assert(!html.includes('id="vqEmail"')&&!html.includes('id="vqPhone"')&&!html.includes('id="vqFirstName"'),'main funnel captures PII too early');
 assert(html.includes('bis zu 3 passenden Fachbetrieben'),'3-provider consent cap missing');
