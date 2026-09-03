@@ -24,12 +24,14 @@ assert(!js.includes('localStorage'),'private project token must not be persisted
 assert(js.includes('kann den Link deshalb nicht wiederherstellen'),'customer must be warned that the private link cannot be recovered');
 for(const p of ['verbraucherzentrale','1kuechen.de','aroundhome.de'])assert(js.includes(p),`source disclosure missing ${p}`);
 for(const p of ['MUSS DRINSTEHEN','OFT VERGESSEN','SPÄTER VERGLEICHEN'])assert(smartJs.includes(p),`deal-check missing ${p}`);
-for(const e of ['revenue_intent','revenue_flow_start','revenue_result','revenue_primary_click','revenue_request_success'])assert(analytics.includes(e),`analytics missing ${e}`);
+for(const e of ['revenue_intent','revenue_flow_start','revenue_result','revenue_primary_click','revenue_request_success','partner_interest_success'])assert(analytics.includes(e),`analytics missing ${e}`);
 
 for(const p of ['Vorname, E-Mail-Adresse und Telefonnummer werden in diesem Schritt nicht abgefragt','Erst wenn der Nutzer später eine konkrete Anbieter-Rückmeldung aktiv auswählt','höchstens drei','EU-Region','nicht zusätzlich im Browser-Speicher'])assert(legal.includes(p),`privacy contract missing ${p}`);
 for(const p of ['PV · HEIZUNG · KÜCHE · BAD','49 € Pilotpreis je freigegebenem Kontakt'])assert(partner.includes(p),`partner page missing ${p}`);
 for(const c of ['Photovoltaik','Heizung','Küche','Bad'])assert(partner.includes(`>${c}</label>`),`partner category missing ${c}`);
+assert(partner.includes('v36-anonymous-analytics.js?v=923'),'partner acquisition analytics missing');
 assert(partnerJs.includes("source:'partner_page_multi_category_pilot'"),'partner attribution missing');
+assert(partnerJs.includes("track('partner_interest_success'"),'partner success conversion not tracked');
 
 for(const p of ['noindex,nofollow','STRUKTURIERTE RÜCKMELDUNGEN','Ein Konto allein gibt keinen Zugriff','Partnerkonto anlegen'])assert(portal.includes(p),`portal copy missing ${p}`);
 for(const p of ["client.rpc('vayquo_my_leads'",'RESPONSE_LABELS','data-primary','data-secondary','data-included','data-availability','Bitte mindestens eine Preisgrenze angeben.','Bitte Kernleistung, enthaltene Arbeiten und Verfügbarkeit ausfüllen.','p_details:details','client.auth.signUp'])assert(portalJs.includes(p),`portal behavior missing ${p}`);
