@@ -1,6 +1,6 @@
 const fs=require('fs');const assert=require('assert');const read=p=>fs.readFileSync(p,'utf8');
 const html=read('index.html'),js=read('assets/vayquo-machine.js'),css=read('assets/vayquo-machine.css');
-const smartJs=read('assets/vayquo-smart-result.js'),smartCss=read('assets/vayquo-smart-result.css'),analytics=read('v36-anonymous-analytics.js');
+const smartJs=read('assets/vayquo-smart-result.js'),smartCss=read('assets/vayquo-smart-result.css'),homeTrust=read('assets/vayquo-home-trust.css'),analytics=read('v36-anonymous-analytics.js');
 const legal=read('rechtliches.html'),partner=read('partner.html'),partnerJs=read('assets/vayquo-partner.js');
 const portal=read('partner-portal.html'),portalJs=read('assets/vayquo-portal.js'),customer=read('kunde.html'),customerJs=read('assets/vayquo-customer.js'),customerCss=read('assets/vayquo-customer.css');
 const pv=read('photovoltaik/index.html'),pvCost=read('photovoltaik/kosten.html'),pvStorage=read('photovoltaik/speicher.html'),pvEeg=read('photovoltaik/einspeiseverguetung.html'),pvLocal=read('photovoltaik/paderborn.html');
@@ -8,8 +8,10 @@ const heating=read('heizung/index.html'),kitchen=read('kueche/index.html'),bath=
 
 for(const id of ['vqStart','vqWizard','vqQuestionScreen','vqPostcodeScreen','vqResultScreen','vqProfileSummary','vqCheckProviders','vqContactScreen','vqContactForm','vqConsent','vqSubmit','vqSuccess'])assert(html.includes(`id="${id}"`),`missing #${id}`);
 for(const project of ['pv','heating','kitchen','bath'])assert(html.includes(`data-project="${project}"`),`missing project ${project}`);
-assert(html.includes('Bevor du fünfstellig investierst')||html.includes('Erst wissen, was realistisch ist.<br> Dann Angebote holen.'),'USP missing');
+assert(html.includes('Bevor du fünfstellig investierst:<br> erst wissen, was realistisch ist.'),'trust-first USP missing');
+for(const p of ['BEISPIEL · PV-SOFORTCHECK','10–20 Tsd. €','Preisgrundlage ansehen','Quellen und Grenzen werden im Ergebnis offengelegt'])assert(html.includes(p),`homepage proof missing ${p}`);
 for(const p of ['Sofortergebnis','Keine Registrierung','Angebote optional','Anonym passende Rückmeldungen starten.','Keine E-Mail. Keine Telefonnummer.'])assert(html.includes(p),`main copy missing ${p}`);
+assert(homeTrust.includes('.vq-decision-proof')&&homeTrust.includes('grid-template-areas:"copy proof"'),'trust homepage styling missing');
 assert(!html.includes('id="vqEmail"')&&!html.includes('id="vqPhone"')&&!html.includes('id="vqFirstName"'),'main funnel captures PII too early');
 assert(html.includes('bis zu 3 passenden Fachbetrieben'),'3-provider consent cap missing');
 assert((html.match(/images\.unsplash\.com/g)||[]).length>=4,'project photography missing');
