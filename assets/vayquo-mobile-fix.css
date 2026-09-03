@@ -6,43 +6,57 @@
   .vq-brand{gap:10px;font-size:12px;letter-spacing:.16em}
   .vq-top-note{font-size:8.5px;padding:6px 8px}
 
-  .vq-start{padding:12px 16px 22px}
+  .vq-start{padding:11px 16px 22px}
   .vq-start-copy{max-width:100%}
   .vq-eyebrow{padding:6px 9px;font-size:7px;letter-spacing:.12em;gap:7px;white-space:nowrap;max-width:100%}
   .vq-eyebrow:before{width:6px;height:6px;box-shadow:0 0 0 4px rgba(117,144,255,.11),0 0 14px rgba(117,144,255,.55)}
 
   .vq-start-copy h1{
-    font-size:clamp(36px,10vw,42px);
-    line-height:.98;
-    letter-spacing:-.052em;
-    margin:12px 0 10px;
+    font-size:clamp(34px,9.25vw,39px);
+    line-height:.99;
+    letter-spacing:-.05em;
+    margin:10px 0 8px;
     max-width:100%;
     text-wrap:balance;
   }
   .vq-start-copy h1 br{display:none}
   .vq-start-copy p{
-    font-size:13.25px;
-    line-height:1.44;
+    font-size:12.9px;
+    line-height:1.42;
     max-width:98%;
     margin:0;
   }
 
+  /* One calm trust strip instead of four landing-page pills. */
   .vq-trustbar{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:6px;
-    margin-top:12px;
+    gap:3px 8px;
+    margin-top:9px;
+    padding:6px 0;
+    border-top:1px solid rgba(151,165,190,.12);
+    border-bottom:1px solid rgba(151,165,190,.12);
   }
-  .vq-trustbar span{min-height:32px;padding:5px 8px;font-size:8.5px;gap:6px}
-  .vq-trustbar b{width:15px;height:15px;font-size:8px;flex:0 0 15px}
+  .vq-trustbar span{
+    min-height:20px;
+    padding:2px 1px;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    font-size:8.3px;
+    gap:6px;
+    justify-content:flex-start;
+  }
+  .vq-trustbar b{width:14px;height:14px;font-size:7px;flex:0 0 14px}
 
   .vq-project-grid{
     grid-template-columns:1fr 1fr;
     gap:9px;
-    margin-top:24px;
+    margin-top:20px;
     transform:none;
   }
-  .vq-project-grid:before{top:-17px;left:2px;font-size:7px;letter-spacing:.16em}
+  .vq-project-grid:before{top:-14px;left:2px;font-size:7px;letter-spacing:.16em}
   .vq-project-card{min-height:138px;border-radius:20px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
   .vq-project-copy{left:13px;right:40px;bottom:13px}
   .vq-project-card small{font-size:7px}
@@ -61,18 +75,18 @@
 }
 
 @media (max-width: 390px){
-  .vq-start-copy h1{font-size:36px}
-  .vq-start-copy p{font-size:12.75px}
+  .vq-start-copy h1{font-size:34px}
+  .vq-start-copy p{font-size:12.5px}
   .vq-top-note{display:none}
   .vq-project-card{min-height:132px}
 }
 
 @media (max-height: 740px) and (max-width: 600px){
-  .vq-start{padding-top:10px}
-  .vq-start-copy h1{font-size:35.5px;margin:9px 0 8px}
-  .vq-start-copy p{font-size:12.5px;line-height:1.4}
-  .vq-trustbar{margin-top:10px}
-  .vq-trustbar span{min-height:30px;padding:4px 7px}
-  .vq-project-grid{margin-top:22px}
+  .vq-start{padding-top:9px}
+  .vq-start-copy h1{font-size:33px;margin:8px 0 7px}
+  .vq-start-copy p{font-size:12.2px;line-height:1.38}
+  .vq-trustbar{margin-top:8px;padding:5px 0}
+  .vq-trustbar span{min-height:18px;padding:1px}
+  .vq-project-grid{margin-top:18px}
   .vq-project-card{min-height:126px}
 }
