@@ -16,6 +16,7 @@ const EVENT_SCHEMAS=Object.freeze({
   page_view:[],
   setup_category_select:['category'],setup_build:['category','budget_bucket','mode','goal_count','owned_count'],setup_share:['category','budget_bucket'],setup_shop_click:['category','target_host'],preset_open:['preset'],outbound_click:['target_host'],
   revenue_intent:['category','route','budget_bucket'],revenue_flow_start:['category','route','budget_bucket'],revenue_result:['category','route','budget_bucket'],revenue_primary_click:['category','route','budget_bucket'],revenue_contact_view:['category','route','budget_bucket'],revenue_submit_attempt:['category','route','budget_bucket'],revenue_submit_blocked:['category','route','budget_bucket','reason'],revenue_submit_error:['category','route','budget_bucket','reason'],revenue_request_success:['category','route','budget_bucket'],
+  partner_interest_success:['category','route'],
   pv_estimate_view:['category','route','storage','consumption','property','price_band'],pv_estimate_cta:['category','route','storage','consumption','property','price_band']
 });
 const sessionId=(globalThis.crypto?.randomUUID?.()||`vq-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,12)}`).slice(0,80);
