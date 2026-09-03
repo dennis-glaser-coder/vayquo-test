@@ -13,7 +13,8 @@
 - [x] DE-CPA-Annahme korrigieren: nicht automatisch zulässig; konkrete Vergütung braucht dokumentierte Prüfung/Freigabe
 - [x] Offer-Schema um `legal_review_status`, `approved_at`, `approval_evidence` erweitern; DB-Constraint verhindert 'approved' ohne Evidenz
 - [x] Provider-Seed um marktbezogene Affiliate-Metadaten + `legal_review_status` für Jokerstar erweitern
-- [ ] Seed-Validator ergänzen: Markt, Primärquellen, Datumsfelder und Affiliate-Aktivierungsgates automatisiert prüfen
+- [x] Seed-Validator ergänzt (`validate-providers.mjs`): DE-Markt, GGL-Primärquelle, Datumsfelder und Affiliate-Aktivierungsgates werden geprüft
+- [x] Seed-Validator-Test ergänzt (`validate-providers.test.mjs`): aktive Affiliate-Nutzung vor Freigabe, Approval ohne Evidenz und falscher Markt schlagen fehl; Testlauf bestanden (04.09.2026)
 
 ## P1
 - [x] Finder-Fragen im UI auf minimale Reibung reduzieren (erste MVP-Fassung)
