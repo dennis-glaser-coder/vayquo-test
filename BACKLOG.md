@@ -20,7 +20,8 @@
 - [ ] Autocomplete auf verifizierte Spiele-Datenbank statt Demo-Titel umstellen
 - [x] Ergebnisansicht mit 3 Demo-Matches
 - [ ] Echte Ergebnisse erst nach verifizierter Datenbasis aktivieren
-- [ ] SEO-URL-Struktur inkl. DE-Terminologie-Regeln
+- [x] SEO-URL-Struktur inkl. DE-Terminologie- und Verifikationsregeln in `SEO.md` definieren
+- [ ] SEO-Templates technisch im isolierten MVP vorbereiten; Live-/Index-Freigabe erst mit verifizierten Daten
 - [ ] Funnel-Events
 - [ ] 18+/Spielerschutz-/Hilfebereich für Live-Konzept definieren
 
