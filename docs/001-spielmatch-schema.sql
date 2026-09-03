@@ -110,7 +110,11 @@ create table if not exists affiliate_offers (
   cookie_days integer,
   public_source_url text,
   verified_at timestamptz,
-  is_active boolean not null default false
+  legal_review_status text not null default 'pending' check(legal_review_status in ('pending','approved','rejected','needs_counsel')),
+  approved_at timestamptz,
+  approval_evidence text,
+  is_active boolean not null default false,
+  check (legal_review_status <> 'approved' or (approved_at is not null and approval_evidence is not null))
 );
 
 create table if not exists traffic_rules (
@@ -145,3 +149,4 @@ create table if not exists provider_attribute_values (
 
 -- Public UI should only read explicitly approved market/provider data through views or RPCs.
 -- Affiliate amounts must never be exposed to the match-score function.
+-- An offer is not eligible for monetized UI merely because is_active=true; the serving layer must additionally require legal_review_status='approved'.
