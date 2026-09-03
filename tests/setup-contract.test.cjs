@@ -18,11 +18,13 @@ assert(css.includes('.vq-offer-preview')&&smartCss.includes('.vq-smart-panel'),'
 for(const p of ['pv:{label:','heating:{label:','kitchen:{label:','bath:{label:','function pvResult()','function heatingResult()','function kitchenResult()','function bathResult()'])assert(js.includes(p),`engine missing ${p}`);
 for(const p of ["price='6,5–20 Tsd. €'","b:'29–62 Tsd. €*'","a:'Ø 12.404 €'","'1,2–3,5 Tsd. €/m²'",'first_name:null,email:null,phone:null',"CONSENT_VERSION='2026-09-02-v5'",'marketing_attribution:marketingAttribution()','function referrerHost()','referrer:referrerHost()'])assert(js.includes(p),`engine contract missing ${p}`);
 assert(!js.includes('referrer:(document.referrer'),'full referrer URL must not be persisted');
+assert(!js.includes('localStorage'),'private project token must not be persisted in browser localStorage');
+assert(js.includes('kann den Link deshalb nicht wiederherstellen'),'customer must be warned that the private link cannot be recovered');
 for(const p of ['verbraucherzentrale','1kuechen.de','aroundhome.de'])assert(js.includes(p),`source disclosure missing ${p}`);
 for(const p of ['MUSS DRINSTEHEN','OFT VERGESSEN','SPÄTER VERGLEICHEN'])assert(smartJs.includes(p),`deal-check missing ${p}`);
 for(const e of ['revenue_intent','revenue_flow_start','revenue_result','revenue_primary_click','revenue_request_success'])assert(analytics.includes(e),`analytics missing ${e}`);
 
-for(const p of ['Vorname, E-Mail-Adresse und Telefonnummer werden in diesem Schritt nicht abgefragt','Erst wenn der Nutzer später eine konkrete Anbieter-Rückmeldung aktiv auswählt','höchstens drei','EU-Region'])assert(legal.includes(p),`privacy contract missing ${p}`);
+for(const p of ['Vorname, E-Mail-Adresse und Telefonnummer werden in diesem Schritt nicht abgefragt','Erst wenn der Nutzer später eine konkrete Anbieter-Rückmeldung aktiv auswählt','höchstens drei','EU-Region','nicht zusätzlich im Browser-Speicher'])assert(legal.includes(p),`privacy contract missing ${p}`);
 for(const p of ['PV · HEIZUNG · KÜCHE · BAD','49 € Pilotpreis je freigegebenem Kontakt'])assert(partner.includes(p),`partner page missing ${p}`);
 for(const c of ['Photovoltaik','Heizung','Küche','Bad'])assert(partner.includes(`>${c}</label>`),`partner category missing ${c}`);
 assert(partnerJs.includes("source:'partner_page_multi_category_pilot'"),'partner attribution missing');
