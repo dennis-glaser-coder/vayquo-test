@@ -47,3 +47,6 @@ Eine Marke darf nicht allein über ihren Marketingnamen oder eine einzelne Domai
 
 ## D-016 – Fehlende öffentliche Kondition bleibt explizit unbekannt
 Wenn Betreiber- und Affiliate-Primärquellen die Zusammenarbeit belegen, aber keinen aktuellen marktbezogenen CPA, Cookie-Zeitraum oder andere monetäre Konditionen veröffentlichen, speichert SPIELMATCH diese Werte als `null` statt Drittanbieterwerte zu übernehmen. DrückGlück ist der erste Anwendungsfall nach dieser Regel: Betreiber/Lizenz und EGO-Affiliateprogramm sind aktuell verifiziert, die konkrete DE-Vergütung bleibt jedoch unbekannt. Der Research-Datensatz bleibt deshalb `active = false` und `legal_review_status = pending`.
+
+## D-017 – Anbietermeilenstein abgeschlossen, Fokus wechselt auf Verfügbarkeit
+Nach zehn DE-Anbietern mit aktuellem Betreiber-/Lizenz-/Affiliate-Primärquellenstatus ist zusätzlicher Anbieter-Research nicht mehr der Engpass des MVP. Nächster Schwerpunkt ist die verifizierte Spiel→Anbieter-Verfügbarkeit. Löwen Play Online schließt den ersten 10er-Satz ab: GGL-Whitelist und eigenes Affiliate-Programm sind verifiziert, CPA-Höhe und Cookie-Dauer bleiben mangels öffentlicher Primärquelle `null`, `active = false`, `legal_review_status = pending`. Neue Anbieter kommen erst hinzu, wenn sie für Nutzerabdeckung oder konkrete Affiliate-Akquise einen messbaren Mehrwert liefern.
