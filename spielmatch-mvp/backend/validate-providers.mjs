@@ -31,6 +31,20 @@ export function validateProvidersSeed(seed) {
       if (a.public_compensation_eur != null && !Number.isFinite(a.public_compensation_eur)) {
         errors.push(`${prefix}: public_compensation_eur must be numeric when present`);
       }
+      if (a.public_cpa_tiers != null) {
+        if (!Array.isArray(a.public_cpa_tiers) || a.public_cpa_tiers.length === 0) {
+          errors.push(`${prefix}: public_cpa_tiers must be a non-empty array when present`);
+        } else {
+          for (const [index, tier] of a.public_cpa_tiers.entries()) {
+            if (!Number.isFinite(tier?.amount_eur) || tier.amount_eur <= 0) {
+              errors.push(`${prefix}: public_cpa_tiers[${index}].amount_eur must be a positive number`);
+            }
+            if (tier?.duration_months != null && (!Number.isInteger(tier.duration_months) || tier.duration_months <= 0)) {
+              errors.push(`${prefix}: public_cpa_tiers[${index}].duration_months must be a positive integer or null`);
+            }
+          }
+        }
+      }
       if (a.active === true && a.legal_review_status !== 'approved') {
         errors.push(`${prefix}: affiliate cannot be active before legal_review_status=approved`);
       }
