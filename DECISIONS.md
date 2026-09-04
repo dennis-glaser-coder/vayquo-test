@@ -29,3 +29,6 @@ Ein öffentlich sichtbares Affiliate-Programm oder eine öffentlich genannte CPA
 
 ## D-010 – CPA-Staffeln nicht auf einen Einzelwert reduzieren
 Wenn ein Partner öffentlich mehrere CPA-Staffeln oder parallel CPA- und Revenue-Share-Modelle nennt, speichert SPIELMATCH diese Struktur vollständig statt einen vermeintlichen Standard-CPA zu erfinden. bet-at-home ist der erste Seed-Datensatz mit `public_cpa_tiers`; die aktive Vergütung bleibt bis zur konkreten Partner- und Rechtsfreigabe `pending`.
+
+## D-011 – Öffentliche CPA-Spannen strukturiert speichern
+Wenn Primärquellen nur eine Unter-/Obergrenze statt eines festen CPA belegen, speichert SPIELMATCH die Werte als `public_cpa_range_eur` und nicht als vermeintlichen Standardbetrag. BingBong ist der erste Datensatz nach diesem Muster (`min: 50`, `max: 75`). Der Validator prüft positive Werte sowie `min <= max`; die Spanne ist reine Research-Metadaten und keine Freigabe oder Rankingvariable.
