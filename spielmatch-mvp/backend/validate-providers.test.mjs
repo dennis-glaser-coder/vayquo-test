@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateProvidersSeed } from './validate-providers.mjs';
+import { isAffiliateOfferEligible, validateProvidersSeed } from './validate-providers.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const seed = JSON.parse(fs.readFileSync(path.join(here, 'providers.seed.json'), 'utf8'));
@@ -42,5 +42,23 @@ const slotmagie = staleContractApproved.providers.find((p) => p.slug === 'slotma
 slotmagie.affiliate.legal_review_status = 'approved';
 slotmagie.affiliate.approval_evidence = 'test-evidence';
 assert.ok(validateProvidersSeed(staleContractApproved).some((e) => e.includes('contract_status requires refresh')));
+
+const suspended = structuredClone(seed.providers.find((p) => p.slug === 'jokerstar'));
+suspended.affiliate.acquisition_status = 'registrations_suspended';
+suspended.affiliate.legal_review_status = 'approved';
+suspended.affiliate.approval_evidence = 'test-evidence';
+suspended.affiliate.active = true;
+assert.ok(validateProvidersSeed({ providers: [suspended] }).some((e) => e.includes('acquisition_status=open')));
+assert.equal(isAffiliateOfferEligible(suspended), false);
+
+const eligible = structuredClone(suspended);
+eligible.affiliate.acquisition_status = 'open';
+assert.equal(validateProvidersSeed({ providers: [eligible] }).length, 0);
+assert.equal(isAffiliateOfferEligible(eligible), true);
+
+const invalidAcquisitionStatus = structuredClone(suspended);
+invalidAcquisitionStatus.affiliate.active = false;
+invalidAcquisitionStatus.affiliate.acquisition_status = 'maybe';
+assert.ok(validateProvidersSeed({ providers: [invalidAcquisitionStatus] }).some((e) => e.includes('acquisition_status is invalid')));
 
 console.log('OK: provider seed validation tests passed.');
