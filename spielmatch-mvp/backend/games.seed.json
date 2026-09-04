@@ -1,117 +1,21 @@
 {
   "data_status": "verified_game_provider_seed_v1",
-  "verified_as_of": "2026-09-04",
+  "verified_as_of": "2026-09-05",
   "market": "DE",
   "records": [
-    {
-      "game_slug": "book-of-dead",
-      "game_name": "Book of Dead",
-      "provider_slug": "novoline",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.novoline.de/de/slots/book-of-dead",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "ramses-book-deluxe",
-      "game_name": "Ramses Book Deluxe",
-      "provider_slug": "novoline",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.novoline.de/de/slots/ramses-book-deluxe",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "big-bass-bonanza",
-      "game_name": "Big Bass Bonanza",
-      "provider_slug": "drueckglueck",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.drueckglueck.de/slots/big-bass-bonanza/",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "big-bass-splash",
-      "game_name": "Big Bass Splash",
-      "provider_slug": "drueckglueck",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.drueckglueck.de/slots/big-bass-splash/",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "book-of-dead",
-      "game_name": "Book of Dead",
-      "provider_slug": "slotmagie",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.slotmagie.de/slots/playngo/book-of-dead",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "big-bass-bonanza",
-      "game_name": "Big Bass Bonanza",
-      "provider_slug": "slotmagie",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/big-bass-bonanza",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "sweet-bonanza",
-      "game_name": "Sweet Bonanza",
-      "provider_slug": "slotmagie",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/sweet-bonanza",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "gates-of-olympus-1000",
-      "game_name": "Gates of Olympus 1000",
-      "provider_slug": "slotmagie",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/gates-of-olympus-1000",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "book-of-ra",
-      "game_name": "Book of Ra",
-      "provider_slug": "slotmagie",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.slotmagie.de/slots/novomatic/book-of-ra",
-      "verified_as_of": "2026-09-04"
-    },
-    {
-      "game_slug": "book-of-ra-deluxe",
-      "game_name": "Book of Ra Deluxe",
-      "provider_slug": "slotmagie",
-      "market": "DE",
-      "product": "virtual_slots",
-      "availability_status": "verified",
-      "evidence_type": "operator_game_page",
-      "source_url": "https://www.slotmagie.de/slots/novomatic/book-of-ra-deluxe",
-      "verified_as_of": "2026-09-04"
-    }
+    {"game_slug":"book-of-dead","game_name":"Book of Dead","provider_slug":"novoline","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.novoline.de/de/slots/book-of-dead","verified_as_of":"2026-09-04"},
+    {"game_slug":"ramses-book-deluxe","game_name":"Ramses Book Deluxe","provider_slug":"novoline","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.novoline.de/de/slots/ramses-book-deluxe","verified_as_of":"2026-09-04"},
+    {"game_slug":"big-bass-bonanza","game_name":"Big Bass Bonanza","provider_slug":"drueckglueck","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.drueckglueck.de/slots/big-bass-bonanza/","verified_as_of":"2026-09-04"},
+    {"game_slug":"big-bass-splash","game_name":"Big Bass Splash","provider_slug":"drueckglueck","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.drueckglueck.de/slots/big-bass-splash/","verified_as_of":"2026-09-04"},
+    {"game_slug":"book-of-dead","game_name":"Book of Dead","provider_slug":"slotmagie","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.slotmagie.de/slots/playngo/book-of-dead","verified_as_of":"2026-09-04"},
+    {"game_slug":"big-bass-bonanza","game_name":"Big Bass Bonanza","provider_slug":"slotmagie","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.slotmagie.de/slots/pragmatic-play/big-bass-bonanza","verified_as_of":"2026-09-04"},
+    {"game_slug":"sweet-bonanza","game_name":"Sweet Bonanza","provider_slug":"slotmagie","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.slotmagie.de/slots/pragmatic-play/sweet-bonanza","verified_as_of":"2026-09-04"},
+    {"game_slug":"gates-of-olympus-1000","game_name":"Gates of Olympus 1000","provider_slug":"slotmagie","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.slotmagie.de/slots/pragmatic-play/gates-of-olympus-1000","verified_as_of":"2026-09-04"},
+    {"game_slug":"book-of-ra","game_name":"Book of Ra","provider_slug":"slotmagie","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.slotmagie.de/slots/novomatic/book-of-ra","verified_as_of":"2026-09-04"},
+    {"game_slug":"book-of-ra-deluxe","game_name":"Book of Ra Deluxe","provider_slug":"slotmagie","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.slotmagie.de/slots/novomatic/book-of-ra-deluxe","verified_as_of":"2026-09-04"},
+    {"game_slug":"big-bass-splash","game_name":"Big Bass Splash","provider_slug":"slotmagie","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.slotmagie.de/slots/pragmatic-play/big-bass-splash","verified_as_of":"2026-09-05"},
+    {"game_slug":"book-of-dead","game_name":"Book of Dead","provider_slug":"jackpotpiraten","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.jackpotpiraten.de/slots/book-of-dead","verified_as_of":"2026-09-05"},
+    {"game_slug":"big-bass-bonanza","game_name":"Big Bass Bonanza","provider_slug":"jackpotpiraten","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.jackpotpiraten.de/slots/big-bass-bonanza","verified_as_of":"2026-09-05"},
+    {"game_slug":"big-bass-splash","game_name":"Big Bass Splash","provider_slug":"jackpotpiraten","market":"DE","product":"virtual_slots","availability_status":"verified","evidence_type":"operator_game_page","source_url":"https://www.jackpotpiraten.de/slots/big-bass-splash","verified_as_of":"2026-09-05"}
   ]
 }
