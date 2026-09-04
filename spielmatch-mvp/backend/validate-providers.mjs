@@ -63,6 +63,9 @@ export function validateProvidersSeed(seed) {
       if (a.legal_review_status === 'approved' && !a.approval_evidence) {
         errors.push(`${prefix}: approved affiliate requires approval_evidence`);
       }
+      if (a.legal_review_status === 'approved' && a.contract_status?.startsWith('needs_refresh')) {
+        errors.push(`${prefix}: affiliate cannot be approved while contract_status requires refresh`);
+      }
     }
   }
 
