@@ -38,3 +38,6 @@ Wenn eine öffentlich verlinkte Affiliate-Vertragsquelle erkennbar nicht mehr zu
 
 ## D-013 – Partnerverfügbarkeit ist ein eigenes Gate
 Lizenzstatus, rechtliche Freigabe und kommerzielle Partnerverfügbarkeit sind getrennte Zustände. Ein in DE erlaubter Anbieter darf nicht als akquirierbarer oder live ausgespielter Affiliate-Partner erscheinen, wenn `acquisition_status` nicht `open` ist. Der Validator akzeptiert die Zustände `open`, `invite_only`, `registrations_suspended`, `closed` und `unknown`; ein aktives Offer benötigt zusätzlich `legal_review_status = approved`, Approval-Evidenz und einen aktuellen Vertrag. Tipico Games ist der erste Anwendungsfall: GGL-erlaubtes DE-Angebot, während Tipico Affiliates am 04.09.2026 weiterhin keine Neuregistrierungen annimmt.
+
+## D-014 – Kommerzieller Status gehört in den Provider-Seed
+Ein recherchierter Affiliate-Status darf nicht nur in Doku oder Backlog stehen, wenn er die technische Live-Fähigkeit beeinflusst. Verifizierte Zustände wie `registrations_suspended` werden deshalb direkt im marktbezogenen Provider-Seed gespeichert und mit der Primärquelle verknüpft. Für Tipico Games ist zusätzlich `active = false` gesetzt; das Eligibility-Gate muss dadurch unabhängig von UI- oder Rankinglogik `false` liefern.
