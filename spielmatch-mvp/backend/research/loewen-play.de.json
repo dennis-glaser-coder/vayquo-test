@@ -1,0 +1,31 @@
+{
+  "slug": "loewen-play-online",
+  "name": "Löwen Play Online",
+  "operator": "Löwen Play digital GmbH",
+  "market": "DE",
+  "product": "virtual_slots",
+  "licensed_domains": [
+    "loewen-play.de"
+  ],
+  "license_status": "verified_primary_sources",
+  "ggl_license_granted_at": "2022-12-15",
+  "affiliate": {
+    "program": "Löwen Play Online Affiliate Partnerprogramm",
+    "program_status": "verified_public_program",
+    "acquisition_status": "open",
+    "affiliate_url": "https://www.loewen-play.de/affiliate",
+    "public_compensation_model": "CPA_on_customer_with_deposit_amount_not_publicly_disclosed",
+    "public_compensation_eur": null,
+    "cookie_days_typical": null,
+    "active": false,
+    "media_requires_approval": true,
+    "legal_review_status": "pending",
+    "legal_review_reason": "Löwen Play publicly invites affiliate applications via NetRefer and states that CPA is paid per referred customer who makes a deposit. No current public CPA amount, cookie period or SPIELMATCH media approval was verified from primary sources. Activation remains blocked pending partner acceptance and legal review."
+  },
+  "sources": {
+    "operator_and_license": "https://www.loewen-play.de/",
+    "affiliate_program": "https://www.loewen-play.de/affiliate",
+    "license_whitelist": "https://www.gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist"
+  },
+  "verified_as_of": "2026-09-04"
+}
