@@ -9,8 +9,16 @@ Stand: 2026-09-04. Nur öffentlich verifizierbare Angaben; individuelle Deals bl
 | **Jokerstar** | **GGL-Whitelist Stand 14.08.2026; `jokerstar.de`; Jokerstar GmbH; erstmalige Erlaubnis 09.08.2022** | **75 € pro definierter Aktion** | konkrete Aktion richtet sich nach individueller Kooperationsvereinbarung; Cookie i. d. R. 30 Tage; jedes digitale Medium muss geprüft/akzeptiert werden; SPIELMATCH-Rechtsprüfung bleibt `pending` | https://partners.jokerstar.de/termsandconditionsspanish.aspx |
 | **BingBong** | **DE-Betreiber DGGS; eigene Seite verweist auf GGL-Erlaubnis für virtuelles Automatenspiel; Lizenzquelle im Seed auf GGL-Whitelist verankert** | **CPA; öffentlich mindestens 50 € und bis zu 75 € pro Ersteinzahler** | DGGS-Inhouse-Programm; 30 Tage Tracking; genaue Vergütung richtet sich nach Partnerqualität/Kooperationsvereinbarung; SPIELMATCH bleibt `legal_review_status = pending` | https://www.bingbong.de/info/partnerprogramm |
 | JackpotPiraten | GGL-Whitelist Stand 14.08.2026 verifiziert | CPA, Betrag öffentlich nicht konkret genannt | Inhouse über CasinoAffiliateProgramm.de; SPIELMATCH bleibt `legal_review_status = pending` | https://www.jackpotpiraten.de/info/partnerprogramm |
+| **MERKUR SLOTS** | **GGL-Whitelist Stand 14.08.2026: Merkur Bets Malta Limited; `merkurslots.de` und `merkurbets.de` für virtuelle Automatenspiele länderübergreifend** | **CPA und Hybrid öffentlich als Deal-Modelle genannt; kein fixer aktueller Betrag auf Primärseite** | MERKUR PARTNERS nimmt aktuell Partnerbewerbungen an und nennt MERKUR SLOTS Deutschland ausdrücklich; keine öffentliche aktuelle Cookie-Dauer oder konkrete SPIELMATCH-Medienfreigabe, daher `active = false`, `legal_review_status = pending` | https://merkurpartners.com/ |
 | Löwen Play Online | Whitelist vor Livegang erneut prüfen | CPA, Betrag öffentlich nicht genannt | Kunde mit Einzahlung | https://www.loewen-play.de/affiliate |
 | LeoVegas | Markt-/DE-Deal vor Freigabe separat prüfen | Beispielstaffel 60 / 75 / 90 € CPA | 1-10 / 11-30 / 30+ referred players; erste 50 Testphase | https://www.leovegasaffiliates.com/terms-and-conditions |
+
+## MERKUR SLOTS – belastbare Primärquellenpunkte (04.09.2026)
+- GGL-Whitelist, Stand 14.08.2026: Merkur Bets Malta Limited führt für **virtuelle Automatenspiele länderübergreifend** unter anderem `merkurslots.de` und `merkurbets.de`.
+- Die gleiche Betreiber-/Domainfamilie enthält auch Sportwetten und eine separate Schleswig-Holstein-Erlaubnis für Online-Casinospiele. SPIELMATCH behandelt diese ausdrücklich als **andere Produkt-/Marktkontexte** und vermischt sie nicht mit dem DE-Slot-Angebot.
+- MERKUR PARTNERS nennt MERKUR SLOTS in Deutschland ausdrücklich als beworbene lokal lizenzierte Marke und wirbt aktuell öffentlich um neue Affiliate-Partner.
+- Öffentlich genannte Vergütungsmodelle: **CPA und Hybrid-Deals**. Auf den geprüften Primärseiten ist kein fixer aktueller CPA-Betrag und keine konkrete Cookie-/Attributionsdauer ausgewiesen; deshalb werden keine Drittanbieterwerte übernommen.
+- Konsequenz für SPIELMATCH: Research-Fixture `merkur-slots.de.json` mit `market = DE`, `product = virtual_slots`, mehreren `licensed_domains`, `acquisition_status = open`, aber `active = false` und `legal_review_status = pending`.
 
 ## BingBong – belastbare Primärquellenpunkte (04.09.2026)
 - Betreiber: DGGS Deutsche Gesellschaft für Glücksspiel mbH; die BingBong-Datenschutzerklärung nennt DGGS ausdrücklich als verantwortlichen Rechtsträger für `bingbong.de` und `jackpotpiraten.de`.
@@ -44,8 +52,9 @@ Stand: 2026-09-04. Nur öffentlich verifizierbare Angaben; individuelle Deals bl
 3. bet-at-home
 4. BingBong
 5. JackpotPiraten
-6. Löwen Play
-7. weitere GGL-Anbieter mit individuellem CPA
+6. MERKUR SLOTS
+7. Löwen Play
+8. weitere GGL-Anbieter mit individuellem CPA
 
 ## Noch zu klären
 - tatsächliche Freischaltung unseres konkreten Mediums
