@@ -35,6 +35,9 @@
 - [x] Match-Score v1 im MVP sichtbar berechnen und pro Ergebnis erklären
 - [x] Spielsuche mit Autocomplete (MVP: 15 Titel, Prefix/Substring/Wortanfang, Tastatursteuerung, max. 8 Vorschläge)
 - [ ] Verifizierte Spiel→Anbieter-Datenbasis aufbauen (nächster P0/P1-Schwerpunkt)
+  - [x] Phase 1: separates `games.seed.json` mit vier aktuell über Betreiber-Spielseiten belegten DE-Beziehungen (NOVOLINE: Book of Dead, Ramses Book Deluxe; DrückGlück: Big Bass Bonanza, Big Bass Splash) angelegt (04.09.2026)
+  - [x] Verification-Gate `validate-games.mjs` + Negativtests für pending, falschen Markt, schwache Evidenz und Duplikate ergänzt; Testlauf bestanden (04.09.2026)
+  - [ ] Phase 2: Abdeckung der wichtigsten Such-/Autocomplete-Titel auf mehrere der priorisierten DE-Anbieter erweitern
 - [ ] Autocomplete auf verifizierte Spiele-Datenbank statt Demo-Titel umstellen
 - [x] Ergebnisansicht mit 3 Demo-Matches
 - [ ] Echte Ergebnisse erst nach verifizierter Datenbasis aktivieren
