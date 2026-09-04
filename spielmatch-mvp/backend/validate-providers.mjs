@@ -31,6 +31,18 @@ export function validateProvidersSeed(seed) {
       if (a.public_compensation_eur != null && !Number.isFinite(a.public_compensation_eur)) {
         errors.push(`${prefix}: public_compensation_eur must be numeric when present`);
       }
+      if (a.public_cpa_range_eur != null) {
+        const range = a.public_cpa_range_eur;
+        if (!Number.isFinite(range?.min) || range.min <= 0) {
+          errors.push(`${prefix}: public_cpa_range_eur.min must be a positive number`);
+        }
+        if (!Number.isFinite(range?.max) || range.max <= 0) {
+          errors.push(`${prefix}: public_cpa_range_eur.max must be a positive number`);
+        }
+        if (Number.isFinite(range?.min) && Number.isFinite(range?.max) && range.min > range.max) {
+          errors.push(`${prefix}: public_cpa_range_eur.min cannot exceed max`);
+        }
+      }
       if (a.public_cpa_tiers != null) {
         if (!Array.isArray(a.public_cpa_tiers) || a.public_cpa_tiers.length === 0) {
           errors.push(`${prefix}: public_cpa_tiers must be a non-empty array when present`);
