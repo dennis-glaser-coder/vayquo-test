@@ -4,6 +4,17 @@ import { fileURLToPath } from 'node:url';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ALLOWED_LEGAL = new Set(['pending', 'approved', 'rejected']);
+const ALLOWED_ACQUISITION = new Set(['open', 'invite_only', 'registrations_suspended', 'closed', 'unknown']);
+
+export function isAffiliateOfferEligible(provider) {
+  const a = provider?.affiliate;
+  if (!a || provider?.market !== 'DE') return false;
+  if (a.active !== true) return false;
+  if (a.legal_review_status !== 'approved' || !a.approval_evidence) return false;
+  if (a.acquisition_status !== 'open') return false;
+  if (a.contract_status?.startsWith('needs_refresh')) return false;
+  return true;
+}
 
 export function validateProvidersSeed(seed) {
   const errors = [];
@@ -25,6 +36,9 @@ export function validateProvidersSeed(seed) {
       const a = provider.affiliate;
       if (!ALLOWED_LEGAL.has(a.legal_review_status)) {
         errors.push(`${prefix}: affiliate legal_review_status must be pending, approved or rejected`);
+      }
+      if (a.acquisition_status != null && !ALLOWED_ACQUISITION.has(a.acquisition_status)) {
+        errors.push(`${prefix}: affiliate acquisition_status is invalid`);
       }
       if (!ISO_DATE.test(a.verified_as_of || '')) errors.push(`${prefix}: affiliate verified_as_of must be YYYY-MM-DD`);
       if (!provider.sources?.affiliate?.startsWith('https://')) errors.push(`${prefix}: affiliate primary source is required`);
@@ -59,6 +73,9 @@ export function validateProvidersSeed(seed) {
       }
       if (a.active === true && a.legal_review_status !== 'approved') {
         errors.push(`${prefix}: affiliate cannot be active before legal_review_status=approved`);
+      }
+      if (a.active === true && a.acquisition_status !== 'open') {
+        errors.push(`${prefix}: affiliate cannot be active unless acquisition_status=open`);
       }
       if (a.legal_review_status === 'approved' && !a.approval_evidence) {
         errors.push(`${prefix}: approved affiliate requires approval_evidence`);
