@@ -26,3 +26,6 @@ Eine DE-Anbieterseite darf nur indexiert und als geprüft bezeichnet werden, wen
 
 ## D-009 – Öffentliche Affiliate-Kondition ≠ Freigabe
 Ein öffentlich sichtbares Affiliate-Programm oder eine öffentlich genannte CPA-Vergütung darf in SPIELMATCH nur als recherchierte Kondition gespeichert werden. Aktivierbare Trackinglinks benötigen zusätzlich mindestens: verifizierten Markt-/Lizenzstatus, Annahme unseres konkreten Mediums durch den Partner, dokumentierte aktuelle Konditionen und `legal_review_status = approved`. Bis dahin bleibt der Offer technisch nicht aktivierbar. Jokerstar ist der erste nach diesem Muster erfasste Anbieter (Primärquellenprüfung 04.09.2026).
+
+## D-010 – CPA-Staffeln nicht auf einen Einzelwert reduzieren
+Wenn ein Partner öffentlich mehrere CPA-Staffeln oder parallel CPA- und Revenue-Share-Modelle nennt, speichert SPIELMATCH diese Struktur vollständig statt einen vermeintlichen Standard-CPA zu erfinden. bet-at-home ist der erste Seed-Datensatz mit `public_cpa_tiers`; die aktive Vergütung bleibt bis zur konkreten Partner- und Rechtsfreigabe `pending`.
