@@ -25,11 +25,12 @@
   - [x] Phase 1: erstes `games.seed.json` mit Betreiber-Spielseiten-Evidenz
   - [x] Verification-Gate `validate-games.mjs` + Negativtests
   - [x] Phase 2a/2b.1: verifizierte DE-Beziehungen u. a. für Book of Dead, Ramses Book Deluxe, Big Bass Bonanza, Big Bass Splash, Sweet Bonanza, Gates of Olympus 1000, Book of Ra und Book of Ra Deluxe; exakte Varianten bleiben getrennt
-  - [ ] Phase 2b.2: wichtige Suchspiele gegen mehrere priorisierte DE-Anbieter verifizieren, damit echte Ergebnisvergleiche ausreichend Überschneidungen besitzen
+  - [x] Phase 2b.2a: erste echte Mehranbieter-Überschneidungen hergestellt: Book of Dead und Big Bass Bonanza sind bei je 3 priorisierten DE-Anbietern belegt; Big Bass Splash ebenfalls bei 3 (DrückGlück, SlotMagie, JackpotPiraten). Seed jetzt 14 verifizierte Beziehungen (05.09.2026)
+  - [ ] Phase 2b.2b: Mehranbieter-Abdeckung auf weitere populäre Suchspiele ausweiten; Ziel: mindestens 3 Anbieter je Kernspiel vor echten Ergebnisvergleichen
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
-- [ ] **Nächster Produktmeilenstein:** echte Match-Ergebnisse erst aktivieren, wenn Provider-Game-Mappings sowohl das Seed-Gate als auch das neue DB-Markt-/Produkt-Gate erfüllen
+- [ ] **Nächster Produktmeilenstein:** echte Match-Ergebnisse erst aktivieren, wenn Provider-Game-Mappings sowohl das Seed-Gate als auch das neue DB-Markt-/Produkt-Gate erfüllen und für das gewählte Kernspiel genügend echte Anbieterüberschneidung besteht
 - [x] SEO-URL-Struktur inkl. DE-Terminologie- und Verifikationsregeln definieren
 - [x] SEO-Spieltemplate mit Index-Gate vorbereiten und testen
 - [x] Anbieter-SEO-Template mit identischem Verification-Gate vorbereiten und testen
@@ -44,7 +45,7 @@
 - [ ] A/B-Test-Framework
 
 ## Dokumentierte Entscheidungen
-- D-001 bis D-020: `DECISIONS.md`
+- D-001 bis D-022: `DECISIONS.md`
 - D-021: `docs/021-market-product-availability-gate.md`
 
 ## Arbeitsregel
