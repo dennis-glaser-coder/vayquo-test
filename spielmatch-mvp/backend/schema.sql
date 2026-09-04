@@ -40,14 +40,27 @@ create table if not exists public.spielmatch_games (
   is_active boolean not null default true
 );
 
+-- Availability is market + product specific. Never infer DE availability from another market
+-- or a different gambling vertical. Evidence must stay attached to the exact mapping.
 create table if not exists public.spielmatch_provider_games (
   provider_id bigint not null references public.spielmatch_providers(id) on delete cascade,
   game_id bigint not null references public.spielmatch_games(id) on delete cascade,
-  availability_status text not null default 'verified' check (availability_status in ('verified','pending','unavailable')),
-  verified_at date not null,
-  source_url text not null,
-  primary key (provider_id,game_id)
+  market_code text not null check (market_code ~ '^[A-Z]{2}$'),
+  product_type text not null check (product_type in ('virtual_slots')),
+  availability_status text not null default 'pending' check (availability_status in ('verified','pending','unavailable')),
+  evidence_type text not null check (evidence_type in ('operator_game_page','operator_catalog_page','regulator_source')),
+  verified_at date,
+  source_url text not null check (source_url ~ '^https://'),
+  updated_at timestamptz not null default now(),
+  primary key (provider_id,game_id,market_code,product_type),
+  constraint verified_provider_game_requires_date
+    check (availability_status <> 'verified' or verified_at is not null),
+  constraint verified_provider_game_requires_strong_evidence
+    check (availability_status <> 'verified' or evidence_type in ('operator_game_page','regulator_source'))
 );
+
+create index if not exists spielmatch_provider_games_market_product_idx
+  on public.spielmatch_provider_games (market_code, product_type, availability_status);
 
 alter table public.spielmatch_providers enable row level security;
 alter table public.spielmatch_payment_methods enable row level security;
@@ -73,7 +86,20 @@ for select to anon, authenticated using (is_active = true);
 
 drop policy if exists "public read verified provider games" on public.spielmatch_provider_games;
 create policy "public read verified provider games" on public.spielmatch_provider_games
-for select to anon, authenticated using (availability_status = 'verified');
+for select to anon, authenticated using (
+  market_code = 'DE'
+  and product_type = 'virtual_slots'
+  and availability_status = 'verified'
+  and evidence_type in ('operator_game_page','regulator_source')
+  and verified_at is not null
+  and exists (
+    select 1
+    from public.spielmatch_providers p
+    where p.id = provider_id
+      and p.is_active = true
+      and p.ggl_status = 'verified'
+  )
+);
 
 grant select on public.spielmatch_providers to anon, authenticated;
 grant select on public.spielmatch_payment_methods to anon, authenticated;
