@@ -39,7 +39,9 @@
   - [x] Verification-Gate `validate-games.mjs` + Negativtests für pending, falschen Markt, schwache Evidenz und Duplikate ergänzt; Testlauf bestanden (04.09.2026)
   - [x] Phase 2a: SlotMagie um vier direkt über aktuelle Betreiber-Spielseiten belegte DE-Beziehungen erweitert: Book of Dead, Big Bass Bonanza, Sweet Bonanza, Gates of Olympus 1000. Seed damit 8 verifizierte DE-Spiel/Anbieter-Beziehungen (04.09.2026)
   - [ ] Phase 2b: weitere wichtige Autocomplete-Titel gegen mehrere priorisierte DE-Anbieter verifizieren; exakte Spielvarianten getrennt halten (z. B. Gates of Olympus != Gates of Olympus 1000)
+  - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereitet (`verified-games.mjs`): nur DE + `virtual_slots` + `verified` + Betreiber-Spielseite + HTTPS; Anbieter je exaktem Spiel-Slug aggregiert, Varianten bleiben getrennt. Positiv-/Negativtests bestanden (04.09.2026)
 - [ ] Autocomplete auf verifizierte Spiele-Datenbank statt Demo-Titel umstellen
+  - [x] Catalog-/Matching-Helfer und Test fertig; nächster Schritt ist die Verdrahtung von `spielmatch-mvp/index.html` mit `games.seed.json` (04.09.2026)
 - [x] Ergebnisansicht mit 3 Demo-Matches
 - [ ] Echte Ergebnisse erst nach verifizierter Datenbasis aktivieren
 - [x] SEO-URL-Struktur inkl. DE-Terminologie- und Verifikationsregeln in `SEO.md` definieren
