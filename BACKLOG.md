@@ -5,7 +5,7 @@
 - [x] Projektbrief anlegen
 - [x] Isolierte SPIELMATCH-MVP-Oberfläche erstellen (`spielmatch-mvp/`), ohne VAYQUO `main` anzufassen
 - [x] Datenmodell für Märkte, Anbieter, Spiele, Lizenzen, Offers und Zahlarten definieren
-- [ ] 10 priorisierte DE-Partner nur mit Primärquellenstatus erfassen
+- [x] 10 priorisierte DE-Partner nur mit Primärquellenstatus erfassen
   - [x] NOVOLINE Primärquelle erneut verifiziert: GGL-lizenziertes Angebot; eigenes/Tradedoubler-Partnerprogramm; öffentlich bis 75 EUR CPA; Registrierung + erste Einzahlung als Qualifikation; bis 30 Tage Cookie (03.09.2026)
   - [x] Jokerstar Primärquellenstatus aktualisiert: GGL-Whitelist `jokerstar.de` / Jokerstar GmbH verifiziert; Affiliate-AGB 75 EUR pro definierter Aktion, Cookie i. d. R. 30 Tage, Medium-Freigabe erforderlich; `legal_review_status = pending` (04.09.2026)
   - [x] JackpotPiraten Primärquellenstatus aktualisiert: GGL-Whitelist Stand 14.08.2026 + Betreiber DGGS; eigenes Partnerprogramm bestätigt CPA-Modell, Tracking/Statistiken und Publisher-Programm; öffentlich keine konkrete CPA-Höhe/Cookie-Dauer belegt, daher keine Zahl erfunden und `legal_review_status = pending` (04.09.2026)
@@ -15,7 +15,7 @@
   - [x] Tipico Games Primärquellenstatus aktualisiert: GGL-Whitelist Stand 14.08.2026 führt `games.tipico.de` als länderübergreifend erlaubtes virtuelles Automatenspiel-Angebot. Tipico Affiliates meldet aktuell ausdrücklich, dass das Affiliate-Programm bis auf Weiteres ausgesetzt ist und keine Neuregistrierungen möglich sind; `acquisition_status = registrations_suspended`, `active = false`, Affiliate-Primärquelle und AGB sind jetzt direkt im Provider-Seed gespeichert (04.09.2026)
   - [x] MERKUR SLOTS Primärquellenstatus aktualisiert: GGL-Whitelist Stand 14.08.2026 führt `merkurslots.de` und `merkurbets.de` unter Merkur Bets Malta Limited für virtuelle Automatenspiele länderübergreifend. MERKUR PARTNERS wirbt aktuell öffentlich um Affiliates und nennt MERKUR SLOTS Deutschland ausdrücklich sowie CPA- und Hybrid-Deals; kein aktueller fixer CPA oder Cookie-Zeitraum auf den Primärseiten belegt. Research-Fixture mit strikt getrenntem Produkt-/Marktstatus angelegt, `active = false`, `legal_review_status = pending` (04.09.2026)
   - [x] DrückGlück Primärquellenstatus aktualisiert: `drueckglueck.de` nennt Skill On Net Limited als Betreiber, bundesweite GGL-Erlaubnis für virtuelle Automatenspiele seit 29.12.2022 und verlinkt Affiliates. Das aktuelle EGO-Programm wirbt öffentlich um Affiliate-Partner und nennt DrückGlück als deutsche Marke; kein aktueller DE-spezifischer CPA oder Cookie-Zeitraum aus Primärquellen belegt. DE-Research-Fixture angelegt, `acquisition_status = open`, `active = false`, `legal_review_status = pending` (04.09.2026)
-  - [ ] 1 weiterer Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
+  - [x] Löwen Play Online Primärquellenstatus aktualisiert: GGL-Whitelist Stand 14.08.2026 führt Löwen Play digital GmbH mit `loewen-play.de` für länderübergreifende virtuelle Automatenspiele; Erst-Erlaubnis 15.12.2022. Eigenes Affiliate-Programm nimmt Bewerbungen via NetRefer an und nennt CPA pro vermitteltem Kunden mit Einzahlung; aktuelle öffentliche CPA-Höhe und Cookie-Dauer sind nicht belegt. DE-Research-Fixture angelegt, `acquisition_status = open`, `active = false`, `legal_review_status = pending` (04.09.2026)
 - [x] Deutsche Werbezeit-/Affiliate-Grundregeln technisch/konzeptionell abbilden
 - [x] DE-CPA-Annahme korrigieren: nicht automatisch zulässig; konkrete Vergütung braucht dokumentierte Prüfung/Freigabe
 - [x] Offer-Schema um `legal_review_status`, `approved_at`, `approval_evidence` erweitern; DB-Constraint verhindert 'approved' ohne Evidenz
@@ -34,6 +34,7 @@
 - [x] Match-Score transparent definieren (`MATCHING.md`): Nutzerkriterien + Datenvertrauen, keine Affiliate-Vergütung
 - [x] Match-Score v1 im MVP sichtbar berechnen und pro Ergebnis erklären
 - [x] Spielsuche mit Autocomplete (MVP: 15 Titel, Prefix/Substring/Wortanfang, Tastatursteuerung, max. 8 Vorschläge)
+- [ ] Verifizierte Spiel→Anbieter-Datenbasis aufbauen (nächster P0/P1-Schwerpunkt)
 - [ ] Autocomplete auf verifizierte Spiele-Datenbank statt Demo-Titel umstellen
 - [x] Ergebnisansicht mit 3 Demo-Matches
 - [ ] Echte Ergebnisse erst nach verifizierter Datenbasis aktivieren
