@@ -21,4 +21,12 @@ const wrongMarket = structuredClone(seed);
 wrongMarket.providers[0].market = 'AT';
 assert.ok(validateProvidersSeed(wrongMarket).some((e) => e.includes('market must be DE')));
 
+const invalidTierAmount = structuredClone(seed);
+invalidTierAmount.providers.find((p) => p.slug === 'bet-at-home').affiliate.public_cpa_tiers[0].amount_eur = 0;
+assert.ok(validateProvidersSeed(invalidTierAmount).some((e) => e.includes('amount_eur must be a positive number')));
+
+const invalidTierDuration = structuredClone(seed);
+invalidTierDuration.providers.find((p) => p.slug === 'bet-at-home').affiliate.public_cpa_tiers[0].duration_months = -6;
+assert.ok(validateProvidersSeed(invalidTierDuration).some((e) => e.includes('duration_months must be a positive integer or null')));
+
 console.log('OK: provider seed validation tests passed.');
