@@ -12,7 +12,8 @@
   - [x] bet-at-home Primärquellenstatus aktualisiert: GGL-Whitelist Stand 14.08.2026 führt `bet-at-home.de` für virtuelle Automatenspiele (Bet-at-home.com Internet Limited); eigenes Affiliate-Programm nennt DE-Willkommens-CPA 120 EUR/6 Monate, 75 EUR/12 Monate bzw. 50 EUR sowie Revenue-Share-Modelle; konkrete SPIELMATCH-Medienfreigabe fehlt, daher `legal_review_status = pending` (04.09.2026)
   - [x] BingBong Primärquellenstatus aktualisiert: Betreiber DGGS; eigenes Partnerprogramm + DGGS-Inhouse-Netzwerk verifiziert; öffentlich mindestens 50 EUR und bis zu 75 EUR CPA pro Ersteinzahler, 30 Tage Tracking; konkrete Partnerkonditionen individuell und SPIELMATCH-Medienfreigabe fehlt, daher `legal_review_status = pending` (04.09.2026)
   - [x] SlotMagie Primärquellenstatus aktualisiert: aktuelle GGL-Whitelist + aktuelle SlotMagie-Seite nennen Solis Ortus Service Limited; eigenes SolisPartner-Programm öffentlich registrierbar. Öffentliche Affiliate-AGB (Version 10/2022) erlauben für DE CPA, schließen Revenue Share für DE aus und nennen 1 EUR kumulierte Mindesteinzahlung als Real-Money-Player-Kriterium; CPA-Höhe wird individuell vereinbart. Die verlinkten AGB nennen auf der Markenliste noch The Mill Adventure Ltd. als SlotMagie-Betreiber und sind damit gegenüber der aktuellen Betreiberlage veraltet/inkonsistent; `contract_status = needs_refresh_due_operator_mismatch`, `legal_review_status = pending` (04.09.2026)
-  - [ ] 4 weitere Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
+  - [x] Tipico Games Primärquellenstatus aktualisiert: GGL-Whitelist Stand 14.08.2026 führt `games.tipico.de` als länderübergreifend erlaubtes virtuelles Automatenspiel-Angebot. Tipico Affiliates meldet aktuell ausdrücklich, dass das Affiliate-Programm bis auf Weiteres ausgesetzt ist und keine Neuregistrierungen möglich sind; daher `affiliate_status = registrations_suspended` und nicht als aktiv akquirierbarer Partner behandeln (04.09.2026)
+  - [ ] 3 weitere Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
 - [x] Deutsche Werbezeit-/Affiliate-Grundregeln technisch/konzeptionell abbilden
 - [x] DE-CPA-Annahme korrigieren: nicht automatisch zulässig; konkrete Vergütung braucht dokumentierte Prüfung/Freigabe
 - [x] Offer-Schema um `legal_review_status`, `approved_at`, `approval_evidence` erweitern; DB-Constraint verhindert 'approved' ohne Evidenz
@@ -21,6 +22,7 @@
 - [x] Seed-Validator-Test ergänzt (`validate-providers.test.mjs`): aktive Affiliate-Nutzung vor Freigabe, Approval ohne Evidenz und falscher Markt schlagen fehl; Testlauf bestanden (04.09.2026)
 - [x] Öffentliche CPA-Spannen strukturiert abbilden und validieren (`public_cpa_range_eur`); BingBong 50–75 EUR als Spanne statt irreführendem Einzelwert erfasst (04.09.2026)
 - [x] Vertragsaktualitäts-Gate ergänzt: Provider mit `contract_status = needs_refresh...` können nicht auf `legal_review_status = approved` gesetzt werden; SlotMagie nutzt das Gate wegen Betreiberinkonsistenz in öffentlich verlinkten SolisPartner-AGB (04.09.2026)
+- [ ] Affiliate-Status-Gate ergänzen: `registrations_suspended` darf weder als aktiv akquirierbar noch als Live-Affiliate-Offer ausgespielt werden (Tipico-Fall)
 
 ## P1
 - [x] Finder-Fragen im UI auf minimale Reibung reduzieren (erste MVP-Fassung)
