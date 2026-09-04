@@ -32,3 +32,6 @@ Wenn ein Partner öffentlich mehrere CPA-Staffeln oder parallel CPA- und Revenue
 
 ## D-011 – Öffentliche CPA-Spannen strukturiert speichern
 Wenn Primärquellen nur eine Unter-/Obergrenze statt eines festen CPA belegen, speichert SPIELMATCH die Werte als `public_cpa_range_eur` und nicht als vermeintlichen Standardbetrag. BingBong ist der erste Datensatz nach diesem Muster (`min: 50`, `max: 75`). Der Validator prüft positive Werte sowie `min <= max`; die Spanne ist reine Research-Metadaten und keine Freigabe oder Rankingvariable.
+
+## D-012 – Veraltete Vertragsquelle blockiert Freigabe
+Wenn eine öffentlich verlinkte Affiliate-Vertragsquelle erkennbar nicht mehr zur aktuellen Betreiberlage passt, bleibt sie als Research-Evidenz gespeichert, darf aber keine Aktivierung tragen. `contract_status = needs_refresh...` blockiert deshalb technisch `legal_review_status = approved`, selbst wenn sonstige Approval-Evidenz vorhanden wäre. SlotMagie ist der erste Anwendungsfall: aktuelle GGL-/Markenquellen nennen Solis Ortus Service Limited, während die öffentlich verlinkten SolisPartner-AGB in der Markenliste noch The Mill Adventure Ltd. nennen. Für Deutschland dokumentieren diese AGB zugleich CPA als mögliches Modell und schließen Revenue Share aus; die konkrete CPA-Höhe bleibt individuell und wird nicht erfunden.
