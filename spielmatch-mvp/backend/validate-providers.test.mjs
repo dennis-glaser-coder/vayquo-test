@@ -37,4 +37,10 @@ const invalidRangeMin = structuredClone(seed);
 invalidRangeMin.providers.find((p) => p.slug === 'bingbong').affiliate.public_cpa_range_eur.min = 0;
 assert.ok(validateProvidersSeed(invalidRangeMin).some((e) => e.includes('range_eur.min must be a positive number')));
 
+const staleContractApproved = structuredClone(seed);
+const slotmagie = staleContractApproved.providers.find((p) => p.slug === 'slotmagie');
+slotmagie.affiliate.legal_review_status = 'approved';
+slotmagie.affiliate.approval_evidence = 'test-evidence';
+assert.ok(validateProvidersSeed(staleContractApproved).some((e) => e.includes('contract_status requires refresh')));
+
 console.log('OK: provider seed validation tests passed.');
