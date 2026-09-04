@@ -46,6 +46,50 @@
       "evidence_type": "operator_game_page",
       "source_url": "https://www.drueckglueck.de/slots/big-bass-splash/",
       "verified_as_of": "2026-09-04"
+    },
+    {
+      "game_slug": "book-of-dead",
+      "game_name": "Book of Dead",
+      "provider_slug": "slotmagie",
+      "market": "DE",
+      "product": "virtual_slots",
+      "availability_status": "verified",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/playngo/book-of-dead",
+      "verified_as_of": "2026-09-04"
+    },
+    {
+      "game_slug": "big-bass-bonanza",
+      "game_name": "Big Bass Bonanza",
+      "provider_slug": "slotmagie",
+      "market": "DE",
+      "product": "virtual_slots",
+      "availability_status": "verified",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/big-bass-bonanza",
+      "verified_as_of": "2026-09-04"
+    },
+    {
+      "game_slug": "sweet-bonanza",
+      "game_name": "Sweet Bonanza",
+      "provider_slug": "slotmagie",
+      "market": "DE",
+      "product": "virtual_slots",
+      "availability_status": "verified",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/sweet-bonanza",
+      "verified_as_of": "2026-09-04"
+    },
+    {
+      "game_slug": "gates-of-olympus-1000",
+      "game_name": "Gates of Olympus 1000",
+      "provider_slug": "slotmagie",
+      "market": "DE",
+      "product": "virtual_slots",
+      "availability_status": "verified",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/gates-of-olympus-1000",
+      "verified_as_of": "2026-09-04"
     }
   ]
 }
