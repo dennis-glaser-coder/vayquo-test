@@ -1,0 +1,38 @@
+{
+  "slug": "merkur-slots",
+  "name": "MERKUR SLOTS",
+  "operator": "Merkur Bets Malta Limited",
+  "market": "DE",
+  "product": "virtual_slots",
+  "domain": "merkurslots.de",
+  "licensed_domains": [
+    "merkurslots.de",
+    "merkurbets.de"
+  ],
+  "product_url": "https://www.merkurbets.de/de/slots",
+  "ggl_verified_as_of": "2026-09-04",
+  "ggl_whitelist_as_of": "2026-08-14",
+  "affiliate": {
+    "program_status": "verified_public_program",
+    "affiliate_url": "https://merkurpartners.com/",
+    "brand_url": "https://merkurpartners.com/marken/merkur-slots/",
+    "acquisition_status": "open",
+    "active": false,
+    "public_compensation_model": "CPA_or_Hybrid",
+    "public_compensation_eur": null,
+    "cookie_days_typical": null,
+    "media_requires_approval": true,
+    "legal_review_status": "pending",
+    "verified_as_of": "2026-09-04"
+  },
+  "sources": {
+    "license": "https://www.gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist",
+    "affiliate": "https://merkurpartners.com/",
+    "affiliate_brand": "https://merkurpartners.com/marken/merkur-slots/"
+  },
+  "notes": [
+    "GGL lists merkurslots.de and merkurbets.de for virtual slots under Merkur Bets Malta Limited with cross-state distribution.",
+    "Do not conflate MERKUR SLOTS virtual slots with MERKUR BETS sportsbook or Schleswig-Holstein online casino permission.",
+    "MERKUR PARTNERS publicly offers CPA and Hybrid models but no current public fixed CPA or cookie duration was found on the primary pages."
+  ]
+}
