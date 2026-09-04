@@ -8,7 +8,8 @@
 - [ ] 10 priorisierte DE-Partner nur mit Primärquellenstatus erfassen
   - [x] NOVOLINE Primärquelle erneut verifiziert: GGL-lizenziertes Angebot; eigenes/Tradedoubler-Partnerprogramm; öffentlich bis 75 EUR CPA; Registrierung + erste Einzahlung als Qualifikation; bis 30 Tage Cookie (03.09.2026)
   - [x] Jokerstar Primärquellenstatus aktualisiert: GGL-Whitelist `jokerstar.de` / Jokerstar GmbH verifiziert; Affiliate-AGB 75 EUR pro definierter Aktion, Cookie i. d. R. 30 Tage, Medium-Freigabe erforderlich; `legal_review_status = pending` (04.09.2026)
-  - [ ] 8 weitere Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
+  - [x] JackpotPiraten Primärquellenstatus aktualisiert: GGL-Whitelist Stand 14.08.2026 + Betreiber DGGS; eigenes Partnerprogramm bestätigt CPA-Modell, Tracking/Statistiken und Publisher-Programm; öffentlich keine konkrete CPA-Höhe/Cookie-Dauer belegt, daher keine Zahl erfunden und `legal_review_status = pending` (04.09.2026)
+  - [ ] 7 weitere Anbieter mit Betreiber-/Lizenz-/Affiliate-Primärquelle
 - [x] Deutsche Werbezeit-/Affiliate-Grundregeln technisch/konzeptionell abbilden
 - [x] DE-CPA-Annahme korrigieren: nicht automatisch zulässig; konkrete Vergütung braucht dokumentierte Prüfung/Freigabe
 - [x] Offer-Schema um `legal_review_status`, `approved_at`, `approval_evidence` erweitern; DB-Constraint verhindert 'approved' ohne Evidenz
