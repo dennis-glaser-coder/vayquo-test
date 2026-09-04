@@ -90,6 +90,28 @@
       "evidence_type": "operator_game_page",
       "source_url": "https://www.slotmagie.de/slots/pragmatic-play/gates-of-olympus-1000",
       "verified_as_of": "2026-09-04"
+    },
+    {
+      "game_slug": "book-of-ra",
+      "game_name": "Book of Ra",
+      "provider_slug": "slotmagie",
+      "market": "DE",
+      "product": "virtual_slots",
+      "availability_status": "verified",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/novomatic/book-of-ra",
+      "verified_as_of": "2026-09-04"
+    },
+    {
+      "game_slug": "book-of-ra-deluxe",
+      "game_name": "Book of Ra Deluxe",
+      "provider_slug": "slotmagie",
+      "market": "DE",
+      "product": "virtual_slots",
+      "availability_status": "verified",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/novomatic/book-of-ra-deluxe",
+      "verified_as_of": "2026-09-04"
     }
   ]
 }
