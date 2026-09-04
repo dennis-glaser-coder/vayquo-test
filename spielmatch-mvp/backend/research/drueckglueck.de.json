@@ -1,0 +1,30 @@
+{
+  "slug": "drueckglueck",
+  "name": "DrückGlück",
+  "operator": "Skill On Net Limited",
+  "market": "DE",
+  "product": "virtual_slots",
+  "licensed_domains": ["drueckglueck.de"],
+  "license_status": "verified_primary_sources",
+  "ggl_license_granted_at": "2022-12-29",
+  "affiliate": {
+    "program": "EGamingOnline (EGO)",
+    "program_status": "verified_public_program",
+    "acquisition_status": "open",
+    "affiliate_url": "https://www.egamingonline.com/",
+    "public_compensation_model": "multiple_models_publicly_referenced_but_no_current_DE_rate_verified",
+    "public_compensation_eur": null,
+    "cookie_days_typical": null,
+    "active": false,
+    "media_requires_approval": true,
+    "legal_review_status": "pending",
+    "legal_review_reason": "DrückGlück links to an affiliate programme and EGO publicly promotes affiliate cooperation and DrückGlück, but no current DE-specific public CPA amount, attribution period or SPIELMATCH media approval was verified from primary sources. Activation remains blocked pending partner acceptance and legal review."
+  },
+  "sources": {
+    "operator_and_license": "https://www.drueckglueck.de/uber-uns/",
+    "brand_and_affiliate_link": "https://www.drueckglueck.de/",
+    "affiliate_program": "https://www.egamingonline.com/",
+    "license_whitelist": "https://www.gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist"
+  },
+  "verified_as_of": "2026-09-04"
+}
