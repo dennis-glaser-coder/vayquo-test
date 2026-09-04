@@ -22,7 +22,8 @@
 - [x] Seed-Validator-Test ergänzt (`validate-providers.test.mjs`): aktive Affiliate-Nutzung vor Freigabe, Approval ohne Evidenz und falscher Markt schlagen fehl; Testlauf bestanden (04.09.2026)
 - [x] Öffentliche CPA-Spannen strukturiert abbilden und validieren (`public_cpa_range_eur`); BingBong 50–75 EUR als Spanne statt irreführendem Einzelwert erfasst (04.09.2026)
 - [x] Vertragsaktualitäts-Gate ergänzt: Provider mit `contract_status = needs_refresh...` können nicht auf `legal_review_status = approved` gesetzt werden; SlotMagie nutzt das Gate wegen Betreiberinkonsistenz in öffentlich verlinkten SolisPartner-AGB (04.09.2026)
-- [ ] Affiliate-Status-Gate ergänzen: `registrations_suspended` darf weder als aktiv akquirierbar noch als Live-Affiliate-Offer ausgespielt werden (Tipico-Fall)
+- [x] Affiliate-Status-Gate ergänzt: Live-Eligibility verlangt DE + `active = true` + `legal_review_status = approved` + Approval-Evidenz + `acquisition_status = open` + aktuellen Vertrag. `registrations_suspended`/`closed`/`invite_only`/`unknown` sind nicht live-fähig; Positiv-/Negativtests ergänzt und Gate-Logik lokal ausgeführt (04.09.2026)
+- [ ] Tipico-Games-Seed um den verifizierten kommerziellen Status `acquisition_status = registrations_suspended` und Affiliate-Primärquelle ergänzen
 
 ## P1
 - [x] Finder-Fragen im UI auf minimale Reibung reduzieren (erste MVP-Fassung)
