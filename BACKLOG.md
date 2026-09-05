@@ -37,6 +37,9 @@
 - [x] SEO-Spieltemplate mit Index-Gate vorbereiten und testen
 - [x] Anbieter-SEO-Template mit identischem Verification-Gate vorbereiten und testen
 - [ ] Funnel-Events
+  - [x] Privacy-sicheren Event-Core mit fester Event-/Payload-Allowlist bauen; keine Netzwerkübertragung, keine Rohsuche/PII; Regressionstest `funnel-events.test.mjs` ergänzt (05.09.2026)
+  - [ ] Event-Core in Finder-/Match-UI verdrahten
+  - [ ] Externen Analytics-Sink erst nach separater Datenschutz-/Consent-Prüfung auswählen und aktivieren
 - [ ] 18+/Spielerschutz-/Hilfebereich für Live-Konzept definieren
 
 ## P2
@@ -50,6 +53,7 @@
 - D-001 bis D-024: `DECISIONS.md`
 - D-021: `docs/021-market-product-availability-gate.md`
 - D-025: `docs/025-real-match-ui-binding.md`
+- D-026: `docs/026-privacy-safe-funnel-events.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
