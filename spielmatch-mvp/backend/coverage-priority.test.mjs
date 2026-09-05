@@ -6,9 +6,9 @@ const seed = JSON.parse(fs.readFileSync(new URL('./games.seed.json', import.meta
 const priority = buildCoveragePriority(seed.records);
 const summary = summarizeCoverage(priority);
 
-assert.equal(summary.verifiedRelationships, 44);
-assert.equal(summary.verifiedGames, 15);
-assert.equal(summary.matchReadyGames, 14);
+assert.equal(summary.verifiedRelationships, 47);
+assert.equal(summary.verifiedGames, 16);
+assert.equal(summary.matchReadyGames, 15);
 assert.equal(summary.belowGateGames, 1);
 
 const bookOfRa = priority.find(row => row.gameSlug === 'book-of-ra');
@@ -40,6 +40,14 @@ assert.equal(fruitParty.providerCount, 3);
 assert.deepEqual(fruitParty.providers, ['bingbong', 'jackpotpiraten', 'slotmagie']);
 assert.equal(fruitParty.readyForMatch, true);
 
+const luckyLady = priority.find(row => row.gameSlug === 'lucky-ladys-charm-deluxe');
+assert.equal(luckyLady.providerCount, 3);
+assert.deepEqual(luckyLady.providers, ['bingbong', 'jackpotpiraten', 'slotmagie']);
+assert.equal(luckyLady.readyForMatch, true);
+
+const luckyLady6 = priority.find(row => row.gameSlug === 'lucky-ladys-charm-deluxe-6');
+assert.equal(luckyLady6, undefined);
+
 const fruitParty2 = priority.find(row => row.gameSlug === 'fruit-party-2');
 assert.equal(fruitParty2, undefined);
 
@@ -54,7 +62,7 @@ const poisoned = buildCoveragePriority([
   {...seed.records[0], product: 'sportsbook', provider_slug: 'wrong-product'},
   {...seed.records[0], availability_status: 'pending', provider_slug: 'pending'},
 ]);
-assert.equal(summarizeCoverage(poisoned).verifiedRelationships, 44);
-assert.equal(summarizeCoverage(poisoned).matchReadyGames, 14);
+assert.equal(summarizeCoverage(poisoned).verifiedRelationships, 47);
+assert.equal(summarizeCoverage(poisoned).matchReadyGames, 15);
 
 console.log('PASS: coverage priority is deterministic and market/product gated');
