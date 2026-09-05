@@ -30,7 +30,8 @@
   - [x] Phase 2b.2c: Gates of Olympus 1000 über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Sweet Bonanza auf 2 verifizierte Anbieter erweitert (SlotMagie, BingBong). Seed 22 verifizierte Beziehungen (05.09.2026)
   - [x] Phase 2b.2d: Sweet Bonanza über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Seed 23 verifizierte Beziehungen. JackpotPiraten-Betreiberseite am 05.09.2026 aktuell geprüft.
   - [x] Phase 2b.2e: Eye of Horus anhand echter Betreiberüberschneidung auf 3 verifizierte DE-Anbieter gebracht (NOVOLINE, BingBong, JackpotPiraten); Seed 26 verifizierte Beziehungen. Keine Vermischung mit Eye-of-Horus-Varianten und kein erfundenes Suchvolumen (05.09.2026)
-  - [ ] Phase 2b.2f: nächsten Kernintent priorisieren; nur übernehmen, wenn mindestens 3 aktuelle Betreiber-Spielseiten im selben Markt/Produkt belegbar sind
+  - [x] Phase 2b.2f: The Dog House anhand aktueller Betreiberüberschneidung auf 3 verifizierte DE-Anbieter gebracht (SlotMagie, BingBong, JackpotPiraten); GGL-Marktstatus erneut geprüft; Seed 29 verifizierte Beziehungen. Exakte Variante bleibt getrennt von The Dog House Megaways (05.09.2026)
+  - [ ] Phase 2b.2g: Coverage-Priorisierung systematisieren und nächsten Kernintent nur bei ≥3 aktuellen Betreiber-Spielseiten im selben Markt/Produkt übernehmen
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -63,6 +64,7 @@
 - D-027: `docs/027-local-funnel-ui-wiring.md`
 - D-028: `docs/028-responsible-gambling-help-surface.md`
 - D-029: `docs/029-eye-of-horus-coverage.md`
+- D-030: `docs/030-the-dog-house-coverage.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
