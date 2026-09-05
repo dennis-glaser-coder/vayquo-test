@@ -37,7 +37,8 @@
   - [x] Phase 2b.2j: `Fire Joker` nach drei aktuellen exakten Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) aufgenommen; Varianten wie Fire Joker Freeze/100 bleiben getrennt. Seed 38 Beziehungen / 13 Spiele / 12 match-ready / 1 unter Gate (05.09.2026)
   - [x] Phase 2b.2k: `Legacy of Dead` nach drei aktuellen exakten Betreiber-Spielseiten (NOVOLINE, BingBong, JackpotPiraten) aufgenommen; GGL-DE-`virtual_slots`-Status gegengeprüft. Seed 41 Beziehungen / 14 Spiele / 13 match-ready / 1 unter Gate (05.09.2026)
   - [x] Phase 2b.2l Research: `Fruit Party` anhand drei aktueller exakter Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) verifiziert; Research-Fixture + Regressionstest angelegt. `Fruit Party 2` bleibt strikt getrennt. Produktiver Seed bleibt bis zur testbaren Ingestion unverändert (05.09.2026)
-  - [ ] Phase 2b.2m: `Fruit Party` aus der geprüften Research-Fixture in `games.seed.json` übernehmen, Coverage-Erwartungen aktualisieren und vollständige Validator-/Match-Regression ausführen
+  - [x] Phase 2b.2m: `Fruit Party` aus der geprüften Research-Fixture in `games.seed.json` übernommen; Coverage-Erwartung auf 44 Beziehungen / 15 Spiele / 14 match-ready / 1 unter Gate aktualisiert; expliziter Varianten-Guard gegen `Fruit Party 2` ergänzt. Betreiberseiten am 05.09.2026 erneut geprüft. Vollständiger lokaler Node-Lauf bleibt nach Wiederherstellung der DNS-Auflösung zu wiederholen.
+  - [ ] Phase 2b.2n: nächsten Kernintent nur bei mindestens 3 aktuellen, exakten DE-`virtual_slots`-Betreiberseiten auswählen; vor Seed-Ingestion Varianten, Markt und Produkt explizit prüfen
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -77,6 +78,7 @@
 - D-034: `docs/034-fire-joker-coverage.md`
 - D-035: `docs/035-legacy-of-dead-coverage.md`
 - D-036: `docs/036-fruit-party-coverage.md`
+- D-037: `docs/037-fruit-party-seed-ingestion.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
