@@ -14,8 +14,11 @@ Alle drei Records bleiben marktbezogen auf `DE`, produktbezogen auf `virtual_slo
 ## Produktwirkung
 - Seed: 32 verifizierte Spiel→Anbieter-Beziehungen
 - Exakte Spiele: 11
-- Match-ready bei Gate ≥3 Anbieter: 9
-- Unter Gate: 2
+- Match-ready bei Gate ≥3 Anbieter: 10
+- Unter Gate: 1 (`Ramses Book Deluxe`)
+
+## Korrektur eines Altstands
+Der vorherige Coverage-Test erwartete für den 29er-Seed 8 match-ready / 2 unter Gate. Ein deterministischer Gegencheck der vorhandenen Records zeigt jedoch 9 / 1. Die Regressionserwartungen wurden deshalb zusammen mit Wolf Gold auf 10 / 1 korrigiert.
 
 ## Schutzregeln
 - Keine Vermischung mit ähnlich benannten Wolf-Gold-Varianten.
@@ -24,4 +27,4 @@ Alle drei Records bleiben marktbezogen auf `DE`, produktbezogen auf `virtual_slo
 - Betreiberverfügbarkeit ist zeitabhängig und muss über `verified_as_of` erneut prüfbar bleiben.
 
 ## Tests
-`coverage-priority.test.mjs` wurde auf die neuen Summen aktualisiert und enthält einen expliziten Wolf-Gold-Test auf exakt drei alphabetisch deterministische Provider sowie das bestehende Fremdmarkt-/Produkt-/Pending-Poisoning-Gate.
+`coverage-priority.test.mjs` enthält einen expliziten Wolf-Gold-Test auf exakt drei alphabetisch deterministische Provider sowie das bestehende Fremdmarkt-/Produkt-/Pending-Poisoning-Gate. Der lokale GitHub-Clone war in dieser Laufzeitumgebung wegen DNS-Auflösung nicht ausführbar; die Summen wurden separat deterministisch aus den 32 Seed-Beziehungen gegengeprüft.
