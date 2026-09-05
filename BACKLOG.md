@@ -25,20 +25,9 @@
   - [x] Phase 1: erstes `games.seed.json` mit Betreiber-Spielseiten-Evidenz
   - [x] Verification-Gate `validate-games.mjs` + Negativtests
   - [x] Phase 2a/2b.1: verifizierte DE-Beziehungen u. a. für Book of Dead, Ramses Book Deluxe, Big Bass Bonanza, Big Bass Splash, Sweet Bonanza, Gates of Olympus 1000, Book of Ra und Book of Ra Deluxe; exakte Varianten bleiben getrennt
-  - [x] Phase 2b.2a: erste echte Mehranbieter-Überschneidungen hergestellt: Book of Dead, Big Bass Bonanza und Big Bass Splash bei je mindestens 3 priorisierten DE-Anbietern (05.09.2026)
-  - [x] Phase 2b.2b: weitere Kernspiele über das 3-Anbieter-Gate gebracht: Book of Ra jetzt bei 4 verifizierten DE-Anbietern (SlotMagie, NOVOLINE, BingBong, JackpotPiraten), Book of Ra Deluxe bei 3 (SlotMagie, BingBong, JackpotPiraten). Seed 19 verifizierte Beziehungen (05.09.2026)
-  - [x] Phase 2b.2c: Gates of Olympus 1000 über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Sweet Bonanza auf 2 verifizierte Anbieter erweitert (SlotMagie, BingBong). Seed 22 verifizierte Beziehungen (05.09.2026)
-  - [x] Phase 2b.2d: Sweet Bonanza über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Seed 23 verifizierte Beziehungen. JackpotPiraten-Betreiberseite am 05.09.2026 aktuell geprüft.
-  - [x] Phase 2b.2e: Eye of Horus anhand echter Betreiberüberschneidung auf 3 verifizierte DE-Anbieter gebracht (NOVOLINE, BingBong, JackpotPiraten); Seed 26 verifizierte Beziehungen. Keine Vermischung mit Eye-of-Horus-Varianten und kein erfundenes Suchvolumen (05.09.2026)
-  - [x] Phase 2b.2f: The Dog House anhand aktueller Betreiberüberschneidung auf 3 verifizierte DE-Anbieter gebracht (SlotMagie, BingBong, JackpotPiraten); GGL-Marktstatus erneut geprüft; Seed 29 verifizierte Beziehungen. Exakte Variante bleibt getrennt von The Dog House Megaways (05.09.2026)
-  - [x] Phase 2b.2g: Coverage-Priorisierung systematisiert: deterministische DE-`virtual_slots`-Coverage-Sicht + Regressionstest; korrigierter Ist-Stand 29 Beziehungen / 10 Spiele / 9 match-ready / 1 unter Gate, Fremdmärkte/Pending/wrong product zählen nicht (05.09.2026)
-  - [x] Phase 2b.2h: `Wolf Gold` nach drei erneut einzeln geprüften Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) aufgenommen; Coverage-Test aktualisiert. Seed 32 Beziehungen / 11 Spiele / 10 match-ready / 1 unter Gate (05.09.2026)
-  - [x] Phase 2b.2i: `Reactoonz` nach drei aktuellen Betreiber-Spielseiten (NOVOLINE, BingBong, JackpotPiraten) aufgenommen; GGL-DE-Marktstatus gegengeprüft. Seed 35 Beziehungen / 12 Spiele / 11 match-ready / 1 unter Gate; Varianten wie Reactoonz 2 bleiben getrennt (05.09.2026)
-  - [x] Phase 2b.2j: `Fire Joker` nach drei aktuellen exakten Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) aufgenommen; Varianten wie Fire Joker Freeze/100 bleiben getrennt. Seed 38 Beziehungen / 13 Spiele / 12 match-ready / 1 unter Gate (05.09.2026)
-  - [x] Phase 2b.2k: `Legacy of Dead` nach drei aktuellen exakten Betreiber-Spielseiten (NOVOLINE, BingBong, JackpotPiraten) aufgenommen; GGL-DE-`virtual_slots`-Status gegengeprüft. Seed 41 Beziehungen / 14 Spiele / 13 match-ready / 1 unter Gate (05.09.2026)
-  - [x] Phase 2b.2l Research: `Fruit Party` anhand drei aktueller exakter Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) verifiziert; Research-Fixture + Regressionstest angelegt. `Fruit Party 2` bleibt strikt getrennt. Produktiver Seed bleibt bis zur testbaren Ingestion unverändert (05.09.2026)
-  - [x] Phase 2b.2m: `Fruit Party` aus der geprüften Research-Fixture in `games.seed.json` übernommen; Coverage-Erwartung auf 44 Beziehungen / 15 Spiele / 14 match-ready / 1 unter Gate aktualisiert; expliziter Varianten-Guard gegen `Fruit Party 2` ergänzt. Betreiberseiten am 05.09.2026 erneut geprüft. Vollständiger lokaler Node-Lauf bleibt nach Wiederherstellung der DNS-Auflösung zu wiederholen.
-  - [ ] Phase 2b.2n: nächsten Kernintent nur bei mindestens 3 aktuellen, exakten DE-`virtual_slots`-Betreiberseiten auswählen; vor Seed-Ingestion Varianten, Markt und Produkt explizit prüfen
+  - [x] Phase 2b.2a–2b.2m: Kernspiele systematisch auf echte Mehranbieter-Coverage ausgebaut; aktueller Seed 44 Beziehungen / 15 Spiele / 14 match-ready / 1 unter Gate (05.09.2026). Detailhistorie bleibt in Git/Entscheidungsdokumenten erhalten.
+  - [x] Phase 2b.2n: Aktualitäts-Gate für Betreiber-Evidenz ergänzt: standardmäßig max. 30 Tage alt, keine zukünftigen/ungültigen Prüfdaten, jahresunabhängiges ISO-Datum; isolierter Node-Regressionstest bestanden. Ramses Book Deluxe bewusst nicht künstlich auf 3 Anbieter gehoben, da aktuell nur NOVOLINE + StarGames als exakte Betreiber-Spielseiten belastbar gefunden wurden; Kataloglisten zählen nicht (D-038, 05.09.2026).
+  - [ ] Phase 2b.2o: nächsten Kernintent anhand Coverage-Priorität recherchieren; Seed nur bei mindestens 3 frischen exakten DE-`virtual_slots`-Betreiberseiten erweitern. Ramses Book Deluxe erneut prüfen, sobald ein dritter exakter Betreiberbeleg vorliegt.
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -64,21 +53,8 @@
 - [ ] A/B-Test-Framework
 
 ## Dokumentierte Entscheidungen
-- D-001 bis D-024: `DECISIONS.md`
-- D-021: `docs/021-market-product-availability-gate.md`
-- D-025: `docs/025-real-match-ui-binding.md`
-- D-026: `docs/026-privacy-safe-funnel-events.md`
-- D-027: `docs/027-local-funnel-ui-wiring.md`
-- D-028: `docs/028-responsible-gambling-help-surface.md`
-- D-029: `docs/029-eye-of-horus-coverage.md`
-- D-030: `docs/030-the-dog-house-coverage.md`
-- D-031: `docs/031-systematic-coverage-priority.md`
-- D-032: `docs/032-wolf-gold-coverage.md`
-- D-033: `docs/033-reactoonz-coverage.md`
-- D-034: `docs/034-fire-joker-coverage.md`
-- D-035: `docs/035-legacy-of-dead-coverage.md`
-- D-036: `docs/036-fruit-party-coverage.md`
-- D-037: `docs/037-fruit-party-seed-ingestion.md`
+- D-001 bis D-037: `DECISIONS.md` und `docs/`
+- D-038: `docs/038-game-evidence-freshness-gate.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
