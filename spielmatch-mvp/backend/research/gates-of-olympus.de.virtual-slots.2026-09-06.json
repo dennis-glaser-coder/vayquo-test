@@ -1,0 +1,44 @@
+{
+  "game_title": "Gates of Olympus",
+  "game_slug": "gates-of-olympus",
+  "market_code": "DE",
+  "product_type": "virtual_slots",
+  "checked_at": "2026-09-06",
+  "status": "sufficient_exact_coverage",
+  "required_exact_operator_pages": 3,
+  "verified_exact_operator_pages": 3,
+  "evidence": [
+    {
+      "provider": "SlotMagie",
+      "provider_slug": "slotmagie",
+      "url": "https://www.slotmagie.de/slots/pragmatic-play/gates-of-olympus",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-06"
+    },
+    {
+      "provider": "BingBong",
+      "provider_slug": "bingbong",
+      "url": "https://www.bingbong.de/slots/gates-of-olympus",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-06"
+    },
+    {
+      "provider": "JackpotPiraten",
+      "provider_slug": "jackpotpiraten",
+      "url": "https://www.jackpotpiraten.de/slots/gates-of-olympus",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-06"
+    }
+  ],
+  "market_evidence": {
+    "authority": "GGL",
+    "url": "https://www.gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist",
+    "checked_at": "2026-09-06",
+    "notes": "SlotMagie states its Germany-wide virtual-slots permit on the exact game page; BingBong and JackpotPiraten are listed by the GGL under Virtuelle Automatenspiele."
+  },
+  "variant_rule": "Gates of Olympus is a distinct title from Gates of Olympus 1000 and other Olympus variants; never merge coverage across variants.",
+  "decision": "Eligible for seed ingestion after regression coverage update."
+}
