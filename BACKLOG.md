@@ -40,7 +40,10 @@
   - [x] Privacy-sicheren Event-Core mit fester Event-/Payload-Allowlist bauen; keine Netzwerkübertragung, keine Rohsuche/PII; Regressionstest `funnel-events.test.mjs` ergänzt (05.09.2026)
   - [x] Event-Core in Finder-/Match-UI verdrahten: Katalogstatus, verifizierte Spielauswahl, Filter, Match-Anfrage, Ready/Coverage/Data-Error; weiterhin ohne externen Sink; Regressionstest `funnel-ui.test.mjs` ergänzt (05.09.2026)
   - [ ] Externen Analytics-Sink erst nach separater Datenschutz-/Consent-Prüfung auswählen und aktivieren
-- [ ] 18+/Spielerschutz-/Hilfebereich für Live-Konzept definieren
+- [x] 18+/Spielerschutz-/Hilfebereich für Live-Konzept definieren
+  - [x] Unabhängige DE-Hilfeseite mit 18+, BIÖG/Check-dein-Spiel-Hilfe, Sperrhinweis und GGL-Link erstellen; ohne Ranking, Conversion-CTA, Tracking oder Affiliate-Links; Regressionstest ergänzt (05.09.2026)
+  - [ ] Hilfeseite dauerhaft sichtbar aus Finder/Footer verlinken
+  - [ ] Konkrete Live-Oberfläche vor Veröffentlichung rechtlich gesamthaft prüfen/freigeben
 
 ## P2
 - [ ] Eigenes Supabase-Projekt nach Freigabe anlegen
@@ -55,6 +58,7 @@
 - D-025: `docs/025-real-match-ui-binding.md`
 - D-026: `docs/026-privacy-safe-funnel-events.md`
 - D-027: `docs/027-local-funnel-ui-wiring.md`
+- D-028: `docs/028-responsible-gambling-help-surface.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
