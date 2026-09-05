@@ -30,7 +30,8 @@
   - [x] Phase 2b.2o: Lucky Lady's Charm Deluxe nach drei frischen exakten DE-`virtual_slots`-Betreiberseiten (SlotMagie, BingBong, JackpotPiraten) aufgenommen; Varianten `Deluxe 6`, `Deluxe 10` und `Bonus Spins` bleiben getrennt. Seed jetzt 47 Beziehungen / 16 Spiele / 15 match-ready / 1 unter Gate (D-039, 05.09.2026).
   - [x] Phase 2b.2p: Sweet-Bonanza-Doku/Research gegen den tatsächlichen Seed abgeglichen. Der produktive Seed enthält bereits drei exakte Beziehungen (SlotMagie, BingBong, JackpotPiraten); veraltete D-040- und Research-Aussage korrigiert. Neues Research-Coverage-Gate verhindert künftig solche stillen Widersprüche (D-040 korrigiert, 06.09.2026).
   - [x] Phase 2b.2q: `Gates of Olympus` als eigener Titel mit drei frischen exakten DE-`virtual_slots`-Betreiberseiten (SlotMagie, BingBong, JackpotPiraten) verifiziert; GGL-/Lizenzstatus gegengeprüft; Variantentrennung zu `Gates of Olympus 1000` dokumentiert; Research-Fixture + Regressionstest ergänzt (D-041, 06.09.2026).
-  - [ ] Phase 2b.2r: `Gates of Olympus` gemeinsam in `games.seed.json` und `coverage-priority.test.mjs` ingestieren; erwarteter Coverage-Stand danach 50 Beziehungen / 17 Spiele / 16 match-ready / 1 unter Gate. Anschließend nächsten Kernintent recherchieren.
+  - [x] Phase 2b.2r: `Gates of Olympus` in `games.seed.json` und `coverage-priority.test.mjs` ingestiert; Titel und `Gates of Olympus 1000` bleiben getrennt. Coverage jetzt 50 Beziehungen / 17 Spiele / 16 match-ready / 1 unter Gate (D-042, 06.09.2026).
+  - [ ] Phase 2b.2s: Nächsten Kernintent recherchieren; nur aufnehmen, wenn mindestens 3 aktuelle exakte DE-`virtual_slots`-Betreiber-Spielseiten innerhalb des Aktualitäts-Gates belegt sind. Ramses Book Deluxe parallel nur bei echtem drittem Exaktbeleg hochstufen, niemals über Kataloglisten.
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -61,6 +62,7 @@
 - D-039: `docs/039-lucky-ladys-charm-deluxe-coverage.md`
 - D-040: `docs/040-sweet-bonanza-coverage-gate.md` (am 06.09.2026 gegen tatsächlichen Seed korrigiert)
 - D-041: `docs/041-gates-of-olympus-coverage.md`
+- D-042: `docs/042-gates-of-olympus-seed-ingestion.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
