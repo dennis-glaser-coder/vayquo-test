@@ -8,8 +8,8 @@ const summary = summarizeCoverage(priority);
 
 assert.equal(summary.verifiedRelationships, 32);
 assert.equal(summary.verifiedGames, 11);
-assert.equal(summary.matchReadyGames, 9);
-assert.equal(summary.belowGateGames, 2);
+assert.equal(summary.matchReadyGames, 10);
+assert.equal(summary.belowGateGames, 1);
 
 const bookOfRa = priority.find(row => row.gameSlug === 'book-of-ra');
 assert.equal(bookOfRa.providerCount, 4);
@@ -32,5 +32,6 @@ const poisoned = buildCoveragePriority([
   {...seed.records[0], availability_status: 'pending', provider_slug: 'pending'},
 ]);
 assert.equal(summarizeCoverage(poisoned).verifiedRelationships, 32);
+assert.equal(summarizeCoverage(poisoned).matchReadyGames, 10);
 
 console.log('PASS: coverage priority is deterministic and market/product gated');
