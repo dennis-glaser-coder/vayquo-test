@@ -31,7 +31,8 @@
   - [x] Phase 2b.2d: Sweet Bonanza über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Seed 23 verifizierte Beziehungen. JackpotPiraten-Betreiberseite am 05.09.2026 aktuell geprüft.
   - [x] Phase 2b.2e: Eye of Horus anhand echter Betreiberüberschneidung auf 3 verifizierte DE-Anbieter gebracht (NOVOLINE, BingBong, JackpotPiraten); Seed 26 verifizierte Beziehungen. Keine Vermischung mit Eye-of-Horus-Varianten und kein erfundenes Suchvolumen (05.09.2026)
   - [x] Phase 2b.2f: The Dog House anhand aktueller Betreiberüberschneidung auf 3 verifizierte DE-Anbieter gebracht (SlotMagie, BingBong, JackpotPiraten); GGL-Marktstatus erneut geprüft; Seed 29 verifizierte Beziehungen. Exakte Variante bleibt getrennt von The Dog House Megaways (05.09.2026)
-  - [ ] Phase 2b.2g: Coverage-Priorisierung systematisieren und nächsten Kernintent nur bei ≥3 aktuellen Betreiber-Spielseiten im selben Markt/Produkt übernehmen
+  - [x] Phase 2b.2g: Coverage-Priorisierung systematisiert: deterministische DE-`virtual_slots`-Coverage-Sicht + Regressionstest; aktuell 29 Beziehungen / 10 Spiele / 8 match-ready, Fremdmärkte/Pending/wrong product zählen nicht (05.09.2026)
+  - [ ] Phase 2b.2h: `Wolf Gold` als nächsten Kandidaten nur nach drei erneut einzeln geprüften Betreiber-Spielseiten in den Seed übernehmen; anschließend Validator + Coverage-Test aktualisieren
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -65,6 +66,7 @@
 - D-028: `docs/028-responsible-gambling-help-surface.md`
 - D-029: `docs/029-eye-of-horus-coverage.md`
 - D-030: `docs/030-the-dog-house-coverage.md`
+- D-031: `docs/031-systematic-coverage-priority.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
