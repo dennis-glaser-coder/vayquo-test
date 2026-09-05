@@ -28,7 +28,8 @@
   - [x] Phase 2b.2a–2b.2m: Kernspiele systematisch auf echte Mehranbieter-Coverage ausgebaut; aktueller Seed 44 Beziehungen / 15 Spiele / 14 match-ready / 1 unter Gate (05.09.2026). Detailhistorie bleibt in Git/Entscheidungsdokumenten erhalten.
   - [x] Phase 2b.2n: Aktualitäts-Gate für Betreiber-Evidenz ergänzt: standardmäßig max. 30 Tage alt, keine zukünftigen/ungültigen Prüfdaten, jahresunabhängiges ISO-Datum; isolierter Node-Regressionstest bestanden. Ramses Book Deluxe bewusst nicht künstlich auf 3 Anbieter gehoben, da aktuell nur NOVOLINE + StarGames als exakte Betreiber-Spielseiten belastbar gefunden wurden; Kataloglisten zählen nicht (D-038, 05.09.2026).
   - [x] Phase 2b.2o: Lucky Lady's Charm Deluxe nach drei frischen exakten DE-`virtual_slots`-Betreiberseiten (SlotMagie, BingBong, JackpotPiraten) aufgenommen; Varianten `Deluxe 6`, `Deluxe 10` und `Bonus Spins` bleiben getrennt. Seed jetzt 47 Beziehungen / 16 Spiele / 15 match-ready / 1 unter Gate (D-039, 05.09.2026).
-  - [ ] Phase 2b.2p: nächsten Kernintent anhand Coverage-Priorität recherchieren; Seed nur bei mindestens 3 frischen exakten DE-`virtual_slots`-Betreiberseiten erweitern. Ramses Book Deluxe erneut prüfen, sobald ein dritter exakter Betreiberbeleg vorliegt.
+  - [x] Phase 2b.2p: Sweet Bonanza anhand Coverage-Priorität geprüft. BingBong + JackpotPiraten liefern frische exakte Betreiber-Spielseiten; SlotMagie aktuell nur als Betreiber-/Katalogreferenz belegt und zählt nicht als `operator_game_page`. Deshalb keine Seed-Aufnahme; Gate bleibt strikt bei ≥3 exakten Betreiberseiten (D-040, 05.09.2026).
+  - [ ] Phase 2b.2q: nächsten Kernintent anhand Coverage-Priorität recherchieren; Seed nur bei mindestens 3 frischen exakten DE-`virtual_slots`-Betreiberseiten erweitern. Sweet Bonanza und Ramses Book Deluxe erneut prüfen, sobald jeweils ein dritter exakter Betreiberbeleg vorliegt.
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -57,6 +58,7 @@
 - D-001 bis D-037: `DECISIONS.md` und `docs/`
 - D-038: `docs/038-game-evidence-freshness-gate.md`
 - D-039: `docs/039-lucky-ladys-charm-deluxe-coverage.md`
+- D-040: `docs/040-sweet-bonanza-coverage-gate.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
