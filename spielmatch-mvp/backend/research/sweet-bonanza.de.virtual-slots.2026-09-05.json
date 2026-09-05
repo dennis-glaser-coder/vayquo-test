@@ -1,0 +1,35 @@
+{
+  "game_title": "Sweet Bonanza",
+  "market_code": "DE",
+  "product_type": "virtual_slots",
+  "checked_at": "2026-09-05",
+  "status": "insufficient_exact_coverage",
+  "required_exact_operator_pages": 3,
+  "verified_exact_operator_pages": 2,
+  "evidence": [
+    {
+      "provider": "BingBong",
+      "url": "https://www.bingbong.de/slots/sweet-bonanza",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-05"
+    },
+    {
+      "provider": "JackpotPiraten",
+      "url": "https://www.jackpotpiraten.de/slots/sweet-bonanza",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-05"
+    },
+    {
+      "provider": "SlotMagie",
+      "url": "https://www.slotmagie.de/",
+      "evidence_type": "operator_catalog_reference",
+      "exact_variant": true,
+      "verified_at": "2026-09-05",
+      "accepted_for_match_gate": false,
+      "reason": "Sweet Bonanza is referenced in operator content, but no fresh exact operator game page was verified in this research pass."
+    }
+  ],
+  "decision": "Do not ingest Sweet Bonanza into games.seed.json until a third fresh exact DE operator_game_page is verified. Variants remain separate."
+}
