@@ -27,8 +27,9 @@
   - [x] Phase 2a/2b.1: verifizierte DE-Beziehungen u. a. für Book of Dead, Ramses Book Deluxe, Big Bass Bonanza, Big Bass Splash, Sweet Bonanza, Gates of Olympus 1000, Book of Ra und Book of Ra Deluxe; exakte Varianten bleiben getrennt
   - [x] Phase 2b.2a: erste echte Mehranbieter-Überschneidungen hergestellt: Book of Dead, Big Bass Bonanza und Big Bass Splash bei je mindestens 3 priorisierten DE-Anbietern (05.09.2026)
   - [x] Phase 2b.2b: weitere Kernspiele über das 3-Anbieter-Gate gebracht: Book of Ra jetzt bei 4 verifizierten DE-Anbietern (SlotMagie, NOVOLINE, BingBong, JackpotPiraten), Book of Ra Deluxe bei 3 (SlotMagie, BingBong, JackpotPiraten). Seed 19 verifizierte Beziehungen (05.09.2026)
-  - [x] Phase 2b.2c: Gates of Olympus 1000 über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Sweet Bonanza auf 2 verifizierte Anbieter erweitert (SlotMagie, BingBong). Seed jetzt 22 verifizierte Beziehungen (05.09.2026)
-  - [ ] Phase 2b.2d: Sweet Bonanza auf mindestens 3 verifizierte Anbieter bringen und weitere starke Suchintents priorisieren
+  - [x] Phase 2b.2c: Gates of Olympus 1000 über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Sweet Bonanza auf 2 verifizierte Anbieter erweitert (SlotMagie, BingBong). Seed 22 verifizierte Beziehungen (05.09.2026)
+  - [x] Phase 2b.2d: Sweet Bonanza über das 3-Anbieter-Gate gebracht (SlotMagie, BingBong, JackpotPiraten); Seed 23 verifizierte Beziehungen. JackpotPiraten-Betreiberseite am 05.09.2026 aktuell geprüft.
+  - [ ] Phase 2b.2e: nächsten starken Suchintent anhand echter Betreiberüberschneidung priorisieren und auf mindestens 3 verifizierte DE-Anbieter bringen
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
