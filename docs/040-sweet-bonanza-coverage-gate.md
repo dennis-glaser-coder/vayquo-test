@@ -1,17 +1,19 @@
-# D-040 – Sweet Bonanza bleibt bis zum dritten exakten Betreiberbeleg außerhalb des Seeds
+# D-040 – Sweet-Bonanza-Research mit produktivem Seed abgeglichen
 
-Datum: 05.09.2026
+Datum: 06.09.2026
 
-## Entscheidung
-Sweet Bonanza wird trotz hoher Relevanz nicht in `games.seed.json` aufgenommen, solange weniger als drei frische, exakte DE-`virtual_slots`-Betreiber-Spielseiten verifiziert sind.
+## Korrektur
+Die frühere D-040-Fassung war nicht mehr konsistent mit `games.seed.json`: Sweet Bonanza war dort bereits mit drei exakten DE-`virtual_slots`-Betreiber-Spielseiten enthalten. Die Research-Fixture wurde deshalb korrigiert statt den produktiven Seed zurückzudrehen.
 
 ## Aktueller Belegstand
-- BingBong: exakte Betreiber-Spielseite verifiziert.
-- JackpotPiraten: exakte Betreiber-Spielseite verifiziert.
-- SlotMagie: aktuelle Betreiber-/Katalogreferenz auf Sweet Bonanza gefunden, aber in diesem Prüflauf keine frische exakte Betreiber-Spielseite verifiziert. Diese Referenz zählt daher nicht für das Match-Gate.
+- BingBong: `https://www.bingbong.de/slots/sweet-bonanza`
+- JackpotPiraten: `https://www.jackpotpiraten.de/slots/sweet-bonanza`
+- SlotMagie: `https://www.slotmagie.de/slots/pragmatic-play/sweet-bonanza`
+
+Alle drei Beziehungen werden als `operator_game_page`, exakte Variante und DE-`virtual_slots` geführt. Varianten von Sweet Bonanza bleiben eigene Titel.
 
 ## Produktlogik
-Das bestehende Mindest-Gate von drei unterschiedlichen verifizierten Betreibern bleibt unverändert. Katalog-, Hersteller- oder redaktionelle Erwähnungen dürfen eine fehlende `operator_game_page` nicht ersetzen. Varianten von Sweet Bonanza werden als eigene Titel behandelt.
+Bei Konflikten zwischen Research-Fixture, Entscheidungstext und produktivem Seed darf keine Quelle stillschweigend bevorzugt werden. Der Ist-Stand wird gegengeprüft, die Evidenz neu verifiziert und die veraltete Dokumentation korrigiert. Das Drei-Anbieter-Gate bleibt unverändert.
 
 ## Folge
-Seed und Match-Coverage bleiben unverändert bei 47 Beziehungen / 16 Spielen / 15 match-ready / 1 unter Gate. Sweet Bonanza wird erneut geprüft, sobald ein dritter exakter Betreiberbeleg verfügbar ist.
+Sweet Bonanza bleibt match-ready im bestehenden Seed. Die korrigierte Research-Fixture ist Bestandteil des neuen Research-Coverage-Regressionstests.
