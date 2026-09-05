@@ -31,7 +31,8 @@
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
-- [ ] **Nächster Produktmeilenstein:** echte Match-Ergebnislogik für Kernspiele mit ≥3 verifizierten DE-Anbietern bauen; Affiliate-Clickouts bleiben bis separater Freigabe deaktiviert
+- [x] **Echte Match-Ergebnislogik als isoliertes Modul bauen**: `match-results.mjs` filtert strikt DE + `virtual_slots` + aktuelle Betreiber-Evidenz, verlangt ≥3 verifizierte Anbieter und berechnet den erklärbaren Score ohne Affiliate-Vergütung; Clickouts bleiben technisch deaktiviert (05.09.2026)
+- [ ] Echte Matchkarten im UI an `match-results.mjs` anbinden; nur für `status = ready`, sonst neutraler Coverage-Hinweis statt Demo-Ergebnis
 - [x] SEO-URL-Struktur inkl. DE-Terminologie- und Verifikationsregeln definieren
 - [x] SEO-Spieltemplate mit Index-Gate vorbereiten und testen
 - [x] Anbieter-SEO-Template mit identischem Verification-Gate vorbereiten und testen
@@ -46,7 +47,7 @@
 - [ ] A/B-Test-Framework
 
 ## Dokumentierte Entscheidungen
-- D-001 bis D-023: `DECISIONS.md`
+- D-001 bis D-024: `DECISIONS.md`
 - D-021: `docs/021-market-product-availability-gate.md`
 
 ## Arbeitsregel
