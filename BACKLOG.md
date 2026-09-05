@@ -32,7 +32,7 @@
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
 - [x] **Echte Match-Ergebnislogik als isoliertes Modul bauen**: `match-results.mjs` filtert strikt DE + `virtual_slots` + aktuelle Betreiber-Evidenz, verlangt ≥3 verifizierte Anbieter und berechnet den erklärbaren Score ohne Affiliate-Vergütung; Clickouts bleiben technisch deaktiviert (05.09.2026)
-- [ ] Echte Matchkarten im UI an `match-results.mjs` anbinden; nur für `status = ready`, sonst neutraler Coverage-Hinweis statt Demo-Ergebnis
+- [x] **Echte Matchkarten im UI an `match-results.mjs` anbinden**: `status = ready` rendert reale verifizierte Anbieter; darunter neutraler Coverage-Hinweis, bei Ladefehlern keine Demo-Ersatzdaten; konkrete Zahlungsart-Auswahl, 5-EUR-Einzahlungsgrenze transparent benannt; Clickouts deaktiviert; Regressionstest `match-ui.test.mjs` ergänzt (05.09.2026)
 - [x] SEO-URL-Struktur inkl. DE-Terminologie- und Verifikationsregeln definieren
 - [x] SEO-Spieltemplate mit Index-Gate vorbereiten und testen
 - [x] Anbieter-SEO-Template mit identischem Verification-Gate vorbereiten und testen
@@ -49,6 +49,7 @@
 ## Dokumentierte Entscheidungen
 - D-001 bis D-024: `DECISIONS.md`
 - D-021: `docs/021-market-product-availability-gate.md`
+- D-025: `docs/025-real-match-ui-binding.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
