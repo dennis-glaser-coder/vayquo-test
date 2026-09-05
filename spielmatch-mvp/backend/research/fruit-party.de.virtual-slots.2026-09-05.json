@@ -1,0 +1,29 @@
+{
+  "game_slug": "fruit-party",
+  "game_name": "Fruit Party",
+  "market": "DE",
+  "product": "virtual_slots",
+  "researched_as_of": "2026-09-05",
+  "status": "ready_for_seed_ingestion",
+  "variant_rule": "Exact title only; Fruit Party 2 is a separate game.",
+  "operator_evidence": [
+    {
+      "provider_slug": "slotmagie",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/fruit-party",
+      "verified_as_of": "2026-09-05"
+    },
+    {
+      "provider_slug": "bingbong",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.bingbong.de/slots/fruit-party",
+      "verified_as_of": "2026-09-05"
+    },
+    {
+      "provider_slug": "jackpotpiraten",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.jackpotpiraten.de/slots/fruit-party",
+      "verified_as_of": "2026-09-05"
+    }
+  ]
+}
