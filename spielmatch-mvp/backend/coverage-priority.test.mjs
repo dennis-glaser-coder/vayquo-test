@@ -6,9 +6,9 @@ const seed = JSON.parse(fs.readFileSync(new URL('./games.seed.json', import.meta
 const priority = buildCoveragePriority(seed.records);
 const summary = summarizeCoverage(priority);
 
-assert.equal(summary.verifiedRelationships, 38);
-assert.equal(summary.verifiedGames, 13);
-assert.equal(summary.matchReadyGames, 12);
+assert.equal(summary.verifiedRelationships, 41);
+assert.equal(summary.verifiedGames, 14);
+assert.equal(summary.matchReadyGames, 13);
 assert.equal(summary.belowGateGames, 1);
 
 const bookOfRa = priority.find(row => row.gameSlug === 'book-of-ra');
@@ -30,6 +30,11 @@ assert.equal(fireJoker.providerCount, 3);
 assert.deepEqual(fireJoker.providers, ['bingbong', 'jackpotpiraten', 'slotmagie']);
 assert.equal(fireJoker.readyForMatch, true);
 
+const legacyOfDead = priority.find(row => row.gameSlug === 'legacy-of-dead');
+assert.equal(legacyOfDead.providerCount, 3);
+assert.deepEqual(legacyOfDead.providers, ['bingbong', 'jackpotpiraten', 'novoline']);
+assert.equal(legacyOfDead.readyForMatch, true);
+
 const ramses = priority.find(row => row.gameSlug === 'ramses-book-deluxe');
 assert.equal(ramses.providerCount, 1);
 assert.equal(ramses.providersNeeded, 2);
@@ -41,7 +46,7 @@ const poisoned = buildCoveragePriority([
   {...seed.records[0], product: 'sportsbook', provider_slug: 'wrong-product'},
   {...seed.records[0], availability_status: 'pending', provider_slug: 'pending'},
 ]);
-assert.equal(summarizeCoverage(poisoned).verifiedRelationships, 38);
-assert.equal(summarizeCoverage(poisoned).matchReadyGames, 12);
+assert.equal(summarizeCoverage(poisoned).verifiedRelationships, 41);
+assert.equal(summarizeCoverage(poisoned).matchReadyGames, 13);
 
 console.log('PASS: coverage priority is deterministic and market/product gated');
