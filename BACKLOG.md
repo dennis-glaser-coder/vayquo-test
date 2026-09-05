@@ -35,7 +35,8 @@
   - [x] Phase 2b.2h: `Wolf Gold` nach drei erneut einzeln geprüften Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) aufgenommen; Coverage-Test aktualisiert. Seed 32 Beziehungen / 11 Spiele / 10 match-ready / 1 unter Gate (05.09.2026)
   - [x] Phase 2b.2i: `Reactoonz` nach drei aktuellen Betreiber-Spielseiten (NOVOLINE, BingBong, JackpotPiraten) aufgenommen; GGL-DE-Marktstatus gegengeprüft. Seed 35 Beziehungen / 12 Spiele / 11 match-ready / 1 unter Gate; Varianten wie Reactoonz 2 bleiben getrennt (05.09.2026)
   - [x] Phase 2b.2j: `Fire Joker` nach drei aktuellen exakten Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) aufgenommen; Varianten wie Fire Joker Freeze/100 bleiben getrennt. Seed 38 Beziehungen / 13 Spiele / 12 match-ready / 1 unter Gate (05.09.2026)
-  - [ ] Phase 2b.2k: nächsten Titel anhand dokumentierter Coverage-Priorität auswählen; nur übernehmen, wenn ≥3 aktuelle Betreiber-Spielseiten im selben DE-`virtual_slots`-Markt belegt sind
+  - [x] Phase 2b.2k: `Legacy of Dead` nach drei aktuellen exakten Betreiber-Spielseiten (NOVOLINE, BingBong, JackpotPiraten) aufgenommen; GGL-DE-`virtual_slots`-Status gegengeprüft. Seed 41 Beziehungen / 14 Spiele / 13 match-ready / 1 unter Gate (05.09.2026)
+  - [ ] Phase 2b.2l: nächsten Titel anhand dokumentierter Coverage-Priorität auswählen; nur übernehmen, wenn ≥3 aktuelle Betreiber-Spielseiten im selben DE-`virtual_slots`-Markt belegt sind
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -73,6 +74,7 @@
 - D-032: `docs/032-wolf-gold-coverage.md`
 - D-033: `docs/033-reactoonz-coverage.md`
 - D-034: `docs/034-fire-joker-coverage.md`
+- D-035: `docs/035-legacy-of-dead-coverage.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
