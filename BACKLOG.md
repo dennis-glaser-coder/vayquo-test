@@ -34,7 +34,8 @@
   - [x] Phase 2b.2s: `Wolf Gold` als nächsten Kernintent recherchiert und mit drei aktuellen exakten DE-`virtual_slots`-Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) verifiziert. Amtliche GGL-Whitelist (Stand 04.09.2026) führt alle drei Domains unter `Virtuelle Automatenspiele`; Research-Fixture + Variantengate ergänzt (D-043, 06.09.2026).
   - [x] Phase 2b.2t: Branch-Konsistenz geprüft: `Wolf Gold` war im tatsächlichen `games.seed.json` und `coverage-priority.test.mjs` bereits mit genau den drei verifizierten DE-Beziehungen enthalten. Keine Doppel-Ingestion; falschen Zielstand 53 verworfen. `current-seed.test.mjs` ergänzt, um produktiven Seed, Duplicate-Gate und Coverage-Sollstand 50 / 17 / 16 / 1 gemeinsam abzusichern (D-044, 06.09.2026).
   - [x] Phase 2b.2u: `Fruit Party 2` als eigenständigen Kernintent mit drei aktuellen exakten DE-`operator_game_page`-Belegen für `virtual_slots` (SlotMagie, BingBong, JackpotPiraten) verifiziert; GGL-Marktstatus Stand 04.09.2026 gegengeprüft; Variantentrennung zu `Fruit Party` als Research-Gate dokumentiert (D-045, 06.09.2026). Produktiver Seed bleibt in diesem Schritt bei 50 / 17 / 16 / 1.
-  - [ ] Phase 2b.2v: `Fruit Party 2` mit genau den drei verifizierten DE-Beziehungen in `games.seed.json` ingestieren; Coverage-/Current-Seed-Tests auf 53 Beziehungen / 18 Spiele / 17 match-ready / 1 unter Gate aktualisieren. Ramses Book Deluxe weiterhin nur mit echtem drittem Exaktbeleg hochstufen.
+  - [x] Phase 2b.2v: `Fruit Party 2` mit genau drei verifizierten DE-Beziehungen in `games.seed.json` ingestiert; Coverage- und Current-Seed-Tests auf 53 Beziehungen / 18 Spiele / 17 match-ready / 1 unter Gate aktualisiert; Variantentrennung zu `Fruit Party` bleibt explizit getestet (D-046, 06.09.2026).
+  - [ ] Phase 2b.2w: Nächsten hochrelevanten Kernintent recherchieren; nur bei mindestens drei aktuellen exakten DE-`virtual_slots`-Betreiber-Spielseiten als Research-Fixture aufnehmen. Ramses Book Deluxe weiterhin nur mit echtem drittem Exaktbeleg hochstufen.
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -69,6 +70,7 @@
 - D-043: `docs/043-wolf-gold-coverage.md`
 - D-044: `docs/044-wolf-gold-seed-consistency.md`
 - D-045: `docs/045-fruit-party-2-coverage.md`
+- D-046: `docs/046-fruit-party-2-seed-ingestion.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
