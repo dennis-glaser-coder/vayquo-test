@@ -35,8 +35,9 @@
   - [x] Phase 2b.2t: Branch-Konsistenz geprüft: `Wolf Gold` war im tatsächlichen `games.seed.json` und `coverage-priority.test.mjs` bereits mit genau den drei verifizierten DE-Beziehungen enthalten. Keine Doppel-Ingestion; falschen Zielstand 53 verworfen. `current-seed.test.mjs` ergänzt, um produktiven Seed, Duplicate-Gate und Coverage-Sollstand 50 / 17 / 16 / 1 gemeinsam abzusichern (D-044, 06.09.2026).
   - [x] Phase 2b.2u: `Fruit Party 2` als eigenständigen Kernintent mit drei aktuellen exakten DE-`operator_game_page`-Belegen für `virtual_slots` (SlotMagie, BingBong, JackpotPiraten) verifiziert; GGL-Marktstatus Stand 04.09.2026 gegengeprüft; Variantentrennung zu `Fruit Party` als Research-Gate dokumentiert (D-045, 06.09.2026). Produktiver Seed bleibt in diesem Schritt bei 50 / 17 / 16 / 1.
   - [x] Phase 2b.2v: `Fruit Party 2` mit genau drei verifizierten DE-Beziehungen in `games.seed.json` ingestiert; Coverage- und Current-Seed-Tests auf 53 Beziehungen / 18 Spiele / 17 match-ready / 1 unter Gate aktualisiert; Variantentrennung zu `Fruit Party` bleibt explizit getestet (D-046, 06.09.2026).
-  - [x] Phase 2b.2w: `The Dog House` als eigenständigen Kernintent mit drei aktuellen exakten DE-`operator_game_page`-Belegen (SlotMagie, BingBong, JackpotPiraten) verifiziert; GGL-Marktstatus Stand 04.09.2026 gegengeprüft; Varianten `The Dog House Megaways`, `The Dog House Multihold` und `The Dog House - Dog or Alive` bleiben getrennt. Research-Fixture + Regressionstest ergänzt (D-047, 06.09.2026). Produktiver Seed bleibt in diesem Schritt bei 53 / 18 / 17 / 1.
-  - [ ] Phase 2b.2x: `The Dog House` mit genau drei verifizierten DE-Beziehungen in `games.seed.json` ingestieren; Coverage-/Current-Seed-Tests gemeinsam aktualisieren. Zielstand danach 56 Beziehungen / 19 Spiele / 18 match-ready / 1 unter Gate.
+  - [x] Phase 2b.2w: `The Dog House` als eigenständigen Kernintent mit drei aktuellen exakten DE-`operator_game_page`-Belegen (SlotMagie, BingBong, JackpotPiraten) verifiziert; GGL-Marktstatus gegengeprüft; Varianten `The Dog House Megaways`, `The Dog House Multihold` und `The Dog House - Dog or Alive` bleiben getrennt. Research-Fixture + Regressionstest ergänzt (D-047, 06.09.2026).
+  - [x] Phase 2b.2x: Branch-Konsistenz geprüft: `The Dog House` war im tatsächlichen `games.seed.json` bereits mit genau den drei verifizierten DE-Beziehungen enthalten. Keine Doppel-Ingestion und kein künstlicher Sprung auf 56 Beziehungen. `coverage-priority.test.mjs` und `current-seed.test.mjs` sichern Titel, Anbieter-Set, Markt, Produkt und Evidenztyp jetzt explizit ab. Korrekter Coverage-Stand bleibt 53 Beziehungen / 18 Spiele / 17 match-ready / 1 unter Gate (D-048, 06.09.2026).
+  - [ ] Phase 2b.2y: Nächsten relevanten Kernintent recherchieren; vor jeder Ingestion zuerst gegen den tatsächlichen Seed prüfen. Match-ready nur mit mindestens drei aktuellen exakten DE-`operator_game_page`-Belegen und separat bestätigtem DE-`virtual_slots`-Marktstatus.
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -73,6 +74,7 @@
 - D-045: `docs/045-fruit-party-2-coverage.md`
 - D-046: `docs/046-fruit-party-2-seed-ingestion.md`
 - D-047: `docs/047-the-dog-house-coverage.md`
+- D-048: `docs/048-the-dog-house-seed-consistency.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
