@@ -32,7 +32,8 @@
   - [x] Phase 2b.2q: `Gates of Olympus` als eigener Titel mit drei frischen exakten DE-`virtual_slots`-Betreiberseiten (SlotMagie, BingBong, JackpotPiraten) verifiziert; GGL-/Lizenzstatus gegengeprüft; Variantentrennung zu `Gates of Olympus 1000` dokumentiert; Research-Fixture + Regressionstest ergänzt (D-041, 06.09.2026).
   - [x] Phase 2b.2r: `Gates of Olympus` in `games.seed.json` und `coverage-priority.test.mjs` ingestiert; Titel und `Gates of Olympus 1000` bleiben getrennt. Coverage jetzt 50 Beziehungen / 17 Spiele / 16 match-ready / 1 unter Gate (D-042, 06.09.2026).
   - [x] Phase 2b.2s: `Wolf Gold` als nächsten Kernintent recherchiert und mit drei aktuellen exakten DE-`virtual_slots`-Betreiber-Spielseiten (SlotMagie, BingBong, JackpotPiraten) verifiziert. Amtliche GGL-Whitelist (Stand 04.09.2026) führt alle drei Domains unter `Virtuelle Automatenspiele`; Research-Fixture + Variantengate ergänzt (D-043, 06.09.2026).
-  - [ ] Phase 2b.2t: `Wolf Gold` in `games.seed.json` und `coverage-priority.test.mjs` ingestieren; nur die drei verifizierten DE-Beziehungen übernehmen. Zielstand nach erfolgreicher Regression: 53 Beziehungen / 18 Spiele / 17 match-ready / 1 unter Gate. Ramses Book Deluxe weiterhin nur mit echtem drittem Exaktbeleg hochstufen.
+  - [x] Phase 2b.2t: Branch-Konsistenz geprüft: `Wolf Gold` war im tatsächlichen `games.seed.json` und `coverage-priority.test.mjs` bereits mit genau den drei verifizierten DE-Beziehungen enthalten. Keine Doppel-Ingestion; falschen Zielstand 53 verworfen. `current-seed.test.mjs` ergänzt, um produktiven Seed, Duplicate-Gate und Coverage-Sollstand 50 / 17 / 16 / 1 gemeinsam abzusichern (D-044, 06.09.2026).
+  - [ ] Phase 2b.2u: nächsten Kernintent recherchieren; nur bei mindestens drei aktuellen exakten DE-`operator_game_page`-Belegen für `virtual_slots` ingestieren. Ramses Book Deluxe weiterhin nur mit echtem drittem Exaktbeleg hochstufen.
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -65,6 +66,7 @@
 - D-041: `docs/041-gates-of-olympus-coverage.md`
 - D-042: `docs/042-gates-of-olympus-seed-ingestion.md`
 - D-043: `docs/043-wolf-gold-coverage.md`
+- D-044: `docs/044-wolf-gold-seed-consistency.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
