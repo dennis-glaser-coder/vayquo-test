@@ -1,0 +1,35 @@
+{
+  "game_slug": "the-dog-house",
+  "game_name": "The Dog House",
+  "market": "DE",
+  "product": "virtual_slots",
+  "researched_as_of": "2026-09-06",
+  "status": "ready_for_seed_ingestion",
+  "variant_rule": "Exact title only; The Dog House Megaways, The Dog House Multihold and The Dog House - Dog or Alive are separate games.",
+  "operator_evidence": [
+    {
+      "provider_slug": "slotmagie",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/the-dog-house",
+      "verified_as_of": "2026-09-06"
+    },
+    {
+      "provider_slug": "bingbong",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.bingbong.de/slots/the-dog-house",
+      "verified_as_of": "2026-09-06"
+    },
+    {
+      "provider_slug": "jackpotpiraten",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.jackpotpiraten.de/slots/the-dog-house",
+      "verified_as_of": "2026-09-06"
+    }
+  ],
+  "market_evidence": {
+    "authority": "GGL",
+    "whitelist_updated_as_of": "2026-09-04",
+    "source_url": "https://gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist",
+    "providers": ["slotmagie", "bingbong", "jackpotpiraten"]
+  }
+}
