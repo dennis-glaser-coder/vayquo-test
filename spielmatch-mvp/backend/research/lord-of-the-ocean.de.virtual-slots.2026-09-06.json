@@ -1,0 +1,35 @@
+{
+  "game_slug": "lord-of-the-ocean",
+  "game_name": "Lord of the Ocean",
+  "market": "DE",
+  "product": "virtual_slots",
+  "researched_as_of": "2026-09-06",
+  "status": "ready_for_seed_ingestion",
+  "variant_rule": "Exact title only; Lord of the Ocean Magic, Lord of the Ocean Bonus Spins, Lord of the Ocean 10 Win Ways and Top Spin variants are separate games.",
+  "operator_evidence": [
+    {
+      "provider_slug": "slotmagie",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/novomatic/lord-of-the-ocean",
+      "verified_as_of": "2026-09-06"
+    },
+    {
+      "provider_slug": "jackpotpiraten",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.jackpotpiraten.de/slots/lord-of-the-ocean",
+      "verified_as_of": "2026-09-06"
+    },
+    {
+      "provider_slug": "novoline",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.novoline.de/de/slots/lord-of-the-ocean",
+      "verified_as_of": "2026-09-06"
+    }
+  ],
+  "market_evidence": {
+    "authority": "GGL",
+    "whitelist_updated_as_of": "2026-09-04",
+    "source_url": "https://gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist",
+    "providers": ["slotmagie", "jackpotpiraten", "novoline"]
+  }
+}
