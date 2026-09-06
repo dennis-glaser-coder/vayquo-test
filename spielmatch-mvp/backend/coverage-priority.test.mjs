@@ -6,9 +6,9 @@ const seed = JSON.parse(fs.readFileSync(new URL('./games.seed.json', import.meta
 const priority = buildCoveragePriority(seed.records);
 const summary = summarizeCoverage(priority);
 
-assert.equal(summary.verifiedRelationships, 50);
-assert.equal(summary.verifiedGames, 17);
-assert.equal(summary.matchReadyGames, 16);
+assert.equal(summary.verifiedRelationships, 53);
+assert.equal(summary.verifiedGames, 18);
+assert.equal(summary.matchReadyGames, 17);
 assert.equal(summary.belowGateGames, 1);
 
 const bookOfRa = priority.find(row => row.gameSlug === 'book-of-ra');
@@ -40,6 +40,12 @@ assert.equal(fruitParty.providerCount, 3);
 assert.deepEqual(fruitParty.providers, ['bingbong', 'jackpotpiraten', 'slotmagie']);
 assert.equal(fruitParty.readyForMatch, true);
 
+const fruitParty2 = priority.find(row => row.gameSlug === 'fruit-party-2');
+assert.equal(fruitParty2.providerCount, 3);
+assert.deepEqual(fruitParty2.providers, ['bingbong', 'jackpotpiraten', 'slotmagie']);
+assert.equal(fruitParty2.readyForMatch, true);
+assert.notEqual(fruitParty.gameSlug, fruitParty2.gameSlug);
+
 const luckyLady = priority.find(row => row.gameSlug === 'lucky-ladys-charm-deluxe');
 assert.equal(luckyLady.providerCount, 3);
 assert.deepEqual(luckyLady.providers, ['bingbong', 'jackpotpiraten', 'slotmagie']);
@@ -58,9 +64,6 @@ assert.notEqual(gatesOfOlympus.gameSlug, gatesOfOlympus1000.gameSlug);
 const luckyLady6 = priority.find(row => row.gameSlug === 'lucky-ladys-charm-deluxe-6');
 assert.equal(luckyLady6, undefined);
 
-const fruitParty2 = priority.find(row => row.gameSlug === 'fruit-party-2');
-assert.equal(fruitParty2, undefined);
-
 const ramses = priority.find(row => row.gameSlug === 'ramses-book-deluxe');
 assert.equal(ramses.providerCount, 1);
 assert.equal(ramses.providersNeeded, 2);
@@ -72,7 +75,7 @@ const poisoned = buildCoveragePriority([
   {...seed.records[0], product: 'sportsbook', provider_slug: 'wrong-product'},
   {...seed.records[0], availability_status: 'pending', provider_slug: 'pending'},
 ]);
-assert.equal(summarizeCoverage(poisoned).verifiedRelationships, 50);
-assert.equal(summarizeCoverage(poisoned).matchReadyGames, 16);
+assert.equal(summarizeCoverage(poisoned).verifiedRelationships, 53);
+assert.equal(summarizeCoverage(poisoned).matchReadyGames, 17);
 
 console.log('PASS: coverage priority is deterministic and market/product gated');
