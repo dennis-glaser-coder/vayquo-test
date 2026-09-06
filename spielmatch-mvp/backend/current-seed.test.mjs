@@ -36,4 +36,15 @@ assert.ok(fruitParty2.every((record) => record.market === 'DE'));
 assert.ok(fruitParty2.every((record) => record.product === 'virtual_slots'));
 assert.ok(fruitParty2.every((record) => record.evidence_type === 'operator_game_page'));
 
+const theDogHouse = seed.records.filter((record) => record.game_slug === 'the-dog-house');
+assert.equal(theDogHouse.length, 3);
+assert.deepEqual(
+  theDogHouse.map((record) => record.provider_slug).sort(),
+  ['bingbong', 'jackpotpiraten', 'slotmagie'],
+);
+assert.ok(theDogHouse.every((record) => record.market === 'DE'));
+assert.ok(theDogHouse.every((record) => record.product === 'virtual_slots'));
+assert.ok(theDogHouse.every((record) => record.evidence_type === 'operator_game_page'));
+assert.ok(theDogHouse.every((record) => record.availability_status === 'verified'));
+
 console.log('PASS: current seed is valid, deduplicated and coverage-consistent');
