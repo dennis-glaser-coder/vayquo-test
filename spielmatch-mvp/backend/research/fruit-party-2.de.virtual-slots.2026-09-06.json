@@ -1,0 +1,35 @@
+{
+  "game_slug": "fruit-party-2",
+  "game_name": "Fruit Party 2",
+  "market": "DE",
+  "product": "virtual_slots",
+  "researched_as_of": "2026-09-06",
+  "status": "ready_for_seed_ingestion",
+  "variant_rule": "Exact title only; Fruit Party is a separate game.",
+  "operator_evidence": [
+    {
+      "provider_slug": "slotmagie",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.slotmagie.de/slots/pragmatic-play/fruit-party-2",
+      "verified_as_of": "2026-09-06"
+    },
+    {
+      "provider_slug": "bingbong",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.bingbong.de/slots/fruit-party-2",
+      "verified_as_of": "2026-09-06"
+    },
+    {
+      "provider_slug": "jackpotpiraten",
+      "evidence_type": "operator_game_page",
+      "source_url": "https://www.jackpotpiraten.de/slots/fruit-party-2",
+      "verified_as_of": "2026-09-06"
+    }
+  ],
+  "market_evidence": {
+    "authority": "GGL",
+    "whitelist_updated_as_of": "2026-09-04",
+    "source_url": "https://gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist",
+    "providers": ["slotmagie", "bingbong", "jackpotpiraten"]
+  }
+}
