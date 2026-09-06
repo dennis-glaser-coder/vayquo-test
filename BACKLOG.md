@@ -37,7 +37,8 @@
   - [x] Phase 2b.2v: `Fruit Party 2` mit genau drei verifizierten DE-Beziehungen in `games.seed.json` ingestiert; Coverage- und Current-Seed-Tests auf 53 Beziehungen / 18 Spiele / 17 match-ready / 1 unter Gate aktualisiert; Variantentrennung zu `Fruit Party` bleibt explizit getestet (D-046, 06.09.2026).
   - [x] Phase 2b.2w: `The Dog House` als eigenständigen Kernintent mit drei aktuellen exakten DE-`operator_game_page`-Belegen (SlotMagie, BingBong, JackpotPiraten) verifiziert; GGL-Marktstatus gegengeprüft; Varianten `The Dog House Megaways`, `The Dog House Multihold` und `The Dog House - Dog or Alive` bleiben getrennt. Research-Fixture + Regressionstest ergänzt (D-047, 06.09.2026).
   - [x] Phase 2b.2x: Branch-Konsistenz geprüft: `The Dog House` war im tatsächlichen `games.seed.json` bereits mit genau den drei verifizierten DE-Beziehungen enthalten. Keine Doppel-Ingestion und kein künstlicher Sprung auf 56 Beziehungen. `coverage-priority.test.mjs` und `current-seed.test.mjs` sichern Titel, Anbieter-Set, Markt, Produkt und Evidenztyp jetzt explizit ab. Korrekter Coverage-Stand bleibt 53 Beziehungen / 18 Spiele / 17 match-ready / 1 unter Gate (D-048, 06.09.2026).
-  - [ ] Phase 2b.2y: Nächsten relevanten Kernintent recherchieren; vor jeder Ingestion zuerst gegen den tatsächlichen Seed prüfen. Match-ready nur mit mindestens drei aktuellen exakten DE-`operator_game_page`-Belegen und separat bestätigtem DE-`virtual_slots`-Marktstatus.
+  - [x] Phase 2b.2y: `Lord of the Ocean` vorab gegen den tatsächlichen Seed geprüft (noch nicht enthalten) und als neuer Kernintent mit drei aktuellen exakten DE-`operator_game_page`-Belegen (SlotMagie, JackpotPiraten, NOVOLINE) verifiziert; amtlicher DE-`virtual_slots`-Marktstatus Stand 04.09.2026 separat bestätigt. Varianten `Lord of the Ocean Magic`, `Bonus Spins`, `10 Win Ways` und Top-Spin-/Max-RTP-Versionen bleiben getrennt. Research-Fixture + Regressionstest ergänzt (D-049, 06.09.2026).
+  - [ ] Phase 2b.2z: `Lord of the Ocean` mit genau den drei kuratierten Beziehungen in `games.seed.json` ingestieren; vor dem Schreiben Duplicate-/Variantengate erneut prüfen und Coverage-/Current-Seed-Tests auf 56 Beziehungen / 19 Spiele / 18 match-ready / 1 unter Gate anheben.
   - [x] Phase 2c: verifizierten UI-Katalog technisch vorbereiten (`verified-games.mjs`) und testen
 - [x] Autocomplete lädt `backend/games.seed.json` und akzeptiert nur exakt verifizierte DE-Slot-Titel
 - [x] Ergebnisansicht mit 3 klar als Demo behandelten Matches
@@ -75,6 +76,7 @@
 - D-046: `docs/046-fruit-party-2-seed-ingestion.md`
 - D-047: `docs/047-the-dog-house-coverage.md`
 - D-048: `docs/048-the-dog-house-seed-consistency.md`
+- D-049: `docs/049-lord-of-the-ocean-coverage.md`
 
 ## Arbeitsregel
 Wenn ein Schritt reversibel, kostenlos und innerhalb dieser Branch ist, ohne Rückfrage weiterarbeiten. Bei Kosten, Verträgen, externem Versand, Live-Migrationen oder rechtlich wesentlichen Freigaben stoppen und gezielt fragen.
