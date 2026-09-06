@@ -61,6 +61,11 @@ assert.equal(gatesOfOlympus1000.providerCount, 3);
 assert.equal(gatesOfOlympus1000.readyForMatch, true);
 assert.notEqual(gatesOfOlympus.gameSlug, gatesOfOlympus1000.gameSlug);
 
+const theDogHouse = priority.find(row => row.gameSlug === 'the-dog-house');
+assert.equal(theDogHouse.providerCount, 3);
+assert.deepEqual(theDogHouse.providers, ['bingbong', 'jackpotpiraten', 'slotmagie']);
+assert.equal(theDogHouse.readyForMatch, true);
+
 const luckyLady6 = priority.find(row => row.gameSlug === 'lucky-ladys-charm-deluxe-6');
 assert.equal(luckyLady6, undefined);
 
