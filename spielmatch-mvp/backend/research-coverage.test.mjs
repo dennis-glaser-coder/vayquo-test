@@ -3,7 +3,8 @@ import fs from 'node:fs';
 
 const fixtures = [
   './research/sweet-bonanza.de.virtual-slots.2026-09-05.json',
-  './research/gates-of-olympus.de.virtual-slots.2026-09-06.json'
+  './research/gates-of-olympus.de.virtual-slots.2026-09-06.json',
+  './research/wolf-gold.de.virtual-slots.2026-09-06.json'
 ];
 
 for (const relativePath of fixtures) {
@@ -25,5 +26,11 @@ for (const relativePath of fixtures) {
 const olympus = JSON.parse(fs.readFileSync(new URL('./research/gates-of-olympus.de.virtual-slots.2026-09-06.json', import.meta.url), 'utf8'));
 assert.equal(olympus.game_slug, 'gates-of-olympus');
 assert.match(olympus.variant_rule, /distinct title from Gates of Olympus 1000/);
+
+const wolfGold = JSON.parse(fs.readFileSync(new URL('./research/wolf-gold.de.virtual-slots.2026-09-06.json', import.meta.url), 'utf8'));
+assert.equal(wolfGold.game_slug, 'wolf-gold');
+assert.match(wolfGold.variant_rule, /Do not merge provider evidence/);
+assert.equal(wolfGold.market_evidence.authority, 'GGL');
+assert.equal(wolfGold.market_evidence.authority_list_updated_at, '2026-09-04');
 
 console.log('PASS: research coverage fixtures require three exact DE operator game pages and preserve variants');
