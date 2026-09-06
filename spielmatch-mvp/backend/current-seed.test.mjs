@@ -13,9 +13,9 @@ assert.deepEqual(validationErrors, []);
 
 const summary = summarizeCoverage(buildCoveragePriority(seed.records));
 assert.deepEqual(summary, {
-  verifiedRelationships: 50,
-  verifiedGames: 17,
-  matchReadyGames: 16,
+  verifiedRelationships: 53,
+  verifiedGames: 18,
+  matchReadyGames: 17,
   belowGateGames: 1,
 });
 
@@ -25,5 +25,15 @@ assert.deepEqual(
   wolfGold.map((record) => record.provider_slug).sort(),
   ['bingbong', 'jackpotpiraten', 'slotmagie'],
 );
+
+const fruitParty2 = seed.records.filter((record) => record.game_slug === 'fruit-party-2');
+assert.equal(fruitParty2.length, 3);
+assert.deepEqual(
+  fruitParty2.map((record) => record.provider_slug).sort(),
+  ['bingbong', 'jackpotpiraten', 'slotmagie'],
+);
+assert.ok(fruitParty2.every((record) => record.market === 'DE'));
+assert.ok(fruitParty2.every((record) => record.product === 'virtual_slots'));
+assert.ok(fruitParty2.every((record) => record.evidence_type === 'operator_game_page'));
 
 console.log('PASS: current seed is valid, deduplicated and coverage-consistent');
