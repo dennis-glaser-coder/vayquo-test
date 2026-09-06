@@ -1,0 +1,45 @@
+{
+  "game_title": "Wolf Gold",
+  "game_slug": "wolf-gold",
+  "market_code": "DE",
+  "product_type": "virtual_slots",
+  "checked_at": "2026-09-06",
+  "status": "sufficient_exact_coverage",
+  "required_exact_operator_pages": 3,
+  "verified_exact_operator_pages": 3,
+  "evidence": [
+    {
+      "provider": "SlotMagie",
+      "provider_slug": "slotmagie",
+      "url": "https://www.slotmagie.de/slots/pragmatic-play/wolf-gold",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-06"
+    },
+    {
+      "provider": "BingBong",
+      "provider_slug": "bingbong",
+      "url": "https://www.bingbong.de/slots/wolf-gold",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-06"
+    },
+    {
+      "provider": "JackpotPiraten",
+      "provider_slug": "jackpotpiraten",
+      "url": "https://www.jackpotpiraten.de/slots/wolf-gold",
+      "evidence_type": "operator_game_page",
+      "exact_variant": true,
+      "verified_at": "2026-09-06"
+    }
+  ],
+  "market_evidence": {
+    "authority": "GGL",
+    "url": "https://www.gluecksspiel-behoerde.de/de/fuer-spielende/uebersicht-erlaubter-anbieter-whitelist",
+    "authority_list_updated_at": "2026-09-04",
+    "checked_at": "2026-09-06",
+    "notes": "The official GGL whitelist lists slotmagie.de, bingbong.de and jackpotpiraten.de under Virtuelle Automatenspiele for Germany-wide distribution."
+  },
+  "variant_rule": "Wolf Gold is an exact title. Do not merge provider evidence from similarly named Wolf, Gold, Megaways, jackpot or sequel variants unless the exact operator page is for Wolf Gold.",
+  "decision": "Eligible for seed ingestion after coverage regression update."
+}
